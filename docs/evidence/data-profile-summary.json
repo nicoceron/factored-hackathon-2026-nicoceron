@@ -1,0 +1,1075 @@
+{
+  "audit_version": 1,
+  "generated_at": "2026-09-27T21:26:59.574112+00:00",
+  "duckdb_version": "1.5.5",
+  "dataset_provenance": "Organizer-supplied synthetic data; documentation version 1.0.0",
+  "scope": "Raw local files only; no corrections, serving readiness, or model claims",
+  "tables": {
+    "customers": {
+      "rows": 150000,
+      "columns": [
+        "customer_id",
+        "document_number",
+        "document_type",
+        "first_name",
+        "last_name",
+        "date_of_birth",
+        "gender",
+        "email",
+        "mobile_phone",
+        "landline_phone",
+        "address",
+        "city",
+        "state",
+        "country",
+        "postal_code",
+        "detected_accent",
+        "segment",
+        "credit_score",
+        "estimated_monthly_income",
+        "occupation",
+        "marital_status",
+        "education_level",
+        "registration_date",
+        "registration_branch_id",
+        "customer_status",
+        "last_updated",
+        "accepts_marketing",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "customer_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "customer_id": 0,
+        "document_number": 0,
+        "document_type": 0,
+        "first_name": 0,
+        "last_name": 0,
+        "date_of_birth": 0,
+        "gender": 0,
+        "email": 2984,
+        "mobile_phone": 4707,
+        "landline_phone": 75053,
+        "address": 7370,
+        "city": 0,
+        "state": 0,
+        "country": 0,
+        "postal_code": 15044,
+        "detected_accent": 44817,
+        "segment": 0,
+        "credit_score": 22492,
+        "estimated_monthly_income": 30033,
+        "occupation": 15039,
+        "marital_status": 11955,
+        "education_level": 17952,
+        "registration_date": 0,
+        "registration_branch_id": 0,
+        "customer_status": 0,
+        "last_updated": 0,
+        "accepts_marketing": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "country_counts": [
+        {
+          "value": "México",
+          "rows": 74907
+        },
+        {
+          "value": "Colombia",
+          "rows": 45251
+        },
+        {
+          "value": "Argentina",
+          "rows": 29842
+        }
+      ],
+      "last_updated_quality": {
+        "earliest": "2018-06-18 15:09:31",
+        "latest": "2027-06-15 19:35:27",
+        "invalid_rows": 0
+      },
+      "files": 1,
+      "bytes": 46897358
+    },
+    "products": {
+      "rows": 400000,
+      "columns": [
+        "product_id",
+        "customer_id",
+        "product_type",
+        "product_number",
+        "currency",
+        "current_balance",
+        "credit_limit",
+        "interest_rate",
+        "opening_date",
+        "expiration_date",
+        "opening_branch_id",
+        "product_status",
+        "opening_channel",
+        "has_linked_app",
+        "days_past_due",
+        "last_transaction_date",
+        "last_updated",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "product_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "product_id": 0,
+        "customer_id": 0,
+        "product_type": 0,
+        "product_number": 0,
+        "currency": 0,
+        "current_balance": 0,
+        "credit_limit": 274683,
+        "interest_rate": 40066,
+        "opening_date": 0,
+        "expiration_date": 266839,
+        "opening_branch_id": 0,
+        "product_status": 0,
+        "opening_channel": 0,
+        "has_linked_app": 0,
+        "days_past_due": 274650,
+        "last_transaction_date": 94277,
+        "last_updated": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "currency_counts": [
+        {
+          "value": "USD",
+          "rows": 220501
+        },
+        {
+          "value": "COP",
+          "rows": 107975
+        },
+        {
+          "value": "ARS",
+          "rows": 71524
+        }
+      ],
+      "last_updated_quality": {
+        "earliest": "2018-06-20 05:21:54",
+        "latest": "2027-06-15 02:26:58",
+        "invalid_rows": 0
+      },
+      "files": 1,
+      "bytes": 68213646
+    },
+    "branches": {
+      "rows": 350,
+      "columns": [
+        "branch_id",
+        "branch_code",
+        "branch_name",
+        "branch_type",
+        "address",
+        "city",
+        "state",
+        "country",
+        "postal_code",
+        "geographic_zone",
+        "phone",
+        "email",
+        "opening_time",
+        "closing_time",
+        "has_atms",
+        "atm_count",
+        "has_teller_windows",
+        "teller_window_count",
+        "latitude",
+        "longitude",
+        "branch_opening_date",
+        "branch_status",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "branch_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "branch_id": 0,
+        "branch_code": 0,
+        "branch_name": 0,
+        "branch_type": 0,
+        "address": 0,
+        "city": 0,
+        "state": 0,
+        "country": 0,
+        "postal_code": 0,
+        "geographic_zone": 0,
+        "phone": 0,
+        "email": 0,
+        "opening_time": 0,
+        "closing_time": 0,
+        "has_atms": 0,
+        "atm_count": 0,
+        "has_teller_windows": 0,
+        "teller_window_count": 0,
+        "latitude": 0,
+        "longitude": 0,
+        "branch_opening_date": 0,
+        "branch_status": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "country_counts": [
+        {
+          "value": "México",
+          "rows": 175
+        },
+        {
+          "value": "Colombia",
+          "rows": 105
+        },
+        {
+          "value": "Argentina",
+          "rows": 70
+        }
+      ],
+      "files": 1,
+      "bytes": 89529
+    },
+    "service_agents": {
+      "rows": 1200,
+      "columns": [
+        "agent_id",
+        "employee_code",
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+        "native_accent",
+        "country_of_origin",
+        "assigned_branch_id",
+        "agent_type",
+        "experience_level",
+        "languages",
+        "specialty",
+        "hire_date",
+        "avg_csat",
+        "total_monthly_interactions",
+        "agent_status",
+        "work_shift",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "agent_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "agent_id": 0,
+        "employee_code": 0,
+        "first_name": 0,
+        "last_name": 0,
+        "email": 0,
+        "phone": 69,
+        "native_accent": 0,
+        "country_of_origin": 0,
+        "assigned_branch_id": 367,
+        "agent_type": 0,
+        "experience_level": 0,
+        "languages": 0,
+        "specialty": 476,
+        "hire_date": 0,
+        "avg_csat": 134,
+        "total_monthly_interactions": 111,
+        "agent_status": 0,
+        "work_shift": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "files": 1,
+      "bytes": 237992
+    },
+    "marketing_campaigns": {
+      "rows": 200,
+      "columns": [
+        "campaign_id",
+        "campaign_name",
+        "description",
+        "campaign_type",
+        "campaign_objective",
+        "promoted_product",
+        "target_segment",
+        "target_country",
+        "start_date",
+        "end_date",
+        "budget",
+        "campaign_status",
+        "expected_conversion_rate",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "campaign_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "campaign_id": 0,
+        "campaign_name": 0,
+        "description": 39,
+        "campaign_type": 0,
+        "campaign_objective": 0,
+        "promoted_product": 22,
+        "target_segment": 79,
+        "target_country": 111,
+        "start_date": 0,
+        "end_date": 0,
+        "budget": 31,
+        "campaign_status": 0,
+        "expected_conversion_rate": 14
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "files": 1,
+      "bytes": 32710
+    },
+    "transactions": {
+      "rows": 4425008,
+      "columns": [
+        "transaction_id",
+        "transaction_date",
+        "process_date",
+        "product_id",
+        "customer_id",
+        "transaction_type",
+        "transaction_category",
+        "amount",
+        "currency",
+        "amount_usd",
+        "channel",
+        "branch_id",
+        "merchant_name",
+        "merchant_category",
+        "transaction_country",
+        "transaction_city",
+        "transaction_status",
+        "response_code",
+        "is_fraud",
+        "fraud_score",
+        "latitude",
+        "longitude",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "transaction_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "transaction_id": 0,
+        "transaction_date": 0,
+        "process_date": 0,
+        "product_id": 0,
+        "customer_id": 0,
+        "transaction_type": 0,
+        "transaction_category": 2693520,
+        "amount": 0,
+        "currency": 0,
+        "amount_usd": 2537456,
+        "channel": 0,
+        "branch_id": 3037076,
+        "merchant_name": 3395774,
+        "merchant_category": 3396215,
+        "transaction_country": 0,
+        "transaction_city": 442611,
+        "transaction_status": 0,
+        "response_code": 221033,
+        "is_fraud": 0,
+        "fraud_score": 885157,
+        "latitude": 3567680,
+        "longitude": 3567715
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "currency_counts": [
+        {
+          "value": "USD",
+          "rows": 2437979
+        },
+        {
+          "value": "COP",
+          "rows": 1194444
+        },
+        {
+          "value": "ARS",
+          "rows": 792585
+        }
+      ],
+      "transaction_date_quality": {
+        "earliest": "2023-06-17 06:01:30",
+        "latest": "2026-06-18 05:59:41",
+        "invalid_rows": 0
+      },
+      "process_date_quality": {
+        "earliest": "2023-06-17 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "event_after_process_day_rows": 1106307,
+      "files": 1097,
+      "bytes": 808333639
+    },
+    "call_center_interactions": {
+      "rows": 686296,
+      "columns": [
+        "interaction_id",
+        "interaction_date",
+        "process_date",
+        "customer_id",
+        "agent_id",
+        "interaction_type",
+        "channel",
+        "contact_reason",
+        "reason_category",
+        "duration_seconds",
+        "wait_time_seconds",
+        "was_resolved",
+        "requires_followup",
+        "detected_sentiment",
+        "sentiment_score",
+        "customer_detected_accent",
+        "agent_used_accent",
+        "was_escalated",
+        "mentioned_products",
+        "has_transcript",
+        "has_recording",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "interaction_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "interaction_id": 0,
+        "interaction_date": 0,
+        "process_date": 0,
+        "customer_id": 0,
+        "agent_id": 0,
+        "interaction_type": 0,
+        "channel": 0,
+        "contact_reason": 0,
+        "reason_category": 0,
+        "duration_seconds": 96234,
+        "wait_time_seconds": 205618,
+        "was_resolved": 0,
+        "requires_followup": 0,
+        "detected_sentiment": 0,
+        "sentiment_score": 0,
+        "customer_detected_accent": 204750,
+        "agent_used_accent": 204750,
+        "was_escalated": 0,
+        "mentioned_products": 411955,
+        "has_transcript": 0,
+        "has_recording": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "contact_reason_counts": [
+        {
+          "value": "Transaccional",
+          "rows": 240056
+        },
+        {
+          "value": "Producto",
+          "rows": 150863
+        },
+        {
+          "value": "Queja",
+          "rows": 117021
+        },
+        {
+          "value": "Técnico",
+          "rows": 102899
+        },
+        {
+          "value": "Comercial",
+          "rows": 54879
+        },
+        {
+          "value": "Retención",
+          "rows": 20578
+        }
+      ],
+      "reason_category_counts": [
+        {
+          "value": "Transaccional",
+          "rows": 240056
+        },
+        {
+          "value": "Producto",
+          "rows": 150863
+        },
+        {
+          "value": "Queja",
+          "rows": 117021
+        },
+        {
+          "value": "Técnico",
+          "rows": 102899
+        },
+        {
+          "value": "Comercial",
+          "rows": 54879
+        },
+        {
+          "value": "Retención",
+          "rows": 20578
+        }
+      ],
+      "interaction_date_quality": {
+        "earliest": "2023-06-17 08:03:26",
+        "latest": "2026-06-18 07:58:13",
+        "invalid_rows": 0
+      },
+      "process_date_quality": {
+        "earliest": "2023-06-17 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "historical_outcomes": [
+        {
+          "was_resolved": "False",
+          "was_escalated": "False",
+          "rows": 144334
+        },
+        {
+          "was_resolved": "False",
+          "was_escalated": "True",
+          "rows": 15932
+        },
+        {
+          "was_resolved": "True",
+          "was_escalated": "False",
+          "rows": 473576
+        },
+        {
+          "was_resolved": "True",
+          "was_escalated": "True",
+          "rows": 52454
+        }
+      ],
+      "files": 1097,
+      "bytes": 139734950
+    },
+    "call_transcripts": {
+      "rows": 171321,
+      "columns": [
+        "transcript_id",
+        "interaction_id",
+        "process_date",
+        "customer_id",
+        "agent_id",
+        "full_text",
+        "customer_text",
+        "agent_text",
+        "detected_language",
+        "detected_accent",
+        "accent_confidence",
+        "detected_keywords",
+        "mentioned_entities",
+        "detected_intents",
+        "main_topics",
+        "transcription_model",
+        "audio_quality",
+        "duration_seconds",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "transcript_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "transcript_id": 0,
+        "interaction_id": 0,
+        "process_date": 0,
+        "customer_id": 0,
+        "agent_id": 0,
+        "full_text": 0,
+        "customer_text": 0,
+        "agent_text": 0,
+        "detected_language": 0,
+        "detected_accent": 63083,
+        "accent_confidence": 17141,
+        "detected_keywords": 8797,
+        "mentioned_entities": 17164,
+        "detected_intents": 8457,
+        "main_topics": 0,
+        "transcription_model": 0,
+        "audio_quality": 8638,
+        "duration_seconds": 24029
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "detected_language_counts": [
+        {
+          "value": "es",
+          "rows": 171321
+        }
+      ],
+      "process_date_quality": {
+        "earliest": "2023-06-17 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "text_coverage": {
+        "rows": 171321,
+        "distinct_full_text": 546,
+        "distinct_customer_text": 42,
+        "dispute_keyword_rows": 0
+      },
+      "keyword_limit": "Exploratory lexical check; not intent labels or dispute ground truth",
+      "files": 1097,
+      "bytes": 137235657
+    },
+    "satisfaction_surveys": {
+      "rows": 212759,
+      "columns": [
+        "survey_id",
+        "survey_date",
+        "process_date",
+        "interaction_id",
+        "customer_id",
+        "agent_id",
+        "survey_type",
+        "send_channel",
+        "main_score",
+        "nps_category",
+        "question_1_text",
+        "question_1_response",
+        "question_2_text",
+        "question_2_response",
+        "question_3_text",
+        "question_3_response",
+        "open_comments",
+        "comment_sentiment",
+        "response_time_hours",
+        "campaign_response_rate",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "survey_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "survey_id": 0,
+        "survey_date": 0,
+        "process_date": 0,
+        "interaction_id": 0,
+        "customer_id": 0,
+        "agent_id": 0,
+        "survey_type": 0,
+        "send_channel": 0,
+        "main_score": 0,
+        "nps_category": 152365,
+        "question_1_text": 91456,
+        "question_1_response": 91389,
+        "question_2_text": 131388,
+        "question_2_response": 131263,
+        "question_3_text": 172615,
+        "question_3_response": 172656,
+        "open_comments": 111563,
+        "comment_sentiment": 111502,
+        "response_time_hours": 0,
+        "campaign_response_rate": 32037
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "process_date_quality": {
+        "earliest": "2023-06-17 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "files": 1097,
+      "bytes": 46446098
+    },
+    "digital_events": {
+      "rows": 15620994,
+      "columns": [
+        "event_id",
+        "event_date",
+        "process_date",
+        "customer_id",
+        "session_id",
+        "event_type",
+        "event_category",
+        "channel",
+        "platform",
+        "browser",
+        "app_version",
+        "page_url",
+        "page_title",
+        "action",
+        "element_id",
+        "product_id",
+        "event_value",
+        "duration_seconds",
+        "ip_address",
+        "ip_country",
+        "ip_city",
+        "is_mobile",
+        "referrer",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "event_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "event_id": 0,
+        "event_date": 0,
+        "process_date": 0,
+        "customer_id": 3745446,
+        "session_id": 0,
+        "event_type": 0,
+        "event_category": 0,
+        "channel": 0,
+        "platform": 780527,
+        "browser": 9687736,
+        "app_version": 6714416,
+        "page_url": 780394,
+        "page_title": 779824,
+        "action": 1561432,
+        "element_id": 2343244,
+        "product_id": 14180656,
+        "event_value": 14826484,
+        "duration_seconds": 9946209,
+        "ip_address": 780855,
+        "ip_country": 0,
+        "ip_city": 4370476,
+        "is_mobile": 0,
+        "referrer": 14573469,
+        "utm_source": 14781949,
+        "utm_medium": 14781860,
+        "utm_campaign": 14782077
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "process_date_quality": {
+        "earliest": "2023-06-17 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "files": 1097,
+      "bytes": 3757355051
+    },
+    "complaints": {
+      "rows": 67095,
+      "columns": [
+        "complaint_id",
+        "creation_date",
+        "process_date",
+        "customer_id",
+        "case_type",
+        "category",
+        "subcategory",
+        "reception_channel",
+        "affected_product_id",
+        "related_branch_id",
+        "origin_interaction_id",
+        "description",
+        "claimed_amount",
+        "currency",
+        "priority",
+        "status",
+        "assigned_agent_id",
+        "assignment_date",
+        "first_response_date",
+        "resolution_date",
+        "closing_date",
+        "sla_breached",
+        "resolution_days",
+        "resolution",
+        "compensation_granted",
+        "resolution_satisfaction",
+        "is_repeat_complainer",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "complaint_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "complaint_id": 0,
+        "creation_date": 0,
+        "process_date": 0,
+        "customer_id": 0,
+        "case_type": 0,
+        "category": 0,
+        "subcategory": 6698,
+        "reception_channel": 0,
+        "affected_product_id": 22525,
+        "related_branch_id": 47917,
+        "origin_interaction_id": 67095,
+        "description": 0,
+        "claimed_amount": 45344,
+        "currency": 45319,
+        "priority": 0,
+        "status": 0,
+        "assigned_agent_id": 23115,
+        "assignment_date": 23128,
+        "first_response_date": 26242,
+        "resolution_date": 51746,
+        "closing_date": 64614,
+        "sla_breached": 0,
+        "resolution_days": 51732,
+        "resolution": 51785,
+        "compensation_granted": 62454,
+        "resolution_satisfaction": 64611,
+        "is_repeat_complainer": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "currency_counts": [
+        {
+          "value": null,
+          "rows": 45319
+        },
+        {
+          "value": "MXN",
+          "rows": 5487
+        },
+        {
+          "value": "COP",
+          "rows": 5456
+        },
+        {
+          "value": "USD",
+          "rows": 5431
+        },
+        {
+          "value": "ARS",
+          "rows": 5402
+        }
+      ],
+      "process_date_quality": {
+        "earliest": "2023-06-17 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "files": 1097,
+      "bytes": 17990612
+    },
+    "campaign_sends": {
+      "rows": 1746801,
+      "columns": [
+        "send_id",
+        "send_date",
+        "process_date",
+        "campaign_id",
+        "customer_id",
+        "send_channel",
+        "template_used",
+        "subject",
+        "send_status",
+        "was_delivered",
+        "was_opened",
+        "open_date",
+        "was_clicked",
+        "click_date",
+        "click_count",
+        "had_conversion",
+        "conversion_date",
+        "conversion_value",
+        "open_device",
+        "open_country",
+        "failure_reason",
+        "send_cost",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "send_id"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "send_id": 0,
+        "send_date": 0,
+        "process_date": 0,
+        "campaign_id": 0,
+        "customer_id": 0,
+        "send_channel": 0,
+        "template_used": 175218,
+        "subject": 1188342,
+        "send_status": 0,
+        "was_delivered": 0,
+        "was_opened": 484229,
+        "open_date": 1259492,
+        "was_clicked": 0,
+        "click_date": 1649008,
+        "click_count": 1649008,
+        "had_conversion": 0,
+        "conversion_date": 1737002,
+        "conversion_value": 1737002,
+        "open_device": 1308424,
+        "open_country": 1308278,
+        "failure_reason": 1647204,
+        "send_cost": 262083
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "process_date_quality": {
+        "earliest": "2023-07-01 00:00:00",
+        "latest": "2026-06-17 00:00:00",
+        "invalid_rows": 0
+      },
+      "files": 1083,
+      "bytes": 325976325
+    },
+    "daily_exchange_rates": {
+      "rows": 13164,
+      "columns": [
+        "date",
+        "source_currency",
+        "target_currency",
+        "exchange_rate",
+        "buy_rate",
+        "sell_rate",
+        "source",
+        "filename"
+      ],
+      "missing_required_columns": [],
+      "primary_key": [
+        "date",
+        "source_currency",
+        "target_currency"
+      ],
+      "null_key_rows": 0,
+      "duplicate_key_excess_rows": 0,
+      "null_counts": {
+        "date": 0,
+        "source_currency": 0,
+        "target_currency": 0,
+        "exchange_rate": 0,
+        "buy_rate": 0,
+        "sell_rate": 0,
+        "source": 0
+      },
+      "contract_status": "passed",
+      "contract_scope": "Required column presence and primary key integrity only",
+      "files": 1,
+      "bytes": 778914
+    }
+  },
+  "relationships": {
+    "products.customer_id->customers.customer_id": {
+      "child_rows": 400000,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "transactions.customer_id->customers.customer_id": {
+      "child_rows": 4425008,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "transactions.product_id->products.product_id": {
+      "child_rows": 4425008,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "call_center_interactions.customer_id->customers.customer_id": {
+      "child_rows": 686296,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "call_transcripts.customer_id->customers.customer_id": {
+      "child_rows": 171321,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "call_transcripts.interaction_id->call_center_interactions.interaction_id": {
+      "child_rows": 171321,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "complaints.customer_id->customers.customer_id": {
+      "child_rows": 67095,
+      "null_fk_rows": 0,
+      "unmatched_nonnull_rows": 0
+    },
+    "complaints.origin_interaction_id->call_center_interactions.interaction_id": {
+      "child_rows": 67095,
+      "null_fk_rows": 67095,
+      "unmatched_nonnull_rows": 0
+    },
+    "transcript_customer_consistency": {
+      "transcript_rows": 171321,
+      "rows_with_matching_interaction_and_customer": 171321
+    },
+    "customer_text_label_conflict": {
+      "customer_text_groups": 42,
+      "groups_with_multiple_reason_categories": 42
+    },
+    "balance_keyword_by_metadata": [
+      {
+        "reason_category": "Comercial",
+        "rows": 13808,
+        "balance_keyword_rows": 13808
+      },
+      {
+        "reason_category": "Producto",
+        "rows": 37658,
+        "balance_keyword_rows": 37658
+      },
+      {
+        "reason_category": "Queja",
+        "rows": 29198,
+        "balance_keyword_rows": 29198
+      },
+      {
+        "reason_category": "Retención",
+        "rows": 5180,
+        "balance_keyword_rows": 5180
+      },
+      {
+        "reason_category": "Transaccional",
+        "rows": 59786,
+        "balance_keyword_rows": 59786
+      },
+      {
+        "reason_category": "Técnico",
+        "rows": 25691,
+        "balance_keyword_rows": 25691
+      }
+    ],
+    "transaction_product_consistency": {
+      "transaction_rows": 4425008,
+      "rows_with_matching_product_customer_currency": 4425008
+    }
+  },
+  "manifest_sha256": "eaa9e657c1636059d77bd48a26fbdd839e155aac04fac92c73d38296e86b144d",
+  "total_rows": 23495188,
+  "missing_tables": []
+}
