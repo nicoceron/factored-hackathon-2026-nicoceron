@@ -1,0 +1,45 @@
+{
+  "version": "claro-deck-v1",
+  "slide_count": 6,
+  "native_chart_count": 3,
+  "embedded_chart_workbook_count": 3,
+  "editable_architecture_slide": 3,
+  "pdf_word_counts_by_slide": [
+    48,
+    47,
+    68,
+    90,
+    97,
+    63
+  ],
+  "pdf_embedded_fonts": [
+    "NotoSans-Bold",
+    "NotoSans-Regular"
+  ],
+  "package_integrity_passed": true,
+  "geometry_checks_passed": true,
+  "artifact_tool_reimport_passed": true,
+  "native_chart_checks_passed": true,
+  "visual_review_completed_for_these_output_hashes": true,
+  "visual_review_scope": "Assistant inspected every final PDF page at 1280x720 for font fallback, clipping, overlaps, diagram direction, chart labels and caveats.",
+  "native_powerpoint_application_verified": false,
+  "input_output_sha256": {
+    "submission/build-deck.mjs": "34fd0217c26b8d7e587f414fee0f7d0fedf8ad2bea28e80d7c658c8dbcb95b17",
+    "submission/build-deck.sh": "d035f4b946e805d056d96740c6c189eb386d3e534be15792d3959469980e7acb",
+    "submission/deployment.json": "4e467cd0fe98f3de34573a112255a8ad1155cf34f73d867b4cd5bd1b45a4ea36",
+    "submission/assets/customer-case.jpg": "da14812c2290be0221ba30498dbc175cf179c5c4905d56f589987689824da380",
+    "submission/assets/analyst-case.jpg": "abf7437e60182cebdda7190e42316ea5dd20a94698fc1108507b8956ff416d0a",
+    "docs/evidence/ml-evaluation.json": "ccf85850bb95d8a03466b4c3522389d93152c04bf87b5a8f80016a211002abf1",
+    "docs/evidence/language-evaluation.json": "027c0791b6ecb66a0e594c1caeb29e80c751316137d8f0b5526dfb94c826a7ae",
+    "docs/evidence/system-challenge-evaluation.json": "c882d8163fcdacf9e8e389e7aed8f0f571a5fb7a45477853942c5777b6dca770",
+    "docs/evidence/system-challenge-regression.json": "e060ca72798a83a0f65a4f7139d10573c0b4eb82add271fd9b7f06b81ee4fb26",
+    "submission/Claro-Hackathon-2026.pptx": "eac729c5bd2d1f0b66d8955e7930c5b2737b39f8af8c8f840121633eb772031c",
+    "submission/Claro-Hackathon-2026.pdf": "86adc2103cf984f4b2f45571ae4931ddc1184d711183e4fd739b60c781e03cd9"
+  },
+  "asset_provenance": "Actual local Claro app screenshots containing team-authored synthetic fixtures only.",
+  "limitations": [
+    "Screenshots illustrate the app; they do not prove deployed behavior.",
+    "Deployment readiness evidence is separate from full browser workflow verification.",
+    "Charts represent authored synthetic evaluation and retrospective synthetic fraud labels."
+  ]
+}

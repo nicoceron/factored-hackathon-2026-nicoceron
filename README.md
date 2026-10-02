@@ -4,6 +4,10 @@
 
 A bilingual customer-service prototype that explains historical transactions, clarifies ambiguous requests, and creates confirmed, verified cases for human review. Spanish and Portuguese share the same permissions and workflow. The public demo uses explicitly team-authored fixtures; private organizer records never leave the local data pipeline.
 
+**[Open the live demo](https://claro-banking-hackathon-2026.onrender.com)** · [Presentation and video](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.0.0) · [Rubric evidence](docs/RUBRIC.md)
+
+The free service can take about a minute to wake. Cases and sessions are temporary and may reset when the host restarts.
+
 ## Try it locally
 
 ```bash

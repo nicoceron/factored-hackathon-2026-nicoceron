@@ -1,0 +1,36 @@
+{
+  "recorded_at_utc": "2026-10-02T08:53:51.864942+00:00",
+  "url": "https://claro-banking-hackathon-2026.onrender.com",
+  "final_application_commit": "4692dede4e6bb463b493ae310e7f33b9d513c8c2",
+  "method": "Actual Chrome UI through CUA; no organizer records; isolated team-authored fixtures",
+  "initial_full_browser_walkthrough_commit": "39a8e2c505bd513a6f9f37fbe4faa1a9ccd68688",
+  "verified": {
+    "spanish_login_clarification_scoped_amount_status_and_source": true,
+    "spanish_server_cancellation_and_zero_cases": true,
+    "spanish_explicit_confirm_verified_receipt_and_case": true,
+    "spanish_analyst_closed_review_survives_reload": true,
+    "portuguese_login_clarification_explicit_status": true,
+    "portuguese_confirmation_verified_receipt_and_case": true,
+    "portuguese_analyst_needs_information_saved": true,
+    "latest_release_portuguese_pending_selection_fixed": true,
+    "latest_release_answer_matches_38_50_USD_pending_historical_fixture": true,
+    "latest_release_evidence_visible": true,
+    "latest_release_ui_assets_unchanged_and_full_api_flows_rechecked": "See deployed-api-checks.json"
+  },
+  "caught_and_fixed": "Portuguese short selection reply was misclassified as a dispute. PR2 preserves pending task for whole-utterance ES/PT selections, without bypassing authorization or explicit new requests. Actual hosted browser reproduction passed after redeployment.",
+  "screenshots": {
+    "deployed-customer-pt.jpg": {
+      "sha256": "83e52e632454cd1a5cdd883b919808dfc5e1582f820a3dfb2b3b2e26a30305bc",
+      "capture_commit": "4692dede4e6bb463b493ae310e7f33b9d513c8c2"
+    },
+    "deployed-analyst-viewport.jpg": {
+      "sha256": "a314d29f1dd2d6e61e6f208b3a00d0299de930b76e2372263bdd0a435828f50e",
+      "capture_commit": "39a8e2c505bd513a6f9f37fbe4faa1a9ccd68688"
+    }
+  },
+  "limits": [
+    "Browser tests are finite workflows, not full natural-language coverage.",
+    "Mobile widths were checked locally against identical published static assets; see UI.md.",
+    "Ephemeral state reset on redeployment was observed; not durable banking storage."
+  ]
+}

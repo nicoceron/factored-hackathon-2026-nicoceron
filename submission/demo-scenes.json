@@ -1,0 +1,185 @@
+[
+  {
+    "title": "Banking help.\nWith evidence.",
+    "eyebrow": "CLARO · FACTORED 2026",
+    "points": [
+      "Spanish + Portuguese",
+      "Customer + analyst",
+      "An isolated historical sandbox"
+    ],
+    "image": "login.jpg",
+    "sentences": [
+      "Meet Claro, banking support in Spanish and Portuguese.",
+      "This is a working historical sandbox with team authored fixtures, not a connection to real bank accounts.",
+      "We complete one workflow: understand a transaction, report an unrecognized charge, and hand off with evidence."
+    ]
+  },
+  {
+    "title": "Understand.\nThen clarify.",
+    "eyebrow": "01 · AUTHORIZED EVIDENCE",
+    "points": [
+      "Ask when the reference is ambiguous",
+      "Keep amount and currency together",
+      "Cite the record and its snapshot date"
+    ],
+    "image": "customer-pt-evidence.jpg",
+    "crop": [
+      716,
+      300,
+      1470,
+      924
+    ],
+    "sentences": [
+      "Here, the Portuguese customer asks whether a payment went through.",
+      "Claro asks which transaction, instead of guessing.",
+      "After a selection, it reports thirty eight dollars and fifty cents as pending, preserving the currency and historical date.",
+      "The answer comes from an authorized record tool, with source references."
+    ]
+  },
+  {
+    "title": "The model\ncan't act alone.",
+    "eyebrow": "02 · CONTROLLED ACTIONS",
+    "points": [
+      "Customer report is an allegation",
+      "Human review is proposed",
+      "No refund or card-blocking promise"
+    ],
+    "image": "customer-pt-proposal.jpg",
+    "crop": [
+      716,
+      300,
+      1470,
+      924
+    ],
+    "sentences": [
+      "The customer says they do not recognize this charge.",
+      "Claro prepares a human review case, but nothing has been created yet.",
+      "Intent classification helps understand the request.",
+      "Deterministic service rules control permissions, required context, and which actions are allowed."
+    ]
+  },
+  {
+    "title": "A real pause\nfor confirmation.",
+    "eyebrow": "03 · EXPLICIT CONSENT",
+    "points": [
+      "Review the proposed case",
+      "Confirm through a separate endpoint",
+      "Cancel without creating a case"
+    ],
+    "image": "confirmation-pt.jpg",
+    "crop": [
+      445,
+      248,
+      1046,
+      706
+    ],
+    "sentences": [
+      "A separate confirmation dialog names the sandbox action and its limits.",
+      "The service requires the valid session, the correct role, and a CSRF token.",
+      "Typing yes in the conversation cannot execute the case creation."
+    ]
+  },
+  {
+    "title": "An action needs\na verified receipt.",
+    "eyebrow": "04 · WRITE, THEN READ BACK",
+    "points": [
+      "Committed record read back",
+      "Same retry key prevents duplication",
+      "No success claim if verification fails"
+    ],
+    "image": "customer-pt-receipt.jpg",
+    "crop": [
+      716,
+      300,
+      1470,
+      924
+    ],
+    "sentences": [
+      "The confirmed case is now saved and read back from storage.",
+      "Only then does Claro show this verified reference.",
+      "Retries reuse an idempotency key, so a dropped response does not create another case.",
+      "A verification failure produces an error, never a success claim."
+    ]
+  },
+  {
+    "title": "A useful handoff.\nA bounded decision.",
+    "eyebrow": "05 · HUMAN REVIEW",
+    "points": [
+      "Customer report and facts separated",
+      "Missing risk stays unavailable",
+      "Review does not determine liability"
+    ],
+    "image": "analyst-pt-reviewed.jpg",
+    "crop": [
+      690,
+      255,
+      1470,
+      1430
+    ],
+    "sentences": [
+      "In the same isolated workspace, an analyst receives the allegation, transaction facts, evidence, and open questions.",
+      "Risk is unavailable for these out of domain fixtures, rather than shown as a misleading zero.",
+      "The analyst can close the review or request more information.",
+      "Neither outcome grants a refund or proves fraud."
+    ]
+  },
+  {
+    "title": "Small architecture.\nExplicit boundaries.",
+    "eyebrow": "06 · TECHNICAL JUDGMENT",
+    "points": [
+      "One FastAPI service + local intent model",
+      "Scoped tools + transactional case store",
+      "Offline data and model pipeline"
+    ],
+    "image": "operations.jpg",
+    "sentences": [
+      "The application uses one FastAPI service, a local language classifier, and a transactional sandbox case store.",
+      "Offline data preparation and model evaluation stay outside requests.",
+      "The browser shows actual workspace activity and latency.",
+      "Zero model API spend does not mean zero infrastructure cost."
+    ],
+    "crop": [
+      230,
+      323,
+      1470,
+      813
+    ]
+  },
+  {
+    "title": "Measure the result.\nPublish the limits.",
+    "eyebrow": "07 · REPRODUCIBLE EVALUATION",
+    "points": [
+      "140 authored bilingual scenarios",
+      "Rules, TF-IDF + LR, and local Gemma",
+      "No independent human label review"
+    ],
+    "image": "evaluation.jpg",
+    "crop": [
+      230,
+      84,
+      1470,
+      548
+    ],
+    "sentences": [
+      "We compare rules, a trained TF-IDF classifier, and local Gemma on the same one hundred forty authored bilingual scenarios.",
+      "The selected classifier reaches an intent macro F one of eighty two point three percent.",
+      "The complete workflow has a separate evaluation with failures disclosed.",
+      "These tests have no independent human review and cannot establish production accuracy."
+    ]
+  },
+  {
+    "title": "Ship the evidence.\nKeep human oversight.",
+    "eyebrow": "CLARO · CUSTOMER SUPPORT WITH CONTEXT",
+    "points": [
+      "Fraud candidates did not pass promotion",
+      "No production savings claim",
+      "Reproducible repository + working demo"
+    ],
+    "image": "customer-pt-receipt.jpg",
+    "sentences": [
+      "The fraud experiment is equally explicit: its candidates did not pass the validation promotion gate.",
+      "We retain the baseline and never let a low score dismiss a customer's report.",
+      "Claro delivers a working bilingual workflow, traceable evidence, and a human handoff, with honest boundaries for what remains before real banking production."
+    ]
+  }
+]
