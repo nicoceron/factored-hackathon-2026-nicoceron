@@ -67,6 +67,8 @@ The campaign send-cost/conversion-value currency remains unspecified by the dict
 
 ## Recommended decision
 
-Build **account/payment inquiry support with a safe dispute handoff** as the provisional workflow. The verified product/transaction ownership relationships provide useful structured evidence, and balance language is present in the transcript corpus. The stronger evaluation story is to expose and handle the limitations, then test a learned multilingual component on independently reviewed held-out scenarios.
+Build **transaction support with fraud triage and dispute intake** as the provisional workflow. Verified ownership relationships support exact record tools. The additional audit found **4,316 fraud-labeled transactions out of 4,425,008 (0.09754%)**. The supplied `fraud_score` has an unexplained shortcut: every scored non-fraud transaction is at or below 30. An exploratory >30 rule produces 2,373 true positives, zero false positives, and 1,943 false negatives across the full snapshot; this is not a held-out benchmark or evidence of an independently trained detector.
+
+The expanded [architecture](ARCHITECTURE.md) covers Jev semantic classification, a separate transaction model, label/feature leakage, missing text coverage, and an analyst workflow. The main fraud aggregates can be reproduced with [fraud-feasibility.sql](evidence/fraud-feasibility.sql) against the local audit database. No Jev or fraud-model performance has been measured yet.
 
 This is an engineering recommendation, not an organizer rule or a measured model result. Remaining data work includes full serving contracts, freshness policy, conflict/quarantine handling, valid labels, and permission-compatible record projections.

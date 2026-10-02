@@ -2,9 +2,9 @@
 
 This is a proposal, not implemented product behavior or measured results. Revisit workflow selection after label/record-linkage review.
 
-## Recommended workflow: account and payment inquiries
+## Recommended workflow: transaction support, fraud triage, and dispute intake
 
-Build a bilingual service that tells a trusted, authenticated demo customer their permitted balance and transaction status, asks for missing account/payment information, and escalates disputed or unsupported requests with evidence. The supplied `products` and `transactions` tables document balances, currencies, statuses, and ownership. Transcript content and identifier quality must be audited before using them as labels or joined evidence.
+Build a bilingual service that explains an authenticated demo customer's transaction, identifies customer-reported scams and disputed charges, combines verified records with separately evaluated transaction-risk signals, and creates a verified sandbox case when human review is needed. Jev is the proposed semantic-classification candidate. Fraud prediction is a distinct tabular-model task. The complete design and research comparison are in [ARCHITECTURE.md](ARCHITECTURE.md); that document supersedes the original inquiry-only recommendation.
 
 Three demo stories:
 
@@ -12,9 +12,11 @@ Three demo stories:
 2. **Ambiguous:** “¿Ya salió?” / “Já saiu?” with multiple possible transactions. The system uses conversation context and asks a targeted question; it does not guess an amount or select an arbitrary account.
 3. **Human-required:** “No reconozco ese cargo” / “Não reconheço essa cobrança.” The service gathers the minimal authorized context, creates a sandbox support case through a permitted tool, reads back the stored case, and gives a verified reference. It does not promise a refund or determine fraud.
 
-No model/provider is selected yet. Account inquiries are a bounded starting scope, not a claim that the supplied transcripts provide valid account-intent ground truth. If customer/product/transaction IDs cannot be joined coherently, quarantine unsafe joins, document the problem, and use explicitly labeled team-generated tool fixtures for workflow demonstrations while keeping organizer-data demand analysis separate.
+No model/provider has passed a benchmark yet. Jev `jev-1.13.0` is the first semantic candidate; logistic regression and a gradient-boosted tree are transaction-risk candidates. The actual core customer/product/transaction joins passed the audit. Serving contracts still need to enforce them. The transcript corpus does not provide valid dispute-intent ground truth; use independently reviewed evaluation scenarios with explicit provenance.
 
 ## Proposed architecture
+
+The [integrated architecture](ARCHITECTURE.md#integrated-architecture-preparation-training-and-release) defines the offline preparation/training path, model and Jev release artifacts, policy-index preparation, runtime contracts, deployment layout, and built-versus-designed status. The diagram below is only a workflow overview.
 
 ```mermaid
 flowchart LR
@@ -22,6 +24,7 @@ flowchart LR
     Session --> API[FastAPI conversation service]
     API --> NLU[Learned intent / language component]
     NLU --> Flow[Deterministic workflow and permission checks]
+    Risk[Separately evaluated transaction risk] --> Flow
     Flow --> Records[Customer-scoped record tools]
     Flow --> Policies[Versioned permitted policy sources]
     Flow --> Case[Sandbox case service]
@@ -43,7 +46,7 @@ Keep one backend and one small UI initially. DuckDB handles offline data analysi
 | 2. Serving data | Explicit typed contracts; deterministic conflict/quarantine rules; currencies preserved; full lineage; no unsafe cross-customer joins |
 | 3. Secure tools | Trusted test sessions, expiry, record ownership checks, allowed actions, idempotency, verified case read-back |
 | 4. Baseline | Keyword/rule intent router and deterministic templates using the same tools and cases as the proposed system |
-| 5. Learned component | A pretrained multilingual intent/slot component or justified trained classifier; pinned version; validated outputs; bounded failures |
+| 5. Learned components | Benchmark Jev semantic judgments and transaction-risk candidates separately; pinned versions; no target leakage; bounded failures |
 | 6. Conversation/UI | Multi-turn clarification, Spanish and Portuguese, three required paths, useful human handoff |
 | 7. Evaluation | Frozen held-out workload, baseline comparison, failures and language slices, latency/cost evidence |
 | 8. Hosted demo and submission | Authenticated sandbox demo, public safe repository, 4–6 slides, short video, final checklist |

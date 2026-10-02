@@ -11,6 +11,7 @@ Build one banking customer-service workflow that understands a request, uses aut
 3. [Build and evaluation plan](docs/PLAN.md): recommended scope, architecture, acceptance criteria, and schedule.
 4. [Data findings](docs/DATA_FINDINGS.md): measured coverage and limitations after downloading the organizer data.
 5. [Submission checklist](docs/SUBMISSION.md): public repo, deployed demo, slides, and video.
+6. [Architecture and model decisions](docs/ARCHITECTURE.md): Jev, transaction fraud, dispute intake, all-table coverage, and current research.
 
 ## Current state
 
@@ -39,7 +40,7 @@ Read [SETUP.md](docs/SETUP.md) before using data commands on a fresh clone. No p
 
 ## Working recommendation
 
-Start with **account/payment inquiries**: answer authorized balance and transaction-status questions, clarify an unspecified account/payment, and transfer disputed or unsupported cases with verified context. Confirm this scope against the audited data and valid evaluation labels before building. The supplied workflow examples are not separate competition tracks.
+Build **transaction support with fraud triage and dispute intake**: explain permitted transaction records, clarify ambiguous requests, recognize customer-reported scams or unrecognized charges, evaluate transaction risk, and create verified sandbox cases for human review. Jev is the proposed semantic-classification candidate; a separate tabular model handles transaction risk. Both need evaluation before selection. See [the expanded architecture](docs/ARCHITECTURE.md) for data limitations, alternatives, and implementation order. The supplied workflow examples are not separate competition tracks.
 
 Use a pretrained component for language/intent understanding, deterministic code for permissions and workflow transitions, and verified records for amounts/statuses. Never treat generated prose as proof that an action succeeded.
 
