@@ -141,3 +141,66 @@ def test_serving_export_preserves_exact_decimal_evidence(tmp_path):
         export_serving(con, path)
     with sqlite3.connect(path) as database:
         assert database.execute("SELECT amount FROM transactions").fetchone()[0] == exact
+
+
+def test_full_snapshot_rebuild_applies_changes_deletions_and_late_arrivals(tmp_path):
+    """Team-generated update fixture; no change-feed exists in the organizer snapshot."""
+    path = tmp_path / "serving.sqlite"
+    with source_database(
+        [
+            {"transaction_id": "CHANGE", "amount": "100.00"},
+            {"transaction_id": "DELETE", "amount": "20.00"},
+        ]
+    ) as initial:
+        curate(initial)
+        export_serving(initial, path)
+    with source_database(
+        [
+            {"transaction_id": "CHANGE", "amount": "125.00"},
+            {
+                "transaction_id": "LATE",
+                "amount": "50.00",
+                "transaction_date": "2025-11-15 12:00:00",
+                "process_date": "2025-12-05",
+            },
+        ]
+    ) as replacement:
+        curate(replacement)
+        assert export_serving(replacement, path) == 2
+    with sqlite3.connect(path) as database:
+        assert database.execute(
+            "SELECT transaction_id,amount FROM transactions ORDER BY transaction_id"
+        ).fetchall() == [("CHANGE", "125.00"), ("LATE", "50.00")]
+        assert database.execute(
+            "SELECT transaction_date,available_at FROM transactions WHERE transaction_id='LATE'"
+        ).fetchone() == ("2025-11-15 12:00:00", "2025-12-06 00:00:00")
+
+
+def test_failed_snapshot_export_preserves_previous_committed_file(tmp_path):
+    """Inject failure after a staging batch, before atomic snapshot replacement."""
+    path = tmp_path / "serving.sqlite"
+    with source_database([{"transaction_id": "PREVIOUS", "amount": "100.00"}]) as con:
+        curate(con)
+        export_serving(con, path)
+    original = path.read_bytes()
+
+    class InterruptedSource:
+        description = [("transaction_id",), ("customer_id",), ("amount",)]
+        batches = 0
+
+        def execute(self, _query):
+            return self
+
+        def fetchmany(self, _count):
+            self.batches += 1
+            if self.batches == 1:
+                return [("NEW", "C1", "500.00")]
+            raise RuntimeError("Injected source interruption")
+
+    with pytest.raises(RuntimeError, match="Injected source interruption"):
+        export_serving(InterruptedSource(), path)
+    assert path.read_bytes() == original
+    with sqlite3.connect(path) as database:
+        assert database.execute("SELECT transaction_id FROM transactions").fetchall() == [
+            ("PREVIOUS",)
+        ]

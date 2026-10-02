@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -193,7 +194,7 @@ def export_serving(con: duckdb.DuckDBPyConnection, output: Path) -> int:
     temporary.unlink(missing_ok=True)
     source = con.execute("SELECT * FROM serving_transactions ORDER BY transaction_id")
     columns = [item[0] for item in source.description]
-    with sqlite3.connect(temporary) as target:
+    with closing(sqlite3.connect(temporary)) as target, target:
         target.execute("PRAGMA journal_mode=OFF")
         # Monetary evidence retains the exact source decimal string. Floating-point
         # transforms exist only in the offline ML feature table, never record tools.
@@ -225,6 +226,10 @@ def export_serving(con: duckdb.DuckDBPyConnection, output: Path) -> int:
                 ("source_freshness", "historical; not live bank data"),
             ],
         )
+    # Read the committed staging database through a new handle before promotion.
+    with closing(sqlite3.connect(temporary)) as verification:
+        if verification.execute("SELECT count(*) FROM transactions").fetchone()[0] != count:
+            raise RuntimeError("Serving snapshot read-back count mismatch")
     temporary.replace(output)
     return count
 

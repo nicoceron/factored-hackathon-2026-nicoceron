@@ -4,7 +4,7 @@
   "feature_sha256_second": "4c275a282bd292abd2daa8ee2d3a0d0951b117d7acc5f680b1a286f8b8b4e96b",
   "byte_identical": true,
   "source_database_sha256": "8e2ff1ada5113ad2c5c6f9e0491aa19e1a56e6507691662e9376ef2e45c82019",
-  "pipeline_source_sha256": "8664c678e4d7451202708d422c40bdb1b358755d17242ca5cfa62f9a0395a985",
+  "pipeline_source_sha256": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
   "rows": 4425008,
   "scope": "Same host and locked DuckDB version; no cross-platform bit-identity claim"
 }

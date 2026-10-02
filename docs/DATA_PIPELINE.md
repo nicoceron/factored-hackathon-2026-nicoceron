@@ -46,6 +46,12 @@ The partition clock differs from the earlier event-time feasibility query. Train
 
 ## Lineage and public boundary
 
+### Snapshot refresh and update correctness
+
+The source is a dated batch snapshot with no validated change feed. Refresh means re-download the authorized source snapshot, rerun the full audit, and rebuild all serving rows and strict-prior features. Changed rows replace their prior values, rows absent from the new source disappear, and newly arrived historical events enter using the new snapshot's preserved event/process dates. A late row never gains an invented earlier availability time. Every update requires a fresh source manifest and pipeline receipt. This policy does not claim streaming freshness or change-data-capture support.
+
+Two explicitly team-generated update tests exercise the missing source update feed: one changes an amount, deletes a prior transaction and inserts a late historical event in a replacement snapshot; the other interrupts the source after one staging batch and proves that the prior committed SQLite file remains byte-identical. Export commits and closes staging, checks the row count through a new SQLite connection, then atomically replaces the complete serving database. Until replacement succeeds, readers keep the prior snapshot. Run one publisher per output path. The public service continues to use labeled fixtures and never describes this private historical snapshot as live bank data.
+
 The raw audit hashes all 7,671 CSV files. The pipeline receipt links that source-manifest digest, the actual input database digest, the source-code digest and the sorted feature-Parquet digest. Feature output is ordered by transaction ID. Every run has an isolated DuckDB spill directory. Two independent full-data runs produced the same feature-file SHA-256; the [reproduction receipt](evidence/pipeline-reproducibility.json) records the comparison. The SQLite export builds a temporary file, creates indexes, commits, and atomically replaces the prior export only after success. Failed exports therefore preserve the previous completed database.
 
 Raw CSVs, SQLite/DuckDB databases, Parquet, quarantine records and local model-candidate artifacts remain excluded from Git and deployment. Only reviewed aggregate receipts and the selected small model manifest are public. Reproduction requires authorized organizer-data access; a public clone can run the team-generated contract/security tests without it.
