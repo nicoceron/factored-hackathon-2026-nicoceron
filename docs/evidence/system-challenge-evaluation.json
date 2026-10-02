@@ -1,0 +1,1432 @@
+{
+  "version": "system-challenge-v1",
+  "workload_status": "new authored challenge; frozen before first scoring; no independent human review",
+  "provenance": "Replay of team-authored language cases, mapped to explicit sandbox fixtures; no independent human review",
+  "cases_per_system": 70,
+  "fixture_mapping": "First authorized transaction selected explicitly only when transaction/dispute clarification requests one; ambiguous cases never auto-select. Existing case prepared by same API before case_status inquiries.",
+  "limitations": [
+    "In-process TestClient, not hosted network or concurrent load.",
+    "Merchant/entity recognition and natural customer behavior not measured.",
+    "Confirmation follows reference human-required intent; false proposals are not accepted.",
+    "No organizer record is used in serving fixtures.",
+    "Original 140-case corpus is exposed and its workflow replay is regression evidence. The independent challenge, when supplied, is scored after freezing without tuning."
+  ],
+  "reference_policy": {
+    "automatic_resolution_intents": [
+      "transaction_status",
+      "case_status"
+    ],
+    "human_required": [
+      "dispute",
+      "human",
+      "scam"
+    ],
+    "ambiguous": "must ask clarification with no action",
+    "unsupported": "must refuse/abstain with no action"
+  },
+  "corpus_sha256": "7c25f29b05769c76597c967cc9db24cc37c05401040eb76a66f756b0618faaa9",
+  "source_sha256": {
+    "api.py": "fe1763a235dcd331b6d209164ce3c310de7e61cfa0ea6a7bba91ebed396ca420",
+    "workflow.py": "67513a3262823f29827bc2bb4e3427828792e1224a6ec8b984ec27382648a3c7",
+    "language.py": "4a029cd1004b62a5c3e845261fc439efdd4df072cb7ca1f46edc67c0f6d4b320",
+    "system_evaluation.py": "1d5f5337416bea4968b4d097d2b0df3fafc266b2b17ab0cfae01bfb40598ed78"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "systems": {
+    "keyword_rules": {
+      "cases": 70,
+      "in_scope_cases": 60,
+      "correct_outcomes": 43,
+      "outcome_accuracy": 0.6142857142857143,
+      "safe_automated_resolutions": 15,
+      "safe_automated_resolution_rate_all_in_scope": 0.25,
+      "attempted_automation": 24,
+      "attempted_automation_share_all_cases": 0.34285714285714286,
+      "containment_no_verified_transfer": 0.7285714285714285,
+      "required_handoffs": 30,
+      "verified_handoffs": 19,
+      "missed_required_handoffs": 11,
+      "unnecessary_handoff_proposals": 0,
+      "handoffs_with_required_packet_fields": 19,
+      "handoffs_appropriate_to_reference": 17,
+      "unauthorized_disclosure_or_action": 0,
+      "materially_wrong_outcomes": 15,
+      "incorrect_outcomes": 27,
+      "final_states": {
+        "resolved": 17,
+        "escalated": 19,
+        "cancelled": 2,
+        "clarification": 24,
+        "case_lookup": 7,
+        "abstained": 1
+      },
+      "latency_ms": {
+        "p50": 4.4553750194609165,
+        "p95": 9.8206689232029,
+        "max": 37.70458302460611,
+        "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+      },
+      "model_api_spend_usd": 0,
+      "model_api_cost_per_attempt_usd": 0.0,
+      "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+      "infrastructure_cost": "unmeasured; host/electricity/hardware excluded",
+      "language_slices": {
+        "es": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 21,
+          "outcome_accuracy": 0.6,
+          "safe_automated_resolutions": 7,
+          "safe_automated_resolution_rate_all_in_scope": 0.23333333333333334,
+          "attempted_automation": 11,
+          "attempted_automation_share_all_cases": 0.3142857142857143,
+          "containment_no_verified_transfer": 0.7142857142857143,
+          "required_handoffs": 15,
+          "verified_handoffs": 10,
+          "missed_required_handoffs": 5,
+          "unnecessary_handoff_proposals": 0,
+          "handoffs_with_required_packet_fields": 10,
+          "handoffs_appropriate_to_reference": 9,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 7,
+          "incorrect_outcomes": 14,
+          "final_states": {
+            "resolved": 8,
+            "escalated": 10,
+            "cancelled": 1,
+            "clarification": 13,
+            "case_lookup": 3
+          },
+          "latency_ms": {
+            "p50": 4.378457902930677,
+            "p95": 10.727412311825896,
+            "max": 37.70458302460611,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "model_api_spend_usd": 0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        },
+        "pt": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 22,
+          "outcome_accuracy": 0.6285714285714286,
+          "safe_automated_resolutions": 8,
+          "safe_automated_resolution_rate_all_in_scope": 0.26666666666666666,
+          "attempted_automation": 13,
+          "attempted_automation_share_all_cases": 0.37142857142857144,
+          "containment_no_verified_transfer": 0.7428571428571429,
+          "required_handoffs": 15,
+          "verified_handoffs": 9,
+          "missed_required_handoffs": 6,
+          "unnecessary_handoff_proposals": 0,
+          "handoffs_with_required_packet_fields": 9,
+          "handoffs_appropriate_to_reference": 8,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 8,
+          "incorrect_outcomes": 13,
+          "final_states": {
+            "resolved": 9,
+            "escalated": 9,
+            "cancelled": 1,
+            "clarification": 11,
+            "case_lookup": 4,
+            "abstained": 1
+          },
+          "latency_ms": {
+            "p50": 4.465915961191058,
+            "p95": 9.074100048746912,
+            "max": 10.47554099932313,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "model_api_spend_usd": 0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        }
+      },
+      "failures": [
+        {
+          "case_id": "challenge-dispute-01-es",
+          "semantic_group": "challenge-dispute-01",
+          "language": "es",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 4.869334050454199
+        },
+        {
+          "case_id": "challenge-dispute-01-pt",
+          "semantic_group": "challenge-dispute-01",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.95133297611028
+        },
+        {
+          "case_id": "challenge-dispute-02-es",
+          "semantic_group": "challenge-dispute-02",
+          "language": "es",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 4.635124932974577
+        },
+        {
+          "case_id": "challenge-dispute-02-pt",
+          "semantic_group": "challenge-dispute-02",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 4.592332988977432
+        },
+        {
+          "case_id": "challenge-dispute-03-es",
+          "semantic_group": "challenge-dispute-03",
+          "language": "es",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 4.811166087165475
+        },
+        {
+          "case_id": "challenge-dispute-03-pt",
+          "semantic_group": "challenge-dispute-03",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.761458072811365
+        },
+        {
+          "case_id": "challenge-dispute-04-pt",
+          "semantic_group": "challenge-dispute-04",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 4.81633294839412
+        },
+        {
+          "case_id": "challenge-scam-01-es",
+          "semantic_group": "challenge-scam-01",
+          "language": "es",
+          "expected_intent": "scam",
+          "predicted_intent": "human",
+          "final_state": "escalated",
+          "state_sequence": [
+            "awaiting_confirmation",
+            "escalated"
+          ],
+          "calls": 3,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": true,
+          "required_handoff": true,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": true,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 6.973709096200764
+        },
+        {
+          "case_id": "challenge-scam-01-pt",
+          "semantic_group": "challenge-scam-01",
+          "language": "pt",
+          "expected_intent": "scam",
+          "predicted_intent": "human",
+          "final_state": "escalated",
+          "state_sequence": [
+            "awaiting_confirmation",
+            "escalated"
+          ],
+          "calls": 3,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": true,
+          "required_handoff": true,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": true,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 8.702749968506396
+        },
+        {
+          "case_id": "challenge-scam-04-es",
+          "semantic_group": "challenge-scam-04",
+          "language": "es",
+          "expected_intent": "scam",
+          "predicted_intent": "unsupported",
+          "final_state": "cancelled",
+          "state_sequence": [
+            "cancelled"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.0648339996114373
+        },
+        {
+          "case_id": "challenge-scam-04-pt",
+          "semantic_group": "challenge-scam-04",
+          "language": "pt",
+          "expected_intent": "scam",
+          "predicted_intent": "unsupported",
+          "final_state": "cancelled",
+          "state_sequence": [
+            "cancelled"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.3867080453783274
+        },
+        {
+          "case_id": "challenge-human-05-es",
+          "semantic_group": "challenge-human-05",
+          "language": "es",
+          "expected_intent": "human",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.9301659669727087
+        },
+        {
+          "case_id": "challenge-human-05-pt",
+          "semantic_group": "challenge-human-05",
+          "language": "pt",
+          "expected_intent": "human",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.370791044086218
+        },
+        {
+          "case_id": "challenge-case_status-01-es",
+          "semantic_group": "challenge-case_status-01",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.355500007979572
+        },
+        {
+          "case_id": "challenge-case_status-03-es",
+          "semantic_group": "challenge-case_status-03",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 1.940708956681192
+        },
+        {
+          "case_id": "challenge-case_status-03-pt",
+          "semantic_group": "challenge-case_status-03",
+          "language": "pt",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.0139170810580254
+        },
+        {
+          "case_id": "challenge-case_status-05-es",
+          "semantic_group": "challenge-case_status-05",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.11908295750618
+        },
+        {
+          "case_id": "challenge-case_status-05-pt",
+          "semantic_group": "challenge-case_status-05",
+          "language": "pt",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.261833054944873
+        },
+        {
+          "case_id": "challenge-unsupported-01-es",
+          "semantic_group": "challenge-unsupported-01",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.0350000597536564
+        },
+        {
+          "case_id": "challenge-unsupported-01-pt",
+          "semantic_group": "challenge-unsupported-01",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.568500000052154
+        },
+        {
+          "case_id": "challenge-unsupported-02-es",
+          "semantic_group": "challenge-unsupported-02",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 1.835417002439499
+        },
+        {
+          "case_id": "challenge-unsupported-03-es",
+          "semantic_group": "challenge-unsupported-03",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.0415830658748746
+        },
+        {
+          "case_id": "challenge-unsupported-03-pt",
+          "semantic_group": "challenge-unsupported-03",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.872499986551702
+        },
+        {
+          "case_id": "challenge-unsupported-04-es",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "case_status",
+          "final_state": "case_lookup",
+          "state_sequence": [
+            "case_lookup"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 3.167959046550095
+        },
+        {
+          "case_id": "challenge-unsupported-04-pt",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "case_status",
+          "final_state": "case_lookup",
+          "state_sequence": [
+            "case_lookup"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.2394589614123106
+        },
+        {
+          "case_id": "challenge-unsupported-05-es",
+          "semantic_group": "challenge-unsupported-05",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.498083049431443
+        },
+        {
+          "case_id": "challenge-unsupported-05-pt",
+          "semantic_group": "challenge-unsupported-05",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.4520419538021088
+        }
+      ],
+      "fault_suite": {
+        "cases": 16,
+        "passed": 16,
+        "results": [
+          {
+            "scenario": "unauthenticated_records",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "unauthenticated_records",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "pt",
+            "passed": true
+          }
+        ]
+      }
+    },
+    "tfidf_logistic": {
+      "cases": 70,
+      "in_scope_cases": 60,
+      "correct_outcomes": 61,
+      "outcome_accuracy": 0.8714285714285714,
+      "safe_automated_resolutions": 18,
+      "safe_automated_resolution_rate_all_in_scope": 0.3,
+      "attempted_automation": 18,
+      "attempted_automation_share_all_cases": 0.2571428571428571,
+      "containment_no_verified_transfer": 0.6,
+      "required_handoffs": 30,
+      "verified_handoffs": 28,
+      "missed_required_handoffs": 2,
+      "unnecessary_handoff_proposals": 4,
+      "handoffs_with_required_packet_fields": 28,
+      "handoffs_appropriate_to_reference": 28,
+      "unauthorized_disclosure_or_action": 0,
+      "materially_wrong_outcomes": 2,
+      "incorrect_outcomes": 9,
+      "final_states": {
+        "resolved": 9,
+        "awaiting_confirmation": 4,
+        "escalated": 28,
+        "cancelled": 2,
+        "case_lookup": 9,
+        "clarification": 11,
+        "abstained": 7
+      },
+      "latency_ms": {
+        "p50": 6.267666525673121,
+        "p95": 11.942214262671769,
+        "max": 18.881791969761252,
+        "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+      },
+      "model_api_spend_usd": 0,
+      "model_api_cost_per_attempt_usd": 0.0,
+      "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+      "infrastructure_cost": "unmeasured; host/electricity/hardware excluded",
+      "language_slices": {
+        "es": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 31,
+          "outcome_accuracy": 0.8857142857142857,
+          "safe_automated_resolutions": 9,
+          "safe_automated_resolution_rate_all_in_scope": 0.3,
+          "attempted_automation": 9,
+          "attempted_automation_share_all_cases": 0.2571428571428571,
+          "containment_no_verified_transfer": 0.6,
+          "required_handoffs": 15,
+          "verified_handoffs": 14,
+          "missed_required_handoffs": 1,
+          "unnecessary_handoff_proposals": 1,
+          "handoffs_with_required_packet_fields": 14,
+          "handoffs_appropriate_to_reference": 14,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 1,
+          "incorrect_outcomes": 4,
+          "final_states": {
+            "resolved": 5,
+            "escalated": 14,
+            "cancelled": 1,
+            "case_lookup": 4,
+            "clarification": 6,
+            "awaiting_confirmation": 1,
+            "abstained": 4
+          },
+          "latency_ms": {
+            "p50": 6.101374980062246,
+            "p95": 12.976170727051793,
+            "max": 18.881791969761252,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "model_api_spend_usd": 0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        },
+        "pt": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 30,
+          "outcome_accuracy": 0.8571428571428571,
+          "safe_automated_resolutions": 9,
+          "safe_automated_resolution_rate_all_in_scope": 0.3,
+          "attempted_automation": 9,
+          "attempted_automation_share_all_cases": 0.2571428571428571,
+          "containment_no_verified_transfer": 0.6,
+          "required_handoffs": 15,
+          "verified_handoffs": 14,
+          "missed_required_handoffs": 1,
+          "unnecessary_handoff_proposals": 3,
+          "handoffs_with_required_packet_fields": 14,
+          "handoffs_appropriate_to_reference": 14,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 1,
+          "incorrect_outcomes": 5,
+          "final_states": {
+            "awaiting_confirmation": 3,
+            "resolved": 4,
+            "escalated": 14,
+            "cancelled": 1,
+            "case_lookup": 5,
+            "clarification": 5,
+            "abstained": 3
+          },
+          "latency_ms": {
+            "p50": 6.330583011731505,
+            "p95": 10.831970744766293,
+            "max": 11.783999972976744,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "model_api_spend_usd": 0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        }
+      },
+      "failures": [
+        {
+          "case_id": "challenge-transaction_status-01-pt",
+          "semantic_group": "challenge-transaction_status-01",
+          "language": "pt",
+          "expected_intent": "transaction_status",
+          "predicted_intent": "dispute",
+          "final_state": "awaiting_confirmation",
+          "state_sequence": [
+            "clarification",
+            "awaiting_confirmation"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": true,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 6.330583011731505
+        },
+        {
+          "case_id": "challenge-scam-04-es",
+          "semantic_group": "challenge-scam-04",
+          "language": "es",
+          "expected_intent": "scam",
+          "predicted_intent": "unsupported",
+          "final_state": "cancelled",
+          "state_sequence": [
+            "cancelled"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.0403750240802765
+        },
+        {
+          "case_id": "challenge-scam-04-pt",
+          "semantic_group": "challenge-scam-04",
+          "language": "pt",
+          "expected_intent": "scam",
+          "predicted_intent": "unsupported",
+          "final_state": "cancelled",
+          "state_sequence": [
+            "cancelled"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.728166989982128
+        },
+        {
+          "case_id": "challenge-case_status-03-es",
+          "semantic_group": "challenge-case_status-03",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "transaction_status",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.0027920147404075
+        },
+        {
+          "case_id": "challenge-ambiguous-04-es",
+          "semantic_group": "challenge-ambiguous-04",
+          "language": "es",
+          "expected_intent": "ambiguous",
+          "predicted_intent": "scam",
+          "final_state": "awaiting_confirmation",
+          "state_sequence": [
+            "awaiting_confirmation"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": true,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.2463750103488564
+        },
+        {
+          "case_id": "challenge-ambiguous-04-pt",
+          "semantic_group": "challenge-ambiguous-04",
+          "language": "pt",
+          "expected_intent": "ambiguous",
+          "predicted_intent": "scam",
+          "final_state": "awaiting_confirmation",
+          "state_sequence": [
+            "awaiting_confirmation"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": true,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 4.562624963000417
+        },
+        {
+          "case_id": "challenge-unsupported-01-pt",
+          "semantic_group": "challenge-unsupported-01",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "scam",
+          "final_state": "awaiting_confirmation",
+          "state_sequence": [
+            "awaiting_confirmation"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": true,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.440749947912991
+        },
+        {
+          "case_id": "challenge-unsupported-04-es",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "dispute",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.1444159103557467
+        },
+        {
+          "case_id": "challenge-unsupported-04-pt",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "appropriate_for_reference_intent": false
+          },
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.9338339120149612
+        }
+      ],
+      "fault_suite": {
+        "cases": 16,
+        "passed": 16,
+        "results": [
+          {
+            "scenario": "unauthenticated_records",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "unauthenticated_records",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "pt",
+            "passed": true
+          }
+        ]
+      }
+    }
+  }
+}

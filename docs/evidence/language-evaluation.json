@@ -1,0 +1,1206 @@
+{
+  "benchmark_version": "synthetic-intent-v1",
+  "model_version": "tfidf-logistic-v1-adcd11553cf4",
+  "corpus_manifest": {
+    "version": "synthetic-intent-v1",
+    "created": "2026-10-02",
+    "author": "Codex assisted team authoring",
+    "review": "No independent human or native Portuguese review. Labels are author-defined test expectations, not ground truth about production customers.",
+    "group_policy": "Each bilingual pair shares a semantic_group and stays within one split. No exact normalized-text duplicates across splits. Top-level intents necessarily recur; scenario motifs and wording were authored separately. This is a synthetic challenge suite, not a natural-demand sample.",
+    "split_policy": "Train/dev/test frozen before evaluation; model fitted only on train, hyperparameters/threshold selected only on dev. Future test-driven improvements require a new untouched benchmark.",
+    "splits": {
+      "train": {
+        "file": "language_train.json",
+        "sha256": "a24244c817827e7fca213d99ccb1ecc1e7712d7ade3049ef93daf68247c17b62",
+        "cases": 196,
+        "semantic_groups": 98,
+        "languages": {
+          "es": 98,
+          "pt": 98
+        }
+      },
+      "dev": {
+        "file": "language_dev.json",
+        "sha256": "683ab9aa940631651685ff96f4af8033adaa9e32edd77a4b42545cc5971b211d",
+        "cases": 56,
+        "semantic_groups": 28,
+        "languages": {
+          "es": 28,
+          "pt": 28
+        }
+      },
+      "test": {
+        "file": "language_test.json",
+        "sha256": "f07b57b6c1f1629c8b43bc27ca2686886c320e15a2768be7a919e1c83b5aa5e7",
+        "cases": 140,
+        "semantic_groups": 70,
+        "languages": {
+          "es": 70,
+          "pt": 70
+        }
+      }
+    }
+  },
+  "integrity": {
+    "cross_split_groups": 0,
+    "exact_normalized_duplicates": 0,
+    "test_cases": 140
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "sklearn": "1.9.1"
+  },
+  "evaluation_scope": "Component classification on 140 authored synthetic cases; not workflow success, production accuracy, or verified safety.",
+  "cost": {
+    "model_api_spend_usd": 0,
+    "remote_requests": 0,
+    "electricity_hardware_and_hosting_cost": "not measured; local execution is not costless infrastructure"
+  },
+  "systems": {
+    "keyword_rules": {
+      "cases": 140,
+      "accuracy": 0.4642857142857143,
+      "macro_f1": 0.4207225266694013,
+      "per_intent": {
+        "transaction_status": {
+          "precision": 0.5185185185185185,
+          "recall": 0.7,
+          "f1-score": 0.5957446808510638,
+          "support": 20.0
+        },
+        "dispute": {
+          "precision": 1.0,
+          "recall": 0.1,
+          "f1-score": 0.18181818181818182,
+          "support": 20.0
+        },
+        "scam": {
+          "precision": 1.0,
+          "recall": 0.2,
+          "f1-score": 0.3333333333333333,
+          "support": 20.0
+        },
+        "human": {
+          "precision": 0.7,
+          "recall": 0.7,
+          "f1-score": 0.7,
+          "support": 20.0
+        },
+        "case_status": {
+          "precision": 0.8666666666666667,
+          "recall": 0.65,
+          "f1-score": 0.7428571428571429,
+          "support": 20.0
+        },
+        "ambiguous": {
+          "precision": 0.25,
+          "recall": 0.9,
+          "f1-score": 0.391304347826087,
+          "support": 20.0
+        },
+        "unsupported": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 20.0
+        },
+        "accuracy": 0.4642857142857143,
+        "macro avg": {
+          "precision": 0.6193121693121694,
+          "recall": 0.4642857142857143,
+          "f1-score": 0.4207225266694013,
+          "support": 140.0
+        },
+        "weighted avg": {
+          "precision": 0.6193121693121693,
+          "recall": 0.4642857142857143,
+          "f1-score": 0.4207225266694013,
+          "support": 140.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "transaction_status",
+          "dispute",
+          "scam",
+          "human",
+          "case_status",
+          "ambiguous",
+          "unsupported"
+        ],
+        "counts": [
+          [
+            14,
+            0,
+            0,
+            2,
+            0,
+            4,
+            0
+          ],
+          [
+            8,
+            2,
+            0,
+            0,
+            0,
+            10,
+            0
+          ],
+          [
+            2,
+            0,
+            4,
+            2,
+            0,
+            12,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            14,
+            0,
+            4,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            13,
+            7,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            2,
+            18,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            2,
+            0,
+            17,
+            0
+          ]
+        ]
+      },
+      "ambiguous_outputs": 72,
+      "customer_report_cases": 40,
+      "customer_reports_routed_to_human_required_intent": 8,
+      "customer_reports_routed_to_clarification": 22,
+      "customer_reports_misrouted_to_other_intent": 10,
+      "unnecessary_human_intent": 4,
+      "language_slices": {
+        "es": {
+          "cases": 70,
+          "accuracy": 0.4857142857142857,
+          "macro_f1": 0.44812409812409815
+        },
+        "pt": {
+          "cases": 70,
+          "accuracy": 0.44285714285714284,
+          "macro_f1": 0.38898733406406044
+        }
+      },
+      "failures": [
+        {
+          "case_id": "test-transaction_status-05-es",
+          "expected": "transaction_status",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-transaction_status-05-pt",
+          "expected": "transaction_status",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-transaction_status-07-es",
+          "expected": "transaction_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-transaction_status-07-pt",
+          "expected": "transaction_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-transaction_status-09-es",
+          "expected": "transaction_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-transaction_status-09-pt",
+          "expected": "transaction_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-01-es",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-01-pt",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-02-es",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-02-pt",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-03-es",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-03-pt",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-04-pt",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-05-pt",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-06-es",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-06-pt",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-07-es",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-07-pt",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-08-es",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-08-pt",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-09-es",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-09-pt",
+          "expected": "dispute",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-dispute-10-es",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-dispute-10-pt",
+          "expected": "dispute",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-01-es",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-01-pt",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-02-es",
+          "expected": "scam",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-scam-02-pt",
+          "expected": "scam",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-scam-03-es",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-03-pt",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-04-es",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-04-pt",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-05-es",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-05-pt",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-08-es",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-08-pt",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-09-es",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-09-pt",
+          "expected": "scam",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-scam-10-es",
+          "expected": "scam",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-scam-10-pt",
+          "expected": "scam",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-human-05-es",
+          "expected": "human",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-human-05-pt",
+          "expected": "human",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-human-07-es",
+          "expected": "human",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-human-07-pt",
+          "expected": "human",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-human-10-es",
+          "expected": "human",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-human-10-pt",
+          "expected": "human",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-case_status-05-es",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-case_status-05-pt",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-case_status-07-es",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-case_status-07-pt",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-case_status-09-es",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-case_status-09-pt",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-case_status-10-pt",
+          "expected": "case_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-ambiguous-10-es",
+          "expected": "ambiguous",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-ambiguous-10-pt",
+          "expected": "ambiguous",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-unsupported-01-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-01-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-02-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-02-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-03-es",
+          "expected": "unsupported",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-unsupported-03-pt",
+          "expected": "unsupported",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-unsupported-04-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-04-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-05-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-05-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-06-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-06-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-07-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-07-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-08-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-08-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-09-es",
+          "expected": "unsupported",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-unsupported-09-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-10-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-10-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        }
+      ],
+      "inference_errors": 0,
+      "latency_ms": {
+        "warmup": 0.6958749145269394,
+        "p50": 0.012916512787342072,
+        "p95": 0.020910415332764377,
+        "max": 0.06370805203914642,
+        "request_count": 140,
+        "workload": "sequential single process; one warm prediction per case; includes Python router, excludes HTTP and tools"
+      },
+      "token_usage": {
+        "prompt": 0,
+        "output": 0
+      }
+    },
+    "tfidf_logistic": {
+      "cases": 140,
+      "accuracy": 0.8357142857142857,
+      "macro_f1": 0.8229716276754603,
+      "per_intent": {
+        "transaction_status": {
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1-score": 0.75,
+          "support": 20.0
+        },
+        "dispute": {
+          "precision": 0.7142857142857143,
+          "recall": 1.0,
+          "f1-score": 0.8333333333333334,
+          "support": 20.0
+        },
+        "scam": {
+          "precision": 0.8571428571428571,
+          "recall": 0.9,
+          "f1-score": 0.8780487804878049,
+          "support": 20.0
+        },
+        "human": {
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "f1-score": 0.9523809523809523,
+          "support": 20.0
+        },
+        "case_status": {
+          "precision": 0.9523809523809523,
+          "recall": 1.0,
+          "f1-score": 0.975609756097561,
+          "support": 20.0
+        },
+        "ambiguous": {
+          "precision": 0.8,
+          "recall": 0.8,
+          "f1-score": 0.8,
+          "support": 20.0
+        },
+        "unsupported": {
+          "precision": 1.0,
+          "recall": 0.4,
+          "f1-score": 0.5714285714285714,
+          "support": 20.0
+        },
+        "accuracy": 0.8357142857142857,
+        "macro avg": {
+          "precision": 0.8547000618429189,
+          "recall": 0.8357142857142857,
+          "f1-score": 0.8229716276754603,
+          "support": 140.0
+        },
+        "weighted avg": {
+          "precision": 0.8547000618429189,
+          "recall": 0.8357142857142857,
+          "f1-score": 0.8229716276754605,
+          "support": 140.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "transaction_status",
+          "dispute",
+          "scam",
+          "human",
+          "case_status",
+          "ambiguous",
+          "unsupported"
+        ],
+        "counts": [
+          [
+            15,
+            2,
+            0,
+            2,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            20,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            18,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            20,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            20,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            1,
+            0,
+            1,
+            16,
+            0
+          ],
+          [
+            3,
+            4,
+            2,
+            0,
+            0,
+            3,
+            8
+          ]
+        ]
+      },
+      "ambiguous_outputs": 20,
+      "customer_report_cases": 40,
+      "customer_reports_routed_to_human_required_intent": 40,
+      "customer_reports_routed_to_clarification": 0,
+      "customer_reports_misrouted_to_other_intent": 0,
+      "unnecessary_human_intent": 11,
+      "language_slices": {
+        "es": {
+          "cases": 70,
+          "accuracy": 0.8142857142857143,
+          "macro_f1": 0.800501253132832
+        },
+        "pt": {
+          "cases": 70,
+          "accuracy": 0.8571428571428571,
+          "macro_f1": 0.8455782312925171
+        }
+      },
+      "failures": [
+        {
+          "case_id": "test-transaction_status-05-es",
+          "expected": "transaction_status",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-transaction_status-05-pt",
+          "expected": "transaction_status",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-transaction_status-06-es",
+          "expected": "transaction_status",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-transaction_status-10-es",
+          "expected": "transaction_status",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-transaction_status-10-pt",
+          "expected": "transaction_status",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-scam-10-es",
+          "expected": "scam",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-scam-10-pt",
+          "expected": "scam",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-ambiguous-01-es",
+          "expected": "ambiguous",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-ambiguous-06-es",
+          "expected": "ambiguous",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-ambiguous-06-pt",
+          "expected": "ambiguous",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-ambiguous-09-es",
+          "expected": "ambiguous",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-unsupported-02-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-02-pt",
+          "expected": "unsupported",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-unsupported-03-es",
+          "expected": "unsupported",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-unsupported-03-pt",
+          "expected": "unsupported",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-unsupported-04-es",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-unsupported-04-pt",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-unsupported-05-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-05-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-06-es",
+          "expected": "unsupported",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-unsupported-06-pt",
+          "expected": "unsupported",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-unsupported-10-es",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-unsupported-10-pt",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        }
+      ],
+      "inference_errors": 0,
+      "latency_ms": {
+        "warmup": 2.4205000372603536,
+        "p50": 0.38981257239356637,
+        "p95": 0.5746733339037743,
+        "max": 0.7309590000659227,
+        "request_count": 140,
+        "workload": "sequential single process; one warm prediction per case; includes Python router, excludes HTTP and tools"
+      },
+      "token_usage": {
+        "prompt": 0,
+        "output": 0
+      }
+    },
+    "gemma3_4b_local": {
+      "cases": 140,
+      "accuracy": 0.8214285714285714,
+      "macro_f1": 0.8045192698491049,
+      "per_intent": {
+        "transaction_status": {
+          "precision": 0.9411764705882353,
+          "recall": 0.8,
+          "f1-score": 0.8648648648648649,
+          "support": 20.0
+        },
+        "dispute": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1-score": 0.9090909090909091,
+          "support": 20.0
+        },
+        "scam": {
+          "precision": 0.7692307692307693,
+          "recall": 1.0,
+          "f1-score": 0.8695652173913043,
+          "support": 20.0
+        },
+        "human": {
+          "precision": 0.7142857142857143,
+          "recall": 1.0,
+          "f1-score": 0.8333333333333334,
+          "support": 20.0
+        },
+        "case_status": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1-score": 0.9090909090909091,
+          "support": 20.0
+        },
+        "ambiguous": {
+          "precision": 0.8333333333333334,
+          "recall": 0.5,
+          "f1-score": 0.625,
+          "support": 20.0
+        },
+        "unsupported": {
+          "precision": 1.0,
+          "recall": 0.45,
+          "f1-score": 0.6206896551724138,
+          "support": 20.0
+        },
+        "accuracy": 0.8214285714285714,
+        "macro avg": {
+          "precision": 0.8463847077292455,
+          "recall": 0.8214285714285714,
+          "f1-score": 0.8045192698491049,
+          "support": 140.0
+        },
+        "weighted avg": {
+          "precision": 0.8463847077292457,
+          "recall": 0.8214285714285714,
+          "f1-score": 0.8045192698491049,
+          "support": 140.0
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "transaction_status",
+          "dispute",
+          "scam",
+          "human",
+          "case_status",
+          "ambiguous",
+          "unsupported"
+        ],
+        "counts": [
+          [
+            16,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0
+          ],
+          [
+            0,
+            20,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            20,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            20,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            20,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            2,
+            7,
+            0,
+            10,
+            0
+          ],
+          [
+            0,
+            4,
+            4,
+            1,
+            0,
+            2,
+            9
+          ]
+        ]
+      },
+      "ambiguous_outputs": 12,
+      "customer_report_cases": 40,
+      "customer_reports_routed_to_human_required_intent": 40,
+      "customer_reports_routed_to_clarification": 0,
+      "customer_reports_misrouted_to_other_intent": 0,
+      "unnecessary_human_intent": 18,
+      "language_slices": {
+        "es": {
+          "cases": 70,
+          "accuracy": 0.8285714285714286,
+          "macro_f1": 0.8130120261127126
+        },
+        "pt": {
+          "cases": 70,
+          "accuracy": 0.8142857142857143,
+          "macro_f1": 0.7961520708415117
+        }
+      },
+      "failures": [
+        {
+          "case_id": "test-transaction_status-02-es",
+          "expected": "transaction_status",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-transaction_status-03-pt",
+          "expected": "transaction_status",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-transaction_status-09-es",
+          "expected": "transaction_status",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-transaction_status-09-pt",
+          "expected": "transaction_status",
+          "predicted": "case_status"
+        },
+        {
+          "case_id": "test-ambiguous-01-es",
+          "expected": "ambiguous",
+          "predicted": "transaction_status"
+        },
+        {
+          "case_id": "test-ambiguous-01-pt",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-ambiguous-03-es",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-ambiguous-03-pt",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-ambiguous-04-es",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-ambiguous-04-pt",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-ambiguous-06-es",
+          "expected": "ambiguous",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-ambiguous-06-pt",
+          "expected": "ambiguous",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-ambiguous-07-es",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-ambiguous-07-pt",
+          "expected": "ambiguous",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-unsupported-03-pt",
+          "expected": "unsupported",
+          "predicted": "human"
+        },
+        {
+          "case_id": "test-unsupported-04-es",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-unsupported-04-pt",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-unsupported-05-es",
+          "expected": "unsupported",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-unsupported-05-pt",
+          "expected": "unsupported",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-unsupported-06-es",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-06-pt",
+          "expected": "unsupported",
+          "predicted": "ambiguous"
+        },
+        {
+          "case_id": "test-unsupported-08-es",
+          "expected": "unsupported",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-unsupported-08-pt",
+          "expected": "unsupported",
+          "predicted": "scam"
+        },
+        {
+          "case_id": "test-unsupported-10-es",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        },
+        {
+          "case_id": "test-unsupported-10-pt",
+          "expected": "unsupported",
+          "predicted": "dispute"
+        }
+      ],
+      "inference_errors": 0,
+      "latency_ms": {
+        "warmup": 5255.477332975715,
+        "p50": 640.6621874775738,
+        "p95": 752.462197910063,
+        "max": 826.8488750327379,
+        "request_count": 140,
+        "workload": "sequential single process; one warm prediction per case; includes Python router, excludes HTTP and tools"
+      },
+      "token_usage": {
+        "prompt": 37198,
+        "output": 1133
+      }
+    }
+  },
+  "gemma_release": {
+    "digest": "a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a",
+    "prompt_sha256": "44be9c232e5d04669e5c3973a428f18a255bef3544975a6c47027a8547182c93",
+    "temperature": 0,
+    "seed": 2026,
+    "runs": 1,
+    "availability": "optional workstation model, not deployed CPU default"
+  },
+  "paired_comparison": {
+    "method": "paired semantic-group percentile bootstrap, seed 2026, 1000 draws",
+    "macro_f1_difference_95_percent_interval": [
+      0.2731651614822591,
+      0.529277043381202
+    ],
+    "scope": "sampling variation within authored groups only, excludes author/label bias"
+  }
+}

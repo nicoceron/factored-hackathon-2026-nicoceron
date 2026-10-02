@@ -11,7 +11,7 @@ make check
 make dev
 ```
 
-`make dev` binds to localhost. Use `make dev PORT=8010` if 8000 is in use. `/docs` is the generated API documentation, `/healthz` reports process health, and `/readyz` returns 503 because no banking workflow has been implemented. This is a development scaffold, not the submission demo.
+`make dev` binds to localhost. Use `make dev PORT=8010` if 8000 is in use. `/docs` is the generated API documentation, `/healthz` reports process health, and `/readyz` verifies the released language model. The root page is the complete Spanish/Portuguese sandbox. No participant credentials or organizer records are needed to run the demo or tests.
 
 ## Participant dataset access
 
@@ -66,7 +66,7 @@ uv run --locked python -m factored_banking.profile \
   --output artifacts/focused-profile.json
 ```
 
-The database stores organizer data and must remain local. Review aggregate results before copying them to `docs/`. Future serving-data preparation must add full typed contracts, deduplication/quarantine policy, freshness, authorization-compatible projections, and update tests. The present audit checks minimum column presence and PK integrity, not every dictionary constraint.
+The audit database stores organizer data and must remain local. Review aggregate results before copying them to `docs/`. The audit is diagnostic; the separate `make pipeline` step applies typed serving contracts, duplicate/conflict quarantine, lineage and atomic snapshot replacement. See [DATA_PIPELINE.md](DATA_PIPELINE.md) for availability clocks, strict-prior features and update fixtures. `make train-fraud` reproduces temporal experiments; `make evaluate` compares the complete HTTP workflows without external model calls.
 
 ## Container and deployment path
 
@@ -75,7 +75,15 @@ docker build -t factored-banking:dev .
 docker run --rm -p 127.0.0.1:8000:8000 factored-banking:dev
 ```
 
-The Docker context is an allowlist: code and dependency definitions only. No organizer records or credentials enter the image. The container runs as a non-root user. This Dockerfile is a packaging foundation; see the setup verification report for whether a Docker engine was available during setup. Choose hosting after the workflow, trusted demo session, costs, and approved demo data are defined. A deployed scaffold would not satisfy the challenge.
+The Docker context is an allowlist: code and dependency definitions only. No organizer records or credentials enter the image. The container runs as a non-root user. The image includes only public fixtures, frozen model artifacts and application assets. It runs one worker and writes sandbox state to `/state`; mount a local volume there for persistence. Use `CLARO_SECURE=1` and an exact `CLARO_ORIGIN` on HTTPS hosts. [DEPLOYMENT.md](DEPLOYMENT.md) records the free hosted configuration and release verification. Free-host state is ephemeral and can disappear after idle/restart.
+
+## Reviewer smoke check
+
+```bash
+python3 scripts/smoke.py http://127.0.0.1:8000
+```
+
+This uses actual HTTP sessions for ES/PT, creates and reads verified cases, repeats an idempotent confirmation, records an analyst review, then erases its own isolated test workspace.
 
 ## Official references read before implementation
 

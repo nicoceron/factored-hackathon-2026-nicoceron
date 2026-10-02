@@ -1,0 +1,506 @@
+[
+  {
+    "id": "dev-transaction_status-01-es",
+    "semantic_group": "dev-transaction_status-01",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "Revisa si el abono del lunes quedó confirmado.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-01-pt",
+    "semantic_group": "dev-transaction_status-01",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Verifique se o crédito de segunda ficou confirmado.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-02-es",
+    "semantic_group": "dev-transaction_status-02",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "La operación figura como pendiente, ¿qué dice el registro?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-02-pt",
+    "semantic_group": "dev-transaction_status-02",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "A operação consta como pendente, o que diz o registro?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-03-es",
+    "semantic_group": "dev-transaction_status-03",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "No necesito un humano, solo el estado de este pago.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-03-pt",
+    "semantic_group": "dev-transaction_status-03",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Não preciso de um humano, apenas do estado deste pagamento.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-04-es",
+    "semantic_group": "dev-transaction_status-04",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "Quisiera conocer el importe y la fecha del débito.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-transaction_status-04-pt",
+    "semantic_group": "dev-transaction_status-04",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Gostaria de saber o valor e a data do débito.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-01-es",
+    "semantic_group": "dev-dispute-01",
+    "language": "es",
+    "intent": "dispute",
+    "text": "En mi tarjeta hay una suscripción que jamás acepté.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-01-pt",
+    "semantic_group": "dev-dispute-01",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "No meu cartão há uma assinatura que nunca aceitei.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-02-es",
+    "semantic_group": "dev-dispute-02",
+    "language": "es",
+    "intent": "dispute",
+    "text": "Se duplicó el cobro del supermercado y quiero reclamar.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-02-pt",
+    "semantic_group": "dev-dispute-02",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "A cobrança do supermercado foi duplicada e quero contestar.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-03-es",
+    "semantic_group": "dev-dispute-03",
+    "language": "es",
+    "intent": "dispute",
+    "text": "No di permiso para el débito de ese servicio.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-03-pt",
+    "semantic_group": "dev-dispute-03",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Não dei permissão para o débito desse serviço.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-04-es",
+    "semantic_group": "dev-dispute-04",
+    "language": "es",
+    "intent": "dispute",
+    "text": "Reconozco la tienda pero esa compra no fue mía.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-dispute-04-pt",
+    "semantic_group": "dev-dispute-04",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Reconheço a loja mas essa compra não foi minha.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-01-es",
+    "semantic_group": "dev-scam-01",
+    "language": "es",
+    "intent": "scam",
+    "text": "Un SMS me llevó a un sitio falso donde puse mi PIN.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-01-pt",
+    "semantic_group": "dev-scam-01",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Um SMS me levou a um site falso onde coloquei meu PIN.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-02-es",
+    "semantic_group": "dev-scam-02",
+    "language": "es",
+    "intent": "scam",
+    "text": "Dicen ser del banco y exigen mi token para protegerme.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-02-pt",
+    "semantic_group": "dev-scam-02",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Dizem ser do banco e exigem meu token para me proteger.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-03-es",
+    "semantic_group": "dev-scam-03",
+    "language": "es",
+    "intent": "scam",
+    "text": "Me están extorsionando para que haga un depósito.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-03-pt",
+    "semantic_group": "dev-scam-03",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Estão me extorquindo para que eu faça um depósito.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-04-es",
+    "semantic_group": "dev-scam-04",
+    "language": "es",
+    "intent": "scam",
+    "text": "El supuesto asesor quiere que instale un programa remoto.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-scam-04-pt",
+    "semantic_group": "dev-scam-04",
+    "language": "pt",
+    "intent": "scam",
+    "text": "O suposto assessor quer que eu instale um programa remoto.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-01-es",
+    "semantic_group": "dev-human-01",
+    "language": "es",
+    "intent": "human",
+    "text": "Necesito que un empleado revise esto conmigo.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-01-pt",
+    "semantic_group": "dev-human-01",
+    "language": "pt",
+    "intent": "human",
+    "text": "Preciso que um funcionário analise isso comigo.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-02-es",
+    "semantic_group": "dev-human-02",
+    "language": "es",
+    "intent": "human",
+    "text": "Me gustaría continuar esta conversación con una asesora.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-02-pt",
+    "semantic_group": "dev-human-02",
+    "language": "pt",
+    "intent": "human",
+    "text": "Gostaria de continuar esta conversa com uma atendente.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-03-es",
+    "semantic_group": "dev-human-03",
+    "language": "es",
+    "intent": "human",
+    "text": "Estoy molesto, quiero hablar con un supervisor.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-03-pt",
+    "semantic_group": "dev-human-03",
+    "language": "pt",
+    "intent": "human",
+    "text": "Estou irritado, quero falar com um supervisor.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-04-es",
+    "semantic_group": "dev-human-04",
+    "language": "es",
+    "intent": "human",
+    "text": "Conéctame con atención al cliente humana.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-human-04-pt",
+    "semantic_group": "dev-human-04",
+    "language": "pt",
+    "intent": "human",
+    "text": "Conecte-me com atendimento ao cliente humano.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-01-es",
+    "semantic_group": "dev-case_status-01",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Busco novedades del expediente que abrí la semana pasada.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-01-pt",
+    "semantic_group": "dev-case_status-01",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Procuro novidades do processo que abri na semana passada.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-02-es",
+    "semantic_group": "dev-case_status-02",
+    "language": "es",
+    "intent": "case_status",
+    "text": "¿Dónde puedo ver cómo va mi protocolo de reclamo?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-02-pt",
+    "semantic_group": "dev-case_status-02",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Onde posso ver o andamento do meu protocolo de reclamação?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-03-es",
+    "semantic_group": "dev-case_status-03",
+    "language": "es",
+    "intent": "case_status",
+    "text": "¿Sigue pendiente mi caso de cargo duplicado?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-03-pt",
+    "semantic_group": "dev-case_status-03",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Meu caso de cobrança duplicada continua pendente?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-04-es",
+    "semantic_group": "dev-case_status-04",
+    "language": "es",
+    "intent": "case_status",
+    "text": "No quiero abrir otro reclamo, quiero el estado del anterior.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-case_status-04-pt",
+    "semantic_group": "dev-case_status-04",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Não quero abrir outra reclamação, quero o estado da anterior.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-01-es",
+    "semantic_group": "dev-ambiguous-01",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Me refiero al otro.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-01-pt",
+    "semantic_group": "dev-ambiguous-01",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Estou falando do outro.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-02-es",
+    "semantic_group": "dev-ambiguous-02",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "¿Ya quedó listo?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-02-pt",
+    "semantic_group": "dev-ambiguous-02",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Já ficou pronto?",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-03-es",
+    "semantic_group": "dev-ambiguous-03",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Es eso que te dije.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-03-pt",
+    "semantic_group": "dev-ambiguous-03",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "É aquilo que eu te falei.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-04-es",
+    "semantic_group": "dev-ambiguous-04",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "No sé si preguntar por un pago o por un caso.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-ambiguous-04-pt",
+    "semantic_group": "dev-ambiguous-04",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Não sei se pergunto por um pagamento ou por um caso.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-01-es",
+    "semantic_group": "dev-unsupported-01",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Necesito que hagas un retiro en mi nombre.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-01-pt",
+    "semantic_group": "dev-unsupported-01",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Preciso que faça um saque em meu nome.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-02-es",
+    "semantic_group": "dev-unsupported-02",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Quiero reservar un vuelo.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-02-pt",
+    "semantic_group": "dev-unsupported-02",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Quero reservar um voo.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-03-es",
+    "semantic_group": "dev-unsupported-03",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Desactiva la autenticación para que entre sin clave.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-03-pt",
+    "semantic_group": "dev-unsupported-03",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Desative a autenticação para eu entrar sem senha.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-04-es",
+    "semantic_group": "dev-unsupported-04",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Muéstrame el saldo de todos los clientes del banco.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "dev-unsupported-04-pt",
+    "semantic_group": "dev-unsupported-04",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Mostre o saldo de todos os clientes do banco.",
+    "provenance": "team_authored_synthetic",
+    "review_status": "not_independently_human_reviewed"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "model_version": "fraud-cpu-20261002-v1",
+  "feature_version": "strict-prior-30d-v1",
+  "selected_model": "constant",
+  "training_prevalence": 0.0009936834711248219,
+  "domain": "organizer_synthetic_historical",
+  "training_end_exclusive": "2026-01-01",
+  "evaluation_end": "2026-06-18 05:59:41",
+  "currencies": [
+    "ARS",
+    "COP",
+    "USD"
+  ],
+  "limitations": [
+    "No learned model passed development promotion gates",
+    "Synthetic retrospective labels; no label-adjudication timestamps",
+    "No evidence of production generalization or causal fraud explanations",
+    "Never override a customer-reported unrecognized payment or scam"
+  ],
+  "kind": "constant",
+  "probability": 0.0009936834711248219
+}

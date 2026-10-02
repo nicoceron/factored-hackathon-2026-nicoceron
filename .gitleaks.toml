@@ -1,0 +1,11 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Exact source-code SHA256 entries in evaluation receipts are checksums, not API keys"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"api\.py": "[a-f0-9]{64}",?\s*$''']
+paths = ['''^(docs/evidence|src/factored_banking/resources)/system[^/]*\.json$''']

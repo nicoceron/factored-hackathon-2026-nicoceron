@@ -1,0 +1,40 @@
+{
+  "version": "synthetic-intent-v1",
+  "created": "2026-10-02",
+  "author": "Codex assisted team authoring",
+  "review": "No independent human or native Portuguese review. Labels are author-defined test expectations, not ground truth about production customers.",
+  "group_policy": "Each bilingual pair shares a semantic_group and stays within one split. No exact normalized-text duplicates across splits. Top-level intents necessarily recur; scenario motifs and wording were authored separately. This is a synthetic challenge suite, not a natural-demand sample.",
+  "split_policy": "Train/dev/test frozen before evaluation; model fitted only on train, hyperparameters/threshold selected only on dev. Future test-driven improvements require a new untouched benchmark.",
+  "splits": {
+    "train": {
+      "file": "language_train.json",
+      "sha256": "a24244c817827e7fca213d99ccb1ecc1e7712d7ade3049ef93daf68247c17b62",
+      "cases": 196,
+      "semantic_groups": 98,
+      "languages": {
+        "es": 98,
+        "pt": 98
+      }
+    },
+    "dev": {
+      "file": "language_dev.json",
+      "sha256": "683ab9aa940631651685ff96f4af8033adaa9e32edd77a4b42545cc5971b211d",
+      "cases": 56,
+      "semantic_groups": 28,
+      "languages": {
+        "es": 28,
+        "pt": 28
+      }
+    },
+    "test": {
+      "file": "language_test.json",
+      "sha256": "f07b57b6c1f1629c8b43bc27ca2686886c320e15a2768be7a919e1c83b5aa5e7",
+      "cases": 140,
+      "semantic_groups": 70,
+      "languages": {
+        "es": 70,
+        "pt": 70
+      }
+    }
+  }
+}

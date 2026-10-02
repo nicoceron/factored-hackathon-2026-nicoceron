@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "file": "src/factored_banking/resources/system_challenge_test.json",
+  "sha256": "7c25f29b05769c76597c967cc9db24cc37c05401040eb76a66f756b0618faaa9",
+  "cases": 70,
+  "semantic_groups": 35,
+  "languages": {
+    "es": 35,
+    "pt": 35
+  },
+  "intents": {
+    "transaction_status": 10,
+    "dispute": 10,
+    "scam": 10,
+    "human": 10,
+    "case_status": 10,
+    "ambiguous": 10,
+    "unsupported": 10
+  },
+  "authorship": "Independent data_ml assistant authored labels and text before evaluation. Not human reviewed.",
+  "freeze_protocol": "Author did not inspect existing corpus text or model predictions; seven intent definitions supplied by evaluator. ES/PT translations share semantic_group. Never train or tune on this corpus.",
+  "freeze_date": "2026-10-02",
+  "prior_context_limit": "Author previously reviewed workflow code and existing safety defects; not an externally blinded study."
+}

@@ -1,0 +1,632 @@
+[
+  {
+    "id": "challenge-transaction_status-01-es",
+    "semantic_group": "challenge-transaction_status-01",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "El comercio dice que la compra sigue en espera; ¿qué estado figura en mi registro?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-01-pt",
+    "semantic_group": "challenge-transaction_status-01",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "A loja afirma que a compra continua em espera; qual situação consta no meu registro?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-02-es",
+    "semantic_group": "challenge-transaction_status-02",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "Quiero comprobar la moneda y la fecha exacta de esa operación, sin modificarla.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-02-pt",
+    "semantic_group": "challenge-transaction_status-02",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Quero conferir a moeda e a data exata dessa operação, sem alterá-la.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-03-es",
+    "semantic_group": "challenge-transaction_status-03",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "La notificación llegó ayer: ¿el pago ya aparece completado o todavía pendiente?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-03-pt",
+    "semantic_group": "challenge-transaction_status-03",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "A notificação chegou ontem: o pagamento já aparece concluído ou ainda pendente?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-04-es",
+    "semantic_group": "challenge-transaction_status-04",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "¿Cuál es el importe registrado? No te estoy pidiendo devolverlo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-04-pt",
+    "semantic_group": "challenge-transaction_status-04",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Qual é o valor registrado? Não estou pedindo que você o devolva.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-05-es",
+    "semantic_group": "challenge-transaction_status-05",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "Necesito entender por qué esta operación figura rechazada; dime solo lo que conste.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-transaction_status-05-pt",
+    "semantic_group": "challenge-transaction_status-05",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Preciso entender por que esta operação aparece recusada; diga apenas o que consta.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-01-es",
+    "semantic_group": "challenge-dispute-01",
+    "language": "es",
+    "intent": "dispute",
+    "text": "El mismo pedido se cobró dos veces, aunque yo autoricé una sola compra.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-01-pt",
+    "semantic_group": "challenge-dispute-01",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "O mesmo pedido foi cobrado duas vezes, embora eu tenha autorizado apenas uma compra.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-02-es",
+    "semantic_group": "challenge-dispute-02",
+    "language": "es",
+    "intent": "dispute",
+    "text": "He revisado los recibos y esta compra no la hicimos ni yo ni mi familia.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-02-pt",
+    "semantic_group": "challenge-dispute-02",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Conferi os recibos e essa compra não foi feita por mim nem pela minha família.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-03-es",
+    "semantic_group": "challenge-dispute-03",
+    "language": "es",
+    "intent": "dispute",
+    "text": "El recibo del comercio y el monto debitado no coinciden; quiero registrar el cobro incorrecto.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-03-pt",
+    "semantic_group": "challenge-dispute-03",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "O recibo da loja e o valor debitado não coincidem; quero registrar a cobrança incorreta.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-04-es",
+    "semantic_group": "challenge-dispute-04",
+    "language": "es",
+    "intent": "dispute",
+    "text": "Esa operación fue hecha sin mi permiso mientras conservaba la tarjeta conmigo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-04-pt",
+    "semantic_group": "challenge-dispute-04",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Essa operação foi feita sem minha permissão enquanto o cartão continuava comigo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-05-es",
+    "semantic_group": "challenge-dispute-05",
+    "language": "es",
+    "intent": "dispute",
+    "text": "No reconozco ese cargo y quiero dejar constancia para que lo investiguen.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-dispute-05-pt",
+    "semantic_group": "challenge-dispute-05",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Não reconheço esse débito e quero deixar um registro para que seja investigado.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-01-es",
+    "semantic_group": "challenge-scam-01",
+    "language": "es",
+    "intent": "scam",
+    "text": "Una persona se hizo pasar por soporte y me presionó para entregar el código de acceso.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-01-pt",
+    "semantic_group": "challenge-scam-01",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Uma pessoa se passou pelo suporte e me pressionou a entregar o código de acesso.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-02-es",
+    "semantic_group": "challenge-scam-02",
+    "language": "es",
+    "intent": "scam",
+    "text": "Entré en un enlace de un mensaje falso del banco y allí escribí mi contraseña.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-02-pt",
+    "semantic_group": "challenge-scam-02",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Entrei em um link de uma mensagem falsa do banco e digitei minha senha lá.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-03-es",
+    "semantic_group": "challenge-scam-03",
+    "language": "es",
+    "intent": "scam",
+    "text": "Me amenazan con cerrar la cuenta si no envío dinero a una supuesta cuenta segura.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-03-pt",
+    "semantic_group": "challenge-scam-03",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Estão ameaçando encerrar minha conta se eu não enviar dinheiro a uma suposta conta segura.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-04-es",
+    "semantic_group": "challenge-scam-04",
+    "language": "es",
+    "intent": "scam",
+    "text": "La llamada prometía cancelar un fraude, pero me hizo instalar una aplicación para controlar mi teléfono.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-04-pt",
+    "semantic_group": "challenge-scam-04",
+    "language": "pt",
+    "intent": "scam",
+    "text": "A ligação prometia cancelar uma fraude, mas me fez instalar um aplicativo para controlar meu celular.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-05-es",
+    "semantic_group": "challenge-scam-05",
+    "language": "es",
+    "intent": "scam",
+    "text": "Me engañaron para confirmar una transferencia que presentaron como una prueba de seguridad.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-scam-05-pt",
+    "semantic_group": "challenge-scam-05",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Fui enganado para confirmar uma transferência apresentada como um teste de segurança.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-01-es",
+    "semantic_group": "challenge-human-01",
+    "language": "es",
+    "intent": "human",
+    "text": "Prefiero que una persona continúe esta conversación conmigo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-01-pt",
+    "semantic_group": "challenge-human-01",
+    "language": "pt",
+    "intent": "human",
+    "text": "Prefiro que uma pessoa continue esta conversa comigo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-02-es",
+    "semantic_group": "challenge-human-02",
+    "language": "es",
+    "intent": "human",
+    "text": "Las respuestas automáticas no resuelven mi situación; comunícame con un asesor.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-02-pt",
+    "semantic_group": "challenge-human-02",
+    "language": "pt",
+    "intent": "human",
+    "text": "As respostas automáticas não resolvem minha situação; coloque-me em contato com um atendente.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-03-es",
+    "semantic_group": "challenge-human-03",
+    "language": "es",
+    "intent": "human",
+    "text": "Necesito asistencia humana aunque todavía no haya identificado la transacción.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-03-pt",
+    "semantic_group": "challenge-human-03",
+    "language": "pt",
+    "intent": "human",
+    "text": "Preciso de assistência humana mesmo sem ter identificado a transação ainda.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-04-es",
+    "semantic_group": "challenge-human-04",
+    "language": "es",
+    "intent": "human",
+    "text": "¿Puede un integrante del equipo revisar mi consulta personalmente?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-04-pt",
+    "semantic_group": "challenge-human-04",
+    "language": "pt",
+    "intent": "human",
+    "text": "Alguém da equipe pode revisar minha dúvida pessoalmente?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-05-es",
+    "semantic_group": "challenge-human-05",
+    "language": "es",
+    "intent": "human",
+    "text": "No quiero seguir con el asistente virtual; deseo hablar con alguien del servicio de atención.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-human-05-pt",
+    "semantic_group": "challenge-human-05",
+    "language": "pt",
+    "intent": "human",
+    "text": "Não quero continuar com o assistente virtual; desejo falar com alguém do atendimento.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-01-es",
+    "semantic_group": "challenge-case_status-01",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Presenté una reclamación la semana pasada y necesito saber si la revisaron.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-01-pt",
+    "semantic_group": "challenge-case_status-01",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Abri uma reclamação na semana passada e preciso saber se já foi analisada.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-02-es",
+    "semantic_group": "challenge-case_status-02",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Tengo un caso abierto; ¿sigue esperando información o ya lo cerraron?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-02-pt",
+    "semantic_group": "challenge-case_status-02",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Tenho um caso aberto; ainda estão aguardando informações ou ele já foi encerrado?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-03-es",
+    "semantic_group": "challenge-case_status-03",
+    "language": "es",
+    "intent": "case_status",
+    "text": "No quiero iniciar otra solicitud, solo consultar el avance de la que registré.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-03-pt",
+    "semantic_group": "challenge-case_status-03",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Não quero iniciar outra solicitação, só consultar o andamento da que registrei.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-04-es",
+    "semantic_group": "challenge-case_status-04",
+    "language": "es",
+    "intent": "case_status",
+    "text": "¿Dónde puedo revisar las novedades del reclamo que ya envié?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-04-pt",
+    "semantic_group": "challenge-case_status-04",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Onde posso conferir as novidades da reclamação que já enviei?",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-05-es",
+    "semantic_group": "challenge-case_status-05",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Guardé la referencia de mi solicitud anterior y quiero consultar su estado actual.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-case_status-05-pt",
+    "semantic_group": "challenge-case_status-05",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Guardei a referência da minha solicitação anterior e quero consultar a situação atual dela.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-01-es",
+    "semantic_group": "challenge-ambiguous-01",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Lo de ayer sigue igual.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-01-pt",
+    "semantic_group": "challenge-ambiguous-01",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Aquilo de ontem continua igual.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-02-es",
+    "semantic_group": "challenge-ambiguous-02",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "¿Me ayudas con esto? No sé qué información necesitas.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-02-pt",
+    "semantic_group": "challenge-ambiguous-02",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Você pode me ajudar com isso? Não sei de quais informações você precisa.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-03-es",
+    "semantic_group": "challenge-ambiguous-03",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Quiero revisar esa cosa que mencioné, pero no recuerdo a cuál me refería.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-03-pt",
+    "semantic_group": "challenge-ambiguous-03",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Quero revisar aquela coisa que mencionei, mas não lembro a qual eu me referia.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-04-es",
+    "semantic_group": "challenge-ambiguous-04",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Estoy mirando la pantalla y algo no me cuadra.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-04-pt",
+    "semantic_group": "challenge-ambiguous-04",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Estou olhando para a tela e alguma coisa não parece certa.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-05-es",
+    "semantic_group": "challenge-ambiguous-05",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Tal vez sea una consulta, o quizá otra cosa; todavía no puedo explicarlo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-ambiguous-05-pt",
+    "semantic_group": "challenge-ambiguous-05",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Talvez seja uma dúvida, ou talvez outra coisa; ainda não consigo explicar.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-01-es",
+    "semantic_group": "challenge-unsupported-01",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Envía doscientos dólares de mi cuenta a un contacto ahora mismo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-01-pt",
+    "semantic_group": "challenge-unsupported-01",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Envie duzentos dólares da minha conta para um contato agora mesmo.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-02-es",
+    "semantic_group": "challenge-unsupported-02",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Aprueba un crédito a mi nombre y aumenta el límite sin revisión.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-02-pt",
+    "semantic_group": "challenge-unsupported-02",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Aprove um empréstimo em meu nome e aumente o limite sem análise.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-03-es",
+    "semantic_group": "challenge-unsupported-03",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Cambia el correo electrónico y el teléfono asociados a mi cuenta.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-03-pt",
+    "semantic_group": "challenge-unsupported-03",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Altere o endereço de e-mail e o telefone associados à minha conta.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-04-es",
+    "semantic_group": "challenge-unsupported-04",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Haz el reembolso del último pago directamente; no quiero abrir un caso.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-04-pt",
+    "semantic_group": "challenge-unsupported-04",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Faça o reembolso do último pagamento diretamente; não quero abrir um caso.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-05-es",
+    "semantic_group": "challenge-unsupported-05",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Muéstrame el saldo de la cuenta bancaria de mi vecino.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "challenge-unsupported-05-pt",
+    "semantic_group": "challenge-unsupported-05",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Mostre o saldo da conta bancária do meu vizinho.",
+    "provenance": "team_authored_synthetic_independent_agent",
+    "review_status": "not_independently_human_reviewed"
+  }
+]

@@ -1,0 +1,223 @@
+{
+  "candidates": [
+    {
+      "C": 1.0,
+      "threshold": 0.25,
+      "margin": 0.0,
+      "macro_f1": 0.7312525010004002
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.25,
+      "margin": 0.05,
+      "macro_f1": 0.7312525010004002
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.25,
+      "margin": 0.1,
+      "macro_f1": 0.6994366977560256
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.35,
+      "margin": 0.0,
+      "macro_f1": 0.4880389451818023
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.35,
+      "margin": 0.05,
+      "macro_f1": 0.4880389451818023
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.35,
+      "margin": 0.1,
+      "macro_f1": 0.4880389451818023
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.45,
+      "margin": 0.0,
+      "macro_f1": 0.19178981937602627
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.45,
+      "margin": 0.05,
+      "macro_f1": 0.19178981937602627
+    },
+    {
+      "C": 1.0,
+      "threshold": 0.45,
+      "margin": 0.1,
+      "macro_f1": 0.19178981937602627
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.25,
+      "margin": 0.0,
+      "macro_f1": 0.7966246147581838
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.25,
+      "margin": 0.05,
+      "macro_f1": 0.7658417753066139
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.25,
+      "margin": 0.1,
+      "macro_f1": 0.7337970594936539
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.35,
+      "margin": 0.0,
+      "macro_f1": 0.7577000030781544
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.35,
+      "margin": 0.05,
+      "macro_f1": 0.7577000030781544
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.35,
+      "margin": 0.1,
+      "macro_f1": 0.7577000030781544
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.45,
+      "margin": 0.0,
+      "macro_f1": 0.5799916457811195
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.45,
+      "margin": 0.05,
+      "macro_f1": 0.5799916457811195
+    },
+    {
+      "C": 4.0,
+      "threshold": 0.45,
+      "margin": 0.1,
+      "macro_f1": 0.5799916457811195
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.25,
+      "margin": 0.0,
+      "macro_f1": 0.7954574812381093
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.25,
+      "margin": 0.05,
+      "macro_f1": 0.7658417753066139
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.25,
+      "margin": 0.1,
+      "macro_f1": 0.7487716274093984
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.35,
+      "margin": 0.0,
+      "macro_f1": 0.7557749415555698
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.35,
+      "margin": 0.05,
+      "macro_f1": 0.7557749415555698
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.35,
+      "margin": 0.1,
+      "macro_f1": 0.7557749415555698
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.45,
+      "margin": 0.0,
+      "macro_f1": 0.7030612244897959
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.45,
+      "margin": 0.05,
+      "macro_f1": 0.7030612244897959
+    },
+    {
+      "C": 8.0,
+      "threshold": 0.45,
+      "margin": 0.1,
+      "macro_f1": 0.7030612244897959
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.25,
+      "margin": 0.0,
+      "macro_f1": 0.7959169632765386
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.25,
+      "margin": 0.05,
+      "macro_f1": 0.7623035178983875
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.25,
+      "margin": 0.1,
+      "macro_f1": 0.7658417753066139
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.35,
+      "margin": 0.0,
+      "macro_f1": 0.7812412819378763
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.35,
+      "margin": 0.05,
+      "macro_f1": 0.765765091461686
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.35,
+      "margin": 0.1,
+      "macro_f1": 0.765765091461686
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.45,
+      "margin": 0.0,
+      "macro_f1": 0.7577000030781544
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.45,
+      "margin": 0.05,
+      "macro_f1": 0.7577000030781544
+    },
+    {
+      "C": 16.0,
+      "threshold": 0.45,
+      "margin": 0.1,
+      "macro_f1": 0.7577000030781544
+    }
+  ],
+  "selected_model_version": "tfidf-logistic-v1-adcd11553cf4",
+  "development_macro_f1": 0.7966246147581838,
+  "selection_rule": "highest development macro-F1; first candidate on ties"
+}
