@@ -1,4 +1,4 @@
-"""Render a narrated walkthrough from genuine captured local-app screenshots.
+"""Render a narrated walkthrough from local-app captures and labeled diagrams.
 
 Requires Python + Pillow, FFmpeg/FFprobe, and macOS say (Samantha voice).
 No network, browser automation, or paid service is used by this render script.
@@ -85,10 +85,18 @@ def frame(scene, index):
         (x - 2, y - 2, x + screenshot.width + 2, y + screenshot.height + 2), 6, fill="#456168"
     )
     canvas.paste(screenshot, (x, y))
-    draw.text((494, 32), "ACTUAL LOCAL APP  /  TEAM-AUTHORED FIXTURES", font=font(18), fill=MUTED)
+    draw.text(
+        (494, 32),
+        scene.get("source_label", "ACTUAL LOCAL APP  /  TEAM-AUTHORED FIXTURES"),
+        font=font(18),
+        fill=MUTED,
+    )
     draw.text(
         (494, 1024),
-        "Narrated screenshot walkthrough · no real banking action · synthetic system voice",
+        scene.get(
+            "source_footer",
+            "Narrated screenshot walkthrough · no real banking action · synthetic system voice",
+        ),
         font=font(17),
         fill=MUTED,
     )
@@ -112,8 +120,11 @@ def main():
     BUILD.mkdir(parents=True, exist_ok=True)
     subtitle_items = []
     manifest = {
-        "capture_provenance": "CUA Chrome, localhost:8096, 2026-10-02; actual isolated sandbox",
-        "format": "Narrated screenshots, not a continuous screen recording",
+        "capture_provenance": (
+            "CUA Chrome, localhost:8096, 2026-10-02; actual isolated sandbox; "
+            "evaluation and architecture slides explicitly labeled"
+        ),
+        "format": "Narrated screenshots and labeled diagrams, not a continuous screen recording",
         "voice": "macOS Samantha synthetic voice; no voice cloning",
         "scenes": [],
     }
@@ -125,6 +136,7 @@ def main():
         "Actual screenshots of the running local sandbox; "
         "narrated with the macOS Samantha system voice.",
         "No footage is represented as a continuous recording. "
+        "Architecture and evaluation slides are labeled separately. "
         "UI content is from team-authored fixtures.",
         "",
     ]
@@ -223,6 +235,7 @@ def main():
                 "title": scene["title"],
                 "source": str(source.relative_to(ROOT)),
                 "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                "source_kind": scene.get("source_kind", "actual_local_app_capture"),
                 "crop": scene.get("crop"),
                 "start_seconds": offset,
                 "duration_seconds": seconds,

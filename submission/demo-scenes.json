@@ -10,8 +10,8 @@
     "image": "login.jpg",
     "sentences": [
       "Meet Claro, banking support in Spanish and Portuguese.",
-      "This is a working historical sandbox with team authored fixtures, not a connection to real bank accounts.",
-      "We complete one workflow: understand a transaction, report an unrecognized charge, and hand off with evidence."
+      "These screenshots come from actual local test runs with team authored fixtures.",
+      "The application understands transactions, prepares review cases, and completes a human follow up. It never connects to real bank accounts."
     ]
   },
   {
@@ -20,7 +20,7 @@
     "points": [
       "Ask when the reference is ambiguous",
       "Keep amount and currency together",
-      "Cite the record and its snapshot date"
+      "Cite the record and snapshot date"
     ],
     "image": "customer-pt-evidence.jpg",
     "crop": [
@@ -30,62 +30,40 @@
       924
     ],
     "sentences": [
-      "Here, the Portuguese customer asks whether a payment went through.",
-      "Claro asks which transaction, instead of guessing.",
-      "After a selection, it reports thirty eight dollars and fifty cents as pending, preserving the currency and historical date.",
-      "The answer comes from an authorized record tool, with source references."
+      "The Portuguese customer asks whether a payment went through.",
+      "Claro asks which transaction before answering.",
+      "An authorized record tool returns thirty eight dollars and fifty cents as pending, preserving the currency, source reference, and historical date."
     ]
   },
   {
-    "title": "The model\ncan't act alone.",
+    "title": "Your report.\nYour confirmation.",
     "eyebrow": "02 · CONTROLLED ACTIONS",
     "points": [
-      "Customer report is an allegation",
-      "Human review is proposed",
-      "No refund or card-blocking promise"
+      "Preserve the specific customer report",
+      "Preview redaction before confirming",
+      "Separate confirmation endpoint"
     ],
-    "image": "customer-pt-proposal.jpg",
+    "image": "specific-report-confirmation-es.jpg",
     "crop": [
-      716,
-      300,
-      1470,
-      924
+      492,
+      220,
+      992,
+      820
     ],
     "sentences": [
-      "The customer says they do not recognize this charge.",
-      "Claro prepares a human review case, but nothing has been created yet.",
-      "Intent classification helps understand the request.",
-      "Deterministic service rules control permissions, required context, and which actions are allowed."
-    ]
-  },
-  {
-    "title": "A real pause\nfor confirmation.",
-    "eyebrow": "03 · EXPLICIT CONSENT",
-    "points": [
-      "Review the proposed case",
-      "Confirm through a separate endpoint",
-      "Cancel without creating a case"
-    ],
-    "image": "confirmation-pt.jpg",
-    "crop": [
-      445,
-      248,
-      1046,
-      706
-    ],
-    "sentences": [
-      "A separate confirmation dialog names the sandbox action and its limits.",
-      "The service requires the valid session, the correct role, and a CSRF token.",
-      "Typing yes in the conversation cannot execute the case creation."
+      "This Spanish report describes an unfamiliar charge after a phone call.",
+      "The preview preserves that context and redacts the test email.",
+      "A separate confirmation is required to create a case. Typing yes in chat cannot execute it.",
+      "No refund or card blocking is promised."
     ]
   },
   {
     "title": "An action needs\na verified receipt.",
-    "eyebrow": "04 · WRITE, THEN READ BACK",
+    "eyebrow": "03 · WRITE, THEN READ BACK",
     "points": [
       "Committed record read back",
       "Same retry key prevents duplication",
-      "No success claim if verification fails"
+      "At most three explicit attempts"
     ],
     "image": "customer-pt-receipt.jpg",
     "crop": [
@@ -95,91 +73,109 @@
       924
     ],
     "sentences": [
-      "The confirmed case is now saved and read back from storage.",
-      "Only then does Claro show this verified reference.",
-      "Retries reuse an idempotency key, so a dropped response does not create another case.",
-      "A verification failure produces an error, never a success claim."
+      "Every successful case creation needs a committed record and verified read back.",
+      "Retries keep the same idempotency key and stop after three attempts.",
+      "A verification failure never becomes a success claim."
     ]
   },
   {
-    "title": "A useful handoff.\nA bounded decision.",
-    "eyebrow": "05 · HUMAN REVIEW",
+    "title": "Ask a question.\nReceive an answer.",
+    "eyebrow": "04 · HUMAN FOLLOW UP",
     "points": [
-      "Customer report and facts separated",
-      "Missing risk stays unavailable",
-      "Review does not determine liability"
+      "Analyst writes a specific question",
+      "Customer replies in the same case",
+      "Reply returns the case to review"
     ],
-    "image": "analyst-pt-reviewed.jpg",
+    "image": "customer-question-pt.jpg",
     "crop": [
-      690,
-      255,
-      1470,
-      1430
+      702,
+      968,
+      1446,
+      1585
     ],
     "sentences": [
-      "In the same isolated workspace, an analyst receives the allegation, transaction facts, evidence, and open questions.",
-      "Risk is unavailable for these out of domain fixtures, rather than shown as a misleading zero.",
-      "The analyst can close the review or request more information.",
-      "Neither outcome grants a refund or proves fraud."
+      "The analyst asks whether the charge was noticed during or after the call.",
+      "The Portuguese customer sees that exact question and can answer inside the case.",
+      "A verified reply returns the case to the review queue."
     ]
   },
   {
-    "title": "Small architecture.\nExplicit boundaries.",
+    "title": "History that\nsurvives refresh.",
+    "eyebrow": "05 · PERSISTED CHRONOLOGY",
+    "points": [
+      "Report, question, reply and closure",
+      "Actual actors and timestamps",
+      "No invented history entries"
+    ],
+    "image": "analyst-history-pt.jpg",
+    "crop": [
+      704,
+      1035,
+      1448,
+      1470
+    ],
+    "sentences": [
+      "The analyst now sees the original report, the question, and the customer reply in order.",
+      "The review is closed, and all four events remain after refreshing and switching profiles.",
+      "The backend stores the history; the browser does not invent it."
+    ]
+  },
+  {
+    "title": "AI explains.\nThe service controls.",
     "eyebrow": "06 · TECHNICAL JUDGMENT",
     "points": [
-      "One FastAPI service + local intent model",
-      "Scoped tools + transactional case store",
-      "Offline data and model pipeline"
+      "Jev routing + DeepSeek Flash wording",
+      "Permissions stay in deterministic code",
+      "Live provider inference not yet verified"
     ],
-    "image": "operations.jpg",
+    "image": "architecture-v2.png",
     "sentences": [
-      "The application uses one FastAPI service, a local language classifier, and a transactional sandbox case store.",
-      "Offline data preparation and model evaluation stay outside requests.",
-      "The browser shows actual workspace activity and latency.",
-      "Zero model API spend does not mean zero infrastructure cost."
+      "One FastAPI service owns sessions, scoped tools, and transactional case storage.",
+      "Jev routing and DeepSeek Flash wording are implemented behind bounded adapters.",
+      "Live inference still requires explicit authorization for metered use. These captures used local processing.",
+      "Provider status and fallback are disclosed. Only entered sandbox messages and minimized fixture context may leave; organizer data never does."
     ],
-    "crop": [
-      230,
-      323,
-      1470,
-      813
-    ]
+    "source_label": "IMPLEMENTED ARCHITECTURE  /  EXTERNAL INFERENCE UNVERIFIED",
+    "source_kind": "architecture_diagram",
+    "source_footer": "Architecture diagram · deterministic permissions and writes · synthetic system voice"
   },
   {
-    "title": "Measure the result.\nPublish the limits.",
+    "title": "Measure outcomes.\nPublish the limits.",
     "eyebrow": "07 · REPRODUCIBLE EVALUATION",
     "points": [
-      "140 authored bilingual scenarios",
-      "Rules, TF-IDF + LR, and local Gemma",
-      "No independent human label review"
+      "Language and workflow measured separately",
+      "Offline baselines remain reproducible",
+      "Authored tests do not prove production"
     ],
-    "image": "evaluation.jpg",
-    "crop": [
-      230,
-      84,
-      1470,
-      548
-    ],
+    "image": "evaluation-v2.png",
     "sentences": [
-      "We compare rules, a trained TF-IDF classifier, and local Gemma on the same one hundred forty authored bilingual scenarios.",
-      "The selected classifier reaches an intent macro F one of eighty two point three percent.",
-      "The complete workflow has a separate evaluation with failures disclosed.",
-      "These tests have no independent human review and cannot establish production accuracy."
-    ]
+      "Language understanding and complete workflow outcomes are evaluated separately.",
+      "The repository preserves offline baselines, failure analysis, language slices, and service segments.",
+      "Authored scenarios and mocked provider tests do not prove real customer performance or live provider quality."
+    ],
+    "source_label": "REPRODUCIBLE EVALUATION  /  TEAM-AUTHORED TESTS",
+    "source_kind": "evaluation_report_chart",
+    "source_footer": "Published offline results · no live provider quality claim · synthetic system voice"
   },
   {
-    "title": "Ship the evidence.\nKeep human oversight.",
+    "title": "Keep evidence.\nKeep human oversight.",
     "eyebrow": "CLARO · CUSTOMER SUPPORT WITH CONTEXT",
     "points": [
-      "Fraud candidates did not pass promotion",
+      "No validated fraud detector claim",
       "No production savings claim",
-      "Reproducible repository + working demo"
+      "Source, deployment and reproducible evidence"
     ],
-    "image": "customer-pt-receipt.jpg",
+    "image": "customer-replied-pt.jpg",
+    "crop": [
+      704,
+      969,
+      1448,
+      1585
+    ],
     "sentences": [
-      "The fraud experiment is equally explicit: its candidates did not pass the validation promotion gate.",
-      "We retain the baseline and never let a low score dismiss a customer's report.",
-      "Claro delivers a working bilingual workflow, traceable evidence, and a human handoff, with honest boundaries for what remains before real banking production."
+      "The fraud candidates did not pass the validation promotion gate. Risk remains unavailable for these out of domain fixtures.",
+      "A low score never dismisses the customer report.",
+      "Claro delivers a working bilingual follow up with explicit controls and measured limits, ready for review, with real banking production still outside this prototype."
     ]
   }
 ]

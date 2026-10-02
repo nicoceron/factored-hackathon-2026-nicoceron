@@ -28,6 +28,9 @@ const language = await json('docs/evidence/language-evaluation.json');
 const deployment = await json('submission/deployment.json');
 const challenge = await json('docs/evidence/system-challenge-evaluation.json');
 const regression = await json('docs/evidence/system-challenge-regression.json');
+const workflow = await json('docs/evidence/system-evaluation-v2.json').catch(() => null);
+const segments = await json('docs/evidence/service-segment-evaluation.json').catch(() => null);
+const currentRegression = await json('docs/evidence/system-challenge-regression-v2.json').catch(() => null);
 
 function text(slide, value, x,y,w,h,size=26,color=C.ink,bold=false,align='left') {
  const s=slide.shapes.add({geometry:'textbox',position:{left:x,top:y,width:w,height:h},fill:'none',line:{fill:'none',width:0}});
@@ -57,8 +60,7 @@ function chart(s,{x,y,w,h,categories,values,labels,max=1,format='0%',color=C.tea
 }
 async function screenshot(s,name,position,alt,crop){
  const file=path.join(output,'assets',name);
- const image=s.images.add({blob:await fs.readFile(file),contentType:'image/jpeg',alt,fit:crop?'cover':'contain',position});
- if(crop) image.crop=crop;
+ s.images.add({blob:await fs.readFile(file),contentType:'image/jpeg',alt,fit:crop?'cover':'contain',position,...(crop?{crop}:{})});
 }
 
 // 1. Data-backed problem and focused customer-service scope.
@@ -77,28 +79,28 @@ async function screenshot(s,name,position,alt,crop){
 }
 // 2. Actual product evidence and workflow.
 {
- const s=slide('Customer evidence and verified cases',2);
- await screenshot(s,'customer-case.jpg',{left:64,top:173,width:776,height:453},'Actual Claro customer demo with transaction evidence and a sandbox case proposal');
- text(s,'1  Understand',880,178,330,43,27,C.teal,true);
- text(s,'Ask for the transaction\nwhen the request is unclear.',880,225,330,77,23);
- text(s,'2  Show the evidence',880,323,330,43,27,C.teal,true);
- text(s,'Preserve amount, currency,\nstatus and historical source.',880,370,330,77,23);
- text(s,'3  Confirm and verify',880,468,330,43,27,C.teal,true);
- text(s,'Create one sandbox case.\nRead it back before success.',880,515,330,77,23);
- notes(s,'Screenshot: real running Claro UI, team-authored synthetic fixtures. Workflow: trusted test session, scoped record tools, exact versioned synthetic policy retrieval, a separate confirmation endpoint, atomic case commit, read-back verification, analyst queue. No real money movement, refunds or card blocking. Sources: README.md, docs/OPERATIONS.md, src/factored_banking/api.py and workflow.py.');
+ const s=slide('Specific requests, verified cases and follow-up',2);
+ await screenshot(s,'customer-specific-report.jpg',{left:64,top:173,width:776,height:453},'Actual local Claro confirmation showing the redacted specific customer report before case creation',{left:0.33,top:0.23,right:0.33,bottom:0.23});
+ text(s,'1  Preserve the request',880,178,330,43,27,C.teal,true);
+ text(s,'Retain redacted customer\nwords beside verified facts.',880,225,330,77,23);
+ text(s,'2  Confirm and verify',880,323,330,43,27,C.teal,true);
+ text(s,'Commit one sandbox case.\nRead it back before success.',880,370,330,77,23);
+ text(s,'3  Persist follow-up',880,468,330,43,27,C.teal,true);
+ text(s,'Save the analyst question,\ncustomer reply and status.',880,515,330,77,23);
+ notes(s,'Screenshot: actual local Claro UI, team-authored synthetic fixtures, with external providers disabled. The customer report preserves specific redacted allegations through transaction clarification and is labeled unverified; permitted record facts remain separate. Customer sees the text before confirming. Atomic case commit and fresh read-back precede the receipt. Analyst questions and customer replies persist as scoped, idempotent case history. No real money movement, refunds or card blocking. Sources: docs/SYSTEM_EVALUATION.md, docs/OPERATIONS.md, api.py, privacy.py, store.py and workflow.py.');
 }
 // 3. Native editable architecture diagram.
 {
  const s=slide('Permissions and actions stay in service code',3,true);
- text(s,'The model advises the workflow. It cannot select an identity or execute a banking action.',64,147,1150,55,25,C.muted);
+ text(s,'Optional providers are implemented and mock-tested. Live inference remains unverified.',64,147,1150,55,25,C.muted);
  const node=(label,x,y,w=230)=>{const n=s.shapes.add({geometry:'rect',position:{left:x,top:y,width:w,height:96},fill:'#132A44',line:{fill:'#365067',width:1.2}});n.text=label;n.text.style={typeface:font,fontSize:24,bold:true,color:C.white,alignment:'center',verticalAlignment:'middle',insets:{left:12,right:12,top:12,bottom:12}};return n;};
- const a=node('ES / PT browser',64,243);const b=node('Scoped sessions\nand record tools',364,243);const c=node('Local language\nclassifier',664,243);const d=node('Deterministic\nworkflow',964,243);
- const e=node('Receipt and\nanalyst queue',364,450);const f=node('SQLite commit\nand read-back',664,450);const g=node('Explicit case\nconfirmation',964,450);
+ const a=node('ES / PT browser',64,243);const b=node('Scoped sessions\nand record tools',364,243);const c=node('Jev or local\nrouting',664,243);const d=node('Deterministic\nworkflow',964,243);
+ const e=node('Case history\nand follow-up',364,450);const f=node('SQLite commit\nand read-back',664,450);const g=node('Explicit case\nconfirmation',964,450);
  const link=(from,to,fromSide='right',toSide='left')=>s.shapes.connect(from,to,{kind:'straight',fromSide,toSide,line:{fill:C.mint,width:2},tail:{type:'triangle',width:'med',length:'med'}});
  link(a,b);link(b,c);link(c,d);link(d,g,'bottom','top');link(g,f,'left','right');link(f,e,'left','right');
- text(s,'Exact fixture facts\nVersioned demo policies',64,454,245,88,23,C.muted);
+ text(s,'Optional DeepSeek Flash\nphrasing with constrained\nfacts and local fallback',64,450,272,106,22,C.muted);
  text(s,'Opaque sessions + CSRF     Customer/workspace isolation     Idempotent confirmed writes',64,592,1140,58,24,C.white);
- notes(s,'Diagram objects and connectors are native/editable. Online sequence shows logical responsibility boundaries, not an exhaustive call graph. Public personas issue scoped sandbox identities, not bank customer authentication. Native SQLite persistence uses one worker, with reserved idempotency fingerprint before case side effect and fresh-connection read-back before receipt. Separate private DuckDB data/training jobs never serve organizer raw rows. Sources: docs/OPERATIONS.md, api.py, store.py, workflow.py.');
+ notes(s,'Diagram objects/connectors are native and editable. Sequence shows responsibility boundaries, not an exhaustive call graph. Optional Jev one-shot classification and DeepSeek Flash composition are implemented and tested using mocked transports. Live provider inference has not been verified. No claimed provider accuracy or actual spend. Classifier never chooses identity or performs tools. Composer receives minimized permitted context and cannot replace authoritative financial facts, case receipts or policy actions. Provider attempts, validated token usage, tariff estimates, unknown cost and budget reservations are separately accounted. Public personas are sandbox identities. SQLite uses reserved idempotency fingerprints and fresh read-back. Private DuckDB jobs never serve organizer raw rows. Sources: docs/AI_PROVIDERS.md, docs/OPERATIONS.md, api.py, providers.py, privacy.py, store.py, workflow.py.');
 }
 // 4. Independent numerical fraud experiment.
 {
@@ -120,32 +122,35 @@ async function screenshot(s,name,position,alt,crop){
 {
  const s=slide('Measured language and workflow results',5);
  const languageSystems=['keyword_rules','tfidf_logistic','gemma3_4b_local'].map(k=>language.systems[k]);
- const challengeSystems=['keyword_rules','tfidf_logistic'].map(k=>challenge.systems[k]);
- const afterFix=regression.systems.tfidf_logistic;
+ const selectedWorkflow=workflow || await json('docs/evidence/system-evaluation.json');
+ const workflowSystems=['keyword_rules','tfidf_logistic'].map(k=>selectedWorkflow.systems[k]);
+ const learnedWorkflow=selectedWorkflow.systems.tfidf_logistic;
  text(s,'Intent classification',64,151,550,43,29,C.teal,true);
  text(s,'140 frozen authored cases / macro-F1',64,194,550,37,22,C.gray);
- chart(s,{x:61,y:253,w:545,h:287,categories:['Rules','Local ML','Gemma 3'],values:languageSystems.map(v=>v.macro_f1),labels:languageSystems.map(v=>v.macro_f1.toFixed(3)),max:1,format:'0.0'});
- text(s,'First workflow challenge',668,151,545,43,29,C.teal,true);
- text(s,'70 independent-agent cases / correct outcomes',668,194,545,60,22,C.gray);
- chart(s,{x:663,y:253,w:545,h:287,categories:['Rules','Local ML'],values:challengeSystems.map(v=>v.outcome_accuracy),labels:challengeSystems.map(v=>`${v.correct_outcomes} / ${v.cases}`),max:1,format:'0%'});
- text(s,'117/140 exact labels correct',65,553,550,45,25,C.ink,true);
- text(s,'28/30 required handoffs on first pass',668,553,540,45,25,C.ink,true);
- text(s,'Authored synthetic cases, without independent human language review.',64,607,1145,30,20,C.gray);
- text(s,`After correcting cancellation: ${afterFix.correct_outcomes}/${afterFix.cases} outcomes and ${afterFix.verified_handoffs}/${afterFix.required_handoffs} handoffs in a regression replay.`,64,637,1145,28,19,C.gray);
- notes(s,'Sources: docs/LANGUAGE_EVALUATION.md, docs/SYSTEM_EVALUATION.md, docs/evidence/language-evaluation.json, system-challenge-evaluation.json. Component: training196/development56/test140 balanced synthetic cases, frozen semantic groups. Local ML TF-IDF/logistic117/140 macroF10.8230; rules65/140 F10.4207; local Gemma3 4B115/140 F10.8045. Small ML/Gemma difference is not claimed significant. Fresh system first pass61/70 versus43/70. Learned ES31/35, PT30/35, required verified handoffs28/30, unnecessary proposals4/70. Labels/translations are assistant-authored without independent human/native-language review. Author saw earlier workflow code, so not externally blinded. Model API spend0 excludes electricity/hardware/hosting. First-pass workflow sources remain immutable; later fixes are regression, not untouched validation.');
+ chart(s,{x:61,y:247,w:545,h:277,categories:['Rules','Local ML','Gemma 3'],values:languageSystems.map(v=>v.macro_f1),labels:languageSystems.map(v=>v.macro_f1.toFixed(3)),max:1,format:'0.0'});
+ text(s,workflow?'Current local workflow':'Historical v1.0 workflow',668,151,545,43,29,C.teal,true);
+ text(s,'140 exposed cases / correct regression outcomes',668,194,545,60,22,C.gray);
+ chart(s,{x:663,y:247,w:545,h:277,categories:['Rules','Local ML'],values:workflowSystems.map(v=>v.outcome_accuracy),labels:workflowSystems.map(v=>`${v.correct_outcomes} / ${v.cases}`),max:1,format:'0%'});
+ text(s,'117/140 exact labels correct',65,537,550,45,25,C.ink,true);
+ text(s,workflow?`${learnedWorkflow.handoffs_preserving_reference_request}/${learnedWorkflow.required_handoffs} handoffs preserve the request`:'Request-preservation recheck pending',668,537,540,60,24,C.ink,true);
+ const perSegment=segments?Object.values(segments.systems.tfidf_logistic.strata).map(v=>v.correct_outcomes):[];
+ const segmentText=segments&&new Set(perSegment).size===1?`Six status/currency strata: ${perSegment[0]}/140 each. Same utterances, no demographic claim.`:'Six controlled status/currency strata frozen. Final replay pending.';
+ text(s,segmentText,64,597,1145,32,21,C.gray);
+ text(s,'Authored tests, no independent human review. New 70-case provider challenge unscored.',64,633,1145,28,20,C.gray);
+ notes(s,`Sources: docs/LANGUAGE_EVALUATION.md, docs/SYSTEM_EVALUATION.md and aggregate evidence. Component train196/development56/test140 uses frozen semantic groups. Local TF-IDF/logistic117/140 macroF10.8230; rules65/140 F10.4207; local Gemma3 4B115/140 F10.8045. Small ML/Gemma difference is not claimed significant. Workflow figure is ${workflow?'request-preservation-v2 current local regression':'historical v1.0 pending current recheck'}. First untouched challenge remains61/70 learned versus43/70 rules, with28/30 required transfers. Separate exposed regression ${currentRegression?.systems.tfidf_logistic.correct_outcomes || regression.systems.tfidf_logistic.correct_outcomes}/70 follows fixes; it is never relabeled blind. Six strata contain140 unique utterances and70 semantic pairs, counterbalanced ES/PT,840replays/system. These are selected-transaction status/currency groups, not demographic fairness. All labels/translations are assistant-authored without independent human/native-language review. Fresh prospective70 is frozen but unscored. Zero offline provider attempts do not establish free provider inference. No hardware/hosting or representative customer cost claim.`);
 }
 // 6. Product review and explicit deployment/production boundary.
 {
  const s=slide('Demo and the route to a bank integration',6,true);
- await screenshot(s,'analyst-case.jpg',{left:64,top:167,width:570,height:336},'Cropped detail of actual Claro analyst case evidence',{left:0.46,top:0.25,right:0.02,bottom:0.425});
- text(s, deployment.verified ? 'Verified deployed demo' : 'Deployment verification pending',64,515,590,42,26,C.mint,true);
+ await screenshot(s,'analyst-followup.jpg',{left:64,top:167,width:570,height:336},'Actual local Claro analyst case with retained customer report and persisted follow-up history',{left:0.46,top:0.285,right:0.02,bottom:0.08});
+ text(s, deployment.verified ? 'Public demo / release receipt linked' : 'Deployment verification pending',64,515,590,42,25,C.mint,true);
  text(s,deployment.verified?deployment.url:'A working URL will replace this line after verification.',64,563,590,77,20,C.white);
  text(s,'Deliberate trade-offs',690,164,520,43,29,C.mint,true);
  text(s,'Single worker and SQLite\nSimple deployment. Free-host restarts\ncan reset sandbox state.',690,225,510,121,24,C.white);
- text(s,'Local model, no remote model calls\nPortable CPU inference. Synthetic tests\nlimit claims about real customer demand.',690,370,510,121,24,C.white);
+ text(s,'Optional external models\nUsage and tariff estimates are logged.\nLive provider results are still unverified.',690,370,510,121,24,C.white);
  text(s,'Before real customers',690,511,510,39,26,C.mint,true);
  text(s,'Bank identity, approved policies, durable\nstorage and independent ES/PT review.',690,558,515,82,24,C.white);
- notes(s,'Repository: https://github.com/nicoceron/factored-hackathon-2026-nicoceron . Deployed URL only appears as verified when submission/deployment.json verified=true, supplied after root verifies live service. Until then the editable deck clearly states pending. Screenshot is a real running sandbox UI with team fixtures. Free-host filesystem may reset. Source docs/OPERATIONS.md and submission/deployment.json. Next deployment gates include independent labels/language review, real bank entitlements/MFA, approved jurisdiction/product policies, durable transactional data, monitored rollout, privacy/retention controls and operational human staffing. No real-bank operation or production readiness certification.');
+ notes(s,'Repository: https://github.com/nicoceron/factored-hackathon-2026-nicoceron . Public URL is tied to the commit and verification date in submission/deployment.json. Current local screenshots do not independently prove that a newer branch is deployed. Optional Jev/DeepSeek adapters are implemented/mocked but live inference remains unverified pending authorized metered use. External tariff estimates are not invoice spend. Screenshot is the actual local app using team fixtures and disabled providers. Free-host filesystem may reset. Sources: docs/AI_PROVIDERS.md, docs/OPERATIONS.md and submission/deployment.json. Real-bank requirements include approved identity/entitlements/MFA/policies, durable data, monitored rollout, privacy controls, independent ES/PT review and staffing. Organizer submission is intentionally outside requested scope. No real-bank operation or production safety certification.');
 }
 
 await fs.mkdir(build,{recursive:true});

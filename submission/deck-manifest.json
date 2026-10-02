@@ -1,5 +1,5 @@
 {
-  "version": "claro-deck-v1",
+  "version": "claro-deck-v2",
   "slide_count": 6,
   "native_chart_count": 3,
   "embedded_chart_workbook_count": 3,
@@ -9,8 +9,8 @@
     47,
     68,
     90,
-    97,
-    63
+    98,
+    64
   ],
   "pdf_embedded_fonts": [
     "NotoSans-Bold",
@@ -24,17 +24,21 @@
   "visual_review_scope": "Assistant inspected every final PDF page at 1280x720 for font fallback, clipping, overlaps, diagram direction, chart labels and caveats.",
   "native_powerpoint_application_verified": false,
   "input_output_sha256": {
-    "submission/build-deck.mjs": "34fd0217c26b8d7e587f414fee0f7d0fedf8ad2bea28e80d7c658c8dbcb95b17",
+    "submission/build-deck.mjs": "693e8fb34f14c58440924b39db175974061a602878a7dd580c20cd044a3c99e5",
     "submission/build-deck.sh": "d035f4b946e805d056d96740c6c189eb386d3e534be15792d3959469980e7acb",
     "submission/deployment.json": "4e467cd0fe98f3de34573a112255a8ad1155cf34f73d867b4cd5bd1b45a4ea36",
-    "submission/assets/customer-case.jpg": "da14812c2290be0221ba30498dbc175cf179c5c4905d56f589987689824da380",
-    "submission/assets/analyst-case.jpg": "abf7437e60182cebdda7190e42316ea5dd20a94698fc1108507b8956ff416d0a",
+    "submission/assets/customer-specific-report.jpg": "3ea7b9de93eac861efd497e07f8e9ce3422e51b232f61ab874f71d46007c4e07",
+    "submission/assets/analyst-followup.jpg": "cefb68f536f20a90e173309402ac131813757244bfe5fe18455bb6f1d68ed8da",
     "docs/evidence/ml-evaluation.json": "ccf85850bb95d8a03466b4c3522389d93152c04bf87b5a8f80016a211002abf1",
     "docs/evidence/language-evaluation.json": "027c0791b6ecb66a0e594c1caeb29e80c751316137d8f0b5526dfb94c826a7ae",
     "docs/evidence/system-challenge-evaluation.json": "c882d8163fcdacf9e8e389e7aed8f0f571a5fb7a45477853942c5777b6dca770",
     "docs/evidence/system-challenge-regression.json": "e060ca72798a83a0f65a4f7139d10573c0b4eb82add271fd9b7f06b81ee4fb26",
-    "submission/Claro-Hackathon-2026.pptx": "eac729c5bd2d1f0b66d8955e7930c5b2737b39f8af8c8f840121633eb772031c",
-    "submission/Claro-Hackathon-2026.pdf": "86adc2103cf984f4b2f45571ae4931ddc1184d711183e4fd739b60c781e03cd9"
+    "docs/AI_PROVIDERS.md": "46f2ca84befaafc243ce955d63a1429db6b240e5ab440873203531afe9c41bfd",
+    "docs/evidence/system-evaluation-v2.json": "09e962db8edd89eeeeb82625057663439cff2c9cae5aece441dda76b3a448863",
+    "docs/evidence/system-challenge-regression-v2.json": "1e56ea5b731db106c3b5dfaed04a58578376fa2b92e4cbe0e628fbdbfa6aa41b",
+    "docs/evidence/service-segment-evaluation.json": "e0fff495a32c56e19b5c690d1207b2f76dd4392682017a502697c2d72a4fb781",
+    "submission/Claro-Hackathon-2026.pptx": "79b29678116384d89dc05d03b32c3f63ffa9c52d22f08ed2c989e179be6d60d0",
+    "submission/Claro-Hackathon-2026.pdf": "3704a7aae85c1a094500260af96024155c6c4b794523641bd94e3eb757eae59b"
   },
   "asset_provenance": "Actual local Claro app screenshots containing team-authored synthetic fixtures only.",
   "limitations": [
