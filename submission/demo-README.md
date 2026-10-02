@@ -1,14 +1,14 @@
 # Claro demo video
 
-`claro-demo.mp4` is a 1920×1080 narrated walkthrough lasting **2 minutes 44.55 seconds**, below the three-minute submission limit. It contains H.264 video, AAC mono narration, and an English subtitle track. A separate `claro-demo.en.srt` and the full `demo-script.md` are included.
+`claro-demo.mp4` is a 1920×1080 narrated walkthrough lasting **2 minutes 30.57 seconds**, below the three-minute submission limit. It contains H.264 video, AAC mono narration, and an English subtitle track. A separate `claro-demo.en.srt` and the full `demo-script.md` are included.
 
-The nine scenes demonstrate transaction clarification, evidence, a case proposal, explicit confirmation, a verified receipt, analyst review, operating telemetry, evaluation, and architectural boundaries. The UI is Portuguese for the customer and analyst workflow; the narration is English.
+The nine scenes demonstrate transaction clarification, a specific redacted report, explicit confirmation, a verified receipt, analyst question, customer reply, persisted history, evaluation, and architectural boundaries. The captured interface includes Spanish and Portuguese; the narration is English.
 
 ## Provenance
 
-The source JPEGs in `demo-assets/` are genuine CUA-controlled Chrome captures of the running app at `127.0.0.1:8096` on October 2, 2026. Every screen contains team-authored fixtures. They were captured during actual customer and analyst actions described in `docs/UI.md`; case references belong only to that isolated local workspace.
+The source JPEGs in `demo-assets/` are genuine CUA-controlled Chrome captures of the running app at `localhost:8096` / `127.0.0.1:8096` on October 2, 2026. Every screen contains team-authored fixtures. They were captured during actual customer and analyst actions described in `docs/UI.md`; case references belong only to that isolated local workspace.
 
-This is an edited screenshot walkthrough, **not a continuous screen recording or proof of a hosted deployment**. Every scene says so. Crops and scaling improve readability; no screenshot text, figures, or application outcomes were fabricated. Captures precede final wording refinements to restart disclosures and metric labels; the video crops exclude the old metric labels. `demo-manifest.json` records source hashes, crop rectangles, timing, synthetic voice provenance, and the final output hash.
+This is an edited screenshot walkthrough with separately labeled architecture and evaluation slides, **not a continuous screen recording or proof of a hosted deployment**. Each scene identifies its source type. The two PNG diagrams come from the final presentation export. Crops and scaling improve readability; no screenshot text, figures, or application outcomes were fabricated. Some foundation captures precede final wording refinements. The final crops exclude obsolete metric labels and the formerly enabled review controls on a closed case. The human follow-up captures show the implemented question, reply and persisted history. External provider inference was disabled for all captured app actions; the architecture slide and narration explicitly distinguish implemented integrations from unverified live inference. `demo-manifest.json` records source hashes, crop rectangles, timing, synthetic voice provenance, and the final output hash.
 
 The narration uses the macOS Samantha system voice, labeled in the video. It does not imitate a team member. No paid service, remote model call, or voice-cloning service was used.
 

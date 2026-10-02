@@ -1,0 +1,100 @@
+{
+  "version": "fresh-clone-release-verification-v1",
+  "started_at_utc": "2026-10-02T15:37:05.366310+00:00",
+  "requested_commit": "904f56f136c98d5cb3e7b640169680f34c3bd957",
+  "remote": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron.git",
+  "checkout": ".local/release-verify-1.1",
+  "environment": {
+    "provider_credentials_or_configuration_present": false,
+    "policy": "Allowlisted process environment only; no secrets file loaded; external inference disabled by application default"
+  },
+  "commands": [
+    {
+      "command": "git clone --no-checkout --filter=blob:none <public-repository> .local/release-verify-1.1",
+      "exit_code": 0,
+      "duration_seconds": 0.664
+    },
+    {
+      "command": "git checkout --detach 904f56f136c98d5cb3e7b640169680f34c3bd957",
+      "exit_code": 0,
+      "duration_seconds": 1.496
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "exit_code": 0,
+      "duration_seconds": 0.014
+    },
+    {
+      "command": "git status --porcelain (before)",
+      "exit_code": 0,
+      "duration_seconds": 0.039
+    },
+    {
+      "command": "make setup (uv sync --locked --group ml)",
+      "exit_code": 0,
+      "duration_seconds": 0.645
+    },
+    {
+      "command": "make check (locked Ruff lint/format and pytest)",
+      "exit_code": 0,
+      "duration_seconds": 40.154
+    },
+    {
+      "command": "node --check src/factored_banking/static/app.js",
+      "exit_code": 0,
+      "duration_seconds": 0.027
+    },
+    {
+      "command": "git status --porcelain (after)",
+      "exit_code": 0,
+      "duration_seconds": 0.068
+    },
+    {
+      "command": "git fetch origin ea5da7533fcb23c361eee649cb1cfa556999417c",
+      "exit_code": 0,
+      "duration_seconds": 0.556
+    },
+    {
+      "command": "git rev-parse tested-commit^{tree}",
+      "exit_code": 0,
+      "duration_seconds": 0.015
+    },
+    {
+      "command": "git rev-parse merge-commit^{tree}",
+      "exit_code": 0,
+      "duration_seconds": 0.015
+    },
+    {
+      "command": "git checkout --detach ea5da7533fcb23c361eee649cb1cfa556999417c",
+      "exit_code": 0,
+      "duration_seconds": 0.018
+    },
+    {
+      "command": "git status --porcelain (merged source)",
+      "exit_code": 0,
+      "duration_seconds": 0.016
+    }
+  ],
+  "all_checks_passed": true,
+  "verified_commit": "904f56f136c98d5cb3e7b640169680f34c3bd957",
+  "source_clean_before": true,
+  "tests_passed": 238,
+  "test_warnings": 1,
+  "lint_passed": true,
+  "format_check_passed": true,
+  "javascript_parse_passed": true,
+  "source_clean_after": true,
+  "limits": [
+    "Independent fresh Git checkout with fresh virtual environment; package artifacts may use the existing uv download cache.",
+    "No provider inference, account credentials, production data, browser interaction, deployment or new commits used."
+  ],
+  "completed_at_utc": "2026-10-02T15:38:27.363221+00:00",
+  "merged_commit": "ea5da7533fcb23c361eee649cb1cfa556999417c",
+  "tested_commit": "904f56f136c98d5cb3e7b640169680f34c3bd957",
+  "verified_code_tree": "1004d7df4e791aa94d9094a558bc612599ec43bf",
+  "merged_code_tree": "1004d7df4e791aa94d9094a558bc612599ec43bf",
+  "merge_tree_identical_to_tested_tree": true,
+  "source_clean_after_merge_checkout": true,
+  "tests_rerun_after_merge": false,
+  "merge_validation_basis": "Exact Git tree equality with the independently tested commit; no rerun needed for identical files"
+}

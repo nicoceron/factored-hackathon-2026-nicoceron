@@ -30,7 +30,7 @@ At that initial snapshot, regression receipt hashes were `b3d7d7dead8206d5dbaf34
 
 ## Verified v1.0 release snapshot
 
-The release owner verified the public HTTPS service and recorded [API checks](evidence/deployed-api-checks.json), [browser checks](evidence/deployed-browser-checks.json) and [deployment metadata](../submission/deployment.json). These checks are distinct from the independent offline audit above.
+The release owner verified the public HTTPS service and recorded [API checks](evidence/deployed-api-checks.json), [browser checks](evidence/deployed-browser-checks.json) and [v1.0 deployment metadata](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/blob/v1.0.0/submission/deployment.json). These checks are distinct from the independent offline audit above.
 
 | Deliverable or release check | Final evidence |
 | --- | --- |
@@ -39,7 +39,7 @@ The release owner verified the public HTTPS service and recorded [API checks](ev
 | Clean clone | Fresh checkout of that exact merged commit: locked setup, Ruff and all 135 tests pass; no source changes required. One upstream test-client deprecation warning remains. |
 | Container | Docker build and actual ES/PT HTTP smoke passed; UID 10001; private data/artifact paths absent. Current application is built again by the public host from the reviewed commit. |
 | Public demo | [Claro on Render Free](https://claro-banking-hackathon-2026.onrender.com). HTTPS readiness, session cookie attributes, CSRF/origin controls, both language workflows, duplicate confirmation, isolation, analyst review and workspace deletion have concrete receipts. Static/report hashes are compared with release files. |
-| Six-slide presentation | Editable PPTX and PDF, six slides, embedded sans-serif fonts, all rendered pages visually reviewed, native chart/source/geometry checks passed. See [deck manifest](../submission/deck-manifest.json). |
+| Six-slide presentation | Editable PPTX and PDF, six slides, embedded sans-serif fonts, all rendered pages visually reviewed, native chart/source/geometry checks passed. See [v1.0 deck manifest](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/blob/v1.0.0/submission/deck-manifest.json). |
 | Video | 164.546104 seconds, 1920×1080 H.264, AAC and subtitle stream. All nine scenes reviewed, full decode succeeds, timed captions and output/source hashes match. Actual local-app screenshot walkthrough and synthetic system narration are disclosed. |
 | Submission package | [SUBMISSION.md](SUBMISSION.md) lists final links, reviewer instructions, free-host limits and the local organizer-email draft. External email delivery is not claimed. |
 
@@ -60,4 +60,15 @@ The later review identified two evidence/feature gaps in v1.0: generic handoff w
 
 The v2 report SHA-256 values are `09e962db8edd89eeeeb82625057663439cff2c9cae5aece441dda76b3a448863` (140), `1e56ea5b731db106c3b5dfaed04a58578376fa2b92e4cbe0e628fbdbfa6aa41b` (70), and `e0fff495a32c56e19b5c690d1207b2f76dd4392682017a502697c2d72a4fb781` (service segments). Current source matching is an offline check; it does not itself establish that this revision is deployed.
 
-The new prospective 70-case challenge is frozen independently of the provider prompt changes and remains **unscored**. It has no independent human/native-Portuguese review. Live provider benchmarking requires a separately authorized metered run. Deployment and refreshed media require their own receipts. Organizer delivery remains intentionally outside scope. The original first-pass challenge evidence remains immutable.
+The new prospective 70-case challenge is frozen independently of the provider prompt changes and remains **unscored**. It has no independent human/native-Portuguese review. Live provider benchmarking requires a separately authorized metered run. The current release receipts below separately verify deployment and refreshed media. Organizer delivery remains intentionally outside scope. The original first-pass challenge evidence remains immutable.
+
+
+## Verified v1.1 release
+
+[PR #4](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/pull/4) merged after both CI checks passed on exact head `904f56f136c98d5cb3e7b640169680f34c3bd957`. The merged application `ea5da7533fcb23c361eee649cb1cfa556999417c` also passed CI and is visibly Live in Render. The [independent fresh-clone receipt](evidence/release-v1.1-clone.json) verifies locked setup, Ruff, **238 tests**, JavaScript parsing and exact tree equality between the tested head and merge.
+
+The final source-only Docker image passed real ES/PT HTTP flows including specific report retention, confirmation, an analyst question, a reply bound to that question, closure, idempotent retries and read-back of all four events. New race tests reject stale request owners, stale replies and expired/revoked sessions after lock acquisition. The public [API receipt](evidence/deployed-v1.1-api-checks.json) independently passed **23 aggregate checks**, eight byte-identical static assets and six equal evaluation reports. Cookies, access isolation and the full bilingual follow-up workflow were checked over HTTPS.
+
+The refreshed [deck manifest](../submission/deck-manifest.json) verifies six visually reviewed pages, editable charts and embedded fonts. The [video manifest](../submission/demo-manifest.json) verifies **150.569229 seconds**, 1920×1080 H.264/AAC, timed English captions and exact source/output hashes. Local captures and synthetic system narration are disclosed. Historical v1.0 assets remain in their [original release](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.0.0).
+
+External providers remain disabled on the free service. Live Jev/DeepSeek quality and cost are unverified; the local classifier's documented errors remain. No claim of 100% accuracy, complete language coverage or production banking readiness follows from passing tests. Nothing was submitted to the organizers.

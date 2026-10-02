@@ -112,7 +112,7 @@ function renderAI(ai, configured = false) {
   return `<details class="ai-details"><summary>${t(configured ? 'aiConfig' : 'aiDetails')}</summary><dl>${items.map(([key, label]) => {
     const item = ai[key];
     const status = item.status || (configured ? 'configured' : '');
-    const statusText = words[state.language]['ai_' + status] || t('aiStatusUnknown');
+    const statusText = configured && status === 'disabled' && ['local', 'deterministic'].includes(item.provider) ? t('ai_external_disabled') : words[state.language]['ai_' + status] || t('aiStatusUnknown');
     const provider = { jev: 'Jev', deepseek: 'DeepSeek', local: t('provider_local'), deterministic: t('provider_deterministic') }[item.provider] || item.provider || t('providerUnknown');
     const fallback = !configured && fallbackStatuses.includes(status);
     return `<div><dt>${t(label)}</dt><dd><strong>${esc(provider)}</strong>${item.model ? ` · ${esc(item.model)}` : item.requested_model ? `<small>${t('aiRequestedModel')}: ${esc(item.requested_model)}</small>` : ''}<span>${esc(statusText)}</span>${fallback ? `<small>${t(key === 'response' ? 'aiResponseFallback' : 'aiClassifierFallback')}</small>` : ''}</dd></div>`;
