@@ -1,13 +1,13 @@
-.PHONY: setup check dev data-list data-plan data-sync profile
+.PHONY: setup check dev data-list data-plan data-sync profile pipeline train-fraud evaluate docker
 PORT ?= 8000
 
 setup:
-	uv sync --locked
+	uv sync --locked --group ml
 
 check:
-	uv run --locked ruff check .
-	uv run --locked ruff format --check .
-	uv run --locked pytest -q
+	uv run --locked --group ml ruff check .
+	uv run --locked --group ml ruff format --check .
+	uv run --locked --group ml pytest -q
 
 dev:
 	uv run --locked uvicorn factored_banking.api:app --host 127.0.0.1 --port $(PORT) --reload
@@ -23,3 +23,15 @@ data-sync:
 
 profile:
 	uv run --locked python -m factored_banking.profile --data-dir data/raw --output artifacts/data-profile.json
+
+pipeline:
+	uv run --locked --group ml python -m factored_banking.data_pipeline --export-sqlite
+
+train-fraud:
+	uv run --locked --group ml python -m factored_banking.train_fraud
+
+evaluate:
+	uv run --locked --group ml python -m factored_banking.system_evaluation
+
+docker:
+	docker build -t claro-banking:local .

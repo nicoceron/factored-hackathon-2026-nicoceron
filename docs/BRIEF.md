@@ -1,6 +1,6 @@
 # What they want
 
-Reviewed September 27, 2026. The task is to demonstrate a useful, safe, measured banking customer-service system. Choose a focused problem and complete it end to end. Depth matters more than adding workflows.
+PDFs reviewed September 27 and October 2, 2026; user-supplied event-page requirements incorporated October 2. The task is to demonstrate a useful, safe, measured banking customer-service system. Choose a focused problem and complete it end to end. Depth matters more than adding workflows.
 
 ## Required behavior
 
@@ -32,13 +32,13 @@ No live lending decisions or money movement are required or authorized by the ch
 - Closing date: **October 5, 2026**. Kickoff p. 6 and the [official FAQ](https://www.factored.ai/careers/ai-data-hackathon) agree. Neither inspected source specifies the cutoff hour/timezone.
 - Kickoff p. 18 asks for a **public GitHub repo** named `factored-hackathon-2026-[team-name]`, a **deployed-tool link**, **4–6 slides**, and a **mandatory short video pitch** showing the working solution and architecture decisions.
 - The slide says to submit those materials to `hackathon.admin@factored.ai`. This documents the submission route; nothing has been sent.
-- The video length is described as short, without an exact duration in these files.
+- The user-supplied current event page specifies a video pitch of **no longer than three minutes**. The final artifact must also satisfy that limit.
 - Kickoff p. 6 lists finalists October 15 and the award ceremony October 16.
 - No numerical scoring weights were provided in the inspected brief. Do not invent a percentage rubric.
 
 The technical brief says this is a prototype with honest remaining deployment work; that does not erase the kickoff's requirement for a deployed demo link. Plan a hosted sandbox demonstration. No particular cloud provider is mandated. Obtain an explicit organizer exception if planning a local-only submission.
 
-The event website currently contains mixed wording, including a “Submissions Closed” button label and generic fraud-related marketing. Its FAQ still says October 5. Use the detailed participant brief for scope and confirm the cutoff in organizer announcements.
+The September 27 website snapshot contained mixed wording, including a “Submissions Closed” button label and generic fraud-related marketing. Its FAQ still says October 5. Use the detailed participant brief for scope and confirm the cutoff in organizer announcements.
 
 ## What the pasted Slack conversation establishes
 

@@ -1,6 +1,8 @@
 # Setup verification — September 27, 2026
 
-These checks verify the project foundation. They do not establish that the banking assistant or hackathon submission is complete.
+> Historical setup receipt. For the completed application and current release checks, see [SUBMISSION.md](SUBMISSION.md), [DEPLOYMENT.md](DEPLOYMENT.md) and [SYSTEM_EVALUATION.md](SYSTEM_EVALUATION.md).
+
+These September 27 checks verify the project foundation. They do not establish that the banking assistant or hackathon submission is complete.
 
 | Check | Result |
 | --- | --- |

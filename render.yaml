@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: claro-banking-hackathon-2026
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /readyz
+    autoDeployTrigger: off
+    envVars:
+      - key: CLARO_SECURE
+        value: '1'
+      - key: CLARO_DB
+        value: /state/claro.sqlite
+      - key: WEB_CONCURRENCY
+        value: '1'
