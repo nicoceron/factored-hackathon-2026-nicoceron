@@ -1,0 +1,25 @@
+To: hackathon.admin@factored.ai
+Subject: Factored AI & Data Hackathon 2026 - Claro - nicoceron
+Content-Type: text/plain; charset=UTF-8
+
+Hello Factored team,
+
+Here are the submission materials for Claro, our bilingual banking customer-service prototype.
+
+Team/repository identifier: nicoceron
+Public GitHub repository:
+https://github.com/nicoceron/factored-hackathon-2026-nicoceron
+
+Working deployed demo:
+https://claro-banking-hackathon-2026.onrender.com
+
+Six-slide presentation (PDF and editable PPTX), narrated demo video, and captions:
+https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.0.0
+
+The video runs 2 minutes 44.55 seconds. It demonstrates the actual local application using clearly labeled team-authored fixtures, with narration and English captions. Public deployment is verified separately in the release evidence.
+
+Choose a Spanish or Portuguese customer persona, inspect a transaction, and confirm a proposed review case. Switch to the analyst persona in the same browser to review its evidence and record the sandbox outcome. No password is required. The free service may take about a minute to wake; sandbox state may reset on restart.
+
+Our focus is transaction support and verified human handoff. The repository contains reproducible preparation, model baselines, complete-system evaluation, documented failures, privacy/isolation controls, and the rubric-to-evidence map. The demo has no real bank connection or money movement; synthetic evaluations do not establish production accuracy.
+
+Thank you.

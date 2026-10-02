@@ -1,0 +1,116 @@
+{
+  "capture_provenance": "CUA Chrome, localhost:8096, 2026-10-02; actual isolated sandbox",
+  "format": "Narrated screenshots, not a continuous screen recording",
+  "voice": "macOS Samantha synthetic voice; no voice cloning",
+  "scenes": [
+    {
+      "title": "Banking help.\nWith evidence.",
+      "source": "demo-assets/login.jpg",
+      "source_sha256": "c0f095686ee2f44bff4ca4d410fbdbb7aae1a27aa73c992da80afb0755d808ff",
+      "crop": null,
+      "start_seconds": 0.0,
+      "duration_seconds": 17.181813
+    },
+    {
+      "title": "Understand.\nThen clarify.",
+      "source": "demo-assets/customer-pt-evidence.jpg",
+      "source_sha256": "4b64c796d370f05e1b7a476603af22d9c900f406bd54300f978e0d936cf2ca10",
+      "crop": [
+        716,
+        300,
+        1470,
+        924
+      ],
+      "start_seconds": 17.181813,
+      "duration_seconds": 18.392646
+    },
+    {
+      "title": "The model\ncan't act alone.",
+      "source": "demo-assets/customer-pt-proposal.jpg",
+      "source_sha256": "ecfb10f02bcfdd5dd2e1f411f3d9d20900b70221a86987961c65d79feed1a7fd",
+      "crop": [
+        716,
+        300,
+        1470,
+        924
+      ],
+      "start_seconds": 35.574459,
+      "duration_seconds": 16.899979
+    },
+    {
+      "title": "A real pause\nfor confirmation.",
+      "source": "demo-assets/confirmation-pt.jpg",
+      "source_sha256": "b4bd986b45916501602141e0a5fcf19094e4ea979f84fa24a5566f40db91c115",
+      "crop": [
+        445,
+        248,
+        1046,
+        706
+      ],
+      "start_seconds": 52.47443799999999,
+      "duration_seconds": 13.470688
+    },
+    {
+      "title": "An action needs\na verified receipt.",
+      "source": "demo-assets/customer-pt-receipt.jpg",
+      "source_sha256": "da14812c2290be0221ba30498dbc175cf179c5c4905d56f589987689824da380",
+      "crop": [
+        716,
+        300,
+        1470,
+        924
+      ],
+      "start_seconds": 65.94512599999999,
+      "duration_seconds": 16.304104
+    },
+    {
+      "title": "A useful handoff.\nA bounded decision.",
+      "source": "demo-assets/analyst-pt-reviewed.jpg",
+      "source_sha256": "264b23015b00d17cce4d8f22332c027be7dbae1c297be827d485e8ccd0de56ab",
+      "crop": [
+        690,
+        255,
+        1470,
+        1430
+      ],
+      "start_seconds": 82.24922999999998,
+      "duration_seconds": 19.903208
+    },
+    {
+      "title": "Small architecture.\nExplicit boundaries.",
+      "source": "demo-assets/operations.jpg",
+      "source_sha256": "082019528481abb8caf565d2bebc8c2740d867aced306d1ebaf1824ff5ae36a1",
+      "crop": [
+        230,
+        323,
+        1470,
+        813
+      ],
+      "start_seconds": 102.15243799999999,
+      "duration_seconds": 19.914375
+    },
+    {
+      "title": "Measure the result.\nPublish the limits.",
+      "source": "demo-assets/evaluation.jpg",
+      "source_sha256": "03273f3cd994070824cf02b02cbb30599a59cf1bfd80304ce0e273e6455a5fa1",
+      "crop": [
+        230,
+        84,
+        1470,
+        548
+      ],
+      "start_seconds": 122.066813,
+      "duration_seconds": 22.321854
+    },
+    {
+      "title": "Ship the evidence.\nKeep human oversight.",
+      "source": "demo-assets/customer-pt-receipt.jpg",
+      "source_sha256": "da14812c2290be0221ba30498dbc175cf179c5c4905d56f589987689824da380",
+      "crop": null,
+      "start_seconds": 144.388667,
+      "duration_seconds": 20.092188
+    }
+  ],
+  "duration_seconds": 164.546104,
+  "output_sha256": "0f4c437f100c587b5427d5f182f5cd75b25d88d633fa2bd5e302094fa3bfaa7f"
+}

@@ -1,0 +1,13 @@
+{
+  "verified": true,
+  "url": "https://claro-banking-hackathon-2026.onrender.com",
+  "commit": "4692dede4e6bb463b493ae310e7f33b9d513c8c2",
+  "verification_recorded_at_utc": "2026-10-02T08:52:21Z",
+  "verification_scope": "Release owner verified this application commit is live and public /api/evaluation reports the exact workflow SHA-256 above. Full HTTP and browser workflow checks are recorded separately.",
+  "deployment_tier": "Render free",
+  "limitations": [
+    "Cold starts can delay the first request.",
+    "Ephemeral filesystem can reset sandbox sessions and cases."
+  ],
+  "workflow_sha256": "bd677695671d3764b537f0f3498ad0c2044a9050536681aa0c032c8fead9692c"
+}

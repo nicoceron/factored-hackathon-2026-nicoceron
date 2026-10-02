@@ -38,3 +38,7 @@ Real fixture-only screenshots are local QA artifacts under `artifacts/ui-qa/` (i
 - [MDN dialog](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog): modal focus and native dismissal.
 - [MDN log role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role): incremental conversational content.
 - Google Fonts source distributions: [DM Sans](https://github.com/google/fonts/tree/main/ofl/dmsans), [Manrope](https://github.com/google/fonts/tree/main/ofl/manrope). License texts accompany the font binaries in `static/fonts`.
+
+## Hosted release verification
+
+The release owner exercised the public HTTPS customer and analyst interfaces in both languages, including server cancellation, explicit confirmation, verified receipts, and saved analyst outcomes. A Portuguese short-follow-up misroute was fixed in PR #2 and rechecked in the browser on application commit `4692ded`. [Browser receipt](evidence/deployed-browser-checks.json) distinguishes the original complete walkthrough from the final correction check and records screenshot hashes. The public API was independently checked against the latest release; static files match local assets byte-for-byte.

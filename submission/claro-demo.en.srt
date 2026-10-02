@@ -1,0 +1,145 @@
+1
+00:00:00,350 --> 00:00:03,791
+Meet Claro, banking support in Spanish and Portuguese.
+
+2
+00:00:03,791 --> 00:00:09,745
+This is a working historical sandbox with team authored fixtures, not a
+connection to real bank accounts.
+
+3
+00:00:09,745 --> 00:00:16,632
+We complete one workflow: understand a transaction, report an unrecognized
+charge, and hand off with evidence.
+
+4
+00:00:17,532 --> 00:00:21,146
+Here, the Portuguese customer asks whether a payment went through.
+
+5
+00:00:21,146 --> 00:00:24,197
+Claro asks which transaction, instead of guessing.
+
+6
+00:00:24,197 --> 00:00:31,090
+After a selection, it reports thirty eight dollars and fifty cents as pending,
+preserving the currency and historical date.
+
+7
+00:00:31,090 --> 00:00:35,024
+The answer comes from an authorized record tool, with source references.
+
+8
+00:00:35,924 --> 00:00:38,793
+The customer says they do not recognize this charge.
+
+9
+00:00:38,793 --> 00:00:43,144
+Claro prepares a human review case, but nothing has been created yet.
+
+10
+00:00:43,144 --> 00:00:46,195
+Intent classification helps understand the request.
+
+11
+00:00:46,195 --> 00:00:51,924
+Deterministic service rules control permissions, required context, and which
+actions are allowed.
+
+12
+00:00:52,824 --> 00:00:56,850
+A separate confirmation dialog names the sandbox action and its limits.
+
+13
+00:00:56,850 --> 00:01:01,796
+The service requires the valid session, the correct role, and a CSRF token.
+
+14
+00:01:01,796 --> 00:01:05,395
+Typing yes in the conversation cannot execute the case creation.
+
+15
+00:01:06,295 --> 00:01:09,384
+The confirmed case is now saved and read back from storage.
+
+16
+00:01:09,384 --> 00:01:12,338
+Only then does Claro show this verified reference.
+
+17
+00:01:12,338 --> 00:01:17,744
+Retries reuse an idempotency key, so a dropped response does not create
+another case.
+
+18
+00:01:17,744 --> 00:01:21,699
+A verification failure produces an error, never a success claim.
+
+19
+00:01:22,599 --> 00:01:30,572
+In the same isolated workspace, an analyst receives the allegation,
+transaction facts, evidence, and open questions.
+
+20
+00:01:30,572 --> 00:01:35,827
+Risk is unavailable for these out of domain fixtures, rather than shown as a
+misleading zero.
+
+21
+00:01:35,827 --> 00:01:39,158
+The analyst can close the review or request more information.
+
+22
+00:01:39,158 --> 00:01:41,602
+Neither outcome grants a refund or proves fraud.
+
+23
+00:01:42,502 --> 00:01:49,815
+The application uses one FastAPI service, a local language classifier, and a
+transactional sandbox case store.
+
+24
+00:01:49,815 --> 00:01:54,183
+Offline data preparation and model evaluation stay outside requests.
+
+25
+00:01:54,183 --> 00:01:57,527
+The browser shows actual workspace activity and latency.
+
+26
+00:01:57,527 --> 00:02:01,517
+Zero model API spend does not mean zero infrastructure cost.
+
+27
+00:02:02,417 --> 00:02:10,384
+We compare rules, a trained TF-IDF classifier, and local Gemma on the same one
+hundred forty authored bilingual scenarios.
+
+28
+00:02:10,384 --> 00:02:15,214
+The selected classifier reaches an intent macro F one of eighty two point
+three percent.
+
+29
+00:02:15,214 --> 00:02:19,185
+The complete workflow has a separate evaluation with failures disclosed.
+
+30
+00:02:19,185 --> 00:02:23,839
+These tests have no independent human review and cannot establish production
+accuracy.
+
+31
+00:02:24,739 --> 00:02:30,567
+The fraud experiment is equally explicit: its candidates did not pass the
+validation promotion gate.
+
+32
+00:02:30,567 --> 00:02:34,622
+We retain the baseline and never let a low score dismiss a customer's report.
+
+33
+00:02:34,622 --> 00:02:43,931
+Claro delivers a working bilingual workflow, traceable evidence, and a human
+handoff, with honest boundaries for what remains before real banking
+production.
