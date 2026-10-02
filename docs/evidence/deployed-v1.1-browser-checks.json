@@ -1,0 +1,149 @@
+{
+  "checked_at_utc": "2026-10-02T15:47:57.410Z",
+  "url": "https://claro-banking-hackathon-2026.onrender.com",
+  "workflow_release_commit": "ea5da7533fcb23c361eee649cb1cfa556999417c",
+  "release_basis": "Release owner verified Render live commit; this receipt records the observed browser workflow.",
+  "browser": "Chrome via CUA",
+  "scope": "Public isolated sandbox, team-authored fixture data only",
+  "languages": [
+    {
+      "language": "es",
+      "explicit_confirmation": true,
+      "specific_report_preserved": true,
+      "verified_receipts": {
+        "creation": true,
+        "question": true,
+        "reply": true,
+        "closure": true
+      },
+      "reply_returned_to_review": true,
+      "pending_question_cleared": true,
+      "reload_status": "reviewed_closed",
+      "history_complete": true,
+      "timeline": [
+        {
+          "type": "case_created",
+          "actor_role": "customer",
+          "status": "open"
+        },
+        {
+          "type": "question_requested",
+          "actor_role": "analyst",
+          "status": "needs_information"
+        },
+        {
+          "type": "customer_reply",
+          "actor_role": "customer",
+          "status": "open"
+        },
+        {
+          "type": "review_closed",
+          "actor_role": "analyst",
+          "status": "reviewed_closed"
+        }
+      ],
+      "closed_review_button_count": 0,
+      "local_processing_notice_visible": true
+    },
+    {
+      "language": "pt",
+      "explicit_confirmation": true,
+      "specific_report_preserved": true,
+      "question_id_field_present": true,
+      "verified_receipts": {
+        "creation": true,
+        "question": true,
+        "reply": true,
+        "closure": true
+      },
+      "reply_returned_to_review": true,
+      "pending_question_cleared": true,
+      "reload_status": "reviewed_closed",
+      "history_complete": true,
+      "timeline": [
+        {
+          "type": "case_created",
+          "actor_role": "customer",
+          "status": "open"
+        },
+        {
+          "type": "question_requested",
+          "actor_role": "analyst",
+          "status": "needs_information"
+        },
+        {
+          "type": "customer_reply",
+          "actor_role": "customer",
+          "status": "open"
+        },
+        {
+          "type": "review_closed",
+          "actor_role": "analyst",
+          "status": "reviewed_closed"
+        }
+      ],
+      "closed_review_button_count": 0,
+      "local_processing_notice_visible": true
+    }
+  ],
+  "console_warning_error_count": 0,
+  "external_inference_performed": false,
+  "organizer_data_used": false,
+  "submission_performed": false,
+  "privacy": "No cookies, CSRF tokens, sessions, case IDs, event IDs, or client request IDs are retained in this aggregate JSON. Screenshots show team-authored fixtures.",
+  "follow_up": {
+    "checked_at_utc": "2026-10-02T15:52:56.823Z",
+    "release_commit": "59ec1d17307bf917e6b598e0ab25e4e8697cfa36",
+    "scope": "Provider configuration copy-only correction; the unchanged full lifecycle remains recorded against ea5da7533fcb23c361eee649cb1cfa556999417c.",
+    "es_configuration_label": "Procesamiento local; proveedores externos deshabilitados",
+    "pt_configuration_label": "Processamento local; provedores externos desabilitados",
+    "both_configuration_panels_expanded_and_checked": true,
+    "pt_check": "Interface locale switched to Portuguese in the same new Spanish customer session.",
+    "actual_response": {
+      "intent": "transaction_status",
+      "state": "resolved",
+      "ai": {
+        "classifier": {
+          "provider": "local",
+          "status": "external_disabled",
+          "attempts": 0,
+          "estimated_cost_usd": 0
+        },
+        "response": {
+          "provider": "deterministic",
+          "status": "external_disabled",
+          "attempts": 0,
+          "estimated_cost_usd": 0
+        }
+      }
+    },
+    "external_provider_attempts": 0,
+    "screenshot": "docs/evidence/screenshots/deployed-v1.1-provider-es.jpg"
+  },
+  "limitations": [
+    "This is a bounded browser check, not a production banking certification.",
+    "External providers were disabled, so no live provider availability or quality is established.",
+    "Safari and formal assistive-technology testing are outside this receipt."
+  ],
+  "screenshots": [
+    {
+      "path": "docs/evidence/screenshots/deployed-v1.1-history-es.jpg",
+      "sha256": "8db4e159db96f791d4a45e3087a9bf3d51c423190920f8ba0c36f0d02b7b2eab",
+      "dimensions": [
+        1488,
+        982
+      ],
+      "contents": "Actual public fixture case chronology and read-only closed status"
+    },
+    {
+      "path": "docs/evidence/screenshots/deployed-v1.1-history-pt.jpg",
+      "sha256": "f9f88708e1652ed5e161c675eea2c33e1036823b6a10dfd65b5c90c92a5ba99a",
+      "dimensions": [
+        1488,
+        982
+      ],
+      "contents": "Actual public fixture case chronology and read-only closed status"
+    }
+  ],
+  "workflow_app_js_sha256": "61326c3733250873c6b0c86cdbb29e570118a92b48fa6c3abf1d10a5dd9a1a0b"
+}
