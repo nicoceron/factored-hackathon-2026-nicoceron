@@ -1,8 +1,8 @@
 {
   "verified": true,
   "url": "https://claro-banking-hackathon-2026.onrender.com",
-  "commit": "ea5da7533fcb23c361eee649cb1cfa556999417c",
-  "verification_recorded_at_utc": "2026-10-02T15:40:07.721932+00:00",
+  "commit": "59ec1d17307bf917e6b598e0ab25e4e8697cfa36",
+  "verification_recorded_at_utc": "2026-10-02T15:51:21.205825+00:00",
   "verification_scope": "Render dashboard visibly reports Deploy succeeded and Live for this exact commit. Public HTTPS API audit passed 23 aggregate checks, all 8 static assets match local bytes, all 6 evaluation reports match. Browser QA is recorded separately.",
   "deployment_tier": "Render free",
   "limitations": [
@@ -10,9 +10,12 @@
     "Ephemeral filesystem can reset sandbox sessions and cases."
   ],
   "workflow_sha256": "4781f850e2622b5a9e8c8924a592016ccf9f1093f67cc5a06c5da9170fe3b4f5",
-  "deployment_id": "dep-davsv6ou01pc7381mvrg",
+  "deployment_id": "dep-davt4crncjis73flp1i0",
   "api_sha256": "a0e72fb5169b5d0f64a6398a3dc45cfd05c059383ba5538f7e7f8b179a232293",
   "external_inference_enabled": false,
   "provider_live_inference_verified": false,
-  "api_receipt": "docs/evidence/deployed-v1.1-api-checks.json"
+  "api_receipt": "docs/evidence/deployed-v1.1-api-checks.json",
+  "workflow_browser_commit": "ea5da7533fcb23c361eee649cb1cfa556999417c",
+  "workflow_browser_receipt": "docs/evidence/deployed-v1.1-browser-checks.json",
+  "final_change_scope": "PR5 changed only the disabled-external-provider configuration label in serving source; full HTTPS smoke, static bytes and reports reverified at final commit. The browser receipt separately records the original full lifecycle and final label check."
 }

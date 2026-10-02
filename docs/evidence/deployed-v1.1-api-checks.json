@@ -1,10 +1,10 @@
 {
   "version": "deployed-api-checks-v1.1",
   "url": "https://claro-banking-hackathon-2026.onrender.com",
-  "started_at_utc": "2026-10-02T15:38:23.048129+00:00",
-  "completed_at_utc": "2026-10-02T15:38:39.687343+00:00",
-  "local_release_commit": "ea5da7533fcb23c361eee649cb1cfa556999417c",
-  "deployment_commit_reported_by_release_owner": "ea5da7533fcb23c361eee649cb1cfa556999417c",
+  "started_at_utc": "2026-10-02T15:50:09.101011+00:00",
+  "completed_at_utc": "2026-10-02T15:50:27.506428+00:00",
+  "local_release_commit": "59ec1d17307bf917e6b598e0ab25e4e8697cfa36",
+  "deployment_commit_reported_by_release_owner": "59ec1d17307bf917e6b598e0ab25e4e8697cfa36",
   "commit_evidence_scope": "Release owner identifies deployed commit; this probe independently verifies static bytes and report contents, not a server commit-attestation endpoint.",
   "all_checks_passed": true,
   "checks": {
@@ -58,8 +58,8 @@
       "path": "/static/app.js",
       "http_200": true,
       "sha256_matches_local": true,
-      "local_sha256": "61326c3733250873c6b0c86cdbb29e570118a92b48fa6c3abf1d10a5dd9a1a0b",
-      "deployed_sha256": "61326c3733250873c6b0c86cdbb29e570118a92b48fa6c3abf1d10a5dd9a1a0b"
+      "local_sha256": "7d96d61b387a2e631b72e925b0d00740ba862162aa475d861e98a2b47d5b91c3",
+      "deployed_sha256": "7d96d61b387a2e631b72e925b0d00740ba862162aa475d861e98a2b47d5b91c3"
     },
     {
       "path": "/static/favicon.svg",

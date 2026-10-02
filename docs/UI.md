@@ -59,3 +59,8 @@ Verified on October 2 against `http://localhost:8096`, using an isolated Chrome 
 Fixture screenshots, case read-back JSON and hashes are saved locally under the ignored `artifacts/ui-completion/` directory, with `browser-checks.json` as the receipt. Normal-flow browser warning/error logs were empty before intentionally inducing network errors. Hosted extension QA, Safari and formal screen-reader testing remain separate gates.
 
 Native form validation follows [MDN reportValidity](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/reportValidity). Requests retain abort-controller timeouts with explicit cleanup, consistent with [MDN AbortSignal guidance](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/timeout_static).
+
+
+## Hosted v1.1 verification
+
+The [public browser receipt](evidence/deployed-v1.1-browser-checks.json) records actual ES/PT case creation, analyst questions, customer replies, closure and reload at the stated workflow commit. Both closed cases retain four events with no further review form; no browser warnings/errors were observed. The later configuration-label correction and its public check are identified separately. No external model inference or organizer data was used.
