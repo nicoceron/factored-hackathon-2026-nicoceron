@@ -2,10 +2,73 @@
 
 import re
 import unicodedata
+from datetime import date, datetime
+from decimal import Decimal, InvalidOperation
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
 from factored_banking import policy
 from factored_banking.fixtures import AS_OF
 from factored_banking.fraud import assess
+
+
+class TransactionEvidence(BaseModel):
+    """Runtime allowlist for the documented historical sandbox record contract.
+
+    Values are validated before any evidence, prose, handoff or risk input is built.
+    Extra tool fields (including labels or personal data) are never projected onward.
+    """
+
+    model_config = ConfigDict(strict=True, extra="ignore")
+    id: str = Field(min_length=1, max_length=40)
+    amount: str = Field(min_length=1, max_length=50)
+    currency: Literal["MXN", "COP", "ARS", "USD"]
+    status: Literal["completed", "pending", "declined"]
+    source: str = Field(min_length=1, max_length=500)
+    as_of: str
+    provenance: Literal["team_authored_synthetic"]
+    merchant: str | None = Field(default=None, max_length=200)
+    date: str | None = None
+    transaction_date: str | None = None
+    channel: str | None = None
+    transaction_type: str | None = None
+    country: str | None = None
+
+    @field_validator("amount")
+    @classmethod
+    def valid_amount(cls, value):
+        try:
+            parsed = Decimal(value)
+        except InvalidOperation as exc:
+            raise ValueError("Amount must be a decimal string") from exc
+        if not parsed.is_finite() or parsed < 0:
+            raise ValueError("Amount must be finite and nonnegative")
+        return value
+
+    @field_validator("as_of", "date")
+    @classmethod
+    def valid_date(cls, value):
+        if value is not None:
+            if len(value) != 10:
+                raise ValueError("Date must be ISO YYYY-MM-DD")
+            date.fromisoformat(value)
+        return value
+
+    @field_validator("transaction_date")
+    @classmethod
+    def valid_timestamp(cls, value):
+        if value is not None:
+            datetime.fromisoformat(value)
+        return value
+
+    @field_validator("source")
+    @classmethod
+    def nonblank_source(cls, value):
+        if not value.strip():
+            raise ValueError("Evidence source must be present")
+        return value
+
 
 COPY = {
     "choose": (
@@ -21,6 +84,17 @@ COPY = {
     "denied": (
         "No hay una operación autorizada con esa referencia en tu sesión.",
         "Não há uma operação autorizada com essa referência na sua sessão.",
+    ),
+    "invalid_record": (
+        "No puedo verificar los datos de esta operación. Preparé una propuesta de revisión "
+        "humana sin presentar esos datos como hechos. "
+        "Confírmala si deseas crear un caso de prueba.",
+        "Não posso verificar os dados desta operação. Preparei uma proposta de análise humana "
+        "sem apresentar esses dados como fatos. Confirme se deseja criar um caso de teste.",
+    ),
+    "verify_record": (
+        "Verificar los datos incompletos o inconsistentes antes de responder sobre la operación.",
+        "Verificar os dados incompletos ou inconsistentes antes de responder sobre a operação.",
     ),
     "confirm": (
         "Preparé un caso de prueba para revisión humana. Revisa la evidencia y usa Confirmar caso "
@@ -152,7 +226,30 @@ def run(message, language, transaction_id, context, records, classifier):
     if intent == "ambiguous" and context.get("transaction_id"):
         intent = context.get("pending_intent", "transaction_status")
     selected = transaction_id or context.get("transaction_id")
-    transaction = next((row for row in records if row["id"] == selected), None)
+    matches = [
+        row
+        for row in (records or [])
+        if selected and isinstance(row, dict) and row.get("id") == selected
+    ]
+    transaction = matches[0] if len(matches) == 1 else None
+    if selected and matches:
+        try:
+            if len(matches) != 1:
+                raise ValueError("Ambiguous record key")
+            transaction = TransactionEvidence.model_validate(transaction).model_dump()
+        except (ValidationError, ValueError):
+            result.update(
+                message=say("invalid_record", language),
+                intent="human",
+                state="awaiting_confirmation",
+                context={},
+                evidence=policy.retrieve("human", language),
+            )
+            payload = proposal_payload("human", language, result, "invalid_transaction_evidence")
+            payload["unverified_transaction_reference"] = selected
+            payload["open_questions"].insert(0, say("verify_record", language))
+            result["proposal_payload"] = payload
+            return result
     if selected and transaction is None:
         result.update(message=say("denied", language), state="blocked", context={})
         return result
@@ -175,12 +272,6 @@ def run(message, language, transaction_id, context, records, classifier):
             "pending": ("pendiente", "pendente"),
             "declined": ("rechazada", "recusada"),
         }
-        if transaction.get("status") not in states or not all(
-            transaction.get(key) for key in ("amount", "currency", "as_of", "source")
-        ):
-            result.update(message=say("confirm", language), state="awaiting_confirmation")
-            result["proposal_payload"] = proposal_payload("human", language, result, "missing_data")
-            return result
         status = states[transaction["status"]][language == "pt"]
         merchant = transaction.get("merchant") or (
             "comercio no informado" if language == "es" else "estabelecimento não informado"
@@ -212,14 +303,17 @@ def run(message, language, transaction_id, context, records, classifier):
 def proposal_payload(intent, language, result, reason=None):
     report = {
         "dispute": (
-            "El cliente reporta una operación no reconocida.",
-            "O cliente relata uma operação não reconhecida.",
+            "El cliente solicita revisar una operación; el motivo requiere confirmación humana.",
+            "O cliente solicita revisar uma operação; o motivo precisa de confirmação humana.",
         ),
         "scam": (
             "El cliente reporta un posible engaño y requiere revisión humana.",
             "O cliente relata uma possível fraude e precisa de análise humana.",
         ),
-        "human": ("El cliente solicita atención humana.", "O cliente solicita atendimento humano."),
+        "human": (
+            "Se propone atención humana; confirmar el motivo con el cliente.",
+            "Atendimento humano proposto; confirmar o motivo com o cliente.",
+        ),
     }[intent][language == "pt"]
     risk = assess(result.get("transaction") or {})
     return {
