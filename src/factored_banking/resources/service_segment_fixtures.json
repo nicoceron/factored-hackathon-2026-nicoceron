@@ -1,0 +1,57 @@
+{
+  "version": "service-segments-v1",
+  "provenance": "team_authored_synthetic",
+  "description": "Operational customer service segments defined only by the status and currency of the authorized transaction offered to the customer. No demographic or customer-tier attribute is inferred.",
+  "segments": [
+    {
+      "id": "completed-cop",
+      "transaction_status": "completed",
+      "currency": "COP",
+      "amount": "24000.00"
+    },
+    {
+      "id": "completed-usd",
+      "transaction_status": "completed",
+      "currency": "USD",
+      "amount": "24.00"
+    },
+    {
+      "id": "pending-cop",
+      "transaction_status": "pending",
+      "currency": "COP",
+      "amount": "24000.00"
+    },
+    {
+      "id": "pending-usd",
+      "transaction_status": "pending",
+      "currency": "USD",
+      "amount": "24.00"
+    },
+    {
+      "id": "declined-cop",
+      "transaction_status": "declined",
+      "currency": "COP",
+      "amount": "24000.00"
+    },
+    {
+      "id": "declined-usd",
+      "transaction_status": "declined",
+      "currency": "USD",
+      "amount": "24.00"
+    }
+  ],
+  "languages": [
+    "es",
+    "pt"
+  ],
+  "base_corpus": "language_test.json",
+  "case_policy": "Replay every exposed language test case in every segment using identical utterances and reference outcomes. Change only the first authorized transaction status, amount/currency, source/provenance, and a common country. The matched amount values are synthetic fixtures, not exchange conversions.",
+  "expected_relationship": "Routing, access permissions and confirmation requirements should not change with these attributes. Financial status/amount/currency in the grounded answer must match each authorized fixture.",
+  "limitations": [
+    "Operational service segments do not measure demographic fairness or real bank customer tiers.",
+    "Repeated utterances across segments are paired interventions, not additional independently labeled cases.",
+    "The existing corpus is exposed; this is regression and controlled counterfactual evidence, not an untouched holdout.",
+    "Country is fixed to Colombia for both languages; country/dialect effects are not measured.",
+    "The amount values are not economic equivalents or measured exchange rates."
+  ]
+}

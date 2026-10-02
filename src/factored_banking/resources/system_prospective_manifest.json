@@ -1,0 +1,15 @@
+{
+  "version": "prospective-provider-challenge-v1",
+  "sha256": "4622618e9d06cba5584081a438e84ab896eaf9a5ff0ef6b1cf497545258a7a67",
+  "cases": 70,
+  "semantic_groups": 35,
+  "author": "coding_assistant_data_ml",
+  "frozen_before_scoring": true,
+  "authoring_protocol": "Authored from seven-intent taxonomy after reviewing service code and earlier failures. Author did not inspect the Jev/DeepSeek provider prompts or new provider outputs. No model predictions used for labels. ES/PT pairs share reference intent. This is prospective relative to provider integration, not externally blinded or human-reviewed.",
+  "first_pass_policy": "Freeze bytes before any provider or current-system scoring. Preserve first-pass evidence. Any subsequent fix/replay is regression and cannot be described as fresh validation.",
+  "review_status": "No independent human/native-Portuguese label review",
+  "independence_limitations": [
+    "Author knew earlier workflow implementation and failures.",
+    "These are synthetic authored scenarios, not samples of real banking demand."
+  ]
+}

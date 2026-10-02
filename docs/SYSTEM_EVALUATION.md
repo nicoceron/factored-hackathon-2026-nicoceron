@@ -1,8 +1,46 @@
 # Workflow evaluation and its limits
 
-This benchmark sends real HTTP requests through FastAPI `TestClient`, persisted sessions, the workflow, SQLite proposals/cases, explicit confirmation, and committed read-back verification. It compares the **same workflow with keyword rules versus the released learned classifier**. Both receive the same deterministic safeguards. No cloud model or organizer customer record is used.
+This benchmark sends real HTTP requests through FastAPI `TestClient`, persisted sessions, the workflow, SQLite proposals/cases, explicit confirmation, and committed read-back verification. It compares the **same workflow with keyword rules versus the released learned classifier**. Both receive the same deterministic safeguards. The default offline replay explicitly disables external providers and uses no organizer customer record. Provider-enabled experiments have separate configuration, usage and evidence.
 
 The 140-case workload replays the frozen language test corpus described in [LANGUAGE_EVALUATION.md](LANGUAGE_EVALUATION.md). Its model-level results remain a held-out classification experiment because model weights and thresholds were frozen before that evaluation. **The system results below are a developer regression replay:** the first workflow run exposed two legitimate scam reports blocked by privacy filters and two overlapping scam/dispute reports delayed by transaction clarification. Deterministic safety behavior was corrected and the workflow replayed. These final numbers must not be described as an untouched or independently reviewed end-to-end test.
+
+## Request-preservation contract and provider accounting (v2)
+
+The evaluator now requires the stored `customer_report` to retain the redacted reference request through transaction selection and confirmation. It also requires `report_provenance=customer_allegation_redacted_not_verified`, separating what the customer reported from verified transaction facts. A generic category sentence can contain every expected field and still fails this check. Tests distinguish a duplicate second charge from denial of the entire purchase, and verify that the initial specific request survives clarification. This is a deliberately strict retained-text contract, not a model judge or a claim that every possible paraphrase is equivalent. Known-sensitive examples may provide an independently specified `reference_report`; otherwise the expected text is the shared redactor's output, whose security tests are separate.
+
+`system-request-preservation-v2` receipts add `handoffs_preserving_reference_request` and require preservation for a correct human-required outcome. Original frozen first-pass reports keep their historical v1 criterion and source hashes. Replaying an exposed corpus with v2 is regression evidence; it does not create a new blind test.
+
+`run_workload` accepts a named classifier through its `classifier` argument and optional `configure_app`/`usage_meter` hooks for an explicitly authorized provider experiment. It creates the app with external inference disabled before any optional injection. Provider ledger snapshots surround the measured case requests, including clarification and confirmation/read-back. A separate all-run ledger includes warmup, seed-case setup and fault checks so those requests cannot vanish from the accounting. Run each experiment with an isolated ledger.
+
+Provider input/output tokens and attempts come from recorded responses and attempts. Costs computed using public tariffs are estimates, not invoice spend. Unknown-charge attempts and budget reservations remain visible; an incomplete cost becomes undefined rather than $0. Estimated cost per attempted case and per successful automated resolution have separate fields, and the success-denominator metric is undefined with zero successes. The older `$0` figures below apply only to the identified local runs. A prepared provider adapter is not a measured provider outcome.
+
+## Authorized service-segment protocol
+
+The frozen [fixture specification](../src/factored_banking/resources/service_segment_fixtures.json) and [manifest](../src/factored_banking/resources/service_segment_manifest.json) define **customers by selected-transaction status/currency**: completed, pending and declined crossed with COP/USD. Every stratum replays the identical 140 exposed utterances, including 70 Spanish and 70 Portuguese cases, for **840 replays per system**. There remain only 140 unique utterances and 70 translated semantic pairs, not 840 independent labels. Forty reference cases per stratum directly require selected transaction evidence (status/dispute); all other intents are also scored to check that record attributes do not change policy routing.
+
+The API fixture seam preserves each authenticated customer's record IDs and replaces only the first permitted transaction's status, amount/currency, source and common country. Both languages receive every status/currency combination, preventing the original ES/COP and PT/USD fixture pairing from confounding the comparison. Monetary values are authored examples, not exchange conversions. These operational service groups contain no inferred age, gender, disability, income or customer tier. They address the chosen workflow's supported record attributes, not demographic fairness.
+
+The [source-matched aggregate report](evidence/service-segment-evaluation.json) compares correctness, safe automated resolution, missed/unnecessary handoffs and materially wrong outcomes for every stratum/language. Paired differences use the same case ID against the completed/COP reference. **Zero paired outcome changes were observed** for either system across the controlled attributes. Grounded status answers were checked against each changed permitted record, rather than a constant expected response.
+
+| Selected transaction stratum | Rules correct | Learned correct | Learned handoffs preserving request | Learned safe automated / all in-scope |
+| --- | ---: | ---: | ---: | ---: |
+| Completed / COP | 77/140 | 122/140 | 60/60 | 36/120 |
+| Completed / USD | 77/140 | 122/140 | 60/60 | 36/120 |
+| Pending / COP | 77/140 | 122/140 | 60/60 | 36/120 |
+| Pending / USD | 77/140 | 122/140 | 60/60 | 36/120 |
+| Declined / COP | 77/140 | 122/140 | 60/60 | 36/120 |
+| Declined / USD | 77/140 | 122/140 | 60/60 | 36/120 |
+
+Within every stratum, learned correctness was 60/70 Spanish and 62/70 Portuguese; rules scored 40/70 and 37/70. Learned verified handoffs preserved the request in 30/30 cases in each language, while rules reached 15/30 ES and 13/30 PT. Thus the remaining disparity in these fixtures is tied to the authored language cases, not the status/currency intervention: the same failed IDs recur in every stratum. No protected or demographic attribute is collected or inferred. These small translated slices do not estimate population fairness or explain language differences causally. Shared linguistic errors and authoring bias persist even when the controlled attribute gaps are zero. All 1,680 replays, including setup, recorded zero external provider attempts.
+
+```bash
+uv run --locked python -m factored_banking.service_segments \
+  --output artifacts/service-segment-evaluation.json
+```
+
+## Prospective provider challenge
+
+A new **70-case** corpus, `system_prospective_test.json`, was frozen at SHA-256 `4622618e9d06cba5584081a438e84ab896eaf9a5ff0ef6b1cf497545258a7a67` before any scoring or inspection of the new provider prompts. It contains 35 ES/PT pairs, five per intent. The separate author knew previous workflow code and failures, so it is independent of provider prompt corrections, not externally blinded. There is no independent human or native-Portuguese label review. The [manifest](../src/factored_banking/resources/system_prospective_manifest.json) requires preserving the first-pass evidence; later fixes/reruns must be named regression. No result is claimed merely because the corpus exists.
 
 ## Reference behavior and replay protocol
 
@@ -15,7 +53,7 @@ Every case gets a fresh isolated browser workspace and a trusted demo session in
 - A normal answer must return the selected authorized record, its evidence/source, amount, currency, localized status, ID, and historical as-of date.
 - Case lookup must read the previously created case and its stored status. This tests the list/read workflow, not semantic extraction of an arbitrary case ID mentioned in a sentence.
 
-Entity recognition, matching fictional merchants in an utterance to real transaction candidates, multi-party adjudication, natural confirmation behavior, and analyst judgment of summary usefulness are outside this benchmark. Packets are checked for required fields, correct reference intent, scam priority, and dispute transaction evidence; that is a structural usefulness proxy, not human approval of a summary.
+Entity recognition, matching fictional merchants in an utterance to real transaction candidates, multi-party adjudication, natural confirmation behavior, and analyst judgment of summary usefulness are outside this benchmark. The historical v1 packet score checked required fields, reference intent, scam priority and dispute transaction evidence, but did not test whether a generic report preserved the actual request. The stronger v2 contract below adds that missing check. Neither criterion is independent human approval of a summary.
 
 ### Hosted continuity regression
 
@@ -43,9 +81,9 @@ The workflow and models were held fixed for the first run. Its [unaltered first-
 
 Learned outcome counts were **31/35 ES and 30/35 PT**. Eight fault checks per language again passed for both systems. The two missed escalations shared a new defect: a customer's report of a coercive instruction contained the cancellation verb, and a broad command regex cancelled the conversation instead of recognizing the scam report. This shows why the earlier regression suite's 60/60 handoffs cannot be generalized to all language. Other failures included false dispute/scam proposals, existing-case misrouting, and unsupported requests sent to clarification.
 
-Cancellation was then restricted to an explicit command rather than any sentence containing the verb. The [separately labeled regression rerun](evidence/system-challenge-regression.json) on the corrected release achieved **63/70 learned outcomes and 30/30 required handoffs**, versus 43/70 and 19/30 for rules. **Seven learned outcomes remain incorrect, including four unnecessary handoff proposals.** Zero materially wrong outcomes under the narrower definition below must not be described as zero errors. All 22 current fault cases passed for each system. The rerun's learned local p50/p95 was 5.48/10.25 ms; rules were 4.00/13.91 ms. This unisolated development host's timing varied substantially between runs, so these are observations rather than a latency guarantee. The model and thresholds were unchanged. The first-pass report retains the historical source hashes and results; the current source reproduces the corrected regression, not the old defect.
+Cancellation was then restricted to an explicit command rather than any sentence containing the verb. The historical [v1 regression](evidence/system-challenge-regression.json) remains preserved. The current [v2 regression rerun](evidence/system-challenge-regression-v2.json), with the stronger retained-request criterion, achieved **63/70 learned outcomes and 30/30 required handoffs preserving the request**, versus 43/70 and 19/30 for rules. **Seven learned outcomes remain incorrect, including four unnecessary handoff proposals.** Zero materially wrong outcomes under the narrower definition below must not be described as zero errors. All 22 current fault cases passed for each system. This v2 rerun's learned local p50/p95 was 7.91/14.15 ms; rules were 5.71/11.13 ms. This unisolated development host's timing varied substantially between runs, so these are observations rather than a latency guarantee. The model and thresholds were unchanged. The first-pass report retains the historical source hashes and results; current source reproduces the corrected regression, not the old defect.
 
-## Measured 140-case regression results
+## Measured v2 140-case regression results
 
 Each recorded benchmark uses a sequential replay in one process on the development Mac. The final regression refreshes ran sequentially on the shared development host; other development activity was not isolated. Reported latency includes in-process HTTP chat, any clarification and confirmation, and read-back requests. It excludes session/fixture setup, hosted network delivery, user thinking time, and queue time. This is not a production capacity or hosted latency measurement.
 
@@ -56,13 +94,13 @@ Each recorded benchmark uses a sequential replay in one process on the developme
 | Attempted automation / all cases | 47/140 | 37/140 |
 | Required handoffs verified | 28/60 | **60/60** |
 | Required handoffs missed | 32/60 | **0/60** |
-| Handoffs with correct intent, priority and required packet fields | 28/28 | 60/60 |
+| Handoffs with correct intent, priority, packet fields and preserved request | 28/28 | 60/60 |
 | Unnecessary handoff proposals | 4/140 | 7/140 |
 | No verified transfer (“containment”) | 80.0% | 57.1% |
 | Incorrect outcomes of any kind | 63/140 | 18/140 |
 | Materially wrong outcomes under the definition below | 34/140 | 1/140 |
 | Observed scoped unauthorized record/action outcomes | 0/140 | 0/140 |
-| Measured local p50 / p95 | 3.31 / 7.54 ms | 5.14 / 11.28 ms |
+| Measured local p50 / p95 | 4.76 / 10.12 ms | 7.49 / 14.82 ms |
 
 “Safe automated resolution” requires a correct transaction answer or verified case lookup without a human transfer, divided by **all 120 in-scope cases**, including those expected to need clarification or a human. Unsupported requests are the 20 out-of-scope cases. The maximum possible automated rate on this deliberately balanced workload is 40/120; correct clarification, refusal, and human transfer count as correct outcomes but are not automated resolutions.
 
@@ -82,19 +120,19 @@ The broader API tests also exercise cross-browser workspace isolation, analyst p
 
 ## Cost and reproducibility
 
-Measured model API spend was **$0** for both systems. Model API cost per attempted case and per successful automated resolution is $0; the latter is reported as undefined if a run has zero successful automated resolutions. Hardware, electricity, and hosting costs are unmeasured and excluded. No production savings, revenue, avoided fraud, or representative per-customer operating cost is claimed.
+Recorded external provider attempts were **zero** for both systems, for measured requests and the all-run ledger including setup/warmup/fault checks. These offline runs therefore incurred **$0 model API spend**. Model API cost per attempted case and per successful automated resolution is $0; the latter is undefined with zero successful automated resolutions. Each workload explicitly disables external inference and creates a temporary provider ledger so other processes cannot contaminate its accounting. Hardware, electricity, and hosting costs are unmeasured and excluded. Optional provider-enabled runs require separate authorized execution and evidence. No production savings, revenue, avoided fraud, or representative per-customer operating cost is claimed.
 
 ```bash
 uv run --locked python -m factored_banking.system_evaluation \
-  --output artifacts/system-evaluation.json
+  --output artifacts/system-evaluation-v2.json
 # Challenge replay is regression once its first run has been inspected:
 uv run --locked python -m factored_banking.system_evaluation \
   --challenge-corpus src/factored_banking/resources/system_challenge_test.json \
   --challenge-regression \
-  --output artifacts/system-challenge-regression.json
+  --output artifacts/system-challenge-regression-v2.json
 uv run --locked pytest -q tests/test_system_evaluation.py tests/test_api.py tests/test_workflow_evidence.py
 ```
 
-The [aggregate evidence](evidence/system-evaluation.json) records corpus SHA-256 and exact API, workflow, language, and evaluation-source hashes. A packaged identical copy is served to the demo dashboard. Latencies may vary on rerun. The benchmark does not write to the deployed environment; its databases use temporary directories and are removed after the run.
+The [v2 aggregate evidence](evidence/system-evaluation-v2.json) records corpus SHA-256 and exact API, workflow, language, privacy, provider, store, fixture, policy, fraud and evaluation-source hashes, including the released language/fraud JSON model artifacts. The old [v1 report](evidence/system-evaluation.json) is retained as historical evidence. Packaged v2 and service-segment copies are byte-identical to the documentation receipts and are selected by the current dashboard endpoint. Latencies may vary on rerun. The benchmark does not write to the deployed environment; its databases use temporary directories and are removed after the run.
 
-Three benchmark-contract tests verify that a false handoff is never automatically accepted or counted as success, a real dispute needs persisted case read-back, grounded transaction resolution is recognized, and zero-success cost denominators remain undefined. The framework integration follows [FastAPI's documented TestClient pattern](https://fastapi.tiangolo.com/tutorial/testing/).
+Benchmark-contract tests reject falsely confirmed handoffs, require persisted case read-back and request preservation, validate grounded transaction answers for all six strata, preserve immutable first-pass reports, isolate offline ledgers, reject external network use in offline mode, distinguish provider estimates from invoice spend, and keep unknown/zero-success costs undefined. The framework integration follows [FastAPI's documented TestClient pattern](https://fastapi.tiangolo.com/tutorial/testing/).

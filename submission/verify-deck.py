@@ -24,13 +24,23 @@ inputs = [
     "submission/build-deck.mjs",
     "submission/build-deck.sh",
     "submission/deployment.json",
-    "submission/assets/customer-case.jpg",
-    "submission/assets/analyst-case.jpg",
+    "submission/assets/customer-specific-report.jpg",
+    "submission/assets/analyst-followup.jpg",
     "docs/evidence/ml-evaluation.json",
     "docs/evidence/language-evaluation.json",
     "docs/evidence/system-challenge-evaluation.json",
     "docs/evidence/system-challenge-regression.json",
+    "docs/AI_PROVIDERS.md",
 ]
+for current, historical in (
+    ("docs/evidence/system-evaluation-v2.json", "docs/evidence/system-evaluation.json"),
+    ("docs/evidence/system-challenge-regression-v2.json", None),
+    ("docs/evidence/service-segment-evaluation.json", None),
+):
+    if (ROOT / current).exists():
+        inputs.append(current)
+    elif historical:
+        inputs.append(historical)
 outputs = ["submission/Claro-Hackathon-2026.pptx", "submission/Claro-Hackathon-2026.pdf"]
 hashes = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in inputs + outputs}
 assert hashes[outputs[0]] == receipt["finalSha256"], "PPTX differs from finalized receipt"
@@ -54,7 +64,7 @@ with ZipFile(ROOT / outputs[0]) as archive:
     embedded_workbooks = [p for p in archive.namelist() if p.endswith(".xlsx")]
     assert len(embedded_workbooks) == 3
 manifest = {
-    "version": "claro-deck-v1",
+    "version": "claro-deck-v2",
     "slide_count": 6,
     "native_chart_count": 3,
     "embedded_chart_workbook_count": len(embedded_workbooks),

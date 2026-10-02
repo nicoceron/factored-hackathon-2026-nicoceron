@@ -1,6 +1,6 @@
 # Claro submission
 
-**Factored AI & Data Hackathon 2026 · team/repository identifier `nicoceron`.** Materials are prepared locally and published through GitHub. No organizer email has been sent by this work. The supplied deadline is October 5, 2026; an exact cutoff hour/timezone was not supplied.
+**Factored AI & Data Hackathon 2026 · team/repository identifier `nicoceron`.** Materials are prepared locally and published through GitHub. Organizer submission is intentionally outside the requested work. No organizer email has been sent. The supplied deadline is October 5, 2026; an exact cutoff hour/timezone was not supplied.
 
 ## Required materials
 
@@ -9,7 +9,7 @@
 - [x] Six-slide [presentation PDF](../submission/Claro-Hackathon-2026.pdf) and [editable PPTX](../submission/Claro-Hackathon-2026.pptx).
 - [x] [Demo video](../submission/claro-demo.mp4), **164.55 seconds (2:44.55)**, 1080p with narration and captions. The maximum is three minutes.
 - [x] [Media provenance and reproduction](../submission/README.md), plus exact file hashes and validation manifests.
-- [ ] Organizer delivery: materials have **not been emailed**. The route supplied by the event is `hackathon.admin@factored.ai`; the local draft is preparation, not a submission receipt. Registered member details and the exact cutoff remain for the submitting participant to verify.
+- Organizer delivery is **intentionally not requested** and is not a missing application feature. Materials have **not been emailed**. The event route is `hackathon.admin@factored.ai`; the local draft is preparation, not a submission receipt. Registered member details and the exact cutoff remain for a participant who later chooses to submit.
 
 ## Reviewer access — no credentials needed
 
@@ -33,10 +33,17 @@ The personas, records and bank policies are explicitly team-authored fixtures. T
 - [x] Clean-clone setup, CI, non-root Docker, public HTTPS/API workflows, secure cookies and published-asset equality verified.
 - [x] Secret scans and source-only image boundary; no organizer PDFs, credentials or private customer records in the public repository/image.
 
-[Rubric mapping](RUBRIC.md) links every evaluation dimension to evidence. [Completion audit](COMPLETION_AUDIT.md) distinguishes prototype completion from production work. [System evaluation](SYSTEM_EVALUATION.md) discloses remaining model errors; authored synthetic tests do not establish production performance. Fraud candidates failed their promotion gates and were not released as useful detection. Runtime performs no paid or remote model calls.
+[Rubric mapping](RUBRIC.md) links every evaluation dimension to evidence. [Completion audit](COMPLETION_AUDIT.md) distinguishes prototype completion from production work. [System evaluation](SYSTEM_EVALUATION.md) discloses remaining model errors; authored synthetic tests do not establish production performance. Fraud candidates failed their promotion gates and were not released as useful detection. The v1.0 release measured a local runtime with no remote model calls. The subsequent provider integration is separately gated and must report its own usage, tariff estimates and verification; v1.0’s $0 model-API result must not be generalized to a provider-enabled run.
 
 ## Release evidence
 
 [Deployed API receipt](evidence/deployed-api-checks.json) records actual HTTPS workflows, isolation, cookie/security attributes, and file/report checksums without retaining session values. [Deployment receipt](../submission/deployment.json) identifies the public service and application commit. [UI verification](UI.md) and the hosted-browser release receipt cover customer/analyst behavior. The media manifests verify six slides, all reviewed renders, video duration/streams/captions and source provenance.
 
 The original build plan and September 27 setup receipt are historical. Their incomplete scaffold status does not describe this release. Follow [SETUP.md](SETUP.md) to reproduce the current application and [DEPLOYMENT.md](DEPLOYMENT.md) for free-host operation and rollback.
+
+
+## Additional completion work after the v1.0 release
+
+Specific redacted customer allegations now survive transaction clarification, and analyst questions/customer replies persist in scoped case history. The [source-matched v2 replay](evidence/system-evaluation-v2.json) verifies 60/60 required handoffs preserving the request and 122/140 learned outcomes. The [earlier challenge regression](evidence/system-challenge-regression-v2.json) verifies 30/30 such handoffs and 63/70 outcomes. A [frozen controlled replay](evidence/service-segment-evaluation.json) compares customers by selected-transaction status/currency, counterbalanced in both languages, with the same outcomes in all six strata. The repeated 840 cases per system contain 140 unique authored utterances, not additional independent labels or demographic fairness proof.
+
+A separate prospective 70-case challenge is frozen and unscored. Jev classification and DeepSeek composition have runtime/spending controls and mocked tests; no successful live inference is claimed. Current offline receipts record zero external attempts including setup/warmup, which must not be generalized to provider-enabled cost. Refreshed deployment/media need their own verification. Until those receipts identify a newer release, the hosted evidence above describes the identified v1.0 application. Organizer delivery is intentionally not requested.

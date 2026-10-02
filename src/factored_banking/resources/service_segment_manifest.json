@@ -1,0 +1,16 @@
+{
+  "version": "service-segment-protocol-v1",
+  "fixture_sha256": "bf8bd52d91f3b34fa17b32d68a1a4892e4808759e6662df95c5fa6e70cfd0af6",
+  "language_test_sha256": "f07b57b6c1f1629c8b43bc27ca2686886c320e15a2768be7a919e1c83b5aa5e7",
+  "frozen_before_segment_scoring": true,
+  "author": "coding_assistant_data_ml",
+  "review_status": "not_independently_human_reviewed",
+  "cases_per_segment": 140,
+  "segments": 6,
+  "languages": 2,
+  "cases_per_segment_language": 70,
+  "total_replays_per_system": 840,
+  "unique_original_utterances": 140,
+  "paired_semantic_groups": 70,
+  "model_tuning_prohibited": "This regression suite must not be described as a new untouched language holdout or used to claim generalization after tuning."
+}

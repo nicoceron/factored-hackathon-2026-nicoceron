@@ -1,4 +1,4 @@
-"""HTTP/workflow replay of the frozen synthetic language workload; no network service calls."""
+"""HTTP/workflow replay of frozen synthetic cases; default mode disables external inference."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ import platform
 import tempfile
 import time
 from collections import Counter
+from contextlib import nullcontext
 from pathlib import Path
 from unittest.mock import patch
 
@@ -19,6 +20,7 @@ from factored_banking.api import create_app
 from factored_banking.evaluation import RESOURCE, corpus, validate_corpus
 from factored_banking.fixtures import transactions
 from factored_banking.language import INTENTS, baseline_classify, classify, normalize
+from factored_banking.privacy import redact_text
 
 HUMAN_REQUIRED = {"human", "scam", "dispute"}
 
@@ -82,9 +84,10 @@ def grounded_transaction(result, transaction):
     )
 
 
-def handoff_quality(case, expected, transaction):
+def handoff_quality(case, expected, transaction, reference_request):
     fields = {
         "customer_report",
+        "report_provenance",
         "evidence",
         "open_questions",
         "actions_taken",
@@ -101,21 +104,33 @@ def handoff_quality(case, expected, transaction):
         and case["policy_version"]
         and isinstance(case["actions_taken"], list)
     )
+    # The product contract preserves a bounded, redacted quotation rather than generating
+    # an unverifiable paraphrase. A generic filled template must not pass as useful context.
+    reference = " ".join(normalize(reference_request).split())
+    report = " ".join(normalize(case.get("customer_report", "")).split())
+    preserved = bool(reference and reference in report)
     appropriate = bool(
         complete
+        and preserved
+        and case["report_provenance"] == "customer_allegation_redacted_not_verified"
         and case["intent"] == expected
         and (expected != "scam" or case["priority"] == "high")
         and (expected != "dispute" or case.get("transaction") == transaction)
     )
-    return {"required_fields_present": complete, "appropriate_for_reference_intent": appropriate}
+    return {
+        "required_fields_present": complete,
+        "reference_request_preserved": preserved,
+        "appropriate_for_reference_intent": appropriate,
+    }
 
 
-def scenario(app, row):
+def scenario(app, row, usage_meter=None):
     expected, language = row["intent"], row["language"]
     with TestClient(app) as client:
         login(client, language)
         tx = client.get("/api/transactions").json()["transactions"][0]
         existing = seed_case(client, language) if expected == "case_status" else None
+        cursor = usage_meter.snapshot() if usage_meter else None
         start = time.perf_counter()
         response = chat(client, row["text"], language, "eval-request-0001")
         history = []
@@ -130,7 +145,13 @@ def scenario(app, row):
                 "latency_ms": (time.perf_counter() - start) * 1000,
                 "final_state": "error",
                 "calls": calls,
+                "in_scope": expected != "unsupported",
+                "required_handoff": expected in HUMAN_REQUIRED,
+                "verified_handoff": False,
+                "missed_handoff": expected in HUMAN_REQUIRED,
+                "materially_wrong_outcome": expected in HUMAN_REQUIRED,
                 "unauthorized_disclosure_or_action": False,
+                "provider_usage": measured_usage(usage_meter, cursor),
             }
         result = response.json()
         history.append(result["state"])
@@ -143,7 +164,11 @@ def scenario(app, row):
             result = response.json()
             history.append(result["state"])
         proposal = bool(result.get("proposal"))
-        packet = {"required_fields_present": False, "appropriate_for_reference_intent": False}
+        packet = {
+            "required_fields_present": False,
+            "reference_request_preserved": False,
+            "appropriate_for_reference_intent": False,
+        }
         verified = False
         if proposal and expected in HUMAN_REQUIRED:
             response = confirm(client, result["proposal"]["id"], "eval-confirm-0001")
@@ -159,7 +184,12 @@ def scenario(app, row):
                     and stored.json().get("id") == receipt.get("id")
                 )
                 if verified:
-                    packet = handoff_quality(stored.json(), expected, tx)
+                    packet = handoff_quality(
+                        stored.json(),
+                        expected,
+                        tx,
+                        row.get("reference_report", redact_text(row["text"])),
+                    )
                 history.append(result["state"])
         case_status_verified = False
         if result["state"] == "case_lookup" and existing:
@@ -205,7 +235,65 @@ def scenario(app, row):
             "unauthorized_disclosure_or_action": unauthorized,
             "materially_wrong_outcome": materially_wrong,
             "latency_ms": elapsed,
+            "provider_usage": measured_usage(usage_meter, cursor),
         }
+
+
+def measured_usage(meter, cursor):
+    """Read the provider's attempt ledger, including failed calls and unknown charges.
+
+    A usage tariff estimate is not an actual invoice. No meter means this explicitly
+    configured offline classifier made no provider requests, not a free remote call.
+    """
+    if meter is not None:
+        return meter.usage_since(cursor)
+    return {
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0,
+        "unknown_cost_attempts": 0,
+        "reserved_budget_usd": 0.0,
+        "by_provider": {},
+    }
+
+
+def aggregate_usage(results):
+    records = [r.get("provider_usage", measured_usage(None, None)) for r in results]
+    total = {
+        key: sum(r.get(key, 0) for r in records)
+        for key in (
+            "attempts",
+            "input_tokens",
+            "output_tokens",
+            "unknown_cost_attempts",
+            "reserved_budget_usd",
+        )
+    }
+    known = all(r.get("estimated_cost_usd") is not None for r in records)
+    total["estimated_cost_usd"] = (
+        sum(r["estimated_cost_usd"] for r in records)
+        if known and not total["unknown_cost_attempts"]
+        else None
+    )
+    total["known_usage_estimate_usd"] = sum(r.get("estimated_cost_usd") or 0 for r in records)
+    total["cost_complete"] = known and not total["unknown_cost_attempts"]
+    total["model_ids"] = sorted({model for r in records for model in r.get("model_ids", [])})
+    total["by_provider"] = {
+        provider: aggregate_usage(
+            [
+                {"provider_usage": r["by_provider"][provider]}
+                for r in records
+                if provider in r.get("by_provider", {})
+            ]
+        )
+        for provider in sorted({key for r in records for key in r.get("by_provider", {})})
+    }
+    total["pricing_dates"] = sorted({r["pricing_date"] for r in records if r.get("pricing_date")})
+    total["cost_basis"] = "provider usage multiplied by published tariffs; not invoice spend"
+    total["token_count_scope"] = "sum of validated usage reports; unknown attempts not imputed"
+    total["scope"] = "measured case requests, excluding session/seed-case setup and warmup"
+    return total
 
 
 def summarize(results):
@@ -217,6 +305,9 @@ def summarize(results):
     )
     verified = sum(r.get("verified_handoff", False) for r in results)
     values = [r["latency_ms"] for r in results]
+    usage = aggregate_usage(results)
+    actual = 0.0 if usage["attempts"] == 0 else None
+    estimate = usage["estimated_cost_usd"]
     return {
         "cases": count,
         "in_scope_cases": in_scope,
@@ -239,6 +330,9 @@ def summarize(results):
         "handoffs_with_required_packet_fields": sum(
             r.get("handoff_packet", {}).get("required_fields_present", False) for r in results
         ),
+        "handoffs_preserving_reference_request": sum(
+            r.get("handoff_packet", {}).get("reference_request_preserved", False) for r in results
+        ),
         "handoffs_appropriate_to_reference": sum(
             r.get("handoff_packet", {}).get("appropriate_for_reference_intent", False)
             for r in results
@@ -259,10 +353,17 @@ def summarize(results):
                 "session/fixture setup excluded; no human think time"
             ),
         },
-        "model_api_spend_usd": 0,
-        "model_api_cost_per_attempt_usd": 0 / count,
-        "model_api_cost_per_successful_automated_resolution_usd": 0 / successes
-        if successes
+        "provider_usage": usage,
+        "model_api_spend_usd": actual,
+        "model_api_cost_per_attempt_usd": actual / count if actual is not None else None,
+        "model_api_cost_per_successful_automated_resolution_usd": actual / successes
+        if successes and actual is not None
+        else None,
+        "estimated_model_api_cost_per_attempt_usd": estimate / count
+        if estimate is not None
+        else None,
+        "estimated_model_api_cost_per_successful_automated_resolution_usd": estimate / successes
+        if successes and estimate is not None
         else None,
         "infrastructure_cost": "unmeasured; host/electricity/hardware excluded",
     }
@@ -380,12 +481,24 @@ def fault_checks(app, language):
     return outcomes
 
 
-def load_challenge(path):
-    manifest = json.loads(path.with_name("system_challenge_manifest.json").read_text())
+def load_challenge(path, manifest_path=None):
+    if manifest_path is None:
+        name = (
+            "system_prospective_manifest.json"
+            if path.name == "system_prospective_test.json"
+            else "system_challenge_manifest.json"
+        )
+        manifest_path = path.with_name(name)
+    manifest = json.loads(manifest_path.read_text())
     if hashlib.sha256(path.read_bytes()).hexdigest() != manifest["sha256"]:
         raise ValueError("Frozen challenge corpus hash mismatch")
     rows = json.loads(path.read_text())
     previous = {normalize(r["text"]) for split in ("train", "dev", "test") for r in corpus(split)}
+    if path.name == "system_prospective_test.json":
+        previous.update(
+            normalize(r["text"])
+            for r in json.loads(RESOURCE.joinpath("system_challenge_test.json").read_text())
+        )
     if len(rows) < 70 or len({r["id"] for r in rows}) != len(rows):
         raise ValueError("Challenge needs at least 70 uniquely identified cases")
     texts = [normalize(r["text"]) for r in rows]
@@ -398,11 +511,67 @@ def load_challenge(path):
     return rows
 
 
+def run_workload(
+    rows,
+    classifier=None,
+    *,
+    configure_app=None,
+    usage_meter=None,
+    run_faults=True,
+    records_factory=None,
+):
+    """Evaluate an explicitly configured system without enabling providers from the env.
+
+    An authorized provider experiment may inject classifier/composer with configure_app
+    and pass its ProviderRuntime usage meter. This helper never enables external calls.
+    A caller must use an isolated provider budget ledger for attributable measurements.
+    """
+    fixture_context = (
+        patch("factored_banking.api.transactions", side_effect=records_factory)
+        if records_factory
+        else nullcontext()
+    )
+    with tempfile.TemporaryDirectory(prefix="claro-evaluation-") as temp, fixture_context:
+        # Even a disabled runtime must not read a developer's shared provider ledger:
+        # concurrent unrelated attempts would contaminate the offline usage receipt.
+        with patch.dict("os.environ", {"CLARO_PROVIDER_BUDGET_DB": str(Path(temp) / "ai.sqlite")}):
+            app = create_app(
+                str(Path(temp) / "sandbox.sqlite"), secure_cookies=False, enable_external=False
+            )
+        if configure_app:
+            configure_app(app)
+        if classifier is not None:
+            app.state.classifier = classifier
+        meter = usage_meter or app.state.ai
+        run_cursor = meter.snapshot()
+        app.state.classifier("Quiero consultar el estado de mi pago", "es")
+        results = [scenario(app, row, meter) for row in rows]
+        aggregate = summarize(results)
+        aggregate["language_slices"] = {
+            lang: summarize([r for r in results if r["language"] == lang])
+            for lang in ("es", "pt")
+            if any(r["language"] == lang for r in results)
+        }
+        aggregate["failures"] = [r for r in results if not r["correct_outcome"]]
+        faults = [r for lang in ("es", "pt") for r in fault_checks(app, lang)] if run_faults else []
+        aggregate["fault_suite"] = {
+            "performed": run_faults,
+            "cases": len(faults),
+            "passed": sum(r["passed"] for r in faults),
+            "results": faults,
+        }
+        aggregate["all_run_usage_including_setup_warmup_faults"] = measured_usage(meter, run_cursor)
+        return aggregate, results
+
+
 def evaluate(challenge_path=None, challenge_regression=False):
     validate_corpus()
     rows = load_challenge(challenge_path) if challenge_path else corpus("test")
     report = {
-        "version": "system-challenge-v1" if challenge_path else "system-synthetic-v1",
+        "version": "system-request-preservation-v2",
+        "handoff_quality_contract": (
+            "verified receipt plus intent/priority/evidence and retained redacted reference request"
+        ),
         "workload_status": (
             "challenge regression after its first-pass failures were inspected"
             if challenge_regression
@@ -443,49 +612,61 @@ def evaluate(challenge_path=None, challenge_regression=False):
             else RESOURCE.joinpath("language_test.json").read_bytes()
         ).hexdigest(),
         "source_sha256": {
-            name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-            for name in ("api.py", "workflow.py", "language.py", "system_evaluation.py")
+            name: hashlib.sha256(Path(__file__).parent.joinpath(name).read_bytes()).hexdigest()
+            for name in (
+                "api.py",
+                "workflow.py",
+                "language.py",
+                "privacy.py",
+                "providers.py",
+                "store.py",
+                "fixtures.py",
+                "policy.py",
+                "fraud.py",
+                "resources/language_model.json",
+                "models/fraud-model.json",
+                "system_evaluation.py",
+            )
         },
         "environment": {"python": platform.python_version(), "platform": platform.platform()},
         "systems": {},
     }
     for name, classifier in (("keyword_rules", baseline_classify), ("tfidf_logistic", classify)):
-        with tempfile.TemporaryDirectory(prefix="claro-evaluation-") as temp:
-            app = create_app(str(Path(temp) / "sandbox.sqlite"), secure_cookies=False)
-            app.state.classifier = classifier
-            classifier("Quiero consultar el estado de mi pago", "es")
-            results = [scenario(app, row) for row in rows]
-            aggregate = summarize(results)
-            aggregate["language_slices"] = {
-                lang: summarize([r for r in results if r["language"] == lang])
-                for lang in ("es", "pt")
-            }
-            aggregate["failures"] = [r for r in results if not r["correct_outcome"]]
-            faults = [r for lang in ("es", "pt") for r in fault_checks(app, lang)]
-            aggregate["fault_suite"] = {
-                "cases": len(faults),
-                "passed": sum(r["passed"] for r in faults),
-                "results": faults,
-            }
-            report["systems"][name] = aggregate
-            print(
-                json.dumps(
-                    {
-                        "system": name,
-                        "correct": aggregate["correct_outcomes"],
-                        "safe_automated": aggregate["safe_automated_resolutions"],
-                        "missed_handoffs": aggregate["missed_required_handoffs"],
-                        "faults_passed": aggregate["fault_suite"]["passed"],
-                    }
-                ),
-                flush=True,
-            )
+        aggregate, _ = run_workload(rows, classifier)
+        report["systems"][name] = aggregate
+        print(
+            json.dumps(
+                {
+                    "system": name,
+                    "correct": aggregate["correct_outcomes"],
+                    "safe_automated": aggregate["safe_automated_resolutions"],
+                    "missed_handoffs": aggregate["missed_required_handoffs"],
+                    "faults_passed": aggregate["fault_suite"]["passed"],
+                }
+            ),
+            flush=True,
+        )
     return report
+
+
+def ensure_report_replaceable(path):
+    """Never turn an immutable first-pass receipt into a later regression result."""
+    if not path.exists():
+        return
+    if path.name in {"system-challenge-evaluation.json", "system-prospective-evaluation.json"}:
+        raise ValueError("Preserve first-pass evidence; choose a distinct regression output")
+    try:
+        old = json.loads(path.read_text())
+    except (ValueError, OSError):
+        raise ValueError("Refusing to overwrite an unrecognized evaluation artifact") from None
+    status = old.get("workload_status", "")
+    if "new authored challenge" in status or old.get("immutable_first_pass"):
+        raise ValueError("Preserve first-pass evidence; choose a distinct regression output")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path("artifacts/system-evaluation.json"))
+    parser.add_argument("--output", type=Path, default=Path("artifacts/system-evaluation-v2.json"))
     parser.add_argument("--package-copy", action="store_true")
     parser.add_argument("--challenge-corpus", type=Path)
     parser.add_argument("--challenge-regression", action="store_true")
@@ -494,21 +675,34 @@ def main():
         parser.error(
             "Preserve first-pass evidence; rerun with --challenge-regression to a new output"
         )
+    filename = "system-evaluation-v2.json"
+    if args.challenge_corpus and args.challenge_corpus.name == "system_prospective_test.json":
+        filename = (
+            "system-prospective-regression.json"
+            if args.challenge_regression
+            else "system-prospective-evaluation.json"
+        )
+    elif args.challenge_corpus:
+        filename = (
+            "system-challenge-regression-v2.json"
+            if args.challenge_regression
+            else "system-challenge-evaluation.json"
+        )
+    packaged = Path(str(RESOURCE.joinpath(filename))) if args.package_copy else None
+    try:
+        ensure_report_replaceable(args.output)
+        if packaged:
+            ensure_report_replaceable(packaged)
+    except ValueError as error:
+        parser.error(str(error))
     report = evaluate(
         challenge_path=args.challenge_corpus, challenge_regression=args.challenge_regression
     )
     text = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(text)
-    if args.package_copy:
-        filename = "system-evaluation.json"
-        if args.challenge_corpus:
-            filename = (
-                "system-challenge-regression.json"
-                if args.challenge_regression
-                else "system-challenge-evaluation.json"
-            )
-        Path(str(RESOURCE.joinpath(filename))).write_text(text)
+    if packaged:
+        packaged.write_text(text)
     print(f"Saved {args.output}")
 
 
