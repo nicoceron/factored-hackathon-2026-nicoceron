@@ -4,12 +4,12 @@ The interface is a responsive ES/PT customer and analyst workspace served by Fas
 
 ## Working flows
 
-- Public demo personas create a server session for team-authored fixtures. The interface explicitly distinguishes the historical sandbox from real bank authentication. Persona changes preserve the browser's isolated workspace, allowing an analyst to review the customer's test case.
+- Public demo personas create a server session for team-authored fixtures. The interface explicitly distinguishes the historical sandbox from real bank authentication. The entry screen and verified receipts warn that sessions and cases may be erased on a service restart. Persona changes preserve the browser's isolated workspace, allowing an analyst to review the customer's test case.
 - The customer selects an authorized transaction, asks questions in Spanish or Portuguese, and sees currency-preserving amounts, snapshot dates, and expandable evidence. No organizer customer data is embedded in frontend assets.
-- Multi-turn clarification uses the server context. Restored sessions show the current transaction context. Dismissing a proposal, removing a selection, or starting a new conversation calls the server reset endpoint, which invalidates pending proposals while preserving cases.
+- Multi-turn clarification uses the server context. Restored sessions show the current transaction context. Dismissing a proposal, removing a selection, or starting a new conversation calls the server reset endpoint, which invalidates pending proposals while preserving cases. Reset requests block new messages and transaction changes until completion; session-generation checks ignore stale results.
 - A case proposal requires an explicit native confirmation dialog. The browser retains the same idempotency key when a confirmation request fails and is retried. A proposal is shown as canceled only after server cancellation succeeds; failure leaves it available for a retry. A green receipt requires the server's explicit verified flag; an unverified receipt is labeled accordingly.
 - Customer cases and the analyst queue fetch persisted records. Analyst results are restricted to `reviewed_closed` or `needs_information`; neither grants a refund nor determines fraud.
-- Operations uses workspace-scoped request, state, case and latency aggregates. Evaluation renders actual published language, end-to-end workflow, and fraud-model reports, including limitations, language slices, baseline comparisons, and rejected-model promotion.
+- Operations uses workspace-scoped request, state, case and latency aggregates. The verified counter is labeled as cases created and verified, excluding analyst status updates. Evaluation renders actual published language, end-to-end workflow, and fraud-model reports, including limitations, language slices, baseline comparisons, and rejected-model promotion.
 - Demo reset is a separately labeled destructive control with an explicit warning dialog. It calls `DELETE /api/workspace`; it never clears another visitor's workspace.
 
 ## Safety and accessibility
