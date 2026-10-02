@@ -27,7 +27,7 @@
   "corpus_sha256": "f07b57b6c1f1629c8b43bc27ca2686886c320e15a2768be7a919e1c83b5aa5e7",
   "source_sha256": {
     "api.py": "4e7f43cb6020fcdebc17d8e368994d465354a4277272f3218e1e968abda08046",
-    "workflow.py": "9a709096f0fff701ef3017eab0169a526bfcab95c6bf409e4ac51760611e6979",
+    "workflow.py": "bd677695671d3764b537f0f3498ad0c2044a9050536681aa0c032c8fead9692c",
     "language.py": "4a029cd1004b62a5c3e845261fc439efdd4df072cb7ca1f46edc67c0f6d4b320",
     "system_evaluation.py": "1b928cba80caf1903c651800418bc53a94255bb8512ae34881e8e874c128e659"
   },
@@ -63,9 +63,9 @@
         "case_lookup": 15
       },
       "latency_ms": {
-        "p50": 4.692083515692502,
-        "p95": 11.219220841303466,
-        "max": 32.91754191741347,
+        "p50": 3.3062290749512613,
+        "p95": 7.536285143578409,
+        "max": 27.761041070334613,
         "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
       },
       "model_api_spend_usd": 0,
@@ -100,9 +100,9 @@
             "case_lookup": 8
           },
           "latency_ms": {
-            "p50": 4.390083020552993,
-            "p95": 11.139631125843152,
-            "max": 15.366540988907218,
+            "p50": 3.344625059980899,
+            "p95": 8.005806122673672,
+            "max": 10.427583940327168,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "model_api_spend_usd": 0,
@@ -137,9 +137,9 @@
             "case_lookup": 7
           },
           "latency_ms": {
-            "p50": 4.787041980307549,
-            "p95": 12.200993706937874,
-            "max": 32.91754191741347,
+            "p50": 3.2781665213406086,
+            "p95": 7.0805981114972365,
+            "max": 27.761041070334613,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "model_api_spend_usd": 0,
@@ -174,7 +174,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.043083008378744
+          "latency_ms": 2.527915989048779
         },
         {
           "case_id": "test-transaction_status-05-pt",
@@ -201,7 +201,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.34341695997864
+          "latency_ms": 2.021208987571299
         },
         {
           "case_id": "test-dispute-03-es",
@@ -229,7 +229,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 5.864957929588854
+          "latency_ms": 4.714375012554228
         },
         {
           "case_id": "test-dispute-03-pt",
@@ -257,7 +257,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.69583400990814
+          "latency_ms": 4.050833056680858
         },
         {
           "case_id": "test-dispute-04-pt",
@@ -285,7 +285,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 5.528542096726596
+          "latency_ms": 4.4344160705804825
         },
         {
           "case_id": "test-dispute-05-pt",
@@ -313,7 +313,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 6.746375001966953
+          "latency_ms": 4.189332947134972
         },
         {
           "case_id": "test-dispute-06-es",
@@ -341,7 +341,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 6.778292008675635
+          "latency_ms": 4.088709014467895
         },
         {
           "case_id": "test-dispute-06-pt",
@@ -369,7 +369,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 5.908207967877388
+          "latency_ms": 4.67441591899842
         },
         {
           "case_id": "test-dispute-07-es",
@@ -397,7 +397,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 7.790375035256147
+          "latency_ms": 3.8148750318214297
         },
         {
           "case_id": "test-dispute-07-pt",
@@ -425,7 +425,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 6.938499980606139
+          "latency_ms": 4.532958031632006
         },
         {
           "case_id": "test-dispute-08-es",
@@ -453,7 +453,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.992458038032055
+          "latency_ms": 4.159250063821673
         },
         {
           "case_id": "test-dispute-08-pt",
@@ -481,7 +481,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 5.1492920611053705
+          "latency_ms": 4.776082932949066
         },
         {
           "case_id": "test-dispute-09-es",
@@ -509,7 +509,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 7.345249992795289
+          "latency_ms": 3.7350000347942114
         },
         {
           "case_id": "test-dispute-09-pt",
@@ -537,7 +537,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 7.539708050899208
+          "latency_ms": 4.6432079980149865
         },
         {
           "case_id": "test-dispute-10-es",
@@ -565,7 +565,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.916792036965489
+          "latency_ms": 3.9925420423969626
         },
         {
           "case_id": "test-dispute-10-pt",
@@ -593,7 +593,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 7.260999991558492
+          "latency_ms": 4.536416963674128
         },
         {
           "case_id": "test-scam-01-es",
@@ -620,7 +620,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.1648329459130764
+          "latency_ms": 1.955249928869307
         },
         {
           "case_id": "test-scam-01-pt",
@@ -647,7 +647,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.0602080514654517
+          "latency_ms": 2.5879580061882734
         },
         {
           "case_id": "test-scam-02-es",
@@ -674,7 +674,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.7625419897958636
+          "latency_ms": 1.9312920048832893
         },
         {
           "case_id": "test-scam-02-pt",
@@ -701,7 +701,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.458832925185561
+          "latency_ms": 2.1798330126330256
         },
         {
           "case_id": "test-scam-03-es",
@@ -728,7 +728,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.312291926704347
+          "latency_ms": 2.1182079799473286
         },
         {
           "case_id": "test-scam-03-pt",
@@ -755,7 +755,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.0304590947926044
+          "latency_ms": 1.9185829441994429
         },
         {
           "case_id": "test-scam-04-es",
@@ -782,7 +782,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.021541051566601
+          "latency_ms": 2.127666026353836
         },
         {
           "case_id": "test-scam-04-pt",
@@ -809,7 +809,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.5078749749809504
+          "latency_ms": 2.3529999889433384
         },
         {
           "case_id": "test-scam-08-es",
@@ -836,7 +836,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.8555000899359584
+          "latency_ms": 2.1886250469833612
         },
         {
           "case_id": "test-scam-08-pt",
@@ -863,7 +863,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.119375091046095
+          "latency_ms": 2.0912920590490103
         },
         {
           "case_id": "test-scam-09-es",
@@ -890,7 +890,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.2022088998928666
+          "latency_ms": 1.933207968249917
         },
         {
           "case_id": "test-scam-09-pt",
@@ -917,7 +917,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.248500008136034
+          "latency_ms": 2.1990829845890403
         },
         {
           "case_id": "test-human-05-es",
@@ -944,7 +944,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.5784579338505864
+          "latency_ms": 2.135583898052573
         },
         {
           "case_id": "test-human-05-pt",
@@ -971,7 +971,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.3451659362763166
+          "latency_ms": 2.1143340272828937
         },
         {
           "case_id": "test-human-07-es",
@@ -998,7 +998,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.3140000412240624
+          "latency_ms": 2.1706660045310855
         },
         {
           "case_id": "test-human-07-pt",
@@ -1025,7 +1025,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.688333021476865
+          "latency_ms": 2.020249958150089
         },
         {
           "case_id": "test-human-10-es",
@@ -1052,7 +1052,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.805292071774602
+          "latency_ms": 2.0837499760091305
         },
         {
           "case_id": "test-human-10-pt",
@@ -1079,7 +1079,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.829874982126057
+          "latency_ms": 2.3074999917298555
         },
         {
           "case_id": "test-case_status-05-es",
@@ -1106,7 +1106,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.3247090177610517
+          "latency_ms": 2.494417014531791
         },
         {
           "case_id": "test-case_status-05-pt",
@@ -1133,7 +1133,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.2833748953416944
+          "latency_ms": 2.2123330272734165
         },
         {
           "case_id": "test-case_status-07-es",
@@ -1160,7 +1160,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.385834046639502
+          "latency_ms": 2.134291920810938
         },
         {
           "case_id": "test-case_status-07-pt",
@@ -1187,7 +1187,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.0292909359559417
+          "latency_ms": 2.111208043061197
         },
         {
           "case_id": "test-case_status-09-es",
@@ -1214,7 +1214,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.802375005558133
+          "latency_ms": 2.095874981023371
         },
         {
           "case_id": "test-case_status-09-pt",
@@ -1241,7 +1241,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.1365830218419433
+          "latency_ms": 2.5195840280503035
         },
         {
           "case_id": "test-case_status-10-pt",
@@ -1268,7 +1268,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 1.9015410216525197
+          "latency_ms": 1.9753329688683152
         },
         {
           "case_id": "test-ambiguous-10-es",
@@ -1295,7 +1295,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.4540419690310955
+          "latency_ms": 2.198540954850614
         },
         {
           "case_id": "test-ambiguous-10-pt",
@@ -1322,7 +1322,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 2.818375010974705
+          "latency_ms": 2.0354590378701687
         },
         {
           "case_id": "test-unsupported-01-es",
@@ -1349,7 +1349,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.0533750066533685
+          "latency_ms": 2.3596250684931874
         },
         {
           "case_id": "test-unsupported-01-pt",
@@ -1376,7 +1376,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.991959103383124
+          "latency_ms": 2.041917061433196
         },
         {
           "case_id": "test-unsupported-02-es",
@@ -1403,7 +1403,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.764499979093671
+          "latency_ms": 1.9012079574167728
         },
         {
           "case_id": "test-unsupported-02-pt",
@@ -1430,7 +1430,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.167874994687736
+          "latency_ms": 2.0574169466271996
         },
         {
           "case_id": "test-unsupported-03-es",
@@ -1457,7 +1457,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.5909169344231486
+          "latency_ms": 2.0068750018253922
         },
         {
           "case_id": "test-unsupported-03-pt",
@@ -1484,7 +1484,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.9302499499171972
+          "latency_ms": 2.615666016936302
         },
         {
           "case_id": "test-unsupported-04-es",
@@ -1511,7 +1511,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.177459071390331
+          "latency_ms": 1.987125026062131
         },
         {
           "case_id": "test-unsupported-04-pt",
@@ -1538,7 +1538,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.8407919453457
+          "latency_ms": 2.0761670311912894
         },
         {
           "case_id": "test-unsupported-05-es",
@@ -1565,7 +1565,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 1.9552500452846289
+          "latency_ms": 2.2358749993145466
         },
         {
           "case_id": "test-unsupported-05-pt",
@@ -1592,7 +1592,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.879749983549118
+          "latency_ms": 2.0097920205444098
         },
         {
           "case_id": "test-unsupported-06-es",
@@ -1619,7 +1619,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.154041012749076
+          "latency_ms": 1.8393329810351133
         },
         {
           "case_id": "test-unsupported-06-pt",
@@ -1646,7 +1646,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.7695419266819954
+          "latency_ms": 2.1459590643644333
         },
         {
           "case_id": "test-unsupported-07-es",
@@ -1673,7 +1673,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.6402081130072474
+          "latency_ms": 1.9584998954087496
         },
         {
           "case_id": "test-unsupported-07-pt",
@@ -1700,7 +1700,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.4940000623464584
+          "latency_ms": 1.9604580011218786
         },
         {
           "case_id": "test-unsupported-08-es",
@@ -1727,7 +1727,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.036040929146111
+          "latency_ms": 2.5359169812873006
         },
         {
           "case_id": "test-unsupported-08-pt",
@@ -1754,7 +1754,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.764625009149313
+          "latency_ms": 2.22100003156811
         },
         {
           "case_id": "test-unsupported-09-es",
@@ -1781,7 +1781,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.3641670122742653
+          "latency_ms": 1.8063329625874758
         },
         {
           "case_id": "test-unsupported-09-pt",
@@ -1808,7 +1808,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.7013329565525055
+          "latency_ms": 2.276333048939705
         },
         {
           "case_id": "test-unsupported-10-es",
@@ -1835,7 +1835,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.902416978031397
+          "latency_ms": 1.8027500482276082
         },
         {
           "case_id": "test-unsupported-10-pt",
@@ -1862,7 +1862,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.7824580213055015
+          "latency_ms": 2.6942089898511767
         }
       ],
       "fault_suite": {
@@ -2010,9 +2010,9 @@
         "abstained": 8
       },
       "latency_ms": {
-        "p50": 7.845833548344672,
-        "p95": 15.511949686333537,
-        "max": 18.420000094920397,
+        "p50": 5.1423124969005585,
+        "p95": 11.275172315072266,
+        "max": 22.80133299063891,
         "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
       },
       "model_api_spend_usd": 0,
@@ -2048,9 +2048,9 @@
             "abstained": 4
           },
           "latency_ms": {
-            "p50": 7.481374952476472,
-            "p95": 15.450864378362894,
-            "max": 17.6714580738917,
+            "p50": 4.812999977730215,
+            "p95": 11.308984796050936,
+            "max": 13.050624984316528,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "model_api_spend_usd": 0,
@@ -2086,9 +2086,9 @@
             "abstained": 4
           },
           "latency_ms": {
-            "p50": 7.8708959626965225,
-            "p95": 15.283160808030514,
-            "max": 18.420000094920397,
+            "p50": 5.420207977294922,
+            "p95": 11.097033222904427,
+            "max": 22.80133299063891,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "model_api_spend_usd": 0,
@@ -2123,7 +2123,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.823999992571771
+          "latency_ms": 2.8498750180006027
         },
         {
           "case_id": "test-transaction_status-05-pt",
@@ -2150,7 +2150,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.847750020213425
+          "latency_ms": 3.084709052927792
         },
         {
           "case_id": "test-transaction_status-10-es",
@@ -2178,7 +2178,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 8.09608306735754
+          "latency_ms": 5.323708988726139
         },
         {
           "case_id": "test-transaction_status-10-pt",
@@ -2206,7 +2206,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 8.712165988981724
+          "latency_ms": 5.2212500013411045
         },
         {
           "case_id": "test-ambiguous-06-es",
@@ -2233,7 +2233,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.311416949145496
+          "latency_ms": 2.59450008161366
         },
         {
           "case_id": "test-ambiguous-09-es",
@@ -2260,7 +2260,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.287292016670108
+          "latency_ms": 3.6097499541938305
         },
         {
           "case_id": "test-unsupported-02-es",
@@ -2287,7 +2287,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.0466250609606504
+          "latency_ms": 2.4765830021351576
         },
         {
           "case_id": "test-unsupported-02-pt",
@@ -2314,7 +2314,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.103916930034757
+          "latency_ms": 3.027167054824531
         },
         {
           "case_id": "test-unsupported-03-es",
@@ -2341,7 +2341,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.5875419853255153
+          "latency_ms": 2.595667028799653
         },
         {
           "case_id": "test-unsupported-03-pt",
@@ -2368,7 +2368,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.695750026963651
+          "latency_ms": 2.894958946853876
         },
         {
           "case_id": "test-unsupported-04-es",
@@ -2395,7 +2395,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 2.9802080243825912
+          "latency_ms": 2.855875063687563
         },
         {
           "case_id": "test-unsupported-04-pt",
@@ -2422,7 +2422,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.044084063731134
+          "latency_ms": 2.573166973888874
         },
         {
           "case_id": "test-unsupported-05-es",
@@ -2449,7 +2449,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.60958294570446
+          "latency_ms": 3.1548329861834645
         },
         {
           "case_id": "test-unsupported-05-pt",
@@ -2476,7 +2476,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.9247499080374837
+          "latency_ms": 2.5652910117059946
         },
         {
           "case_id": "test-unsupported-06-es",
@@ -2503,7 +2503,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.3113749232143164
+          "latency_ms": 3.3397499937564135
         },
         {
           "case_id": "test-unsupported-06-pt",
@@ -2530,7 +2530,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.402375034056604
+          "latency_ms": 3.3262920333072543
         },
         {
           "case_id": "test-unsupported-10-es",
@@ -2557,7 +2557,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.6834999918937683
+          "latency_ms": 3.058917005546391
         },
         {
           "case_id": "test-unsupported-10-pt",
@@ -2584,7 +2584,7 @@
           },
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 3.826791071332991
+          "latency_ms": 2.9660830041393638
         }
       ],
       "fault_suite": {

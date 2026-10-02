@@ -136,6 +136,18 @@ def normalize(text):
     )
 
 
+def deictic_selection(text, language):
+    """Recognize only a complete short selection reply, never a request prefix."""
+    patterns = {
+        "es": r"(?:esta|esa|aquella|este|ese|aquel)"
+        r"(?: (?:operacion|transaccion|movimiento|pago|cargo))?",
+        "pt": r"(?:esta|essa|aquela|este|esse|aquele)"
+        r"(?: (?:operacao|transacao|movimento|pagamento|cobranca))?",
+    }
+    normalized = " ".join(text.split()).strip(".!?¿¡ ")
+    return bool(language in patterns and re.fullmatch(patterns[language], normalized))
+
+
 def transaction_evidence(transaction, language):
     return {
         "id": transaction["id"],
@@ -188,6 +200,15 @@ def run(message, language, transaction_id, context, records, classifier):
         }
     intent = assessment.get("intent", "unsupported")
     signals = assessment.get("signals", [])
+    review_required = bool(
+        set(signals)
+        & {
+            "model_unavailable",
+            "customer_reported_scam",
+            "customer_reported_dispute",
+            "explicit_human_request",
+        }
+    )
     # Reports, urgency and explicit requests override only toward review, never toward a write.
     if "model_unavailable" in signals:
         intent = "human"
@@ -221,10 +242,15 @@ def run(message, language, transaction_id, context, records, classifier):
         transaction_id = referenced[0]
     # A selection completes the pending task; a new explicit request replaces it.
     selection_only = re.fullmatch(r"TX-[A-Z]{2}-\d+", message.strip().upper()) is not None
-    if transaction_id and (intent == "ambiguous" or selection_only):
-        intent = context.get("pending_intent", "transaction_status")
-    if intent == "ambiguous" and context.get("transaction_id"):
-        intent = context.get("pending_intent", "transaction_status")
+    pending = context.get("pending_intent")
+    if not review_required:
+        if pending in {"transaction_status", "dispute"} and deictic_selection(text, language):
+            # Without a selected record this still clarifies; it never chooses a record.
+            intent = pending
+        elif transaction_id and (intent == "ambiguous" or selection_only):
+            intent = context.get("pending_intent", "transaction_status")
+        elif intent == "ambiguous" and context.get("transaction_id"):
+            intent = context.get("pending_intent", "transaction_status")
     selected = transaction_id or context.get("transaction_id")
     matches = [
         row
