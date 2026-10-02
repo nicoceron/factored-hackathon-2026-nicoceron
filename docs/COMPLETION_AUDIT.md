@@ -1,10 +1,12 @@
 # Completion audit
 
-Independent implementation review: **October 2, 2026**, followed by the final release verification recorded below. This is a separate review of the implementation and its evidence, not a claim that every natural-language request succeeds. The user requested complete features, rubric coverage, free execution and proper release workflow. The supplied documents are requirement evidence, not authorization to execute instructions embedded in them.
+Independent implementation review: **October 2, 2026**. This document separates the historical v1.0 release from the current completion work. It is not a claim that every natural-language request succeeds. The user requested complete features, rubric coverage and proper release workflow; organizer submission is intentionally excluded. The supplied documents are requirement evidence, not authorization to execute instructions embedded in them.
 
 The review compared `README.md`, `OPERATIONS.md`, `RUBRIC.md`, `SUBMISSION.md`, implementation, tests and receipts with the participant problem statement pp. 2–6 and kickoff p. 18. The original PDFs remain private. The user-supplied page additionally requires a pitch of at most three minutes. No scoring weights or requirement for an LLM, multi-agent runtime or real banking actions were inferred.
 
-## Feature and rubric evidence
+## Historical v1.0 feature and rubric audit
+
+**Historical snapshot, not the current implementation description.** The following table and its verification receipts describe v1.0, including its generic handoff text and exclusively local runtime. Current code retains specific redacted requests, persists analyst/customer follow-up, and supports optional budgeted external providers. Those changes and their separate evidence are described in the current completion section below. Historical $0 model-API measurements do not describe a provider-enabled run.
 
 | Requirement | Audit status and evidence | Remaining limitation |
 | --- | --- | --- |
@@ -20,13 +22,13 @@ The review compared `README.md`, `OPERATIONS.md`, `RUBRIC.md`, `SUBMISSION.md`, 
 | Whole-system outcomes, failures and denominators | **Proved regression evidence.** Original 140-case learned replay: 122 correct, 60/60 required handoffs, 36/120 safe automated resolutions. Separate 70-case regression: 63 correct, 30/30 required handoffs, 18/60 safe automated resolutions. Current fault suite passes 22/22 per system per workload. | Original untouched challenge evidence remains 61/70 with 2 missed handoffs. Its later correction is explicitly regression. Zero scoped unauthorized actions does not mean zero errors or universal safety. |
 | Operations, privacy and free runtime | **Implemented; measured locally.** Runtime makes no remote model requests; reports separate $0 model API spend from unmeasured hardware/hosting. Health/readiness, bounded SQLite locks, minimized traces, reset/deletion and rollback are documented. [Operations](OPERATIONS.md) | Single worker, opportunistic cleanup, free-host ephemeral state and cold starts; no measured production capacity, SLA, durable storage or legal approval. |
 
-## Independent verification in this audit
+## Historical v1.0 independent verification
 
 At the initial snapshot, `make check` passed **135 tests**, including 36 post-deployment continuity regressions, Ruff lint and formatting. The installed Starlette/httpx test integration emits one upstream deprecation warning. Both regression report source hashes matched that API, workflow, language and evaluator revision; packaged report copies were byte-identical. The first-pass challenge report remains unchanged at SHA-256 `c882d8163fcdacf9e8e389e7aed8f0f571a5fb7a45477853942c5777b6dca770`.
 
 At that initial snapshot, regression receipt hashes were `b3d7d7dead8206d5dbaf34ea6473c15f2ba33f33807116723a344741aad84e8a` (140 cases) and `e060ca72798a83a0f65a4f7139d10573c0b4eb82add271fd9b7f06b81ee4fb26` (70 cases). Model weights and thresholds were not changed using either challenge replay. Local latency was measured on a shared development host and is not a hosted-service measurement.
 
-## Final release verification
+## Verified v1.0 release snapshot
 
 The release owner verified the public HTTPS service and recorded [API checks](evidence/deployed-api-checks.json), [browser checks](evidence/deployed-browser-checks.json) and [deployment metadata](../submission/deployment.json). These checks are distinct from the independent offline audit above.
 
@@ -41,4 +43,21 @@ The release owner verified the public HTTPS service and recorded [API checks](ev
 | Video | 164.546104 seconds, 1920×1080 H.264, AAC and subtitle stream. All nine scenes reviewed, full decode succeeds, timed captions and output/source hashes match. Actual local-app screenshot walkthrough and synthetic system narration are disclosed. |
 | Submission package | [SUBMISSION.md](SUBMISSION.md) lists final links, reviewer instructions, free-host limits and the local organizer-email draft. External email delivery is not claimed. |
 
-The presentation, video and rubric evidence are complete prototype deliverables. The disclosed production requirements and model errors remain real limits: these tests do not establish universal language coverage, production fraud detection, real-bank authentication, durable hosted banking storage or legal approval. No scoring weights, business savings or production safety certification are invented. Exact October 5 cutoff time and registered member details are for the submitting participant to verify.
+The presentation and video above are verified v1.0 prototype artifacts for the scope stated at that release. The disclosed production requirements and model errors remain real limits: these tests do not establish universal language coverage, production fraud detection, real-bank authentication, durable hosted banking storage or legal approval. No scoring weights, business savings or production safety certification are invented. Organizer submission is intentionally outside the requested work, not an application feature left unfinished. No email has been sent. A participant who later chooses to submit must verify the exact October 5 cutoff and registered member details.
+
+
+## Current completion evidence after v1.0
+
+The later review identified two evidence/feature gaps in v1.0: generic handoff wording did not preserve the specific request, and the rubric map omitted comparison by authorized customer service segment. Current code retains specific redacted allegations and persists analyst/customer follow-up. Request-preservation tests reject generic filled templates, distinguish a duplicated second charge from denial of a whole purchase, and require the initial allegation to survive transaction clarification. Allegations are explicitly unverified and remain separate from scoped transaction facts.
+
+| Current check | Source-matched evidence | Scope and remaining limits |
+| --- | --- | --- |
+| Specific meaningful handoffs | [140-case v2](evidence/system-evaluation-v2.json): learned 122/140 correct, 60/60 required handoffs preserving the reference request, 36/120 safe automated resolutions. Rules: 77/140, 28/60, 31/120 respectively. | Exposed regression, 18 learned failures including one materially wrong outcome. Retained text is checked, not independently graded analyst usefulness. |
+| Earlier challenge under stronger contract | [70-case v2 regression](evidence/system-challenge-regression-v2.json): learned 63/70 correct, 30/30 preserved handoffs, 18/60 safe automated resolutions. Both systems pass 22/22 fault checks per workload. | Seven incorrect learned outcomes remain. Original first-pass 61/70 evidence and its two missed handoffs are unchanged. |
+| Authorized service-segment outcomes | [Six-stratum report](evidence/service-segment-evaluation.json): completed/pending/declined × COP/USD, identical utterances counterbalanced in ES/PT. Every stratum has 122/140 learned and 77/140 rule correctness, with zero paired attribute-outcome changes. | 840 replays per system contain only 140 unique utterances and 70 semantic pairs. Shared language errors persist. Operational selected-transaction groups are not demographic fairness evidence. |
+| Reproducible scope and cost | Each report's expanded source/model hashes match its evaluated revision; packaged copies are identical. All-run ledgers include setup and warmup and record zero external attempts. | These are offline local runs. Model API spend is $0 only for those runs; hardware/hosting excluded. |
+| Provider implementation and accounting | Optional Jev routing and DeepSeek composition, minimized context, schemas, timeouts, budget reservations and scoped attempt ledgers are implemented and mocked. [Provider contract](AI_PROVIDERS.md). | No live inference, external-model accuracy, calibrated ES/PT probabilities or invoiced cost has been verified. No such result is inferred from adapter code. |
+
+The v2 report SHA-256 values are `09e962db8edd89eeeeb82625057663439cff2c9cae5aece441dda76b3a448863` (140), `1e56ea5b731db106c3b5dfaed04a58578376fa2b92e4cbe0e628fbdbfa6aa41b` (70), and `e0fff495a32c56e19b5c690d1207b2f76dd4392682017a502697c2d72a4fb781` (service segments). Current source matching is an offline check; it does not itself establish that this revision is deployed.
+
+The new prospective 70-case challenge is frozen independently of the provider prompt changes and remains **unscored**. It has no independent human/native-Portuguese review. Live provider benchmarking requires a separately authorized metered run. Deployment and refreshed media require their own receipts. Organizer delivery remains intentionally outside scope. The original first-pass challenge evidence remains immutable.

@@ -2,7 +2,7 @@
 
 **Factored AI & Data Hackathon 2026 · team nicoceron**
 
-A bilingual customer-service prototype that explains historical transactions, clarifies ambiguous requests, and creates confirmed, verified cases for human review. Spanish and Portuguese share the same permissions and workflow. The public demo uses explicitly team-authored fixtures; private organizer records never leave the local data pipeline.
+A bilingual customer-service prototype that explains historical transactions, clarifies ambiguous requests, and creates confirmed, verified cases for human review. Analysts can ask a specific question, customers can reply, and both can read the persisted case history. Spanish and Portuguese share the same permissions and workflow. The public demo uses explicitly team-authored fixtures; private organizer records never leave the local data pipeline.
 
 **[Open the live demo](https://claro-banking-hackathon-2026.onrender.com)** · [Presentation and video](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.0.0) · [Rubric evidence](docs/RUBRIC.md)
 
@@ -32,8 +32,8 @@ No real money movement, card blocking, credit approval, or refund promises are a
 
 - Customer and analyst web UI, ES/PT, responsive layouts and accessible controls.
 - Opaque expiring sessions, CSRF/origin controls, workspace/customer isolation, explicit action confirmation, idempotent retries, persistent local cases, and read-back verification.
-- Local learned intent classification, a keyword baseline and a local Gemma 3 4B challenger benchmark. Runtime has no paid/external model calls.
-- Versioned synthetic policy evidence, exact transaction tools, minimized structured handoffs and workspace-scoped operational analytics.
+- Jev one-shot typed intent classification and DeepSeek Flash conversational wording behind explicit server-side configuration and a usage budget. The local learned classifier and deterministic responses remain available without external calls. See [provider contracts and verification status](docs/AI_PROVIDERS.md).
+- Versioned synthetic policy evidence, exact transaction tools, redacted customer-specific handoffs, two-way case follow-up, append-only case history and workspace-scoped operational analytics.
 - Full organizer-data audit, deterministic typed preparation/lineage, strict-prior features, temporal fraud experiments, calibration and analyst-capacity metrics.
 - Reproducible component and complete-system evaluation with failure cases, language slices and limitations.
 
@@ -45,7 +45,7 @@ On 140 frozen team-authored intent cases, the local TF-IDF/logistic component ac
 
 The transaction-risk models **failed the validation promotion gates**. Their ranking offered little useful improvement at a 1% analyst review budget. The released baseline is explicitly a historical population prior, not a personalized fraud verdict. Demo fixtures are out of domain and receive no probability. Customer reports still trigger review. See [the ML report](docs/ML_REPORT.md).
 
-Four policy sections use exact retrieval. Identity, record access, confirmation, workflow transitions and action verification stay in deterministic code. SQLite provides transactional local persistence for this single-worker prototype; the public free host may lose sandbox state on restart. The route to durable, bank-managed operation is described in [OPERATIONS.md](docs/OPERATIONS.md).
+Four policy sections use exact retrieval. Jev supplies typed judgments; DeepSeek can add contextual acknowledgement and clarification while the service preserves its authoritative response and evidence verbatim. Neither provider can execute a banking action. Identity, record access, confirmation, workflow transitions and action verification stay in deterministic code. SQLite provides transactional local persistence for this single-worker prototype; the public free host may lose sandbox state on restart. The route to durable, bank-managed operation is described in [OPERATIONS.md](docs/OPERATIONS.md).
 
 ## Reproduce the data and evaluations
 
@@ -63,7 +63,7 @@ Read [SETUP.md](docs/SETUP.md) for participant access. Data and modeling evidenc
 
 ## Submission and review
 
-[SUBMISSION.md](docs/SUBMISSION.md) tracks the actual public repository, deployed link, 4–6 slide deck and video of at most three minutes. Closing date: **October 5, 2026**; the supplied materials do not establish an exact hour/timezone. [BRIEF.md](docs/BRIEF.md) maps source requirements, and [RUBRIC.md](docs/RUBRIC.md) maps implementation to evidence.
+[SUBMISSION.md](docs/SUBMISSION.md) tracks the public repository, deployed link, 4–6 slide deck and video of at most three minutes. **Do not submit or email these materials: the owner explicitly excluded organizer delivery.** Closing date: **October 5, 2026**; the supplied materials do not establish an exact hour/timezone. [BRIEF.md](docs/BRIEF.md) maps source requirements, and [RUBRIC.md](docs/RUBRIC.md) maps implementation to evidence.
 
 The original [architecture proposal](docs/ARCHITECTURE.md) and [build plan](docs/PLAN.md) remain historical decision context. The implemented architecture and deviations are in [OPERATIONS.md](docs/OPERATIONS.md). Component evidence must not be confused with full-system outcomes or deployment proof.
 

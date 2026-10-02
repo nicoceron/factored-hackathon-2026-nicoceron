@@ -5,16 +5,18 @@ import os
 import secrets
 import sqlite3
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from factored_banking import workflow
 from factored_banking.fixtures import AS_OF, PERSONAS, transactions
+from factored_banking.privacy import redact_text
 from factored_banking.store import Store, digest, encode
 
 ROOT = Path(__file__).parent
@@ -44,6 +46,22 @@ class Confirm(StrictModel):
 
 class Resolve(StrictModel):
     resolution: Literal["reviewed_closed", "needs_information"]
+    question: str | None = Field(default=None, min_length=5, max_length=1000)
+    idempotency_key: str = Field(min_length=8, max_length=100)
+
+    @model_validator(mode="after")
+    def question_required(self):
+        if self.resolution == "needs_information" and not self.question:
+            raise ValueError("A specific question is required")
+        if self.resolution == "reviewed_closed" and self.question:
+            raise ValueError("A closed review cannot request more information")
+        return self
+
+
+class CaseMessage(StrictModel):
+    message: str = Field(min_length=1, max_length=2000)
+    question_id: str = Field(pattern=r"^EVT-[0-9a-f]{24}$")
+    idempotency_key: str = Field(min_length=8, max_length=100)
 
 
 def classifier(message, language):
@@ -52,10 +70,23 @@ def classifier(message, language):
     return classify(message, language)
 
 
-def create_app(db_path=None, secure_cookies=None):
-    app = FastAPI(title="Claro Banking Sandbox", version="1.0.0")
+def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
+    from factored_banking.providers import ProviderRuntime
+
+    @asynccontextmanager
+    async def lifespan(app):
+        yield
+        app.state.ai.close()
+
+    app = FastAPI(title="Claro Banking Sandbox", version="1.1.0", lifespan=lifespan)
     app.state.store = Store(db_path or os.getenv("CLARO_DB", ".local/claro.sqlite"))
-    app.state.classifier = classifier
+    app.state.ai = ProviderRuntime.from_env(
+        enabled=enable_external,
+        budget_path=os.getenv("CLARO_PROVIDER_BUDGET_DB") or app.state.store.path + ".ai.sqlite",
+    )
+    app.state.classifier = app.state.ai.classify
+    app.state.readiness_classifier = classifier
+    app.state.composer = app.state.ai.compose
     secure = secure_cookies if secure_cookies is not None else os.getenv("CLARO_SECURE", "0") == "1"
 
     def origin_check(request):
@@ -98,13 +129,48 @@ def create_app(db_path=None, secure_cookies=None):
             "session_expires_at": s["expires"],
             "data_provenance": "team_authored_synthetic",
             "context": json.loads(s.get("state", "{}")),
+            "ai": app.state.ai.status(),
         }
+
+    def active_session(db, s):
+        """Recheck authorization after acquiring the mutation transaction lock."""
+        row = db.execute(
+            "SELECT * FROM sessions WHERE token_hash=? AND workspace=? AND expires>?",
+            (s["token_hash"], s["workspace"], time.time()),
+        ).fetchone()
+        if row is None:
+            raise HTTPException(401, "Session expired or revoked during the request")
+        return row
 
     def visible_case(row):
         value = json.loads(row["payload"])
         value.update(
             id=row["id"], status=row["status"], created_at=row["created"], updated_at=row["updated"]
         )
+        with app.state.store.connect() as db:
+            history = db.execute(
+                "SELECT * FROM case_events WHERE case_id=? ORDER BY created,id", (row["id"],)
+            ).fetchall()
+        value["timeline"] = [
+            {
+                "id": e["id"],
+                "type": e["event_type"],
+                "actor_role": e["actor_role"],
+                "created_at": e["created"],
+                "text": e["body"],
+                "status": e["status"],
+                "client_request_id": e["client_request_id"],
+            }
+            for e in history
+        ]
+        value["pending_question"] = None
+        if row["status"] == "needs_information":
+            question = next(
+                (e for e in reversed(history) if e["event_type"] == "question_requested"), None
+            )
+            if question:
+                value["pending_question"] = {"id": question["id"], "text": question["body"]}
+        value["history_complete"] = bool(history and history[0]["event_type"] == "case_created")
         return value
 
     def read_case(case_id, s):
@@ -124,7 +190,16 @@ def create_app(db_path=None, secure_cookies=None):
         ).fetchone()
         if row and row["fingerprint"] != fingerprint:
             raise HTTPException(409, "Idempotency key already used for a different request")
-        return json.loads(row["response"]) if row else None
+        result = json.loads(row["response"]) if row else None
+        if isinstance(result, dict) and result.get("_pending"):
+            if time.time() - result["started"] < 90:
+                raise HTTPException(409, "Request in progress. Retry later with the same key.")
+            db.execute(
+                "DELETE FROM requests WHERE session_hash=? AND request_key=?",
+                (s["token_hash"], key),
+            )
+            return None
+        return result
 
     def remember(db, s, key, fingerprint, result):
         db.execute(
@@ -136,8 +211,9 @@ def create_app(db_path=None, secure_cookies=None):
 
     def record_event(db, s, result, started, event="chat"):
         db.execute(
-            "INSERT INTO events(workspace,trace_id,event,intent,state,language,latency_ms,created) "
-            "VALUES(?,?,?,?,?,?,?,?)",
+            "INSERT INTO events(workspace,trace_id,event,intent,state,language,"
+            "latency_ms,created,ai_usage) "
+            "VALUES(?,?,?,?,?,?,?,?,?)",
             (
                 s["workspace"],
                 result["trace_id"],
@@ -147,6 +223,7 @@ def create_app(db_path=None, secure_cookies=None):
                 result.get("language", s["language"]),
                 (time.perf_counter() - started) * 1000,
                 time.time(),
+                encode(result.get("ai", {})),
             ),
         )
 
@@ -178,14 +255,15 @@ def create_app(db_path=None, secure_cookies=None):
 
     @app.get("/healthz")
     def health():
-        return {"status": "ok", "mode": "isolated_sandbox", "version": "1.0.0"}
+        return {"status": "ok", "mode": "isolated_sandbox", "version": "1.1.0"}
 
     @app.get("/readyz")
     def ready():
         with app.state.store.connect() as db:
             db.execute("SELECT 1").fetchone()
         try:
-            result = app.state.classifier("Quiero consultar una transacción", "es")
+            # Health probes never incur provider spend or transmit a customer message.
+            result = app.state.readiness_classifier("Quiero consultar una transacción", "es")
             model = result["model_version"]
             if "unavailable" in model or "model_unavailable" in result.get("signals", []):
                 raise RuntimeError("Language model unavailable")
@@ -193,7 +271,12 @@ def create_app(db_path=None, secure_cookies=None):
             return JSONResponse(
                 {"ready": False, "reason": "Language model unavailable"}, status_code=503
             )
-        return {"ready": True, "mode": "sandbox_only", "language_model": model}
+        return {
+            "ready": True,
+            "mode": "sandbox_only",
+            "language_model": model,
+            "ai": app.state.ai.status(),
+        }
 
     @app.post("/api/session")
     def login(body: Login, request: Request, response: Response):
@@ -262,6 +345,8 @@ def create_app(db_path=None, secure_cookies=None):
     def logout(request: Request, response: Response):
         s = session(request, mutate=True)
         with app.state.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
             db.execute("DELETE FROM sessions WHERE token_hash=?", (s["token_hash"],))
         response.delete_cookie("claro_session")
         return {"signed_out": True}
@@ -270,6 +355,8 @@ def create_app(db_path=None, secure_cookies=None):
     def delete_workspace(request: Request, response: Response):
         s = session(request, mutate=True)
         with app.state.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
             db.execute(
                 "DELETE FROM requests WHERE session_hash IN "
                 "(SELECT token_hash FROM sessions WHERE workspace=?)",
@@ -289,8 +376,17 @@ def create_app(db_path=None, secure_cookies=None):
     def reset_conversation(request: Request):
         s = session(request, mutate=True, role="customer")
         with app.state.store.connect() as db:
-            db.execute("UPDATE sessions SET state='{}' WHERE token_hash=?", (s["token_hash"],))
+            db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
+            db.execute(
+                "UPDATE sessions SET state='{}',revision=revision+1 WHERE token_hash=?",
+                (s["token_hash"],),
+            )
             db.execute("UPDATE proposals SET cancelled=1 WHERE session_hash=?", (s["token_hash"],))
+            db.execute(
+                "DELETE FROM requests WHERE session_hash=? AND response LIKE ?",
+                (s["token_hash"], '%"_pending":true%'),
+            )
         return {"reset": True}
 
     @app.post("/api/chat")
@@ -300,64 +396,134 @@ def create_app(db_path=None, secure_cookies=None):
         fingerprint = digest(encode(body.model_dump()))
         with app.state.store.connect() as db:
             db.execute("BEGIN IMMEDIATE")
+            current = active_session(db, s)
             cached = retry(db, s, body.idempotency_key, fingerprint)
             if cached:
                 return cached
+            db.execute(
+                "DELETE FROM requests WHERE session_hash=? AND created<? AND response LIKE ?",
+                (s["token_hash"], time.time() - 90, '%"_pending":true%'),
+            )
             count = db.execute(
                 "SELECT count(*) FROM events WHERE workspace=? AND created>?",
                 (s["workspace"], time.time() - 60),
             ).fetchone()[0]
-            if count >= 60:
-                raise HTTPException(429, "Demo limit: 60 requests per minute")
-            current = db.execute(
-                "SELECT state FROM sessions WHERE token_hash=?", (s["token_hash"],)
-            ).fetchone()
-            result = workflow.run(
-                body.message,
-                body.language,
-                body.transaction_id,
-                json.loads(current["state"]),
-                transactions(s["customer"]),
-                app.state.classifier,
-            )
-            result.update(trace_id=secrets.token_hex(12), language=body.language)
-            if result["state"] == "cancelled":
-                db.execute(
-                    "UPDATE proposals SET cancelled=1 WHERE session_hash=?", (s["token_hash"],)
+            pending_count = db.execute(
+                "SELECT count(*) FROM requests WHERE session_hash=? AND response LIKE ?",
+                (s["token_hash"], '%"_pending":true%'),
+            ).fetchone()[0]
+            if count >= 60 or pending_count >= 2:
+                raise HTTPException(429, "Demo request limit reached")
+            context = json.loads(current["state"])
+            revision = current["revision"]
+            pending_claim = {
+                "_pending": True,
+                "started": time.time(),
+                "owner": secrets.token_hex(16),
+                "revision": revision,
+            }
+            remember(db, s, body.idempotency_key, fingerprint, pending_claim)
+        # External inference runs outside SQLite's write transaction. The revision
+        # check below rejects stale responses after reset, logout or a competing turn.
+        try:
+            with app.state.ai.scope(s["workspace"]):
+                message = redact_text(body.message)
+                classifier_fn = app.state.classifier
+                if getattr(classifier_fn, "__self__", None) is app.state.ai:
+
+                    def classifier_fn(text, lang):
+                        return app.state.ai.classify(text, lang, context=context)
+
+                result = workflow.run(
+                    message,
+                    body.language,
+                    body.transaction_id,
+                    context,
+                    transactions(s["customer"]),
+                    classifier_fn,
                 )
-            payload = result.pop("proposal_payload", None)
-            if payload:
-                proposal_id = "PROP-" + secrets.token_hex(10)
-                db.execute(
-                    "UPDATE proposals SET cancelled=1 WHERE session_hash=?", (s["token_hash"],)
+                result.update(trace_id=secrets.token_hex(12), language=body.language)
+                history = (
+                    [{"role": "user", "content": context["customer_report"]}]
+                    if context.get("customer_report")
+                    else []
                 )
-                db.execute(
-                    "INSERT INTO proposals VALUES(?,?,?,?,?,?,?,?)",
-                    (
-                        proposal_id,
-                        s["workspace"],
-                        s["token_hash"],
-                        s["customer"],
-                        encode(payload),
-                        time.time(),
-                        time.time() + 600,
-                        0,
+                composed = app.state.composer(message, body.language, result, history=history)
+                result["message"] = composed["message"]
+                assessment = result.get("assessment", {})
+                result["ai"] = {
+                    "classifier": assessment.get(
+                        "provider_meta",
+                        {
+                            "provider": "local",
+                            "model": assessment.get("model_version", "deterministic"),
+                            "status": "used" if assessment else "not_needed",
+                        },
                     ),
-                )
-                result["proposal"] = {
-                    "id": proposal_id,
-                    "action": "create_case",
-                    "summary": payload["summary"],
-                    "expires_in_seconds": 600,
+                    "response": composed["provider_meta"],
                 }
-            context = result.pop("context", json.loads(current["state"]))
-            db.execute(
-                "UPDATE sessions SET state=?,language=? WHERE token_hash=?",
-                (encode(context), body.language, s["token_hash"]),
-            )
-            remember(db, s, body.idempotency_key, fingerprint, result)
-            record_event(db, s, result, started)
-        return result
+            with app.state.store.connect() as db:
+                db.execute("BEGIN IMMEDIATE")
+                active = active_session(db, s)
+                if active["revision"] != revision:
+                    raise HTTPException(
+                        409, "Conversation changed. Submit your current request again."
+                    )
+                owns_claim = db.execute(
+                    "SELECT 1 FROM requests WHERE session_hash=? AND request_key=? "
+                    "AND fingerprint=? AND response=?",
+                    (s["token_hash"], body.idempotency_key, fingerprint, encode(pending_claim)),
+                ).fetchone()
+                if not owns_claim:
+                    raise HTTPException(409, "Request was replaced. Refresh the conversation.")
+                if result["state"] == "cancelled":
+                    db.execute(
+                        "UPDATE proposals SET cancelled=1 WHERE session_hash=?", (s["token_hash"],)
+                    )
+                payload = result.pop("proposal_payload", None)
+                if payload:
+                    proposal_id = "PROP-" + secrets.token_hex(10)
+                    db.execute(
+                        "UPDATE proposals SET cancelled=1 WHERE session_hash=?", (s["token_hash"],)
+                    )
+                    db.execute(
+                        "INSERT INTO proposals VALUES(?,?,?,?,?,?,?,?)",
+                        (
+                            proposal_id,
+                            s["workspace"],
+                            s["token_hash"],
+                            s["customer"],
+                            encode(payload),
+                            time.time(),
+                            time.time() + 600,
+                            0,
+                        ),
+                    )
+                    result["proposal"] = {
+                        "id": proposal_id,
+                        "action": "create_case",
+                        "summary": payload["summary"],
+                        "customer_report": payload["customer_report"],
+                        "report_provenance": payload["report_provenance"],
+                        "open_questions": payload["open_questions"],
+                        "expires_in_seconds": 600,
+                    }
+                next_context = result.pop("context", context)
+                db.execute(
+                    "UPDATE sessions SET state=?,language=?,revision=revision+1 WHERE token_hash=?",
+                    (encode(next_context), body.language, s["token_hash"]),
+                )
+                remember(db, s, body.idempotency_key, fingerprint, result)
+                record_event(db, s, result, started)
+            return result
+        except Exception:
+            with app.state.store.connect() as db:
+                db.execute(
+                    "DELETE FROM requests WHERE session_hash=? AND request_key=? "
+                    "AND fingerprint=? AND response=?",
+                    (s["token_hash"], body.idempotency_key, fingerprint, encode(pending_claim)),
+                )
+            raise
 
     @app.post("/api/actions/confirm")
     def confirm(body: Confirm, request: Request):
@@ -366,6 +532,7 @@ def create_app(db_path=None, secure_cookies=None):
         fingerprint = digest("confirm:" + encode(body.model_dump()))
         with app.state.store.connect() as db:
             db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
             cached = retry(db, s, body.idempotency_key, fingerprint)
             if cached:
                 return cached
@@ -404,6 +571,21 @@ def create_app(db_path=None, secure_cookies=None):
                         now,
                     ),
                 )
+                db.execute(
+                    "INSERT INTO case_events VALUES(?,?,?,?,?,?,?,?,?,?)",
+                    (
+                        "EVT-" + secrets.token_hex(12),
+                        case_id,
+                        "customer",
+                        "case_created",
+                        payload["customer_report"],
+                        "open",
+                        now,
+                        body.idempotency_key,
+                        s["token_hash"],
+                        fingerprint,
+                    ),
+                )
         verified = app.state.store.verify_case(case_id, s["workspace"])
         if not verified or verified["customer"] != s["customer"]:
             raise HTTPException(
@@ -437,6 +619,7 @@ def create_app(db_path=None, secure_cookies=None):
         }
         with app.state.store.connect() as db:
             db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
             cached = retry(db, s, body.idempotency_key, fingerprint)
             if cached:
                 return cached
@@ -459,26 +642,136 @@ def create_app(db_path=None, secure_cookies=None):
     def case_detail(case_id: str, request: Request):
         return read_case(case_id, session(request))
 
+    def mutate_case(case_id, body, s, *, reply=False):
+        started = time.perf_counter()
+        fingerprint = digest(
+            ("reply:" if reply else "review:") + case_id + encode(body.model_dump())
+        )
+        with app.state.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
+            cached = retry(db, s, body.idempotency_key, fingerprint)
+            if cached:
+                return cached
+            row = db.execute(
+                "SELECT * FROM cases WHERE id=? AND workspace=? AND (?='analyst' OR customer=?)",
+                (case_id, s["workspace"], s["role"], s["customer"]),
+            ).fetchone()
+            if row is None:
+                raise HTTPException(404, "Case not found")
+            existing = db.execute(
+                "SELECT * FROM case_events WHERE case_id=? "
+                "AND actor_session=? AND client_request_id=?",
+                (case_id, s["token_hash"], body.idempotency_key),
+            ).fetchone()
+            if existing and existing["fingerprint"] != fingerprint:
+                raise HTTPException(409, "Idempotency key already used for a different request")
+            if existing:
+                event_id = existing["id"]
+            else:
+                if row["status"] == "reviewed_closed":
+                    raise HTTPException(
+                        409, "Review is closed. Create a new case for a new request."
+                    )
+                if reply and row["status"] != "needs_information":
+                    raise HTTPException(409, "There is no unanswered analyst question")
+                if reply:
+                    pending_question = db.execute(
+                        "SELECT id FROM case_events WHERE case_id=? "
+                        "AND event_type='question_requested' ORDER BY created DESC,id DESC LIMIT 1",
+                        (case_id,),
+                    ).fetchone()
+                    if not pending_question or pending_question["id"] != body.question_id:
+                        raise HTTPException(409, "The analyst question changed. Refresh the case.")
+                if (
+                    not reply
+                    and body.resolution == "needs_information"
+                    and row["status"] == "needs_information"
+                ):
+                    raise HTTPException(409, "Wait for the pending question to be answered")
+                if (
+                    db.execute(
+                        "SELECT count(*) FROM case_events WHERE case_id=?", (case_id,)
+                    ).fetchone()[0]
+                    >= 100
+                ):
+                    raise HTTPException(429, "Sandbox case history limit reached")
+                text = redact_text(body.message if reply else body.question or "")
+                if (reply or body.resolution == "needs_information") and not text:
+                    raise HTTPException(422, "A nonempty message is required")
+                status = "open" if reply else body.resolution
+                event_type = (
+                    "customer_reply"
+                    if reply
+                    else (
+                        "question_requested" if status == "needs_information" else "review_closed"
+                    )
+                )
+                event_id = "EVT-" + secrets.token_hex(12)
+                now = time.time()
+                # Reserve the fingerprint atomically with the event. If read-back
+                # fails, a retry can verify this same event without another write.
+                db.execute(
+                    "INSERT OR IGNORE INTO requests VALUES(?,?,?,?,?)",
+                    (s["token_hash"], body.idempotency_key, fingerprint, "null", now),
+                )
+                db.execute(
+                    "INSERT INTO case_events VALUES(?,?,?,?,?,?,?,?,?,?)",
+                    (
+                        event_id,
+                        case_id,
+                        s["role"],
+                        event_type,
+                        text,
+                        status,
+                        now,
+                        body.idempotency_key,
+                        s["token_hash"],
+                        fingerprint,
+                    ),
+                )
+                db.execute(
+                    "UPDATE cases SET status=?,updated=? WHERE id=? AND workspace=?",
+                    (status, now, case_id, s["workspace"]),
+                )
+        verified = app.state.store.verify_case_event(case_id, event_id, s["workspace"])
+        if not verified or verified["fingerprint"] != fingerprint:
+            raise HTTPException(503, "Update could not be verified. Retry with the same key.")
+        result = read_case(case_id, s)
+        result["receipt"] = {
+            "id": event_id,
+            "case_id": case_id,
+            "verified": True,
+            "verification": "committed_read_back",
+            "sandbox": True,
+        }
+        result.update(trace_id=secrets.token_hex(12), state=result["status"])
+        with app.state.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            active_session(db, s)
+            cached = retry(db, s, body.idempotency_key, fingerprint)
+            if cached:
+                return cached
+            remember(db, s, body.idempotency_key, fingerprint, result)
+            record_event(db, s, result, started, "case_reply" if reply else "case_review")
+        return result
+
     @app.post("/api/cases/{case_id}/resolve")
     def resolve(case_id: str, body: Resolve, request: Request):
-        s = session(request, mutate=True, role="analyst")
-        read_case(case_id, s)
-        with app.state.store.connect() as db:
-            db.execute(
-                "UPDATE cases SET status=?,updated=? WHERE id=? AND workspace=?",
-                (body.resolution, time.time(), case_id, s["workspace"]),
-            )
-        verified = app.state.store.verify_case(case_id, s["workspace"])
-        if not verified or verified["status"] != body.resolution:
-            raise HTTPException(503, "Update could not be verified")
-        return visible_case(verified)
+        return mutate_case(case_id, body, session(request, mutate=True, role="analyst"))
+
+    @app.post("/api/cases/{case_id}/messages")
+    def case_message(case_id: str, body: CaseMessage, request: Request):
+        return mutate_case(
+            case_id, body, session(request, mutate=True, role="customer"), reply=True
+        )
 
     @app.get("/api/analytics")
     def analytics(request: Request):
         s = session(request, role="analyst")
         with app.state.store.connect() as db:
             rows = db.execute(
-                "SELECT state,language,latency_ms,event FROM events "
+                "SELECT state,language,latency_ms,event,ai_usage FROM events "
                 "WHERE workspace=? ORDER BY created",
                 (s["workspace"],),
             ).fetchall()
@@ -490,6 +783,10 @@ def create_app(db_path=None, secure_cookies=None):
         outcomes = {
             state: sum(r["state"] == state for r in rows) for state in {r["state"] for r in rows}
         }
+        usage = app.state.ai.usage_for_scope(s["workspace"])
+        attempts = usage["attempts"]
+        unknown = usage["unknown_cost_attempts"]
+        estimate = usage["estimated_cost_usd"]
         return {
             "scope": "this_browser_workspace_only",
             "total_requests": len(rows),
@@ -499,9 +796,14 @@ def create_app(db_path=None, secure_cookies=None):
                 "p50": latencies[int((len(latencies) - 1) * 0.5)] if latencies else None,
                 "p95": latencies[int((len(latencies) - 1) * 0.95)] if latencies else None,
             },
-            "model_api_cost_usd": 0,
+            "model_api_cost_usd": 0 if attempts == 0 and unknown == 0 else None,
+            "estimated_model_api_cost_usd": None if unknown else estimate,
+            "provider_attempts": attempts,
+            "unknown_cost_attempts": unknown,
+            "provider_usage": usage,
             "limitations": "Demo telemetry, not production outcomes. "
-            "No external model calls. Host costs excluded.",
+            "Provider tariff estimates are not invoices. Unknown usage is not zero. "
+            "Host costs excluded.",
         }
 
     @app.get("/api/evaluation")
@@ -513,8 +815,10 @@ def create_app(db_path=None, secure_cookies=None):
             "system-evaluation",
             "system-challenge-evaluation",
             "system-challenge-regression",
+            "service-segment-evaluation",
         ):
-            path = ROOT / "resources" / f"{name}.json"
+            latest = ROOT / "resources" / f"{name}-v2.json"
+            path = latest if latest.exists() else ROOT / "resources" / f"{name}.json"
             if path.exists():
                 reports[name] = json.loads(path.read_text())
         return {"reports": reports, "provenance": "offline evaluation; see repository methodology"}

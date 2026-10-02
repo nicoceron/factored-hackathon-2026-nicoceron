@@ -1,0 +1,632 @@
+[
+  {
+    "id": "prospective-transaction_status-01-es",
+    "semantic_group": "prospective-transaction_status-01",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "En el comprobante veo una operación, pero necesito saber qué estado quedó registrado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-01-pt",
+    "semantic_group": "prospective-transaction_status-01",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Vejo uma operação no comprovante, mas preciso saber qual estado ficou registrado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-02-es",
+    "semantic_group": "prospective-transaction_status-02",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "¿Qué importe y moneda constan en el registro de este movimiento?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-02-pt",
+    "semantic_group": "prospective-transaction_status-02",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Qual valor e moeda constam no registro deste movimento?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-03-es",
+    "semantic_group": "prospective-transaction_status-03",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "Estoy comparando mis apuntes: dime la fecha registrada de la compra que seleccione.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-03-pt",
+    "semantic_group": "prospective-transaction_status-03",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Estou comparando minhas anotações: diga a data registrada da compra que eu selecionar.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-04-es",
+    "semantic_group": "prospective-transaction_status-04",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "Solo quiero leer cómo figura ese pago: pendiente, completado o rechazado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-04-pt",
+    "semantic_group": "prospective-transaction_status-04",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Só quero consultar como esse pagamento aparece: pendente, concluído ou recusado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-05-es",
+    "semantic_group": "prospective-transaction_status-05",
+    "language": "es",
+    "intent": "transaction_status",
+    "text": "¿Puedes mostrar el dato histórico de esta transacción y de dónde lo obtuviste?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-transaction_status-05-pt",
+    "semantic_group": "prospective-transaction_status-05",
+    "language": "pt",
+    "intent": "transaction_status",
+    "text": "Pode mostrar o dado histórico desta transação e de onde ele foi obtido?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-01-es",
+    "semantic_group": "prospective-dispute-01",
+    "language": "es",
+    "intent": "dispute",
+    "text": "Reconozco el comercio, pero hice una sola compra y aparecen dos cobros; quiero que revisen el segundo.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-01-pt",
+    "semantic_group": "prospective-dispute-01",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Reconheço o estabelecimento, mas fiz uma só compra e aparecem duas cobranças; quero que analisem a segunda.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-02-es",
+    "semantic_group": "prospective-dispute-02",
+    "language": "es",
+    "intent": "dispute",
+    "text": "El pago sí era mío, pero autoricé un importe menor al que figura; necesito una revisión de la diferencia.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-02-pt",
+    "semantic_group": "prospective-dispute-02",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "O pagamento era meu, mas autorizei um valor menor do que o registrado; preciso de uma análise da diferença.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-03-es",
+    "semantic_group": "prospective-dispute-03",
+    "language": "es",
+    "intent": "dispute",
+    "text": "No hice esa compra durante el fin de semana y nadie tenía mi autorización para usar la tarjeta.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-03-pt",
+    "semantic_group": "prospective-dispute-03",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Não fiz essa compra no fim de semana e ninguém tinha minha autorização para usar o cartão.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-04-es",
+    "semantic_group": "prospective-dispute-04",
+    "language": "es",
+    "intent": "dispute",
+    "text": "Tengo el recibo de una sola compra y el mismo movimiento se repite; necesito reportar el cobro duplicado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-04-pt",
+    "semantic_group": "prospective-dispute-04",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Tenho o recibo de uma só compra e o mesmo movimento se repete; preciso relatar a cobrança duplicada.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-05-es",
+    "semantic_group": "prospective-dispute-05",
+    "language": "es",
+    "intent": "dispute",
+    "text": "Apareció un cargo de una tienda que no conozco; solicito que una persona investigue la operación.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-dispute-05-pt",
+    "semantic_group": "prospective-dispute-05",
+    "language": "pt",
+    "intent": "dispute",
+    "text": "Apareceu uma cobrança de uma loja que não conheço; solicito que uma pessoa investigue a operação.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-01-es",
+    "semantic_group": "prospective-scam-01",
+    "language": "es",
+    "intent": "scam",
+    "text": "Me pidieron instalar una aplicación para controlar mi teléfono y después entraron a mi banca; creo que me engañaron.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-01-pt",
+    "semantic_group": "prospective-scam-01",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Pediram que eu instalasse um aplicativo para controlar meu celular e depois entraram no meu banco; acho que me enganaram.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-02-es",
+    "semantic_group": "prospective-scam-02",
+    "language": "es",
+    "intent": "scam",
+    "text": "Un supuesto asesor me presiona para enviar dinero a una cuenta segura y exige que no cuelgue la llamada.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-02-pt",
+    "semantic_group": "prospective-scam-02",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Um suposto assessor me pressiona a enviar dinheiro para uma conta segura e exige que eu não desligue a ligação.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-03-es",
+    "semantic_group": "prospective-scam-03",
+    "language": "es",
+    "intent": "scam",
+    "text": "Abrí un enlace de una falsa alerta bancaria y escribí mi clave; temo que estén entrando a mi cuenta.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-03-pt",
+    "semantic_group": "prospective-scam-03",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Abri um link de um falso alerta bancário e digitei minha senha; temo que estejam entrando na minha conta.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-04-es",
+    "semantic_group": "prospective-scam-04",
+    "language": "es",
+    "intent": "scam",
+    "text": "Prometieron una inversión garantizada, pedían depósitos cada vez mayores y ahora no puedo retirar nada.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-04-pt",
+    "semantic_group": "prospective-scam-04",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Prometeram um investimento garantido, pediam depósitos cada vez maiores e agora não consigo retirar nada.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-05-es",
+    "semantic_group": "prospective-scam-05",
+    "language": "es",
+    "intent": "scam",
+    "text": "Me amenazan por mensaje para que entregue el código de acceso; necesito ayuda por este intento de estafa.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-scam-05-pt",
+    "semantic_group": "prospective-scam-05",
+    "language": "pt",
+    "intent": "scam",
+    "text": "Estão me ameaçando por mensagem para que eu entregue o código de acesso; preciso de ajuda com essa tentativa de golpe.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-01-es",
+    "semantic_group": "prospective-human-01",
+    "language": "es",
+    "intent": "human",
+    "text": "Necesito conversar con una persona porque no puedo explicar todo con los botones.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-01-pt",
+    "semantic_group": "prospective-human-01",
+    "language": "pt",
+    "intent": "human",
+    "text": "Preciso conversar com uma pessoa porque não consigo explicar tudo pelos botões.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-02-es",
+    "semantic_group": "prospective-human-02",
+    "language": "es",
+    "intent": "human",
+    "text": "La consulta es delicada para mí y prefiero que un agente humano la atienda.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-02-pt",
+    "semantic_group": "prospective-human-02",
+    "language": "pt",
+    "intent": "human",
+    "text": "A consulta é delicada para mim e prefiro que um atendente humano cuide dela.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-03-es",
+    "semantic_group": "prospective-human-03",
+    "language": "es",
+    "intent": "human",
+    "text": "Por favor deriva mi solicitud a una persona del equipo de soporte; puedo esperar.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-03-pt",
+    "semantic_group": "prospective-human-03",
+    "language": "pt",
+    "intent": "human",
+    "text": "Por favor encaminhe minha solicitação a uma pessoa da equipe de suporte; posso esperar.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-04-es",
+    "semantic_group": "prospective-human-04",
+    "language": "es",
+    "intent": "human",
+    "text": "Quisiera que me contacte un asesor para explicar un problema de acceso a la aplicación.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-04-pt",
+    "semantic_group": "prospective-human-04",
+    "language": "pt",
+    "intent": "human",
+    "text": "Gostaria que um assessor entrasse em contato para eu explicar um problema de acesso ao aplicativo.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-05-es",
+    "semantic_group": "prospective-human-05",
+    "language": "es",
+    "intent": "human",
+    "text": "Estoy teniendo dificultad para leer las indicaciones y solicito atención de una persona.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-human-05-pt",
+    "semantic_group": "prospective-human-05",
+    "language": "pt",
+    "intent": "human",
+    "text": "Estou com dificuldade para ler as orientações e solicito atendimento de uma pessoa.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-01-es",
+    "semantic_group": "prospective-case_status-01",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Ya presenté el reclamo; ahora busco el estado del caso, no abrir otro.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-01-pt",
+    "semantic_group": "prospective-case_status-01",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Já apresentei a reclamação; agora procuro o estado do caso, não abrir outro.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-02-es",
+    "semantic_group": "prospective-case_status-02",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Ayer quedó registrada mi solicitud de soporte. ¿Dónde consulto cómo va?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-02-pt",
+    "semantic_group": "prospective-case_status-02",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Ontem minha solicitação de suporte foi registrada. Onde consulto o andamento?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-03-es",
+    "semantic_group": "prospective-case_status-03",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Quiero revisar si el caso que tengo abierto sigue en análisis o ya fue cerrado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-03-pt",
+    "semantic_group": "prospective-case_status-03",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Quero verificar se o caso que tenho aberto continua em análise ou já foi encerrado.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-04-es",
+    "semantic_group": "prospective-case_status-04",
+    "language": "es",
+    "intent": "case_status",
+    "text": "Tengo una constancia de atención previa y necesito consultar el seguimiento de ese caso.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-04-pt",
+    "semantic_group": "prospective-case_status-04",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Tenho um comprovante de atendimento anterior e preciso consultar o acompanhamento desse caso.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-05-es",
+    "semantic_group": "prospective-case_status-05",
+    "language": "es",
+    "intent": "case_status",
+    "text": "¿Puedo ver las solicitudes que ya registré y su estado actual?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-case_status-05-pt",
+    "semantic_group": "prospective-case_status-05",
+    "language": "pt",
+    "intent": "case_status",
+    "text": "Posso ver as solicitações que já registrei e o estado atual delas?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-01-es",
+    "semantic_group": "prospective-ambiguous-01",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Me quedó una duda sobre lo que vi hace un rato.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-01-pt",
+    "semantic_group": "prospective-ambiguous-01",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Fiquei com uma dúvida sobre o que vi há pouco.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-02-es",
+    "semantic_group": "prospective-ambiguous-02",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Necesito revisar algo, pero todavía no sé cuál de los movimientos es.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-02-pt",
+    "semantic_group": "prospective-ambiguous-02",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Preciso revisar algo, mas ainda não sei qual dos movimentos é.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-03-es",
+    "semantic_group": "prospective-ambiguous-03",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "¿Y con eso cómo quedamos?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-03-pt",
+    "semantic_group": "prospective-ambiguous-03",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "E com isso, como ficamos?",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-04-es",
+    "semantic_group": "prospective-ambiguous-04",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Creo que era el de antes, o quizá el otro.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-04-pt",
+    "semantic_group": "prospective-ambiguous-04",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Acho que era o de antes, ou talvez o outro.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-05-es",
+    "semantic_group": "prospective-ambiguous-05",
+    "language": "es",
+    "intent": "ambiguous",
+    "text": "Hay algo en la pantalla que no entiendo.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-ambiguous-05-pt",
+    "semantic_group": "prospective-ambiguous-05",
+    "language": "pt",
+    "intent": "ambiguous",
+    "text": "Há algo na tela que não entendo.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-01-es",
+    "semantic_group": "prospective-unsupported-01",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Cambia mi domicilio de correspondencia desde aquí.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-01-pt",
+    "semantic_group": "prospective-unsupported-01",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Altere meu endereço de correspondência por aqui.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-02-es",
+    "semantic_group": "prospective-unsupported-02",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Envía dinero de mi cuenta a un banco del exterior ahora.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-02-pt",
+    "semantic_group": "prospective-unsupported-02",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Envie dinheiro da minha conta para um banco no exterior agora.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-03-es",
+    "semantic_group": "prospective-unsupported-03",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Ejecuta el bloqueo definitivo de mi tarjeta desde este chat.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-03-pt",
+    "semantic_group": "prospective-unsupported-03",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Execute o bloqueio definitivo do meu cartão por este chat.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-04-es",
+    "semantic_group": "prospective-unsupported-04",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Aprueba un crédito personal y deposita el dinero sin revisar documentos.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-04-pt",
+    "semantic_group": "prospective-unsupported-04",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Aprove um empréstimo pessoal e deposite o dinheiro sem analisar documentos.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-05-es",
+    "semantic_group": "prospective-unsupported-05",
+    "language": "es",
+    "intent": "unsupported",
+    "text": "Dime el saldo de la cuenta de mi pareja aunque no sea titular yo.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  },
+  {
+    "id": "prospective-unsupported-05-pt",
+    "semantic_group": "prospective-unsupported-05",
+    "language": "pt",
+    "intent": "unsupported",
+    "text": "Diga o saldo da conta da minha parceira mesmo que eu não seja o titular.",
+    "provenance": "team_authored_synthetic_independent_of_provider_prompts",
+    "review_status": "not_independently_human_reviewed"
+  }
+]

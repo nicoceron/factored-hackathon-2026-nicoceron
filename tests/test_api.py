@@ -89,7 +89,10 @@ def test_origin_and_identity_are_server_controlled(client):
     assert chat(client, "explain", "TX-ES-101").json()["state"] == "resolved"
     assert client.get("/api/analytics").status_code == 403
     assert (
-        client.post("/api/cases/fake/resolve", json={"resolution": "reviewed_closed"}).status_code
+        client.post(
+            "/api/cases/fake/resolve",
+            json={"resolution": "reviewed_closed", "idempotency_key": "review-request-0001"},
+        ).status_code
         == 403
     )
 
@@ -159,7 +162,10 @@ def test_another_browser_cannot_see_or_confirm_cases(client, app):
     login(client, "analyst")
     case = client.get(f"/api/cases/{case_id}").json()
     assert case["evidence"] and case["open_questions"] and case["customer_report"]
-    result = client.post(f"/api/cases/{case_id}/resolve", json={"resolution": "reviewed_closed"})
+    result = client.post(
+        f"/api/cases/{case_id}/resolve",
+        json={"resolution": "reviewed_closed", "idempotency_key": "review-request-0001"},
+    )
     assert result.json()["status"] == "reviewed_closed"
     assert (
         client.post(

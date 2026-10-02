@@ -8,4 +8,4 @@ description = "Exact source-code SHA256 entries in evaluation receipts are check
 condition = "AND"
 regexTarget = "line"
 regexes = ['''^\s*"api\.py": "[a-f0-9]{64}",?\s*$''']
-paths = ['''^(docs/evidence|src/factored_banking/resources)/system[^/]*\.json$''']
+paths = ['''^(docs/evidence|src/factored_banking/resources)/(system[^/]*|service-segment-evaluation)\.json$''']

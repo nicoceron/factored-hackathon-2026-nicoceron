@@ -1,6 +1,6 @@
 # Free sandbox deployment
 
-The service uses Render's Free web-service plan: one Docker instance, 0.1 CPU and 512 MB RAM. The existing Hobby workspace had no payment card when configured. No paid add-on, persistent disk, external model subscription or paid inference is required. `render.yaml` records the reproducible service settings; the dashboard service is created from the reviewed public GitHub repository.
+The service uses Render's Free web-service plan: one Docker instance, 0.1 CPU and 512 MB RAM. The existing Hobby workspace had no payment card when configured. No paid hosting add-on or disk is required. External AI is optional and disabled by default; enabling Jev/DeepSeek introduces metered inference and requires explicit budget authorization, separate from the free hosting plan. `render.yaml` records the reproducible service settings; the dashboard service is created from the reviewed public GitHub repository.
 
 ## Release procedure
 
@@ -11,15 +11,19 @@ The service uses Render's Free web-service plan: one Docker instance, 0.1 CPU an
 5. Verify `/healthz`, `/readyz`, all static assets, secure cookie attributes, and the complete ES/PT customer-to-analyst workflow on the public HTTPS origin. Save only aggregate receipts.
 6. A rollback deploys the previous reviewed commit from Render's manual-deploy menu. Re-run readiness and the HTTP smoke check.
 
+With external providers disabled, reproduce the public API receipt using
+`uv run --locked python scripts/verify_release.py https://claro-banking-hackathon-2026.onrender.com --commit <host-confirmed-commit> --output artifacts/deployed-api-checks.json`.
+The probe checks HTTPS cookies, access boundaries, all static bytes, published reports and the bilingual case lifecycle. It erases only the isolated workspaces it creates and records aggregate results. The commit argument comes from the host's successful deployment record; matching static/report hashes is separate verification, not server commit attestation.
+
 ## Service configuration
 
 - Runtime: Docker; repository-root `Dockerfile`; Oregon region.
 - Plan: **Free ($0/month)**, single instance and worker.
-- Health check: `/readyz` (checks storage and released language model).
+- Health check: `/readyz` (checks storage and local fallback, with no provider calls).
 - `CLARO_SECURE=1`; `CLARO_ORIGIN` is the exact public HTTPS origin.
 - `CLARO_DB=/state/claro.sqlite` is set in the image; the app runs as UID 10001.
 - The image uses Render's `PORT` variable and disables Uvicorn access logs.
-- No credentials or organizer records are uploaded. Public demo data and policies are explicitly team-authored fixtures.
+- No organizer records or credentials are included in Git or the image. If external AI is authorized, provider keys belong only in the host secret environment. Public demo data and policies are explicitly team-authored fixtures.
 
 ## Free-host limits
 
@@ -38,3 +42,7 @@ Public URL, deployed commit, check timestamp and measured outcomes are recorded 
 - [Render free-service behavior and limits](https://render.com/docs/free)
 - [Render Docker deployment](https://render.com/docs/docker)
 - [Render manual deployment and rollback controls](https://render.com/docs/deploys)
+
+## External-provider budget storage
+
+The local SQLite provider ledger reserves cost before each attempt and survives process restarts when its file survives. The free host filesystem is ephemeral: redeployment can erase that ledger. It cannot establish a cumulative lifetime spending cap across host resets. Keep external AI disabled on that host unless an appropriate persistent budget ledger or provider-side spending restriction has been verified. Health checks and static previews never need provider keys.

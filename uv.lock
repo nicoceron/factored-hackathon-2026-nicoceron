@@ -142,11 +142,12 @@ wheels = [
 
 [[package]]
 name = "factored-banking"
-version = "1.0.0"
+version = "1.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "duckdb" },
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "pydantic" },
     { name = "scikit-learn" },
     { name = "uvicorn" },
@@ -168,6 +169,7 @@ ml = [
 requires-dist = [
     { name = "duckdb", specifier = ">=1.4,<2" },
     { name = "fastapi", specifier = ">=0.115,<1" },
+    { name = "httpx", specifier = ">=0.28,<1" },
     { name = "pydantic", specifier = ">=2.10,<3" },
     { name = "scikit-learn", specifier = ">=1.6,<2" },
     { name = "uvicorn", specifier = ">=0.34,<1" },

@@ -139,7 +139,8 @@ def test_deictic_reply_does_not_invent_selection_or_authorize_foreign_record():
     context = {"pending_intent": "transaction_status"}
     missing = run("Essa transação", "pt", None, context, records, classifier)
     assert missing["state"] == "clarification"
-    assert missing["context"] == context
+    assert missing["context"]["pending_intent"] == context["pending_intent"]
+    assert missing["context"]["customer_report"] == "Essa transação"
     assert "transaction" not in missing
     foreign = run("Essa transação", "pt", "TX-ES-101", context, records, classifier)
     assert foreign["state"] == "blocked"

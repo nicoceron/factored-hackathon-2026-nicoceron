@@ -40,7 +40,7 @@ def test_independent_safety_signal_cannot_be_resolved_as_status(signal, expected
 
 def test_readiness_detects_structured_model_failure(tmp_path):
     app = create_app(str(tmp_path / "state.sqlite"))
-    app.state.classifier = lambda *args: {
+    app.state.readiness_classifier = lambda *args: {
         "intent": "ambiguous",
         "signals": ["model_unavailable"],
         "model_version": "language-unavailable-v1",

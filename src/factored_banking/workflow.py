@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 from factored_banking import policy
 from factored_banking.fixtures import AS_OF
 from factored_banking.fraud import assess
+from factored_banking.privacy import customer_report, redact_text
 
 
 class TransactionEvidence(BaseModel):
@@ -160,6 +161,7 @@ def transaction_evidence(transaction, language):
 
 
 def run(message, language, transaction_id, context, records, classifier):
+    message = redact_text(message)
     text = normalize(message)
     result = {
         "message": "",
@@ -204,13 +206,14 @@ def run(message, language, transaction_id, context, records, classifier):
         set(signals)
         & {
             "model_unavailable",
+            "provider_uncertain",
             "customer_reported_scam",
             "customer_reported_dispute",
             "explicit_human_request",
         }
     )
     # Reports, urgency and explicit requests override only toward review, never toward a write.
-    if "model_unavailable" in signals:
+    if "model_unavailable" in signals or "provider_uncertain" in signals:
         intent = "human"
     elif "customer_reported_scam" in signals:
         intent = "scam"
@@ -229,22 +232,45 @@ def run(message, language, transaction_id, context, records, classifier):
     }:
         intent = "unsupported"
     result["assessment"] = assessment
+    # A selection completes the pending task; a new explicit request replaces it.
+    selection_only = re.fullmatch(r"TX-[A-Z]{2}-\d+", message.strip().upper()) is not None
+    pending = context.get("pending_intent")
+    continuation = pending in {"transaction_status", "dispute", "scam", "human"} and (
+        selection_only
+        or deictic_selection(text, language)
+        or (intent == "ambiguous" and not review_required)
+    )
+    report = customer_report(message, context, continuation=continuation)
+    result["customer_report"] = report
     referenced = re.findall(r"\bTX-[A-Z]{2}-\d+\b", message.upper())
     if len(set(referenced)) > 1:
-        result.update(message=say("choose", language), intent="ambiguous", state="clarification")
+        result.update(
+            message=say("choose", language),
+            intent="ambiguous",
+            state="clarification",
+            context={
+                "pending_intent": intent if intent != "ambiguous" else "transaction_status",
+                "customer_report": report,
+            },
+        )
         return result
     if referenced:
         if transaction_id and referenced[0] != transaction_id:
             result.update(
-                message=say("choose", language), intent="ambiguous", state="clarification"
+                message=say("choose", language),
+                intent="ambiguous",
+                state="clarification",
+                context={
+                    "pending_intent": intent if intent != "ambiguous" else "transaction_status",
+                    "customer_report": report,
+                },
             )
             return result
         transaction_id = referenced[0]
-    # A selection completes the pending task; a new explicit request replaces it.
-    selection_only = re.fullmatch(r"TX-[A-Z]{2}-\d+", message.strip().upper()) is not None
-    pending = context.get("pending_intent")
     if not review_required:
-        if pending in {"transaction_status", "dispute"} and deictic_selection(text, language):
+        if pending in {"transaction_status", "dispute", "scam", "human"} and deictic_selection(
+            text, language
+        ):
             # Without a selected record this still clarifies; it never chooses a record.
             intent = pending
         elif transaction_id and (intent == "ambiguous" or selection_only):
@@ -268,7 +294,7 @@ def run(message, language, transaction_id, context, records, classifier):
                 message=say("invalid_record", language),
                 intent="human",
                 state="awaiting_confirmation",
-                context={},
+                context={"customer_report": report},
                 evidence=policy.retrieve("human", language),
             )
             payload = proposal_payload("human", language, result, "invalid_transaction_evidence")
@@ -280,18 +306,30 @@ def run(message, language, transaction_id, context, records, classifier):
         result.update(message=say("denied", language), state="blocked", context={})
         return result
     result["intent"] = intent
+    result["context"] = (
+        {"pending_intent": intent, "customer_report": report}
+        if intent in {"transaction_status", "dispute", "scam", "human"}
+        else {}
+    )
     if intent in {"transaction_status", "dispute", "ambiguous"} and transaction is None:
         result.update(
             message=say("choose", language),
             state="clarification",
-            context={"pending_intent": intent if intent != "ambiguous" else "transaction_status"},
+            context={
+                "pending_intent": intent if intent != "ambiguous" else "transaction_status",
+                "customer_report": report,
+            },
         )
         return result
     result["evidence"] = policy.retrieve(intent, language)
     if transaction:
         result["transaction"] = transaction
         result["evidence"].insert(0, transaction_evidence(transaction, language))
-        result["context"] = {"transaction_id": transaction["id"], "pending_intent": intent}
+        result["context"] = {
+            "transaction_id": transaction["id"],
+            "pending_intent": intent,
+            "customer_report": report,
+        }
     if intent == "transaction_status":
         states = {
             "completed": ("completada", "concluída"),
@@ -327,25 +365,13 @@ def run(message, language, transaction_id, context, records, classifier):
 
 
 def proposal_payload(intent, language, result, reason=None):
-    report = {
-        "dispute": (
-            "El cliente solicita revisar una operación; el motivo requiere confirmación humana.",
-            "O cliente solicita revisar uma operação; o motivo precisa de confirmação humana.",
-        ),
-        "scam": (
-            "El cliente reporta un posible engaño y requiere revisión humana.",
-            "O cliente relata uma possível fraude e precisa de análise humana.",
-        ),
-        "human": (
-            "Se propone atención humana; confirmar el motivo con el cliente.",
-            "Atendimento humano proposto; confirmar o motivo com o cliente.",
-        ),
-    }[intent][language == "pt"]
+    report = result.get("customer_report", "")
     risk = assess(result.get("transaction") or {})
     return {
         "intent": intent,
         "language": language,
         "customer_report": report,
+        "report_provenance": "customer_allegation_redacted_not_verified",
         "transaction": result.get("transaction"),
         "evidence": result["evidence"],
         "priority": "high" if intent == "scam" else "normal",
