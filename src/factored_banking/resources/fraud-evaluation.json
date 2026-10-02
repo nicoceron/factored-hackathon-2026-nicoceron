@@ -1,0 +1,3015 @@
+{
+  "experiment_version": 1,
+  "seed": 20261002,
+  "feature_version": "strict-prior-30d-v1",
+  "feature_sha256": "4c275a282bd292abd2daa8ee2d3a0d0951b117d7acc5f680b1a286f8b8b4e96b",
+  "training_source_sha256": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+  "libraries": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "catboost": "1.2.10",
+    "duckdb": "1.5.5"
+  },
+  "features": {
+    "numeric": [
+      "log_amount",
+      "hour",
+      "weekday",
+      "log_prior_count_30d",
+      "log_amount_ratio"
+    ],
+    "categorical": [
+      "currency",
+      "transaction_type",
+      "transaction_category",
+      "channel",
+      "transaction_country"
+    ]
+  },
+  "excluded": [
+    "is_fraud",
+    "fraud_score",
+    "amount_usd",
+    "current customer/product snapshots",
+    "customer and transaction identifiers",
+    "future/simultaneous events",
+    "status/response code",
+    "unlinked transcripts and digital sessions"
+  ],
+  "split_clock": "max(event_at, process_date + 1 day); naive timestamps, timezone unknown",
+  "label_availability_assumption": "Labels available at offline fitting; unproven",
+  "training_population": {
+    "rows": 3735596,
+    "fraud_labels": 3712
+  },
+  "training_sample": {
+    "rows": 471012,
+    "fraud_labels": 3712,
+    "negative_inclusion_probability": 0.125,
+    "negative_inverse_propensity_weight": 8,
+    "sampling": "MD5 transaction ID first hex digit 0 or 1; all positives"
+  },
+  "partitions": {
+    "train": {
+      "rows": 471012,
+      "fraud_labels": 3712
+    },
+    "calibration": {
+      "rows": 123215,
+      "fraud_labels": 109
+    },
+    "validation": {
+      "rows": 114374,
+      "fraud_labels": 86
+    },
+    "test": {
+      "rows": 451823,
+      "fraud_labels": 409
+    }
+  },
+  "calibration": "Sigmoid January; model selection February; final March+ test",
+  "promotion_gate": "February AP > 1.2x prior and precision@1% Wilson lower > prevalence",
+  "selected": "constant",
+  "metrics": {
+    "validation": {
+      "constant": {
+        "rows": 114374,
+        "fraud_labels": 86,
+        "prevalence": 0.0007519191424624477,
+        "average_precision": 0.0007519191424624477,
+        "roc_auc": 0.5,
+        "brier": 0.0007514122100562595,
+        "log_loss": 0.006192267969142918,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0006119951040391676
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0007868508480503584
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.001398845952089526
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0009617065920615492
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.00043717758153361897
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005246130978403428
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006994841304537903
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011366617119874093
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.00043717758153361897
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005246130978403428
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1144,
+          "true_positives": 1,
+          "false_positives": 1143,
+          "precision": 0.0008741258741258741,
+          "recall": 0.011627906976744186,
+          "false_positive_rate": 0.01000104997900042,
+          "recall_wilson_95": [
+            0.0020555686652495644,
+            0.06296406589291725
+          ],
+          "precision_wilson_95": [
+            0.00015432134964349494,
+            0.004934760226740503
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5719,
+          "true_positives": 2,
+          "false_positives": 5717,
+          "precision": 0.0003497114880223815,
+          "recall": 0.023255813953488372,
+          "false_positive_rate": 0.0500227495450091,
+          "recall_wilson_95": [
+            0.0064009262042708515,
+            0.08088014562632057
+          ],
+          "precision_wilson_95": [
+            9.590874299040132e-05,
+            0.001274295005814832
+          ]
+        }
+      },
+      "amount_history_rule": {
+        "rows": 114374,
+        "fraud_labels": 86,
+        "prevalence": 0.0007519191424624477,
+        "average_precision": 0.0008047023949461397,
+        "roc_auc": 0.5259205426356589,
+        "brier": 0.0007631780951550282,
+        "log_loss": 0.0071687776925310025,
+        "mean_probability": 0.002307455700545437,
+        "calibration_deciles": [
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0005245672320335723
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008742787200559538
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0014862738240951215
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0005245672320335723
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005246130978403428
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.00043717758153361897
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008743551630672379
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.00043717758153361897
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.005125548717868553,
+            "observed_rate": 0.0007869196467605141
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.009999999999999998,
+            "observed_rate": 0.0010492261956806855
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1144,
+          "true_positives": 2,
+          "false_positives": 1142,
+          "precision": 0.0017482517482517483,
+          "recall": 0.023255813953488372,
+          "false_positive_rate": 0.00999230015399692,
+          "recall_wilson_95": [
+            0.0064009262042708515,
+            0.08088014562632057
+          ],
+          "precision_wilson_95": [
+            0.0004795646807189799,
+            0.006351917803587287
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5719,
+          "true_positives": 5,
+          "false_positives": 5714,
+          "precision": 0.0008742787200559538,
+          "recall": 0.05813953488372093,
+          "false_positive_rate": 0.0499965000699986,
+          "recall_wilson_95": [
+            0.025086935621079658,
+            0.12897844802678554
+          ],
+          "precision_wilson_95": [
+            0.0003734956087119818,
+            0.0020451383723779698
+          ]
+        }
+      },
+      "logistic_raw": {
+        "rows": 114374,
+        "fraud_labels": 86,
+        "prevalence": 0.0007519191424624477,
+        "average_precision": 0.0008543182066483334,
+        "roc_auc": 0.5185634659399835,
+        "brier": 0.0007516195737243412,
+        "log_loss": 0.0062479593399671785,
+        "mean_probability": 0.0010704012689327271,
+        "calibration_deciles": [
+          {
+            "rows": 11438,
+            "mean_probability": 0.000595815266383088,
+            "observed_rate": 0.0006119951040391676
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0006924023859463752,
+            "observed_rate": 0.0010491344640671447
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0007594709706011983,
+            "observed_rate": 0.0004371393600279769
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0008537023761864787,
+            "observed_rate": 0.0006119951040391676
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009298346552264326,
+            "observed_rate": 0.0012240972282941331
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0010080705781925587,
+            "observed_rate": 0.00043717758153361897
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0011156048762252662,
+            "observed_rate": 0.0005246130978403428
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0012463189370026232,
+            "observed_rate": 0.0006994841304537903
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0014234793796279442,
+            "observed_rate": 0.0012240972282941331
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0020794339436657084,
+            "observed_rate": 0.0006994841304537903
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1144,
+          "true_positives": 1,
+          "false_positives": 1143,
+          "precision": 0.0008741258741258741,
+          "recall": 0.011627906976744186,
+          "false_positive_rate": 0.01000104997900042,
+          "recall_wilson_95": [
+            0.0020555686652495644,
+            0.06296406589291725
+          ],
+          "precision_wilson_95": [
+            0.00015432134964349494,
+            0.004934760226740503
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5719,
+          "true_positives": 6,
+          "false_positives": 5713,
+          "precision": 0.0010491344640671447,
+          "recall": 0.06976744186046512,
+          "false_positive_rate": 0.0499877502449951,
+          "recall_wilson_95": [
+            0.032365414509921336,
+            0.14396140641036848
+          ],
+          "precision_wilson_95": [
+            0.0004809136478759401,
+            0.0022871970773089183
+          ]
+        }
+      },
+      "logistic": {
+        "rows": 114374,
+        "fraud_labels": 86,
+        "prevalence": 0.0007519191424624477,
+        "average_precision": 0.0008543182066483334,
+        "roc_auc": 0.5185634659399835,
+        "brier": 0.000751492662416646,
+        "log_loss": 0.0062096715825829905,
+        "mean_probability": 0.0009091713787351303,
+        "calibration_deciles": [
+          {
+            "rows": 11438,
+            "mean_probability": 0.0005051781130437873,
+            "observed_rate": 0.0006119951040391676
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0005872960587715124,
+            "observed_rate": 0.0010491344640671447
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0006443416383820851,
+            "observed_rate": 0.0004371393600279769
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0007245140874874679,
+            "observed_rate": 0.0006119951040391676
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0007893052194188158,
+            "observed_rate": 0.0012240972282941331
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0008559029987000139,
+            "observed_rate": 0.00043717758153361897
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009474648432028757,
+            "observed_rate": 0.0005246130978403428
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.001058797048840056,
+            "observed_rate": 0.0006994841304537903
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.001209744545960023,
+            "observed_rate": 0.0012240972282941331
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0017692720013699056,
+            "observed_rate": 0.0006994841304537903
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1144,
+          "true_positives": 1,
+          "false_positives": 1143,
+          "precision": 0.0008741258741258741,
+          "recall": 0.011627906976744186,
+          "false_positive_rate": 0.01000104997900042,
+          "recall_wilson_95": [
+            0.0020555686652495644,
+            0.06296406589291725
+          ],
+          "precision_wilson_95": [
+            0.00015432134964349494,
+            0.004934760226740503
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5719,
+          "true_positives": 6,
+          "false_positives": 5713,
+          "precision": 0.0010491344640671447,
+          "recall": 0.06976744186046512,
+          "false_positive_rate": 0.0499877502449951,
+          "recall_wilson_95": [
+            0.032365414509921336,
+            0.14396140641036848
+          ],
+          "precision_wilson_95": [
+            0.0004809136478759401,
+            0.0022871970773089183
+          ]
+        }
+      },
+      "catboost_raw": {
+        "rows": 114374,
+        "fraud_labels": 86,
+        "prevalence": 0.0007519191424624477,
+        "average_precision": 0.0007133995456225005,
+        "roc_auc": 0.4813892748307824,
+        "brier": 0.0007514831872270074,
+        "log_loss": 0.00622137334147734,
+        "mean_probability": 0.0010715707173844268,
+        "calibration_deciles": [
+          {
+            "rows": 11438,
+            "mean_probability": 0.0009950542153922557,
+            "observed_rate": 0.0010491344640671447
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0010129457334866726,
+            "observed_rate": 0.0009617065920615492
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0010252107149482826,
+            "observed_rate": 0.0002622836160167862
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0010353644862633334,
+            "observed_rate": 0.0009617065920615492
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.001045641102242474,
+            "observed_rate": 0.0006120486141470666
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0010578179172950869,
+            "observed_rate": 0.0010492261956806855
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.001072905450949355,
+            "observed_rate": 0.0002623065489201714
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0010929887802544073,
+            "observed_rate": 0.0008743551630672379
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0011256613690710472,
+            "observed_rate": 0.0009617906793739617
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0012521364393282069,
+            "observed_rate": 0.0005246130978403428
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1144,
+          "true_positives": 0,
+          "false_positives": 1144,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.01000979980400392,
+          "recall_wilson_95": [
+            0,
+            0.042758197285742226
+          ],
+          "precision_wilson_95": [
+            0,
+            0.0033466806684617277
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5719,
+          "true_positives": 3,
+          "false_positives": 5716,
+          "precision": 0.0005245672320335723,
+          "recall": 0.03488372093023256,
+          "false_positive_rate": 0.0500139997200056,
+          "recall_wilson_95": [
+            0.01193379807740838,
+            0.09760871102560764
+          ],
+          "precision_wilson_95": [
+            0.0001784158728396438,
+            0.0015412646200604959
+          ]
+        }
+      },
+      "catboost": {
+        "rows": 114374,
+        "fraud_labels": 86,
+        "prevalence": 0.0007519191424624477,
+        "average_precision": 0.0007133995456225005,
+        "roc_auc": 0.4813892748307824,
+        "brier": 0.0007513944512948099,
+        "log_loss": 0.006179658475140568,
+        "mean_probability": 0.0008915292525039686,
+        "calibration_deciles": [
+          {
+            "rows": 11438,
+            "mean_probability": 0.0008275061948271773,
+            "observed_rate": 0.0010491344640671447
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0008424692619443681,
+            "observed_rate": 0.0009617065920615492
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0008527276578798428,
+            "observed_rate": 0.0002622836160167862
+          },
+          {
+            "rows": 11438,
+            "mean_probability": 0.0008612207925881403,
+            "observed_rate": 0.0009617065920615492
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0008698171817686795,
+            "observed_rate": 0.0006120486141470666
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0008800037226432332,
+            "observed_rate": 0.0010492261956806855
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0008926261838168702,
+            "observed_rate": 0.0002623065489201714
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009094298263439181,
+            "observed_rate": 0.0008743551630672379
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0009367707975073395,
+            "observed_rate": 0.0009617906793739617
+          },
+          {
+            "rows": 11437,
+            "mean_probability": 0.0010427368358681274,
+            "observed_rate": 0.0005246130978403428
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1144,
+          "true_positives": 0,
+          "false_positives": 1144,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.01000979980400392,
+          "recall_wilson_95": [
+            0,
+            0.042758197285742226
+          ],
+          "precision_wilson_95": [
+            0,
+            0.0033466806684617277
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5719,
+          "true_positives": 3,
+          "false_positives": 5716,
+          "precision": 0.0005245672320335723,
+          "recall": 0.03488372093023256,
+          "false_positive_rate": 0.0500139997200056,
+          "recall_wilson_95": [
+            0.01193379807740838,
+            0.09760871102560764
+          ],
+          "precision_wilson_95": [
+            0.0001784158728396438,
+            0.0015412646200604959
+          ]
+        }
+      }
+    },
+    "test": {
+      "constant": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0009052217350599682,
+        "roc_auc": 0.5,
+        "brier": 0.0009044101341490905,
+        "log_loss": 0.007252063763918692,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010180820219994246
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000995949804129872
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009516853683907664
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008853083086184764
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0009074410163339383
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008853083086184764
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008189101854720907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0007082466468947811
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0010402372626267097
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008410428931875525
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 4,
+          "false_positives": 4515,
+          "precision": 0.0008851515822084533,
+          "recall": 0.009779951100244499,
+          "false_positive_rate": 0.010001905124785673,
+          "recall_wilson_95": [
+            0.0038096198372522504,
+            0.024873203962760344
+          ],
+          "precision_wilson_95": [
+            0.0003442703162775363,
+            0.0022738755834864847
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 25,
+          "false_positives": 22567,
+          "precision": 0.001106586402266289,
+          "recall": 0.061124694376528114,
+          "false_positive_rate": 0.049991803532898844,
+          "recall_wilson_95": [
+            0.04174199478539314,
+            0.08867479759416927
+          ],
+          "precision_wilson_95": [
+            0.0007496856276067744,
+            0.001633118257737187
+          ]
+        }
+      },
+      "amount_history_rule": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0008857367502449451,
+        "roc_auc": 0.4868683557256539,
+        "brier": 0.0009169168590222689,
+        "log_loss": 0.008323276942777316,
+        "mean_probability": 0.0023090012005771905,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010402142398689774
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011066108934776355
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000907420932651661
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.000995971847195786
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0009295737240494002
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0007746447700411668
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0006197158160329335
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0011066353857730955
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0051406315714019055,
+            "observed_rate": 0.0009074410163339383
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.009999999999999998,
+            "observed_rate": 0.0006639812314638573
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 6,
+          "false_positives": 4513,
+          "precision": 0.0013277273733126797,
+          "recall": 0.014669926650366748,
+          "false_positive_rate": 0.009997474602028293,
+          "recall_wilson_95": [
+            0.006740245625040954,
+            0.0316315275635002
+          ],
+          "precision_wilson_95": [
+            0.0006086469773541291,
+            0.002893898704365322
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 19,
+          "false_positives": 22573,
+          "precision": 0.0008410056657223796,
+          "recall": 0.04645476772616137,
+          "false_positive_rate": 0.05000509510117099,
+          "recall_wilson_95": [
+            0.029938824812720553,
+            0.07141111940125619
+          ],
+          "precision_wilson_95": [
+            0.0005384928607295592,
+            0.001313239852873835
+          ]
+        }
+      },
+      "logistic_raw": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0009415226700474275,
+        "roc_auc": 0.4992177798329818,
+        "brier": 0.0009046185027573962,
+        "log_loss": 0.0073207364161882406,
+        "mean_probability": 0.0010721291150899957,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.0005965017501348435,
+            "observed_rate": 0.000907420932651661
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0006923317341680156,
+            "observed_rate": 0.0011508753292167409
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0007587557190740567,
+            "observed_rate": 0.0006639665360865813
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000852348496782461,
+            "observed_rate": 0.0011066353857730955
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0009296162436669061,
+            "observed_rate": 0.000730379354610243
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010086966997223904,
+            "observed_rate": 0.0008189101854720907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0011161943323107128,
+            "observed_rate": 0.000995971847195786
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0012485207379458133,
+            "observed_rate": 0.0007746447700411668
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0014285245587451689,
+            "observed_rate": 0.0009074410163339383
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0020898267470172414,
+            "observed_rate": 0.000995971847195786
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 4,
+          "false_positives": 4515,
+          "precision": 0.0008851515822084533,
+          "recall": 0.009779951100244499,
+          "false_positive_rate": 0.010001905124785673,
+          "recall_wilson_95": [
+            0.0038096198372522504,
+            0.024873203962760344
+          ],
+          "precision_wilson_95": [
+            0.0003442703162775363,
+            0.0022738755834864847
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 25,
+          "false_positives": 22567,
+          "precision": 0.001106586402266289,
+          "recall": 0.061124694376528114,
+          "false_positive_rate": 0.049991803532898844,
+          "recall_wilson_95": [
+            0.04174199478539314,
+            0.08867479759416927
+          ],
+          "precision_wilson_95": [
+            0.0007496856276067744,
+            0.001633118257737187
+          ]
+        }
+      },
+      "logistic": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0009415226700474275,
+        "roc_auc": 0.4992177798329818,
+        "brier": 0.0009045365819253305,
+        "log_loss": 0.0073073369012710485,
+        "mean_probability": 0.0009106447523660594,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.000505761552905205,
+            "observed_rate": 0.000907420932651661
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0005872359639109803,
+            "observed_rate": 0.0011508753292167409
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.000643733188996385,
+            "observed_rate": 0.0006639665360865813
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0007233620354858927,
+            "observed_rate": 0.0011066353857730955
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0007891193291398469,
+            "observed_rate": 0.000730379354610243
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0008564360646897605,
+            "observed_rate": 0.0008189101854720907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0009479667833981975,
+            "observed_rate": 0.000995971847195786
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010606727181890238,
+            "observed_rate": 0.0007746447700411668
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0012140441854982952,
+            "observed_rate": 0.0009074410163339383
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0017781377279963244,
+            "observed_rate": 0.000995971847195786
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 4,
+          "false_positives": 4515,
+          "precision": 0.0008851515822084533,
+          "recall": 0.009779951100244499,
+          "false_positive_rate": 0.010001905124785673,
+          "recall_wilson_95": [
+            0.0038096198372522504,
+            0.024873203962760344
+          ],
+          "precision_wilson_95": [
+            0.0003442703162775363,
+            0.0022738755834864847
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 25,
+          "false_positives": 22567,
+          "precision": 0.001106586402266289,
+          "recall": 0.061124694376528114,
+          "false_positive_rate": 0.049991803532898844,
+          "recall_wilson_95": [
+            0.04174199478539314,
+            0.08867479759416927
+          ],
+          "precision_wilson_95": [
+            0.0007496856276067744,
+            0.001633118257737187
+          ]
+        }
+      },
+      "catboost_raw": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0009380975559168019,
+        "roc_auc": 0.5223448594773048,
+        "brier": 0.0009044365100847342,
+        "log_loss": 0.00726315968596632,
+        "mean_probability": 0.001072851962055262,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.000995322085496085,
+            "observed_rate": 0.0007967598433038975
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.001013387332981118,
+            "observed_rate": 0.0005754376646083704
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0010256422851051322,
+            "observed_rate": 0.0009295531505212137
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010356504496153746,
+            "observed_rate": 0.0009517064317648621
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010459426769049219,
+            "observed_rate": 0.0007967774777566288
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010581216461047103,
+            "observed_rate": 0.0010181045549112477
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010733185609754857,
+            "observed_rate": 0.0010845026780576335
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.001093808548116627,
+            "observed_rate": 0.0012836970474967907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0011274976587567305,
+            "observed_rate": 0.0008189101854720907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.001259832453433769,
+            "observed_rate": 0.0007967774777566288
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 4,
+          "false_positives": 4515,
+          "precision": 0.0008851515822084533,
+          "recall": 0.009779951100244499,
+          "false_positive_rate": 0.010001905124785673,
+          "recall_wilson_95": [
+            0.0038096198372522504,
+            0.024873203962760344
+          ],
+          "precision_wilson_95": [
+            0.0003442703162775363,
+            0.0022738755834864847
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 15,
+          "false_positives": 22577,
+          "precision": 0.0006639518413597734,
+          "recall": 0.03667481662591687,
+          "false_positive_rate": 0.050013956146685745,
+          "recall_wilson_95": [
+            0.022349300895126007,
+            0.05962274454179363
+          ],
+          "precision_wilson_95": [
+            0.0004024206562930245,
+            0.0010952646094833248
+          ]
+        }
+      },
+      "catboost": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0009380975559168019,
+        "roc_auc": 0.5223448594773048,
+        "brier": 0.0009044061591724239,
+        "log_loss": 0.00724942279816064,
+        "mean_probability": 0.0008926006692682848,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.0008277302099953521,
+            "observed_rate": 0.0007967598433038975
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0008428386025654208,
+            "observed_rate": 0.0005754376646083704
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0008530886349763947,
+            "observed_rate": 0.0009295531505212137
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0008614599941886253,
+            "observed_rate": 0.0009517064317648621
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000870069455918512,
+            "observed_rate": 0.0007967774777566288
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0008802578168314231,
+            "observed_rate": 0.0010181045549112477
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0008929718126636331,
+            "observed_rate": 0.0010845026780576335
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0009101157680560633,
+            "observed_rate": 0.0012836970474967907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0009383075808968034,
+            "observed_rate": 0.0008189101854720907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.0010491702282271174,
+            "observed_rate": 0.0007967774777566288
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 4,
+          "false_positives": 4515,
+          "precision": 0.0008851515822084533,
+          "recall": 0.009779951100244499,
+          "false_positive_rate": 0.010001905124785673,
+          "recall_wilson_95": [
+            0.0038096198372522504,
+            0.024873203962760344
+          ],
+          "precision_wilson_95": [
+            0.0003442703162775363,
+            0.0022738755834864847
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 15,
+          "false_positives": 22577,
+          "precision": 0.0006639518413597734,
+          "recall": 0.03667481662591687,
+          "false_positive_rate": 0.050013956146685745,
+          "recall_wilson_95": [
+            0.022349300895126007,
+            0.05962274454179363
+          ],
+          "precision_wilson_95": [
+            0.0004024206562930245,
+            0.0010952646094833248
+          ]
+        }
+      }
+    }
+  },
+  "test_slices_selected": {
+    "currency": {
+      "ARS": {
+        "rows": 80684,
+        "fraud_labels": 68,
+        "prevalence": 0.0008427941103564523,
+        "average_precision": 0.0008427941103564523,
+        "roc_auc": 0.5,
+        "brier": 0.0008421065760431936,
+        "log_loss": 0.00682049549740983,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 8069,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0009914487544925021
+          },
+          {
+            "rows": 8069,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0007435865658693766
+          },
+          {
+            "rows": 8069,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0008675176601809394
+          },
+          {
+            "rows": 8069,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0007435865658693766
+          },
+          {
+            "rows": 8068,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006197322756569162
+          },
+          {
+            "rows": 8068,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008676251859196827
+          },
+          {
+            "rows": 8068,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008676251859196827
+          },
+          {
+            "rows": 8068,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008676251859196827
+          },
+          {
+            "rows": 8068,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008676251859196827
+          },
+          {
+            "rows": 8068,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009915716410510659
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 807,
+          "true_positives": 2,
+          "false_positives": 805,
+          "precision": 0.0024783147459727386,
+          "recall": 0.029411764705882353,
+          "false_positive_rate": 0.009985610796864147,
+          "recall_wilson_95": [
+            0.008103179543129883,
+            0.10104631365223063
+          ],
+          "precision_wilson_95": [
+            0.0006799065981352905,
+            0.008990860400013666
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 4035,
+          "true_positives": 4,
+          "false_positives": 4031,
+          "precision": 0.0009913258983890955,
+          "recall": 0.058823529411764705,
+          "false_positive_rate": 0.05000248089709239,
+          "recall_wilson_95": [
+            0.023110765539635758,
+            0.1417168843310147
+          ],
+          "precision_wilson_95": [
+            0.0003855726986598353,
+            0.002546322237407233
+          ]
+        }
+      },
+      "COP": {
+        "rows": 122021,
+        "fraud_labels": 106,
+        "prevalence": 0.0008687029281844929,
+        "average_precision": 0.0008687029281844929,
+        "roc_auc": 0.5,
+        "brier": 0.0008679639035431699,
+        "log_loss": 0.006999605685414653,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 12203,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0016389412439564042
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0009014915587608589
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0006556302245533519
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.000983445336830028
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0008195377806916899
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0006556302245533519
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.000983445336830028
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.000491722668415014
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0009014915587608589
+          },
+          {
+            "rows": 12202,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0006556302245533519
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1221,
+          "true_positives": 0,
+          "false_positives": 1221,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.010015174506828529,
+          "recall_wilson_95": [
+            0,
+            0.034972758573472214
+          ],
+          "precision_wilson_95": [
+            0,
+            0.0031362906546229838
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 6102,
+          "true_positives": 8,
+          "false_positives": 6094,
+          "precision": 0.0013110455588331695,
+          "recall": 0.07547169811320754,
+          "false_positive_rate": 0.049985645736783824,
+          "recall_wilson_95": [
+            0.0387368379201063,
+            0.14190040992529462
+          ],
+          "precision_wilson_95": [
+            0.0006644839655173942,
+            0.002585102345314591
+          ]
+        }
+      },
+      "USD": {
+        "rows": 249118,
+        "fraud_labels": 235,
+        "prevalence": 0.0009433280614006214,
+        "average_precision": 0.0009433280614006214,
+        "roc_auc": 0.5,
+        "brier": 0.0009424407292364835,
+        "log_loss": 0.007515496519529054,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007626846499678869
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001083815028901734
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001123956326268465
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008831085420680796
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010436737315350033
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010035324341682724
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000722543352601156
+          },
+          {
+            "rows": 24912,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007626846499678869
+          },
+          {
+            "rows": 24911,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0011641443538998836
+          },
+          {
+            "rows": 24911,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008831439926137047
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 2492,
+          "true_positives": 2,
+          "false_positives": 2490,
+          "precision": 0.0008025682182985554,
+          "recall": 0.00851063829787234,
+          "false_positive_rate": 0.010004701004086257,
+          "recall_wilson_95": [
+            0.002337035157692966,
+            0.030494194643917644
+          ],
+          "precision_wilson_95": [
+            0.00022012075103018387,
+            0.0029216889151972856
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 12456,
+          "true_positives": 13,
+          "false_positives": 12443,
+          "precision": 0.0010436737315350033,
+          "recall": 0.05531914893617021,
+          "false_positive_rate": 0.04999537935495795,
+          "recall_wilson_95": [
+            0.03261041091344253,
+            0.09233213033563373
+          ],
+          "precision_wilson_95": [
+            0.0006100529813643135,
+            0.0017849581364993467
+          ]
+        }
+      }
+    },
+    "channel": {
+      "ATM": {
+        "rows": 135265,
+        "fraud_labels": 118,
+        "prevalence": 0.000872361660444313,
+        "average_precision": 0.000872361660444313,
+        "roc_auc": 0.5,
+        "brier": 0.0008716153645594464,
+        "log_loss": 0.0070248988588533295,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 13527,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0016263768758778738
+          },
+          {
+            "rows": 13527,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008131884379389369
+          },
+          {
+            "rows": 13527,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008871146595697493
+          },
+          {
+            "rows": 13527,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008131884379389369
+          },
+          {
+            "rows": 13527,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005174835514156871
+          },
+          {
+            "rows": 13526,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0010350436196954014
+          },
+          {
+            "rows": 13526,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0007393168712110011
+          },
+          {
+            "rows": 13526,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0005914534969688008
+          },
+          {
+            "rows": 13526,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008871802454532013
+          },
+          {
+            "rows": 13526,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008132485583321012
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1353,
+          "true_positives": 2,
+          "false_positives": 1351,
+          "precision": 0.0014781966001478197,
+          "recall": 0.01694915254237288,
+          "false_positive_rate": 0.009996522305341591,
+          "recall_wilson_95": [
+            0.004660442504200446,
+            0.059697444348039835
+          ],
+          "precision_wilson_95": [
+            0.00040546846640589955,
+            0.0053737320214016955
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 6764,
+          "true_positives": 11,
+          "false_positives": 6753,
+          "precision": 0.0016262566528681254,
+          "recall": 0.09322033898305085,
+          "false_positive_rate": 0.049967812826033874,
+          "recall_wilson_95": [
+            0.052851600772239334,
+            0.15923925131385774
+          ],
+          "precision_wilson_95": [
+            0.0009083410065558316,
+            0.00290993088676908
+          ]
+        }
+      },
+      "App": {
+        "rows": 67811,
+        "fraud_labels": 59,
+        "prevalence": 0.0008700653286339975,
+        "average_precision": 0.0008700653286339975,
+        "roc_auc": 0.5,
+        "brier": 0.000869323596403059,
+        "log_loss": 0.007009024092779597,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 6782,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0001474491300501327
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011797669960182864
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008848252470137148
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005898834980091432
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001474708745022858
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011797669960182864
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008848252470137148
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005898834980091432
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010322961215160006
+          },
+          {
+            "rows": 6781,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000737354372511429
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 679,
+          "true_positives": 0,
+          "false_positives": 679,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.010021844373597827,
+          "recall_wilson_95": [
+            0,
+            0.061129370526788386
+          ],
+          "precision_wilson_95": [
+            4.336808689942018e-19,
+            0.005625696523067804
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 3391,
+          "true_positives": 1,
+          "false_positives": 3390,
+          "precision": 0.0002948982601002654,
+          "recall": 0.01694915254237288,
+          "false_positive_rate": 0.05003542330853702,
+          "recall_wilson_95": [
+            0.0029982339183556445,
+            0.08995725964142297
+          ],
+          "precision_wilson_95": [
+            5.205868098062975e-05,
+            0.0016686280996984723
+          ]
+        }
+      },
+      "Branch": {
+        "rows": 13694,
+        "fraud_labels": 9,
+        "prevalence": 0.0006572221410836862,
+        "average_precision": 0.0006572221410836862,
+        "roc_auc": 0.5,
+        "brier": 0.0006569034063675685,
+        "log_loss": 0.005537618350120686,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 1370,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.00072992700729927
+          },
+          {
+            "rows": 1370,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0
+          },
+          {
+            "rows": 1370,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.00072992700729927
+          },
+          {
+            "rows": 1370,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.00145985401459854
+          },
+          {
+            "rows": 1369,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0014609203798392988
+          },
+          {
+            "rows": 1369,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0007304601899196494
+          },
+          {
+            "rows": 1369,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0
+          },
+          {
+            "rows": 1369,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0
+          },
+          {
+            "rows": 1369,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0014609203798392988
+          },
+          {
+            "rows": 1369,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 137,
+          "true_positives": 0,
+          "false_positives": 137,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.010010960906101572,
+          "recall_wilson_95": [
+            0,
+            0.2991450484195441
+          ],
+          "precision_wilson_95": [
+            1.734723475976807e-18,
+            0.027275057024116055
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 685,
+          "true_positives": 1,
+          "false_positives": 684,
+          "precision": 0.00145985401459854,
+          "recall": 0.1111111111111111,
+          "false_positive_rate": 0.049981731823164045,
+          "recall_wilson_95": [
+            0.019890887638544907,
+            0.434999705576656
+          ],
+          "precision_wilson_95": [
+            0.0002577465785959408,
+            0.008222374276346183
+          ]
+        }
+      },
+      "POS": {
+        "rows": 158334,
+        "fraud_labels": 149,
+        "prevalence": 0.000941048669268761,
+        "average_precision": 0.000941048669268761,
+        "roc_auc": 0.5,
+        "brier": 0.0009401658670931947,
+        "log_loss": 0.00749973885910688,
+        "mean_probability": 0.000993683471124822,
+        "calibration_deciles": [
+          {
+            "rows": 15834,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007578628268283441
+          },
+          {
+            "rows": 15834,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011999494758115447
+          },
+          {
+            "rows": 15834,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008210180623973727
+          },
+          {
+            "rows": 15834,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008841732979664014
+          },
+          {
+            "rows": 15833,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010105475904755889
+          },
+          {
+            "rows": 15833,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009473883660708647
+          },
+          {
+            "rows": 15833,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000821069917261416
+          },
+          {
+            "rows": 15833,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010105475904755889
+          },
+          {
+            "rows": 15833,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011368660392850375
+          },
+          {
+            "rows": 15833,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000821069917261416
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1584,
+          "true_positives": 1,
+          "false_positives": 1583,
+          "precision": 0.0006313131313131314,
+          "recall": 0.006711409395973154,
+          "false_positive_rate": 0.010007269968707527,
+          "recall_wilson_95": [
+            0.0011857126133513265,
+            0.03703336005034936
+          ],
+          "precision_wilson_95": [
+            0.0001114509635050762,
+            0.0035674168404837663
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 7917,
+          "true_positives": 7,
+          "false_positives": 7910,
+          "precision": 0.0008841732979664014,
+          "recall": 0.04697986577181208,
+          "false_positive_rate": 0.05000474128393969,
+          "recall_wilson_95": [
+            0.022940723482127327,
+            0.09379107794372024
+          ],
+          "precision_wilson_95": [
+            0.00042836534759290573,
+            0.0018241047862242246
+          ]
+        }
+      },
+      "Transfer": {
+        "rows": 9087,
+        "fraud_labels": 13,
+        "prevalence": 0.001430615164520744,
+        "average_precision": 0.001430615164520744,
+        "roc_auc": 0.5,
+        "brier": 0.0014287594140764807,
+        "log_loss": 0.010884159853821077,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011001100110011
+          },
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011001100110011
+          },
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0
+          },
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011001100110011
+          },
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011001100110011
+          },
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011001100110011
+          },
+          {
+            "rows": 909,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0
+          },
+          {
+            "rows": 908,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0
+          },
+          {
+            "rows": 908,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.004405286343612335
+          },
+          {
+            "rows": 908,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.004405286343612335
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 91,
+          "true_positives": 0,
+          "false_positives": 91,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.01002865329512894,
+          "recall_wilson_95": [
+            0,
+            0.22809537235419838
+          ],
+          "precision_wilson_95": [
+            0,
+            0.04050400392888021
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 455,
+          "true_positives": 0,
+          "false_positives": 455,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.050143266475644696,
+          "recall_wilson_95": [
+            0,
+            0.22809537235419838
+          ],
+          "precision_wilson_95": [
+            0,
+            0.008372083095035423
+          ]
+        }
+      },
+      "Web": {
+        "rows": 67632,
+        "fraud_labels": 61,
+        "prevalence": 0.000901939910101727,
+        "average_precision": 0.000901939910101727,
+        "roc_auc": 0.5,
+        "brier": 0.0009011348313812817,
+        "log_loss": 0.0072293761874661164,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 6764,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0013305736250739208
+          },
+          {
+            "rows": 6764,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008870490833826139
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0014786337424220022
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001330770368179802
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005914534969688008
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.00044359012272660064
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010350436196954014
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005914534969688008
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007393168712110011
+          },
+          {
+            "rows": 6763,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005914534969688008
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 677,
+          "true_positives": 1,
+          "false_positives": 676,
+          "precision": 0.0014771048744460858,
+          "recall": 0.01639344262295082,
+          "false_positive_rate": 0.010004291781977476,
+          "recall_wilson_95": [
+            0.002899730799299824,
+            0.08718860044641587
+          ],
+          "precision_wilson_95": [
+            0.00026079288458019136,
+            0.008318970796104429
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 3382,
+          "true_positives": 5,
+          "false_positives": 3377,
+          "precision": 0.0014784151389710231,
+          "recall": 0.08196721311475409,
+          "false_positive_rate": 0.0499770611652928,
+          "recall_wilson_95": [
+            0.03551956660687358,
+            0.17794661802925352
+          ],
+          "precision_wilson_95": [
+            0.0006316507411151047,
+            0.003456390293598664
+          ]
+        }
+      }
+    },
+    "customer_country_slice": {
+      "Argentina": {
+        "rows": 89778,
+        "fraud_labels": 81,
+        "prevalence": 0.0009022254895408675,
+        "average_precision": 0.0009022254895408675,
+        "roc_auc": 0.5,
+        "brier": 0.0009014198432692853,
+        "log_loss": 0.0072313504260197335,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010024504343951882
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007796836711962575
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007796836711962575
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006683002895967921
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008910670527957229
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007796836711962575
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011138338159946536
+          },
+          {
+            "rows": 8978,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007796836711962575
+          },
+          {
+            "rows": 8977,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011139578923916676
+          },
+          {
+            "rows": 8977,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011139578923916676
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 898,
+          "true_positives": 2,
+          "false_positives": 896,
+          "precision": 0.0022271714922048997,
+          "recall": 0.024691358024691357,
+          "false_positive_rate": 0.009989185814464252,
+          "recall_wilson_95": [
+            0.006797587423664028,
+            0.08562725922196524
+          ],
+          "precision_wilson_95": [
+            0.0006109833813997359,
+            0.008083958222802095
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 4489,
+          "true_positives": 5,
+          "false_positives": 4484,
+          "precision": 0.0011138338159946536,
+          "recall": 0.06172839506172839,
+          "false_positive_rate": 0.04999052365185012,
+          "recall_wilson_95": [
+            0.02665251209702916,
+            0.13649247636842118
+          ],
+          "precision_wilson_95": [
+            0.000475854126226864,
+            0.002604926477219426
+          ]
+        }
+      },
+      "Colombia": {
+        "rows": 135730,
+        "fraud_labels": 115,
+        "prevalence": 0.0008472703160686657,
+        "average_precision": 0.0008472703160686657,
+        "roc_auc": 0.5,
+        "brier": 0.0008465738858921478,
+        "log_loss": 0.006851439944662651,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001473513593162897
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008841081558977382
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006630811169233037
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008841081558977382
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008104324762395933
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006630811169233037
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010314595152140279
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005157297576070139
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000957783835555883
+          },
+          {
+            "rows": 13573,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005894054372651587
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1358,
+          "true_positives": 0,
+          "false_positives": 1358,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.010013641558824614,
+          "recall_wilson_95": [
+            0,
+            0.03232423144931307
+          ],
+          "precision_wilson_95": [
+            2.168404344971009e-19,
+            0.002820782695234356
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 6787,
+          "true_positives": 8,
+          "false_positives": 6779,
+          "precision": 0.0011787240312361867,
+          "recall": 0.06956521739130435,
+          "false_positive_rate": 0.049987095822733474,
+          "recall_wilson_95": [
+            0.0356686537914928,
+            0.13128872806487235
+          ],
+          "precision_wilson_95": [
+            0.0005974056410198496,
+            0.0023243911555938966
+          ]
+        }
+      },
+      "M\u00e9xico": {
+        "rows": 226315,
+        "fraud_labels": 213,
+        "prevalence": 0.0009411660738351412,
+        "average_precision": 0.0009411660738351412,
+        "roc_auc": 0.5,
+        "brier": 0.0009402830383336208,
+        "log_loss": 0.00750055048834047,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 22632,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007953340402969247
+          },
+          {
+            "rows": 22632,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011046306115235066
+          },
+          {
+            "rows": 22632,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0011930010604453872
+          },
+          {
+            "rows": 22632,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009720749381406858
+          },
+          {
+            "rows": 22632,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009720749381406858
+          },
+          {
+            "rows": 22631,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010604922451504573
+          },
+          {
+            "rows": 22631,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005744332994564977
+          },
+          {
+            "rows": 22631,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000795369183862843
+          },
+          {
+            "rows": 22631,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010604922451504573
+          },
+          {
+            "rows": 22631,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008837435376253812
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 2264,
+          "true_positives": 2,
+          "false_positives": 2262,
+          "precision": 0.0008833922261484099,
+          "recall": 0.009389671361502348,
+          "false_positive_rate": 0.010004334326985167,
+          "recall_wilson_95": [
+            0.0025787746890862974,
+            0.03358340049337369
+          ],
+          "precision_wilson_95": [
+            0.0002422914485384817,
+            0.003215383597569804
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 11316,
+          "true_positives": 12,
+          "false_positives": 11304,
+          "precision": 0.0010604453870625664,
+          "recall": 0.056338028169014086,
+          "false_positive_rate": 0.04999513493909828,
+          "recall_wilson_95": [
+            0.032518025164921055,
+            0.09587743468907389
+          ],
+          "precision_wilson_95": [
+            0.0006067421237813401,
+            0.0018527851515763366
+          ]
+        }
+      }
+    },
+    "gender_slice": {
+      "F": {
+        "rows": 152403,
+        "fraud_labels": 151,
+        "prevalence": 0.0009907941444722216,
+        "average_precision": 0.0009907941444722216,
+        "roc_auc": 0.5,
+        "brier": 0.0009898124797837094,
+        "log_loss": 0.007843634187532023,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 15241,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0012466373597532971
+          },
+          {
+            "rows": 15241,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0014434748376090808
+          },
+          {
+            "rows": 15241,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009185748966603241
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009186351706036745
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009186351706036745
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007874015748031496
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000984251968503937
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006561679790026247
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0012467191601049869
+          },
+          {
+            "rows": 15240,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007874015748031496
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1525,
+          "true_positives": 2,
+          "false_positives": 1523,
+          "precision": 0.0013114754098360656,
+          "recall": 0.013245033112582781,
+          "false_positive_rate": 0.010003152667945249,
+          "recall_wilson_95": [
+            0.0036398128620662405,
+            0.0470020428813268
+          ],
+          "precision_wilson_95": [
+            0.00035972756669793403,
+            0.004769292695967372
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 7621,
+          "true_positives": 11,
+          "false_positives": 7610,
+          "precision": 0.0014433801338407032,
+          "recall": 0.0728476821192053,
+          "false_positive_rate": 0.049982923048629904,
+          "recall_wilson_95": [
+            0.04116107175903339,
+            0.12572872001578092
+          ],
+          "precision_wilson_95": [
+            0.0008061724987905804,
+            0.002582941748404656
+          ]
+        }
+      },
+      "M": {
+        "rows": 149621,
+        "fraud_labels": 121,
+        "prevalence": 0.0008087100072850736,
+        "average_precision": 0.0008087100072850736,
+        "roc_auc": 0.5,
+        "brier": 0.0008080902105915152,
+        "log_loss": 0.006584868764086499,
+        "mean_probability": 0.000993683471124822,
+        "calibration_deciles": [
+          {
+            "rows": 14963,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007351466951814476
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007351958294345676
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008688677984226708
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009357037829167224
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008020318139286192
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008020318139286192
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000668359844940516
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000668359844940516
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001002539767410774
+          },
+          {
+            "rows": 14962,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008688677984226708
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1497,
+          "true_positives": 1,
+          "false_positives": 1496,
+          "precision": 0.0006680026720106881,
+          "recall": 0.008264462809917356,
+          "false_positive_rate": 0.010006688963210702,
+          "recall_wilson_95": [
+            0.0014603733854198359,
+            0.04533064360424888
+          ],
+          "precision_wilson_95": [
+            0.0001179286083232299,
+            0.003774193898263261
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 7482,
+          "true_positives": 4,
+          "false_positives": 7478,
+          "precision": 0.0005346164127238706,
+          "recall": 0.03305785123966942,
+          "false_positive_rate": 0.050020066889632106,
+          "recall_wilson_95": [
+            0.012929181394125314,
+            0.08192279272211472
+          ],
+          "precision_wilson_95": [
+            0.00020792090471912286,
+            0.0013739264915733987
+          ]
+        }
+      },
+      "O": {
+        "rows": 149799,
+        "fraud_labels": 137,
+        "prevalence": 0.000914558842181857,
+        "average_precision": 0.000914558842181857,
+        "roc_auc": 0.5,
+        "brier": 0.0009137286850129491,
+        "log_loss": 0.007316612097351826,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001068090787716956
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008010680907877169
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.001068090787716956
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008010680907877169
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010013351134846463
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010013351134846463
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008678237650200267
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008010680907877169
+          },
+          {
+            "rows": 14980,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009345794392523365
+          },
+          {
+            "rows": 14979,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008011215701982776
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1498,
+          "true_positives": 1,
+          "false_positives": 1497,
+          "precision": 0.0006675567423230974,
+          "recall": 0.0072992700729927005,
+          "false_positive_rate": 0.010002539054669857,
+          "recall_wilson_95": [
+            0.0012896645694117012,
+            0.040185756585739155
+          ],
+          "precision_wilson_95": [
+            0.00011784987779091499,
+            0.003771681061966915
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 7490,
+          "true_positives": 10,
+          "false_positives": 7480,
+          "precision": 0.0013351134846461949,
+          "recall": 0.072992700729927,
+          "false_positive_rate": 0.049979286659272225,
+          "recall_wilson_95": [
+            0.04012862258262597,
+            0.12915007575183807
+          ],
+          "precision_wilson_95": [
+            0.00072538756016965,
+            0.002456086047419328
+          ]
+        }
+      }
+    },
+    "seen_customer_in_train": {
+      "True": {
+        "rows": 451823,
+        "fraud_labels": 409,
+        "prevalence": 0.0009052217350599682,
+        "average_precision": 0.0009052217350599682,
+        "roc_auc": 0.5,
+        "brier": 0.0009044101341490905,
+        "log_loss": 0.007252063763918692,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0010180820219994246
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.000995949804129872
+          },
+          {
+            "rows": 45183,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009516853683907664
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008853083086184764
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0009074410163339383
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008853083086184764
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008189101854720907
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0007082466468947811
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0010402372626267097
+          },
+          {
+            "rows": 45182,
+            "mean_probability": 0.000993683471124822,
+            "observed_rate": 0.0008410428931875525
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 4519,
+          "true_positives": 4,
+          "false_positives": 4515,
+          "precision": 0.0008851515822084533,
+          "recall": 0.009779951100244499,
+          "false_positive_rate": 0.010001905124785673,
+          "recall_wilson_95": [
+            0.0038096198372522504,
+            0.024873203962760344
+          ],
+          "precision_wilson_95": [
+            0.0003442703162775363,
+            0.0022738755834864847
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 22592,
+          "true_positives": 25,
+          "false_positives": 22567,
+          "precision": 0.001106586402266289,
+          "recall": 0.061124694376528114,
+          "false_positive_rate": 0.049991803532898844,
+          "recall_wilson_95": [
+            0.04174199478539314,
+            0.08867479759416927
+          ],
+          "precision_wilson_95": [
+            0.0007496856276067744,
+            0.001633118257737187
+          ]
+        }
+      }
+    },
+    "event_after_process_date": {
+      "False": {
+        "rows": 338843,
+        "fraud_labels": 318,
+        "prevalence": 0.0009384877362082144,
+        "average_precision": 0.0009384877362082144,
+        "roc_auc": 0.5,
+        "brier": 0.000937610023546354,
+        "log_loss": 0.007482034878748276,
+        "mean_probability": 0.0009936834711248219,
+        "calibration_deciles": [
+          {
+            "rows": 33885,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0011509517485613103
+          },
+          {
+            "rows": 33885,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0010624169986719787
+          },
+          {
+            "rows": 33885,
+            "mean_probability": 0.0009936834711248216,
+            "observed_rate": 0.0009443706654862033
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.000914886081926573
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.0010034234446936608
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.0008853736276708771
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.0008853736276708771
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.0006787864478810057
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.0010624483532050526
+          },
+          {
+            "rows": 33884,
+            "mean_probability": 0.0009936834711248214,
+            "observed_rate": 0.0007968362649037894
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 3389,
+          "true_positives": 3,
+          "false_positives": 3386,
+          "precision": 0.0008852168781351431,
+          "recall": 0.009433962264150943,
+          "false_positive_rate": 0.010002215493685842,
+          "recall_wilson_95": [
+            0.003213484712202645,
+            0.02736510779342307
+          ],
+          "precision_wilson_95": [
+            0.0003010982682740604,
+            0.002599555634992874
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 16943,
+          "true_positives": 21,
+          "false_positives": 16922,
+          "precision": 0.0012394499203210766,
+          "recall": 0.0660377358490566,
+          "false_positive_rate": 0.049987445535780224,
+          "recall_wilson_95": [
+            0.043595083254529945,
+            0.09883982550044666
+          ],
+          "precision_wilson_95": [
+            0.0008108539309917972,
+            0.0018941609788416817
+          ]
+        }
+      },
+      "True": {
+        "rows": 112980,
+        "fraud_labels": 91,
+        "prevalence": 0.00080545229244114,
+        "average_precision": 0.00080545229244114,
+        "roc_auc": 0.5,
+        "brier": 0.0008048389700223696,
+        "log_loss": 0.006562347863208823,
+        "mean_probability": 0.0009936834711248216,
+        "calibration_deciles": [
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0005310674455655868
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008851124092759781
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009736236502035758
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007966011683483802
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006195786864931846
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0008851124092759781
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0006195786864931846
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0007966011683483802
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009736236502035758
+          },
+          {
+            "rows": 11298,
+            "mean_probability": 0.0009936834711248219,
+            "observed_rate": 0.0009736236502035758
+          }
+        ],
+        "capacity_1pct": {
+          "review_fraction": 0.01,
+          "reviewed": 1130,
+          "true_positives": 1,
+          "false_positives": 1129,
+          "precision": 0.0008849557522123894,
+          "recall": 0.01098901098901099,
+          "false_positive_rate": 0.010000974408489755,
+          "recall_wilson_95": [
+            0.0019424713318492125,
+            0.05964935668650616
+          ],
+          "precision_wilson_95": [
+            0.00015623350468891564,
+            0.004995685024352891
+          ]
+        },
+        "capacity_5pct": {
+          "review_fraction": 0.05,
+          "reviewed": 5649,
+          "true_positives": 4,
+          "false_positives": 5645,
+          "precision": 0.0007080899274207824,
+          "recall": 0.04395604395604396,
+          "false_positive_rate": 0.05000487204244878,
+          "recall_wilson_95": [
+            0.01722436644411733,
+            0.10763093384266353
+          ],
+          "precision_wilson_95": [
+            0.0002753957166505242,
+            0.0018193842107462916
+          ]
+        }
+      }
+    }
+  },
+  "unseen_customer_test_rows": 0,
+  "unseen_customer_limitation": "No unseen-customer generalization claim when slice is empty",
+  "diagnostics": {
+    "supplied_score_gt_30_not_independent": {
+      "true_positives": 236,
+      "false_positives": 0,
+      "false_negatives": 173,
+      "missing_score_rows": 90393,
+      "excluded_reason": "Unknown provenance and unexplained label shortcut; not a candidate"
+    }
+  },
+  "fit_seconds": {
+    "logistic": 0.40994004195090383,
+    "catboost": 7.491121124941856
+  },
+  "runtime_artifact_sha256": "161a1e21925c8b3b171fcc09fbc51fb94970c55e035bb35d1977fc05f83f4c65",
+  "logistic_export_max_absolute_error": 1.5178830414797062e-18,
+  "elapsed_seconds": 20.330935208010487,
+  "limitations": [
+    "No learned model passed development promotion gates",
+    "Synthetic retrospective labels; no label-adjudication timestamps",
+    "No evidence of production generalization or causal fraud explanations",
+    "Never override a customer-reported unrecognized payment or scam"
+  ],
+  "hyperparameters": {
+    "logistic": {
+      "C": 1,
+      "max_iter": 500
+    },
+    "catboost": {
+      "iterations": 180,
+      "learning_rate": 0.05,
+      "depth": 5,
+      "l2_leaf_reg": 8,
+      "loss_function": "Logloss",
+      "thread_count": 4,
+      "random_seed": 20261002,
+      "verbose": false,
+      "allow_writing_files": false
+    }
+  }
+}
