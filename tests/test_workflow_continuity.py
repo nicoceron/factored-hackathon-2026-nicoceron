@@ -69,6 +69,29 @@ def test_short_selection_preserves_pending_task_despite_model_label(language, se
     assert result["receipt"] is None
 
 
+@pytest.mark.parametrize("language", ["es", "pt"])
+@pytest.mark.parametrize("pending", ["transaction_status", "dispute"])
+def test_rejected_amount_preserves_pending_task_before_early_clarification(language, pending):
+    records = transactions(f"demo-{language}")
+    record = records[1]
+    message = ("No la de " if language == "es" else "Não a de ") + record["amount"] + "."
+    result = run(
+        message,
+        language,
+        None,
+        {
+            "pending_intent": pending,
+            "transaction_candidates": [row["id"] for row in records],
+        },
+        records,
+        lambda *args: {"intent": "dispute", "signals": []},
+    )
+    assert result["state"] == "clarification"
+    assert result["intent"] == result["context"]["pending_intent"] == pending
+    assert not result.get("transaction") and not result.get("proposal_payload")
+    assert result["receipt"] is None
+
+
 @pytest.mark.parametrize(
     ("language", "message", "intent", "state"),
     [

@@ -525,13 +525,18 @@ def run(message, language, transaction_id, context, records, classifier):
         message, context, continuation=continuation, selection_only=selection_reply
     )
     result["customer_report"] = report
-    # Record ambiguity can return before selecting a transaction. Restore the
-    # pending review intent first so those clarifications retain the same task.
+    # Record ambiguity can return before selecting a transaction. Pure choices,
+    # including rejected choices, retain the pending task before that return.
     if (
         not review_required
         and continuation
-        and pending in {"dispute", "scam", "human"}
-        and intent in {"ambiguous", "transaction_status", "unsupported"}
+        and (
+            selection_reply
+            or (
+                pending in {"dispute", "scam", "human"}
+                and intent in {"ambiguous", "transaction_status", "unsupported"}
+            )
+        )
     ):
         intent = pending
     referenced = re.findall(r"\bTX-[A-Z]{2}-\d+\b", message.upper())
