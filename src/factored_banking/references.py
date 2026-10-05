@@ -41,6 +41,8 @@ CURRENCY_ALIASES = {
     "pesos argentinos": {"ars"},
     "pesos mexicanos": {"mxn"},
 }
+CURRENCY_SYMBOLS = {"r$": {"brl"}, "€": {"eur"}}
+CURRENCY_SYMBOL_PATTERN = "(?:" + "|".join(re.escape(symbol) for symbol in CURRENCY_SYMBOLS) + ")"
 # Ordinary place, channel, calendar and currency words are descriptive context.
 # They do not establish a merchant identity, even when unique in the scoped data.
 MERCHANT_CIRCUMSTANCES = {
@@ -163,7 +165,7 @@ def selection_matches(text, choice):
     """Recognize affirmative choice clauses, with courtesy and optional added detail.
 
     The same wrappers apply to word ordinals and displayed option numbers.
-    Complete replies are selection-only; a choice followed by another clause
+    Complete affirmative or rejected replies are selection-only; another clause
     identifies the record while leaving that substantive text in the report.
     """
     wrapped = r"(?:(?:si|sim)(?:,\s*|\s+))?" + choice
@@ -172,6 +174,7 @@ def selection_matches(text, choice):
     spans = [(0, len(text))] if full else []
     rejected = []
     negative = r"(?:no|nao|nunca|jamas|jamais) "
+    full_rejection = re.fullmatch(negative + wrapped + r"[.!? ]*", text.strip("¿¡ "))
     ending = r"(?:[.!? ]*$|\s*[,.;](?=\s|$))"
     # Decimal punctuation belongs to the amount, never to a new choice clause.
     boundaries = [0] + [match.end() for match in re.finditer(r";|(?<!\d)[.,]|[.,](?!\d)", text)]
@@ -183,7 +186,11 @@ def selection_matches(text, choice):
         denial = re.match(negative + wrapped + ending, text[start:])
         if denial and has_negation(denial[0], detect_language(text)):
             rejected.append((start, start + denial.end()))
-    return spans, bool(full), rejected
+    return (
+        spans,
+        bool(full or (full_rejection and has_negation(full_rejection[0], detect_language(text)))),
+        rejected,
+    )
 
 
 def currency_reference(text, records):
@@ -205,6 +212,12 @@ def currency_reference(text, records):
     def name_word(match):
         return any(start <= match.start() and match.end() <= end for start, end in name_spans)
 
+    def amount_adjacent(match):
+        before, after = text[: match.start()], text[match.end() :]
+        return re.search(AMOUNT_PATTERN + r"\s*(?:(?:en|em)\s+)?$", before) or re.match(
+            r"\s*(?:(?:de|por)\s+)?" + AMOUNT_PATTERN, after
+        )
+
     codes = {row["currency"].lower() for row in records}
     codes |= {code for values in CURRENCY_ALIASES.values() for code in values}
     constraints = [
@@ -220,17 +233,21 @@ def currency_reference(text, records):
     for match in re.finditer(r"\b(?:" + aliases + r")\b", text):
         if name_word(match):
             continue
-        before, after = text[: match.start()], text[match.end() :]
-        amount_context = re.search(AMOUNT_PATTERN + r"\s*(?:(?:en|em)\s+)?$", before) or re.match(
-            r"\s*(?:(?:de|por)\s+)?" + AMOUNT_PATTERN, after
-        )
+        before = text[: match.start()]
         transaction_context = re.search(
             r"\b(?:" + SELECTION_NOUN + r"|(?:la|el|a|o) " + ordinal + r") (?:en|em|de|por)\s*$",
             before,
         )
-        if amount_context or transaction_context:
+        if amount_adjacent(match) or transaction_context:
             constraints.append(CURRENCY_ALIASES[match[0]])
             words.update(match[0].split())
+    # Unambiguous units beside amounts constrain the same authorized records.
+    # A bare dollar sign is shared by several currencies and establishes none.
+    for match in re.finditer(r"(?<![a-z])" + CURRENCY_SYMBOL_PATTERN + r"(?![a-z])", text):
+        if not name_word(match) and amount_adjacent(match):
+            constraints.append(CURRENCY_SYMBOLS[match[0]])
+            words.add(match[0])
+            words.update(re.findall(r"[a-z]+", match[0]))
     return set.intersection(*constraints) if constraints else set(), words
 
 
@@ -373,6 +390,7 @@ def resolve_reference(message, context, records):
     elif re.search(
         r"\b(?:(?:cargo|cobro|pago|cobranca|pagamento|compra) (?:de|da|do|en|em) |"
         r"(?:en|em|na|no) (?:(?:la|el|a|o) )?(?:tienda|loja|comercio|estabelecimento) )"
+        r"(?!" + CURRENCY_SYMBOL_PATTERN + r"\s*" + AMOUNT_PATTERN + r")"
         r"(?!(?:" + "|".join(sorted(NON_MERCHANT_WORDS)) + r")\b)[a-z][a-z0-9-]*",
         text,
     ):
@@ -451,13 +469,15 @@ def resolve_reference(message, context, records):
         key=len,
         reverse=True,
     )
-    _, _, rejected_amount_spans = selection_matches(
+    _, amount_choice_only, rejected_amount_spans = selection_matches(
         text,
         r"(?:(?:es|e|fue|foi|elijo|escolho|prefiero|prefiro|selecciono|seleciono|"
         r"quiero|quero) )?(?:(?:la|el|a|o|esa|ese|essa|esse|esta|este) )?"
         r"(?:" + SELECTION_NOUN + r" )?(?:(?:de|del|da|do|por)\s*)?"
+        r"(?:" + CURRENCY_SYMBOL_PATTERN + r"\s*)?"
         r"\d+(?:[.,]\d+)*(?![\w-])"
-        r"(?:\s+(?:" + "|".join(re.escape(unit) for unit in currency_units) + r")\b)?",
+        r"(?:\s+(?:" + "|".join(re.escape(unit) for unit in currency_units) + r")\b|"
+        r"\s*" + CURRENCY_SYMBOL_PATTERN + r")?",
     )
     rejected_amount_spans = [
         (start, end)
@@ -599,5 +619,9 @@ def resolve_reference(message, context, records):
         previous and ordinals and (leading_ordinal or any(start == 0 for start, _ in number_spans))
     )
     return Reference(
-        candidates, mentioned, mentioned and (ordinal_only or not remaining), choice_reply
+        candidates,
+        mentioned,
+        mentioned
+        and (ordinal_only or (amount_choice_only and bool(rejected_amount_spans)) or not remaining),
+        choice_reply,
     )

@@ -1,7 +1,7 @@
 {
-  "verified_at": "2026-10-05T18:11:07.013554+00:00",
+  "verified_at": "2026-10-05T18:53:21.690180+00:00",
   "origin": "http://127.0.0.1:8097",
-  "image_id": "sha256:4840af9c4df5c9cc1e12c6b44e25b6c617af2a8a973f3b5c0cfb4eb7cc146cfb",
+  "image_id": "sha256:391c7f71c0ad0892b5602e36ad0082853a2faa0ab1e202fc34bb5c01a8a17305",
   "source_only_nonroot_docker": true,
   "all_static_assets_byte_identical": true,
   "static_asset_checks": {
