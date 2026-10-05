@@ -47,7 +47,7 @@ def test_ordinal_calendar_duration_and_first_time_uses_do_not_select_a_record(me
     [
         ("la primera", "es", 0),
         ("es la primera operación", "es", 0),
-        ("la operación tercera", "es", 2),
+        ("Elijo la operación tercera", "es", 2),
         ("a segunda", "pt", 1),
         ("é a segunda transação", "pt", 1),
         ("Escolho a terceira opção, por favor", "pt", 2),

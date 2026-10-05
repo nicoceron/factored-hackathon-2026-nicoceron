@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 from factored_banking import policy
 from factored_banking.fixtures import AS_OF
 from factored_banking.fraud import assess
+from factored_banking.language import authorization_polarity
 from factored_banking.privacy import customer_report, redact_text
 from factored_banking.references import resolve_reference
 
@@ -326,22 +327,26 @@ def run(message, language, transaction_id, context, records, classifier):
         }
     intent = assessment.get("intent", "unsupported")
     signals = assessment.get("signals", [])
-    review_required = bool(
-        set(signals)
-        & {
-            "model_unavailable",
-            "provider_uncertain",
-            "customer_reported_scam",
-            "customer_reported_dispute",
-            "explicit_human_request",
-        }
+    authorization = authorization_polarity(message)
+    review_required = (
+        bool(
+            set(signals)
+            & {
+                "model_unavailable",
+                "provider_uncertain",
+                "customer_reported_scam",
+                "customer_reported_dispute",
+                "explicit_human_request",
+            }
+        )
+        or authorization == "negated"
     )
     # Reports, urgency and explicit requests override only toward review, never toward a write.
     if "model_unavailable" in signals or "provider_uncertain" in signals:
         intent = "human"
     elif "customer_reported_scam" in signals:
         intent = "scam"
-    elif "customer_reported_dispute" in signals:
+    elif "customer_reported_dispute" in signals or authorization == "negated":
         intent = "dispute"
     elif "explicit_human_request" in signals:
         intent = "human"
@@ -420,15 +425,7 @@ def run(message, language, transaction_id, context, records, classifier):
             )
         )
     )
-    affirmative_authorization = (
-        bool(
-            re.search(
-                r"\b(?:autorice|autorizei|reconozco|reconheco|realice|realizei|hice|fiz)\b",
-                text,
-            )
-        )
-        and not review_required
-    )
+    affirmative_authorization = authorization == "affirmed" and not review_required
     recorded_status_query = (
         status_question
         and bool(
