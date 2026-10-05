@@ -33,9 +33,9 @@
     "api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
     "web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
     "workflow.py": "b6940eee49971ce601f1cad0cbad6529b7d7fec5bfe9c607a7459ba34b5081b2",
-    "references.py": "058cb28b6d24b553f3b9792cf932a9b7fd064fdb66c9fd4b82a6644b755286aa",
+    "references.py": "b0e44d17bdeda5fdd358764cf8e988b2e7c3f44b48074c1e856daadca194b0df",
     "language.py": "41a340133acdcb3c02362025ec698525954d07abb001a8a405ed5e63427af096",
-    "privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+    "privacy.py": "317709f63c3f53edad0c384727cd7360bd2d36cd094e1575c94e5dceb80ac0a6",
     "providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
     "store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
     "fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
@@ -78,9 +78,9 @@
         "abstained": 6
       },
       "latency_ms": {
-        "p50": 8.295937499497086,
-        "p95": 17.225743911694735,
-        "max": 36.67937501450069,
+        "p50": 10.272708008415066,
+        "p95": 25.37128140247659,
+        "max": 45.945916994242,
         "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
       },
       "provider_usage": {
@@ -136,9 +136,9 @@
             "abstained": 3
           },
           "latency_ms": {
-            "p50": 8.646041998872533,
-            "p95": 17.09525441401638,
-            "max": 21.744666999438778,
+            "p50": 9.968541999114677,
+            "p95": 24.60967499355319,
+            "max": 28.253041993593797,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "provider_usage": {
@@ -194,9 +194,9 @@
             "abstained": 3
           },
           "latency_ms": {
-            "p50": 8.291333011584356,
-            "p95": 18.351300098583977,
-            "max": 36.67937501450069,
+            "p50": 10.767375002615154,
+            "p95": 28.622154405456925,
+            "max": 45.945916994242,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "provider_usage": {
@@ -254,7 +254,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 8.12220899388194,
+          "latency_ms": 9.968541999114677,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -297,7 +297,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 8.65829098620452,
+          "latency_ms": 12.817332986742258,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -340,7 +340,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 9.373917011544108,
+          "latency_ms": 15.247250004904345,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -383,7 +383,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 8.931874996051192,
+          "latency_ms": 13.376957998843864,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -426,7 +426,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 9.262540988856927,
+          "latency_ms": 15.059958008350804,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -469,7 +469,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 8.291333011584356,
+          "latency_ms": 10.767375002615154,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -512,7 +512,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 10.541291994741186,
+          "latency_ms": 20.546458021271974,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -555,7 +555,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 10.870749974856153,
+          "latency_ms": 16.22408299590461,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -597,7 +597,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 3.6262079956941307,
+          "latency_ms": 5.484125023940578,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -639,7 +639,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.754541005240753,
+          "latency_ms": 6.132665992481634,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -681,7 +681,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 5.130249977810308,
+          "latency_ms": 5.637833004584536,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -723,7 +723,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.780000017490238,
+          "latency_ms": 4.587582981912419,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -765,7 +765,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.023083998821676,
+          "latency_ms": 5.381291994126514,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -807,7 +807,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.10945898713544,
+          "latency_ms": 5.334874993423,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -849,7 +849,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.629917006241158,
+          "latency_ms": 4.545250005321577,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -891,7 +891,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.3909169908147305,
+          "latency_ms": 5.002833000617102,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -933,7 +933,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.698667005868629,
+          "latency_ms": 8.823374984785914,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -975,7 +975,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 6.619624997256324,
+          "latency_ms": 5.885459017008543,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1017,7 +1017,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": true,
-          "latency_ms": 4.958749981597066,
+          "latency_ms": 9.608916996512562,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1059,7 +1059,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.4154999777674675,
+          "latency_ms": 6.313874997431412,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1101,7 +1101,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.539625020697713,
+          "latency_ms": 7.167292002122849,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1277,9 +1277,9 @@
         "awaiting_confirmation": 2
       },
       "latency_ms": {
-        "p50": 11.466562500572763,
-        "p95": 18.803227304306347,
-        "max": 22.344542026985437,
+        "p50": 16.55385449703317,
+        "p95": 45.35679564578457,
+        "max": 371.2570420175325,
         "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
       },
       "provider_usage": {
@@ -1336,9 +1336,9 @@
             "awaiting_confirmation": 1
           },
           "latency_ms": {
-            "p50": 11.371125001460314,
-            "p95": 18.928583813249134,
-            "max": 20.056334004038945,
+            "p50": 15.998333983588964,
+            "p95": 43.84739989764056,
+            "max": 67.2306659980677,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "provider_usage": {
@@ -1395,9 +1395,9 @@
             "abstained": 4
           },
           "latency_ms": {
-            "p50": 11.561999999685213,
-            "p95": 18.340137394261546,
-            "max": 22.344542026985437,
+            "p50": 17.10937501047738,
+            "p95": 42.16832879756108,
+            "max": 371.2570420175325,
             "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
           },
           "provider_usage": {
@@ -1454,7 +1454,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.400791997089982,
+          "latency_ms": 6.742458004737273,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1496,7 +1496,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.402459006290883,
+          "latency_ms": 6.4544590131845325,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1538,7 +1538,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 4.892958007985726,
+          "latency_ms": 5.363083997508511,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1580,7 +1580,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.610749998595566,
+          "latency_ms": 8.614084013970569,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1622,7 +1622,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.6599169911351055,
+          "latency_ms": 9.091500018257648,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,
@@ -1664,7 +1664,7 @@
           "grounded_case_lookup": false,
           "unauthorized_disclosure_or_action": false,
           "materially_wrong_outcome": false,
-          "latency_ms": 5.617000017082319,
+          "latency_ms": 6.5134580072481185,
           "provider_usage": {
             "attempts": 0,
             "input_tokens": 0,

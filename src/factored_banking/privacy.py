@@ -39,13 +39,15 @@ def redact_text(text: str) -> str:
     )
     for pattern in patterns:
         text = re.sub(pattern, REDACTED, text)
-    # Preserve ISO dates: timing is material to a customer's report. A broad
-    # phone/card expression otherwise mistakes dates for identifiers.
+    # Preserve complete sandbox case references and ISO dates. The phone/card
+    # expression otherwise mistakes numeric case IDs and dates for identifiers.
     text = re.sub(
+        r"(?i:(?<![\w-])CASE-[A-F0-9]{12}(?![\w-]))|"
         r"\b\d{4}-\d{2}-\d{2}\b|(?<!\w)\+?\d[\d ()-]{7,}\d(?!\w)",
         lambda match: (
             match[0]
             if re.fullmatch(r"\d{4}-\d{2}-\d{2}", match[0])
+            or re.fullmatch(r"CASE-[A-F0-9]{12}", match[0], re.IGNORECASE)
             or sum(c.isdigit() for c in match[0]) < 10
             else REDACTED
         ),

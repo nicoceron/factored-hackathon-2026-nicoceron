@@ -26,6 +26,21 @@ SELECTION_NOUN = (
     r"(?:opcion|opcao|operacion|operacao|transaccion|transacao|movimiento|movimento|"
     r"pago|pagamento|cargo|cobranca|compra|transferencia|debito)"
 )
+AMOUNT_PATTERN = r"(?<![\w-])\d+(?:[.,]\d+)*(?![\w-])"
+CURRENCY_ALIASES = {
+    "dolar": {"usd"},
+    "dolares": {"usd"},
+    "real": {"brl"},
+    "reais": {"brl"},
+    "reales": {"brl"},
+    "euro": {"eur"},
+    "euros": {"eur"},
+    "peso": {"cop", "ars", "mxn"},
+    "pesos": {"cop", "ars", "mxn"},
+    "pesos colombianos": {"cop"},
+    "pesos argentinos": {"ars"},
+    "pesos mexicanos": {"mxn"},
+}
 # Ordinary place, channel, calendar and currency words are descriptive context.
 # They do not establish a merchant identity, even when unique in the scoped data.
 MERCHANT_CIRCUMSTANCES = {
@@ -169,6 +184,54 @@ def selection_matches(text, choice):
         if denial and has_negation(denial[0], detect_language(text)):
             rejected.append((start, start + denial.end()))
     return spans, bool(full), rejected
+
+
+def currency_reference(text, records):
+    """Keep currency evidence scoped; ordinary names and location words are not units."""
+    name_spans = [
+        match.span()
+        for row in records
+        if row.get("merchant")
+        for match in re.finditer(
+            r"(?<!\w)" + re.escape(normalize(row["merchant"])) + r"(?!\w)", text
+        )
+    ]
+    name_spans += [
+        match.span()
+        for row in records
+        for match in re.finditer(r"(?<!\w)" + re.escape(normalize(row["id"])) + r"(?!\w)", text)
+    ]
+
+    def name_word(match):
+        return any(start <= match.start() and match.end() <= end for start, end in name_spans)
+
+    codes = {row["currency"].lower() for row in records}
+    codes |= {code for values in CURRENCY_ALIASES.values() for code in values}
+    constraints = [
+        {match[0]}
+        for match in re.finditer(r"\b(?:" + "|".join(sorted(codes)) + r")\b", text)
+        if not name_word(match)
+    ]
+    words = set().union(*constraints)
+    aliases = "|".join(
+        re.escape(alias) for alias in sorted(CURRENCY_ALIASES, key=len, reverse=True)
+    )
+    ordinal = "(?:" + "|".join(label for labels in ORDINALS for label in labels) + ")"
+    for match in re.finditer(r"\b(?:" + aliases + r")\b", text):
+        if name_word(match):
+            continue
+        before, after = text[: match.start()], text[match.end() :]
+        amount_context = re.search(AMOUNT_PATTERN + r"\s*(?:(?:en|em)\s+)?$", before) or re.match(
+            r"\s*(?:(?:de|por)\s+)?" + AMOUNT_PATTERN, after
+        )
+        transaction_context = re.search(
+            r"\b(?:" + SELECTION_NOUN + r"|(?:la|el|a|o) " + ordinal + r") (?:en|em|de|por)\s*$",
+            before,
+        )
+        if amount_context or transaction_context:
+            constraints.append(CURRENCY_ALIASES[match[0]])
+            words.update(match[0].split())
+    return set.intersection(*constraints) if constraints else set(), words
 
 
 def ordinal_reference(text):
@@ -316,10 +379,10 @@ def resolve_reference(message, context, records):
         # An explicitly named unknown establishment cannot reuse the previous record.
         mentioned = True
         candidates = []
-    currencies = set(re.findall(r"\b(?:mxn|cop|ars|usd)\b", text))
-    if currencies:
+    currencies, currency_words = currency_reference(text, records)
+    if currency_words:
         mentioned = True
-        reference_words.update(currencies)
+        reference_words.update(currency_words)
         candidates = [row for row in candidates if row["currency"].lower() in currencies]
     statuses = set()
     raw_statuses = {
@@ -379,6 +442,34 @@ def resolve_reference(message, context, records):
         r"quiero|quero) )?(?:(?:la|a|el|o) )?"
         r"(?:(?:opcion|opcao|numero) )?[1-9]\d?(?![\w]|[.,]\d)",
     )
+    # A rejected amount locator is a choice rejection, not an allegation that
+    # the customer did not authorize the charge. Reuse the same clause polarity.
+    currency_units = sorted(
+        set(CURRENCY_ALIASES)
+        | {row["currency"].lower() for row in records}
+        | {code for values in CURRENCY_ALIASES.values() for code in values},
+        key=len,
+        reverse=True,
+    )
+    _, _, rejected_amount_spans = selection_matches(
+        text,
+        r"(?:(?:es|e|fue|foi|elijo|escolho|prefiero|prefiro|selecciono|seleciono|"
+        r"quiero|quero) )?(?:(?:la|el|a|o|esa|ese|essa|esse|esta|este) )?"
+        r"(?:" + SELECTION_NOUN + r" )?(?:(?:de|del|da|do|por)\s*)?"
+        r"\d+(?:[.,]\d+)*(?![\w-])"
+        r"(?:\s+(?:" + "|".join(re.escape(unit) for unit in currency_units) + r")\b)?",
+    )
+    rejected_amount_spans = [
+        (start, end)
+        for start, end in rejected_amount_spans
+        if not previous
+        or not any(left <= start and end <= right for left, right in rejected_numbers)
+    ]
+    rejected_amounts = [
+        amount_values(match[0])
+        for start, end in rejected_amount_spans
+        for match in re.finditer(r"\d+(?:[.,]\d+)*", text[start:end])
+    ]
     # Keep offsets stable so accepted option-number spans cannot become amounts.
     numeric_text = re.sub(
         r"\b(?:tx-[a-z]{2}-\d+|case-[a-z0-9]+|\d{4}-\d{2}-\d{2})\b",
@@ -393,7 +484,9 @@ def resolve_reference(message, context, records):
         )
     amounts = []
     # Numbers embedded in time references or option labels do not denote amounts.
-    for match in re.finditer(r"(?<![\w-])\d+(?:[.,]\d+)*(?![\w-])", numeric_text):
+    for match in re.finditer(AMOUNT_PATTERN, numeric_text):
+        if any(start <= match.start() < end for start, end in rejected_amount_spans):
+            continue
         if previous and any(
             start <= match.start() < end for start, end in number_spans + rejected_numbers
         ):
@@ -441,6 +534,26 @@ def resolve_reference(message, context, records):
         mentioned = True
         identifiers = {previous[index] for index in ordinals if index < len(previous)}
         candidates = [row for row in candidates if row["id"] in identifiers]
+    if rejected_amounts:
+        mentioned = True
+        affirmative = bool(
+            amounts
+            or merchants
+            or dates
+            or statuses
+            or (ordinals and previous)
+            or any(
+                re.search(r"(?<!\w)" + re.escape(normalize(row["id"])) + r"(?!\w)", text)
+                for row in records
+            )
+        )
+        # Rejection alone cannot select the remaining record or revive context.
+        candidates = [
+            row
+            for row in candidates
+            if affirmative
+            and not any(Decimal(row["amount"]) in values for values in rejected_amounts)
+        ]
     selection_words = {
         "la",
         "el",

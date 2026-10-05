@@ -1,7 +1,7 @@
 {
-  "verified_at": "2026-10-05T05:45:22.559432+00:00",
+  "verified_at": "2026-10-05T18:11:07.013554+00:00",
   "origin": "http://127.0.0.1:8097",
-  "image_id": "sha256:6fa127265a961ee7271301c220314e3db8cd76fc09042605a6d9db6c5d8f9b14",
+  "image_id": "sha256:4840af9c4df5c9cc1e12c6b44e25b6c617af2a8a973f3b5c0cfb4eb7cc146cfb",
   "source_only_nonroot_docker": true,
   "all_static_assets_byte_identical": true,
   "static_asset_checks": {
@@ -19,7 +19,7 @@
   "content_versioned_assets": {
     "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118": true,
     "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87": true,
-    "/static/app.js?v=4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82": true
+    "/static/app.js?v=0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d": true
   },
   "current_published_reports_identical": true,
   "report_files": {
