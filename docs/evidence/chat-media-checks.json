@@ -132,13 +132,17 @@
     "scope": "Actual seven local captures from the pre-cache-correction API; these hashes are not overwritten with a later backend revision."
   },
   "source_delta_after_capture": {
-    "scope": "HTTP asset URL fingerprinting and cache revalidation only; customer/reviewer UI and workflow behavior unchanged.",
+    "scope": "HTTP asset URL fingerprinting/cache revalidation plus F7 pending-review restoration before record-resolution clarification returns; actual capture revision remains unchanged.",
     "api_sha256": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
     "web_assets_sha256": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
     "app_css_js_and_favicon_unchanged": true,
     "tests_passed_after_cache_correction": 425,
     "current_regressions_rerun_with_same_outcomes": true,
     "fresh_report_input_hashes_require_deck_manifest_refresh": true,
-    "hosted_cache_fix_verification_pending": true
+    "hosted_cache_fix_verification_pending": true,
+    "workflow_sha256": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab",
+    "tests_passed_after_cache_and_continuation_corrections": 430,
+    "f7_report_continuation_verified_locally": true,
+    "f7_hosted_browser_verification_pending": true
   }
 }
