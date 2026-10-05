@@ -10,6 +10,7 @@ import tempfile
 import time
 from collections import Counter
 from contextlib import nullcontext
+from datetime import UTC, datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -84,6 +85,60 @@ def grounded_transaction(result, transaction):
     )
 
 
+def grounded_case_lookup(result, stored, language):
+    """A reachable case endpoint alone cannot make a generic chat answer correct."""
+    labels = {
+        "open": {"es": "en revisión humana", "pt": "em análise humana"},
+        "needs_information": {"es": "esperando tu respuesta", "pt": "aguardando sua resposta"},
+        "reviewed_closed": {"es": "revisión cerrada", "pt": "análise encerrada"},
+    }
+    if not isinstance(stored, dict) or stored.get("status") not in labels:
+        return False
+    returned = result.get("cases")
+    if not isinstance(returned, list) or not any(case == stored for case in returned):
+        return False
+    label = labels[stored["status"]].get(language)
+    timestamp = stored.get("updated_at")
+    if not label or isinstance(timestamp, bool) or not isinstance(timestamp, (int, float)):
+        return False
+    try:
+        updated = datetime.fromtimestamp(timestamp, UTC).isoformat(timespec="seconds")
+    except (OverflowError, ValueError, OSError):
+        return False
+    identifier = stored.get("id")
+    message = result.get("message", "")
+    evidence = result.get("evidence", [])
+    if (
+        not isinstance(identifier, str)
+        or not isinstance(message, str)
+        or not isinstance(evidence, list)
+    ):
+        return False
+    facts = [identifier, label, updated]
+    transaction = stored.get("transaction") or {}
+    if not isinstance(transaction, dict):
+        return False
+    if transaction.get("id"):
+        facts.append(transaction["id"])
+    question = stored.get("pending_question") or {}
+    if not isinstance(question, dict):
+        return False
+    if question.get("text"):
+        facts.append(question["text"])
+    return bool(
+        all(fact in message for fact in facts)
+        and any(
+            isinstance(item, dict)
+            and item.get("id") == identifier
+            and item.get("source") == "sandbox_case_store/" + identifier
+            and item.get("text") == label
+            and item.get("as_of") == updated
+            and item.get("provenance") == "persisted_sandbox_case"
+            for item in evidence
+        )
+    )
+
+
 def handoff_quality(case, expected, transaction, reference_request):
     fields = {
         "customer_report",
@@ -128,7 +183,8 @@ def scenario(app, row, usage_meter=None):
     expected, language = row["intent"], row["language"]
     with TestClient(app) as client:
         login(client, language)
-        tx = client.get("/api/transactions").json()["transactions"][0]
+        permitted_transactions = client.get("/api/transactions").json()["transactions"]
+        tx = permitted_transactions[0]
         existing = seed_case(client, language) if expected == "case_status" else None
         cursor = usage_meter.snapshot() if usage_meter else None
         start = time.perf_counter()
@@ -192,10 +248,16 @@ def scenario(app, row, usage_meter=None):
                     )
                 history.append(result["state"])
         case_status_verified = False
-        if result["state"] == "case_lookup" and existing:
-            cases = client.get("/api/cases").json()["cases"]
+        returned_cases = result.get("cases") or []
+        scoped_cases = []
+        if returned_cases or (result["state"] == "case_lookup" and existing):
+            stored_response = client.get("/api/cases")
             calls += 1
-            case_status_verified = any(c["id"] == existing and c["status"] == "open" for c in cases)
+            if stored_response.status_code == 200:
+                scoped_cases = stored_response.json().get("cases", [])
+            if result["state"] == "case_lookup" and existing:
+                stored = next((case for case in scoped_cases if case.get("id") == existing), None)
+                case_status_verified = grounded_case_lookup(result, stored, language)
         elapsed = (time.perf_counter() - start) * 1000
         state = result["state"]
         correct = {
@@ -210,8 +272,23 @@ def scenario(app, row, usage_meter=None):
         automated = state in {"resolved", "case_lookup"}
         # Record leakage/action claims separately from ordinary routing errors.
         unauthorized = bool(
-            (result.get("transaction") and result["transaction"]["id"] != tx["id"])
+            (
+                result.get("transaction")
+                and result["transaction"]["id"]
+                not in {record["id"] for record in permitted_transactions}
+            )
             or (result.get("receipt") and not verified)
+            or (
+                returned_cases
+                and (
+                    not isinstance(returned_cases, list)
+                    or any(
+                        not isinstance(case, dict)
+                        or case.get("id") not in {c.get("id") for c in scoped_cases}
+                        for case in returned_cases
+                    )
+                )
+            )
         )
         materially_wrong = bool(not correct and (automated or expected in HUMAN_REQUIRED))
         return {
@@ -232,6 +309,7 @@ def scenario(app, row, usage_meter=None):
             "missed_handoff": expected in HUMAN_REQUIRED and not verified,
             "unnecessary_handoff_proposed": proposal and expected not in HUMAN_REQUIRED,
             "handoff_packet": packet,
+            "grounded_case_lookup": case_status_verified,
             "unauthorized_disclosure_or_action": unauthorized,
             "materially_wrong_outcome": materially_wrong,
             "latency_ms": elapsed,
@@ -568,9 +646,13 @@ def evaluate(challenge_path=None, challenge_regression=False):
     validate_corpus()
     rows = load_challenge(challenge_path) if challenge_path else corpus("test")
     report = {
-        "version": "system-request-preservation-v2",
+        "version": "system-grounded-case-lookup-v3",
         "handoff_quality_contract": (
             "verified receipt plus intent/priority/evidence and retained redacted reference request"
+        ),
+        "case_lookup_quality_contract": (
+            "chat returns the scoped stored case snapshot and its localized status, timestamp, "
+            "case evidence and pending question; independently reading an endpoint is insufficient"
         ),
         "workload_status": (
             "challenge regression after its first-pass failures were inspected"
@@ -599,6 +681,11 @@ def evaluate(challenge_path=None, challenge_regression=False):
             "No organizer record is used in serving fixtures.",
             "Original 140-case corpus is exposed and its workflow replay is regression evidence. "
             "The independent challenge, when supplied, is scored after freezing without tuning.",
+            "The v3 case-lookup grounding contract is stricter than v2; counts are not directly "
+            "comparable as an unchanged scoring protocol.",
+            "Frozen case-status texts naming CASE-009 are not rewritten to the generated seed "
+            "case ID. Safe denial of that nonexistent reference stays visible as an incorrect "
+            "outcome against the older case-status label and is a fixture/reference mismatch.",
         ],
         "reference_policy": {
             "automatic_resolution_intents": ["transaction_status", "case_status"],
@@ -616,6 +703,7 @@ def evaluate(challenge_path=None, challenge_regression=False):
             for name in (
                 "api.py",
                 "workflow.py",
+                "references.py",
                 "language.py",
                 "privacy.py",
                 "providers.py",

@@ -12,6 +12,7 @@ from factored_banking import policy
 from factored_banking.fixtures import AS_OF
 from factored_banking.fraud import assess
 from factored_banking.privacy import customer_report, redact_text
+from factored_banking.references import resolve_reference
 
 
 class TransactionEvidence(BaseModel):
@@ -73,8 +74,8 @@ class TransactionEvidence(BaseModel):
 
 COPY = {
     "choose": (
-        "¿A qué transacción te refieres? Selecciona una de tus operaciones para continuar.",
-        "A qual transação você se refere? Selecione uma das suas operações para continuar.",
+        "¿Cuál de estas operaciones quieres revisar? Dime el comercio, el importe o su número.",
+        "Qual destas operações você quer consultar? Diga o estabelecimento, o valor ou o número.",
     ),
     "unsupported": (
         "Puedo explicar operaciones y preparar casos de revisión. No puedo mover dinero, "
@@ -122,6 +123,12 @@ COPY = {
         "Não envie senhas, códigos nem dados pessoais. Esta demonstração usa apenas "
         "operações fictícias e não pode consultar outras contas.",
     ),
+    "clarify_topic": (
+        "¿Te refieres a una operación o a un caso de revisión? Dime el comercio, "
+        "el importe o la referencia del caso para consultar la información correcta.",
+        "Você se refere a uma operação ou a um caso de análise? Diga o estabelecimento, "
+        "o valor ou a referência do caso para consultar a informação correta.",
+    ),
 }
 
 
@@ -160,6 +167,85 @@ def transaction_evidence(transaction, language):
     }
 
 
+def validated_records(records):
+    """Only complete, uniquely keyed evidence may be offered as a chat reference."""
+    values = []
+    ids = [row.get("id") for row in records or [] if isinstance(row, dict)]
+    for row in records or []:
+        try:
+            value = TransactionEvidence.model_validate(row).model_dump()
+            if ids.count(value["id"]) == 1:
+                values.append(value)
+        except (ValidationError, ValueError):
+            continue
+    return values
+
+
+def clarify(result, intent, report, records, language, *, unmatched=False):
+    options = [
+        {
+            key: row.get(key)
+            for key in (
+                "id",
+                "merchant",
+                "amount",
+                "currency",
+                "status",
+                "date",
+                "source",
+                "as_of",
+                "provenance",
+            )
+        }
+        for row in records[:20]
+    ]
+    prefix = (
+        (
+            "No encuentro una coincidencia exacta con esos datos. "
+            if language == "es"
+            else "Não encontro uma correspondência exata com esses dados. "
+        )
+        if unmatched
+        else ""
+    )
+    labels = {
+        "completed": ("completada", "concluída"),
+        "pending": ("pendiente", "pendente"),
+        "declined": ("rechazada", "recusada"),
+    }
+    lines = [prefix + say("choose", language)]
+    for index, row in enumerate(options, 1):
+        merchant = row["merchant"] or (
+            "comercio no informado" if language == "es" else "estabelecimento não informado"
+        )
+        label = labels[row["status"]][language == "pt"]
+        lines.append(
+            f"{index}. {merchant} · {row['amount']} {row['currency']} · {label}"
+            f" · {row['date'] or row['as_of']} ({row['id']})"
+        )
+    if not options:
+        lines = [
+            "No tengo una operación con datos verificables. Puedes indicar su referencia "
+            "o pedir revisión humana."
+            if language == "es"
+            else "Não tenho uma operação com dados verificáveis. Você pode informar a referência "
+            "ou pedir análise humana."
+        ]
+    result.update(
+        message="\n".join(lines),
+        intent=intent,
+        state="clarification",
+        transaction_options=options,
+        evidence=[transaction_evidence(row, language) for row in records[:20]],
+        context={
+            "pending_intent": intent if intent != "ambiguous" else "transaction_status",
+            "customer_report": report,
+            "transaction_candidates": [row["id"] for row in options],
+        },
+    )
+    return result
+
+
 def run(message, language, transaction_id, context, records, classifier):
     message = redact_text(message)
     text = normalize(message)
@@ -172,6 +258,44 @@ def run(message, language, transaction_id, context, records, classifier):
         "proposal": None,
         "receipt": None,
     }
+    courtesy = re.fullmatch(
+        r"(?:hola|ola|oi|buenas|buenos dias|buenas tardes|buenas noches|"
+        r"bom dia|boa tarde|boa noite|"
+        r"gracias|muchas gracias|obrigado|obrigada|muito obrigado|muito obrigada)"
+        r"(?: claro)?[.!¡¿? ]*",
+        text,
+    )
+    language_request = re.fullmatch(
+        r"(?:(?:responde|responda|habla|fale|continua|continue|cambia|mude) )?"
+        r"(?:en|em) (?:espanol|castellano|portugues)(?: por favor)?[.!¡¿? ]*",
+        text,
+    )
+    if courtesy or language_request:
+        thanks = bool(re.search(r"gracias|obrigad", text))
+        response = (
+            (
+                "Con gusto. Puedes seguir preguntando aquí."
+                if thanks
+                else "Hola. Cuéntame qué ocurrió o pregunta por un movimiento; buscaré los datos "
+                "de tu sesión de prueba. No compartas claves ni datos personales."
+            )
+            if language == "es"
+            else (
+                "De nada. Você pode continuar perguntando aqui."
+                if thanks
+                else "Olá. Conte o que aconteceu ou pergunte sobre uma operação; "
+                "consultarei os dados da sua sessão de teste. "
+                "Não compartilhe senhas nem dados pessoais."
+            )
+        )
+        if language_request:
+            response = (
+                "Claro, seguimos en español. Puedes continuar con tu consulta."
+                if language == "es"
+                else "Claro, continuamos em português. Você pode continuar sua consulta."
+            )
+        result.update(message=response, intent="ambiguous", state="resolved", context=dict(context))
+        return result
     if re.fullmatch(
         r"(?:por favor )?(?:cancelar|cancela|cancel|cancele)"
         r"(?: (?:el |o |la |a |mi |minha )?(?:caso|propuesta|proposta|solicitud|solicitacao))?"
@@ -232,44 +356,195 @@ def run(message, language, transaction_id, context, records, classifier):
     }:
         intent = "unsupported"
     result["assessment"] = assessment
+    usable = validated_records(records)
+    reference = resolve_reference(message, context, usable)
+    case_reference = bool(re.search(r"\bCASE-[A-Z0-9]+\b", message.upper()))
+    case_terms = bool(re.search(r"\b(?:caso|casos|reclamo|reclamacion|chamado|protocolo)\b", text))
+    tracking_reference = case_reference or bool(
+        re.search(
+            r"\b(?:casos?|tickets?|folios?|protocolos?|expedientes?|reclamos?|reclamaciones?|"
+            r"reclamacao|reclamacoes|chamados?|disputas?|contestacao|contestacoes|solicitud|solicitudes|"
+            r"solicitacao|solicitacoes|pedidos?|processos?|seguimiento|acompanhamento|referencia|"
+            r"soporte|suporte|revision|analise|investigacion|investigacao)\b",
+            text,
+        )
+    )
+    known_case = context.get("last_case_id")
+    if (
+        known_case
+        and intent == "ambiguous"
+        and re.search(
+            r"\b(?:antes|anterior|previo|previa|eso|essa|esse|aquello|aquilo|mesmo|igual|"
+            r"sigue|segue|continua)\b",
+            text,
+        )
+        and not re.search(
+            r"transacci|transac|operacion|operacao|movimiento|movimento|cargo|cobranca|pago|pagamento",
+            text,
+        )
+    ):
+        intent = "case_status"
+    unsupported_action = bool(
+        re.search(
+            r"\b(?:transfiere|transfira|transferir|envia|envie|mueve|movimente|reembolsa|reembolse|"
+            r"aprueba|aprove|bloquea|bloqueie|desbloquea|desbloqueie)\b|"
+            r"\b(?:cambia|cambie|altera|altere).{0,30}(?:contrasena|senha|direccion|endereco|datos|dados)|"
+            r"\b(?:receta|receita|poema|clima)\b",
+            text,
+        )
+    )
+    explicit_fact_request = bool(
+        re.search(
+            r"[?¿]|\b(?:cual|qual|como|cuando|onde|donde|por que|dime|diga|"
+            r"saber|consultar|ver|explica|explique|informame|informe|muestra|mostre)\b",
+            text,
+        )
+    )
+    status_question = (
+        explicit_fact_request
+        and bool(
+            re.search(
+                r"\b(?:estado|estatus|status|importe|monto|valor|quantia|situacion|situacao|"
+                r"informacion|informacoes)\b|"
+                r"(?:que paso|que aconteceu|por que|porque|ya salio|ja saiu)",
+                text,
+            )
+        )
+        and bool(
+            reference.mentioned
+            or context.get("transaction_id")
+            or re.search(
+                r"transacci|transac|operacion|operacao|movimiento|movimento|cargo|cobranca|"
+                r"pago|pagamento|transferencia|compra|lancamento|debito|\btx-",
+                text,
+            )
+        )
+    )
+    affirmative_authorization = (
+        bool(
+            re.search(
+                r"\b(?:autorice|autorizei|reconozco|reconheco|realice|realizei|hice|fiz)\b",
+                text,
+            )
+        )
+        and not review_required
+    )
+    recorded_status_query = (
+        status_question
+        and bool(
+            re.search(
+                r"\b(?:estado|estatus|status|situacion|situacao)\b",
+                text,
+            )
+        )
+        and not re.search(
+            r"\b(?:registrar|registre|registrare|abrir|reportar|reclamar|contestar)\b|"
+            r"incorret|incorrect|duplicad|coincid|dos veces|duas vezes",
+            text,
+        )
+    )
+    # Exact scoped detail + an explicit fact question outranks a mistaken learned
+    # intent. Reports, human requests and unavailable inference still require review.
+    if not review_required:
+        if unsupported_action:
+            intent = "unsupported"
+        elif (
+            status_question
+            and (
+                intent not in {"dispute", "scam"}
+                or (intent == "dispute" and (affirmative_authorization or recorded_status_query))
+            )
+            and (not case_reference and not case_terms)
+        ):
+            intent = "transaction_status"
+    if not review_required and (
+        case_reference
+        or re.fullmatch(r"(?:mis|meus|meus? |mis? )?\s*(?:casos|reclamos|chamados)[.!? ]*", text)
+    ):
+        intent = "case_status"
+    if intent == "case_status" and not tracking_reference and not known_case:
+        if context.get("pending_intent") in {"transaction_status", "dispute", "scam", "human"}:
+            intent = "ambiguous"
+        else:
+            result.update(
+                message=say("clarify_topic", language),
+                intent="ambiguous",
+                state="clarification",
+                context={},
+            )
+            return result
     # A selection completes the pending task; a new explicit request replaces it.
-    selection_only = re.fullmatch(r"TX-[A-Z]{2}-\d+", message.strip().upper()) is not None
+    authorized_ids = [
+        row["id"]
+        for row in records or []
+        if isinstance(row, dict) and isinstance(row.get("id"), str)
+    ]
+    selection_only = re.fullmatch(
+        r"TX-[A-Z]{2}-\d+", message.strip().upper()
+    ) is not None or message.strip().casefold() in {
+        identifier.casefold() for identifier in authorized_ids
+    }
     pending = context.get("pending_intent")
     continuation = pending in {"transaction_status", "dispute", "scam", "human"} and (
         selection_only
         or deictic_selection(text, language)
+        or reference.selection_only
         or (intent == "ambiguous" and not review_required)
     )
     report = customer_report(message, context, continuation=continuation)
     result["customer_report"] = report
     referenced = re.findall(r"\bTX-[A-Z]{2}-\d+\b", message.upper())
+    for identifier in authorized_ids:
+        if re.search(r"(?<!\w)" + re.escape(identifier) + r"(?!\w)", message, re.IGNORECASE):
+            if identifier.upper() not in {value.upper() for value in referenced}:
+                referenced.append(identifier)
     if len(set(referenced)) > 1:
-        result.update(
-            message=say("choose", language),
-            intent="ambiguous",
-            state="clarification",
-            context={
-                "pending_intent": intent if intent != "ambiguous" else "transaction_status",
-                "customer_report": report,
-            },
-        )
-        return result
+        return clarify(result, intent, report, usable, language)
     if referenced:
         if transaction_id and referenced[0] != transaction_id:
-            result.update(
-                message=say("choose", language),
-                intent="ambiguous",
-                state="clarification",
-                context={
-                    "pending_intent": intent if intent != "ambiguous" else "transaction_status",
-                    "customer_report": report,
-                },
-            )
-            return result
+            return clarify(result, intent, report, usable, language)
         transaction_id = referenced[0]
+        if (
+            transaction_id in {row["id"] for row in usable}
+            and reference.mentioned
+            and (transaction_id not in {row["id"] for row in reference.candidates})
+        ):
+            return clarify(result, intent, report, usable, language, unmatched=True)
+    if intent == "case_status":
+        result.update(
+            message=say("cases", language), intent=intent, state="case_lookup", context={}
+        )
+        if not tracking_reference and known_case:
+            result["case_context_id"] = known_case
+        return result
+    retained_transaction_id = context.get("transaction_id")
+    if (
+        reference.mentioned
+        and not referenced
+        and (intent != "unsupported" or reference.selection_only)
+        and not unsupported_action
+    ):
+        if len(reference.candidates) != 1 or (
+            transaction_id and reference.candidates[0]["id"] != transaction_id
+        ):
+            if intent in {"scam", "human"} and not transaction_id:
+                # Urgent scam/human help must not wait for a record match. Retain
+                # the allegation without attaching a guessed historical record.
+                retained_transaction_id = None
+            else:
+                return clarify(
+                    result,
+                    intent if intent != "unsupported" else pending or "transaction_status",
+                    report,
+                    reference.candidates or usable,
+                    language,
+                    unmatched=not reference.candidates,
+                )
+        else:
+            transaction_id = reference.candidates[0]["id"]
     if not review_required:
-        if pending in {"transaction_status", "dispute", "scam", "human"} and deictic_selection(
-            text, language
+        if pending in {"transaction_status", "dispute", "scam", "human"} and (
+            deictic_selection(text, language) or reference.selection_only
         ):
             # Without a selected record this still clarifies; it never chooses a record.
             intent = pending
@@ -277,7 +552,9 @@ def run(message, language, transaction_id, context, records, classifier):
             intent = context.get("pending_intent", "transaction_status")
         elif intent == "ambiguous" and context.get("transaction_id"):
             intent = context.get("pending_intent", "transaction_status")
-    selected = transaction_id or context.get("transaction_id")
+        elif reference.selection_only and intent in {"unsupported", "ambiguous"}:
+            intent = "transaction_status"
+    selected = transaction_id or retained_transaction_id
     matches = [
         row
         for row in (records or [])
@@ -312,15 +589,7 @@ def run(message, language, transaction_id, context, records, classifier):
         else {}
     )
     if intent in {"transaction_status", "dispute", "ambiguous"} and transaction is None:
-        result.update(
-            message=say("choose", language),
-            state="clarification",
-            context={
-                "pending_intent": intent if intent != "ambiguous" else "transaction_status",
-                "customer_report": report,
-            },
-        )
-        return result
+        return clarify(result, intent, report, usable, language)
     result["evidence"] = policy.retrieve(intent, language)
     if transaction:
         result["transaction"] = transaction

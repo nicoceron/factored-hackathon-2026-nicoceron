@@ -105,7 +105,14 @@ checks["all_static_assets_http_200_and_byte_identical"] = all(
 )
 
 remote_reports_response = call(public, "/api/evaluation")
-remote_reports = decoded(remote_reports_response).get("reports", {})
+remote_evaluation = decoded(remote_reports_response)
+remote_reports = remote_evaluation.get("reports", {})
+remote_report_files = remote_evaluation.get("report_files", {})
+current_regressions = {
+    "system-evaluation": "chat-system-regression.json",
+    "system-challenge-regression": "chat-challenge-regression.json",
+    "service-segment-evaluation": "chat-service-segment-regression.json",
+}
 reports = []
 for name in (
     "language-evaluation",
@@ -117,7 +124,12 @@ for name in (
 ):
     resource = ROOT / "src/factored_banking/resources" / f"{name}.json"
     updated = resource.with_name(f"{name}-v2.json")
-    local = json.loads((updated if updated.exists() else resource).read_text())
+    selected = updated if updated.exists() else resource
+    current_name = current_regressions.get(name)
+    current = resource.with_name(current_name) if current_name else None
+    if current is not None and current.exists():
+        selected = current
+    local = json.loads(selected.read_text())
     remote = remote_reports.get(name)
     expected = canonical_hash(local)
     actual = canonical_hash(remote)
@@ -125,13 +137,16 @@ for name in (
         {
             "name": name,
             "present": remote is not None,
+            "expected_file": selected.name,
+            "declared_file_matches_local": remote_report_files.get(name) == selected.name,
             "canonical_json_sha256_matches_local": expected == actual,
             "local_sha256": expected,
             "deployed_sha256": actual,
         }
     )
 checks["evaluation_http_200_and_all_six_reports_equal"] = remote_reports_response[0] == 200 and all(
-    r["present"] and r["canonical_json_sha256_matches_local"] for r in reports
+    r["present"] and r["declared_file_matches_local"] and r["canonical_json_sha256_matches_local"]
+    for r in reports
 )
 
 browsers = [client(), client()]

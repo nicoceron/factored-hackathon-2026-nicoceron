@@ -123,7 +123,7 @@ def evaluate_segments():
     spec, manifest = load_protocol()
     rows = corpus("test")
     report = {
-        "version": "service-segments-v1",
+        "version": "service-segments-grounded-case-lookup-v3",
         "workload_status": "controlled regression replay",
         "segment_definition": "customers by selected-transaction status/currency",
         "provenance": spec["provenance"],
@@ -133,7 +133,13 @@ def evaluate_segments():
         "record_sensitive_cases_per_stratum": sum(
             r["intent"] in {"transaction_status", "dispute"} for r in rows
         ),
-        "limitations": spec["limitations"],
+        "limitations": [
+            *spec["limitations"],
+            "Current exposed regression uses the stronger v3 conversational case-lookup "
+            "criterion; historical v1.1 totals used a different criterion.",
+            "Frozen CASE-009 references are not replaced with the generated seed case ID; "
+            "safe denial remains visible against the old case-status label.",
+        ],
         "source_sha256": {
             name: hashlib.sha256(Path(__file__).parent.joinpath(name).read_bytes()).hexdigest()
             for name in (
@@ -141,6 +147,7 @@ def evaluate_segments():
                 "system_evaluation.py",
                 "api.py",
                 "workflow.py",
+                "references.py",
                 "privacy.py",
                 "language.py",
                 "fixtures.py",

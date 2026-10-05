@@ -2,6 +2,8 @@
 
 This map follows the participant problem statement and kickoff, without inventing scoring weights. It distinguishes implementation, offline evidence, and hosted behavior. No metric is a production claim.
 
+The exact judging instruction is that the solution should work first (kickoff p. 20); depth, demonstrated behavior and engineering judgment determine the score, and more workflows earn no automatic bonus (problem statement p. 3). [The chat audit](CHAT_RUBRIC_AUDIT.md) records the complete requirement/comment inventory and the focused priorities. The current chat redesign passes 352 local tests and 20 scoped Chrome checks and is not deployed. Current v3 regression receipts are source-matched; public v1.1 browser/media and historical receipts verify their recorded revisions. The stricter v3 case-grounding scorer prevents direct old/new percentage comparisons.
+
 | Evaluation dimension | Implemented decision and evidence | Limits |
 | --- | --- | --- |
 | Technical judgment | Deterministic permission/action policy; exact evidence; explicit confirmations; transactional idempotency reservation; fresh read-back; scoped sessions; [OPERATIONS.md](OPERATIONS.md) and API/security tests | Trusted test identity, synthetic policy, single replica; real bank identity and durable infrastructure remain production work |
@@ -15,9 +17,9 @@ This map follows the participant problem statement and kickoff, without inventin
 | Requirement | Authoritative implementation/evidence |
 | --- | --- |
 | Normal resolution with sources | `workflow.py` status templates; exact amount/currency/status/source/as-of; ES/PT API and browser scenarios |
-| Ambiguity and unsupported requests | Persisted pending intent; explicit transaction selection; safe refusal; regression/challenge outcome reports include mistakes |
+| Ambiguity and unsupported requests | Persisted pending intent; current conversational references over validated authorized candidates; clarification and safe refusal. Historical regression/challenge outcome reports preserve mistakes |
 | Human intervention | Specific redacted customer allegation retained through clarification, kept separate from verified facts; policy/risk evidence, open questions, read-back receipt and scoped analyst review. The evaluator rejects a generic filled report when the reference request is lost |
-| Spanish and Portuguese | Paired corpus groups; per-language evaluation, UI dictionaries and localized replies |
+| Spanish and Portuguese | Current automatic ES/PT routing with short-reply language continuity; paired corpus groups, per-language historical evaluation, UI dictionaries and localized replies. Automatic routing has its own scoped API/Chrome checks in [UI.md](UI.md) |
 | Authorized service-segment comparison | Frozen team-authored status × currency fixtures, identical utterances counterbalanced in ES/PT; paired outcomes and disparity investigation in [SYSTEM_EVALUATION.md](SYSTEM_EVALUATION.md). These are customers by selected-transaction status/currency, not inferred demographic groups |
 | Permissions outside prompts | Session/customer/workspace filters and allowed action enums; no model SQL; role/CSRF/origin checks |
 | Action confirmation and verification | Expiring proposal; separate confirmation endpoint; atomic key reservation; duplicate/concurrent/write-verification-failure tests |

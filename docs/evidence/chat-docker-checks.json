@@ -1,0 +1,33 @@
+{
+  "verified_at": "2026-10-05T04:23:02.557243+00:00",
+  "origin": "http://127.0.0.1:8097",
+  "image_id": "sha256:3286d116df852ac276bb3c9eff410d8812a93721f6d4fb12b2b120590db7e3ca",
+  "source_only_nonroot_docker": true,
+  "all_static_assets_byte_identical": true,
+  "static_asset_checks": {
+    "/static/index.html": true,
+    "/static/app.css": true,
+    "/static/app.js": true,
+    "/static/favicon.svg": true,
+    "/static/fonts/Manrope-OFL.txt": true,
+    "/static/fonts/manrope-latin.woff2": true,
+    "/static/fonts/DM-Sans-OFL.txt": true,
+    "/static/fonts/dm-sans-latin.woff2": true
+  },
+  "current_published_reports_identical": true,
+  "report_files": {
+    "language-evaluation": "language-evaluation.json",
+    "fraud-evaluation": "fraud-evaluation.json",
+    "system-evaluation": "chat-system-regression.json",
+    "system-challenge-evaluation": "system-challenge-evaluation.json",
+    "system-challenge-regression": "chat-challenge-regression.json",
+    "service-segment-evaluation": "chat-service-segment-regression.json"
+  },
+  "bilingual_chat_only_http_smoke": true,
+  "case_lifecycle_and_workspace_cleanup_verified": true,
+  "limitations": [
+    "Local Docker receipt does not establish deployed public behavior.",
+    "Authored fixtures only; external inference disabled."
+  ],
+  "startup_probe_note": "An immediate first probe ran before startup completed and disconnected before any mutation; the complete smoke passed after readiness."
+}

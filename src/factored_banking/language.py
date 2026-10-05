@@ -29,6 +29,119 @@ INTENTS = (
 MAX_MESSAGE_LENGTH = 2000
 
 
+def detect_language(message: str, fallback: str = "es") -> str:
+    """Choose ES/PT from clear cues; short/shared replies keep the conversation language.
+
+    This conservative lexical routing is separate from the learned intent model.
+    It makes no language-confidence claim and never changes identity or permissions.
+    """
+    fallback = fallback if fallback in {"es", "pt"} else "es"
+    text = normalize(message)
+    explicit = re.search(
+        r"(?:responde|responda|responder|habla|fale|continua|continue|prefiero|prefiro|"
+        r"cambia|mude|escribe|escreva|em|en)\s+(?:en\s+|em\s+)?"
+        r"(portugues|espanol|castellano)\b",
+        text,
+    )
+    if explicit:
+        return "pt" if explicit[1] == "portugues" else "es"
+    cues = {
+        "es": {
+            "hola",
+            "quiero",
+            "necesito",
+            "reconozco",
+            "autorice",
+            "cargo",
+            "cargos",
+            "cobro",
+            "pago",
+            "pagos",
+            "transaccion",
+            "operacion",
+            "asesor",
+            "persona",
+            "estafa",
+            "contrasena",
+            "rechazada",
+            "pendiente",
+            "gracias",
+            "puedes",
+            "puedo",
+            "tengo",
+            "cual",
+            "donde",
+            "cuando",
+            "salio",
+            "ya",
+            "hablar",
+            "espanol",
+            "mi",
+            "mis",
+            "ayuda",
+            "dime",
+            "tambien",
+            "movimiento",
+            "despues",
+            "llamada",
+            "ninguna",
+            "ninguno",
+        },
+        "pt": {
+            "ola",
+            "quero",
+            "preciso",
+            "reconheco",
+            "autorizei",
+            "cobranca",
+            "cobrancas",
+            "pagamento",
+            "pagamentos",
+            "transacao",
+            "operacao",
+            "atendente",
+            "pessoa",
+            "golpe",
+            "senha",
+            "recusada",
+            "pendente",
+            "obrigado",
+            "obrigada",
+            "voce",
+            "posso",
+            "tenho",
+            "qual",
+            "onde",
+            "saiu",
+            "ja",
+            "falar",
+            "nao",
+            "portugues",
+            "meu",
+            "meus",
+            "minha",
+            "minhas",
+            "seu",
+            "sua",
+            "suas",
+            "ajuda",
+            "lancamento",
+            "tambem",
+            "oi",
+            "bom",
+            "boa",
+            "movimento",
+            "depois",
+            "nenhuma",
+        },
+    }
+    words = set(re.findall(r"[a-z]+", text))
+    scores = {locale: len(words & tokens) for locale, tokens in cues.items()}
+    if scores["es"] == scores["pt"]:
+        return fallback
+    return max(scores, key=scores.get)
+
+
 def normalize(message: str) -> str:
     """Unicode normalization for rules and duplicate detection, retaining negations."""
     return "".join(

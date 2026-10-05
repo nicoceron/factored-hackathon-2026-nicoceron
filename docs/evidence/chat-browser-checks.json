@@ -1,0 +1,85 @@
+{
+  "verified_at": "2026-10-05T04:21:01.277465+00:00",
+  "origin": "http://127.0.0.1:8096",
+  "surface": "CUA-controlled Chrome",
+  "provenance": "team-authored synthetic fixtures, external inference disabled",
+  "checks": {
+    "automatic_entry_without_persona_or_language_controls": true,
+    "natural_transaction_reference_and_ordered_clarification": true,
+    "automatic_es_pt_switch_keeps_same_customer": true,
+    "specific_report_redacted_before_confirmation": true,
+    "native_explicit_confirmation_and_verified_receipt": true,
+    "courtesy_does_not_cancel_pending_work": true,
+    "case_status_from_scoped_persisted_case": true,
+    "analyst_question_and_customer_reply_in_main_composer": true,
+    "closed_case_has_four_real_history_events_after_reload": true,
+    "pending_proposal_restored_after_reload": true,
+    "typed_confirmation_word_does_not_execute_action": true,
+    "dialog_dismissal_retains_pending_proposal": true,
+    "server_cancellation_does_not_create_case": true,
+    "customer_has_one_textarea_and_zero_selectors": true,
+    "390x844_and_320x480_customer_layouts": true,
+    "320x780_confirmation_dialog_layout": true,
+    "final_console_warning_and_error_log_empty": true,
+    "390x300_composer_visible": true,
+    "unidentified_payment_predicate_clarifies": true,
+    "fresh_vague_followup_clarifies_topic": true
+  },
+  "final_desktop": {
+    "viewport_width": 1488,
+    "body_width": 1488,
+    "height": 1038,
+    "composer_bottom": 959,
+    "customer_textareas": 1,
+    "setup_selectors": 0
+  },
+  "static_sha256": {
+    "index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+    "app.css": "1c54aa5bb05ce5c9352f5bcb38c97d2794fd63dff2cba3cd7212b927ee2469e6",
+    "app.js": "756e0272ce0a02908df6c5a3e1f5bd32c2c9cd5380bd30344255424cdf9256cd",
+    "favicon.svg": "565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118"
+  },
+  "screenshots": [
+    {
+      "path": "submission/demo-assets/chat-welcome.jpg",
+      "sha256": "b35ccccb90655d7fbbeb2d02f5231a47e8357902d83e80672d9ad6c2cf51ecde"
+    },
+    {
+      "path": "submission/demo-assets/chat-evidence-pt.jpg",
+      "sha256": "934494767c4ec1a41845a13022649f37d0c8364ee0240ac9587381ea2db44da1"
+    },
+    {
+      "path": "submission/demo-assets/chat-confirm-es.jpg",
+      "sha256": "4f6c8a304e1c2b384da3b4b4e1cb3ff89b619b2f53c770483185ba52f4a41c22"
+    },
+    {
+      "path": "submission/demo-assets/chat-receipt-pt.jpg",
+      "sha256": "11742a2b560f85168de41aad1b4cd341e2f07409108b7d78c2b32393c641dcfd"
+    },
+    {
+      "path": "submission/demo-assets/chat-reply-pt.jpg",
+      "sha256": "853bc3981e4b88bfbe98791efc644e3ffd1267882b65c29482a1f5964afad316"
+    },
+    {
+      "path": "submission/demo-assets/chat-history-pt.jpg",
+      "sha256": "71396b4bf4ebbca23b50620c3684d929697d9dd3cfc73a1f0b5c694c56a4bb4b"
+    },
+    {
+      "path": "submission/demo-assets/chat-complete-pt.jpg",
+      "sha256": "0b595e4b44cc6dcd113348194b6d40ad0fb136ac508e06aded4af37be0719f52"
+    }
+  ],
+  "limitations": [
+    "Local browser verification does not establish deployment.",
+    "Desktop viewport overrides approximate responsive layouts, not real mobile keyboard behavior.",
+    "Safari and formal screen-reader/native-Portuguese review not established.",
+    "Recovered bounded messages may omit inline evidence; fresh scoped case/status questions retrieve authoritative facts."
+  ],
+  "compact_viewport": {
+    "width": 390,
+    "height": 300,
+    "body_width": 390,
+    "shell_height": 300,
+    "composer_bottom": 217.5
+  }
+}

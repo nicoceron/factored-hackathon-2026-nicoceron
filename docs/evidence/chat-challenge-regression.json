@@ -1,0 +1,1857 @@
+{
+  "version": "system-grounded-case-lookup-v3",
+  "handoff_quality_contract": "verified receipt plus intent/priority/evidence and retained redacted reference request",
+  "case_lookup_quality_contract": "chat returns the scoped stored case snapshot and its localized status, timestamp, case evidence and pending question; independently reading an endpoint is insufficient",
+  "workload_status": "challenge regression after its first-pass failures were inspected",
+  "provenance": "Replay of team-authored language cases, mapped to explicit sandbox fixtures; no independent human review",
+  "cases_per_system": 70,
+  "fixture_mapping": "First authorized transaction selected explicitly only when transaction/dispute clarification requests one; ambiguous cases never auto-select. Existing case prepared by same API before case_status inquiries.",
+  "limitations": [
+    "In-process TestClient, not hosted network or concurrent load.",
+    "Merchant/entity recognition and natural customer behavior not measured.",
+    "Confirmation follows reference human-required intent; false proposals are not accepted.",
+    "No organizer record is used in serving fixtures.",
+    "Original 140-case corpus is exposed and its workflow replay is regression evidence. The independent challenge, when supplied, is scored after freezing without tuning.",
+    "The v3 case-lookup grounding contract is stricter than v2; counts are not directly comparable as an unchanged scoring protocol.",
+    "Frozen case-status texts naming CASE-009 are not rewritten to the generated seed case ID. Safe denial of that nonexistent reference stays visible as an incorrect outcome against the older case-status label and is a fixture/reference mismatch."
+  ],
+  "reference_policy": {
+    "automatic_resolution_intents": [
+      "transaction_status",
+      "case_status"
+    ],
+    "human_required": [
+      "dispute",
+      "human",
+      "scam"
+    ],
+    "ambiguous": "must ask clarification with no action",
+    "unsupported": "must refuse/abstain with no action"
+  },
+  "corpus_sha256": "7c25f29b05769c76597c967cc9db24cc37c05401040eb76a66f756b0618faaa9",
+  "source_sha256": {
+    "api.py": "78bdfcd77586a5b4cb1956b1f5701021e8be610d24f6db6904e4474e5ecf1c9b",
+    "workflow.py": "69bd0566c0a32c471cc04d03458ba4d895d7e2b0503b82231812085b49e716f5",
+    "references.py": "d26c415ff32c089b370af214ebaf93a5d84cd25b0f6c760173d24dc8397aae15",
+    "language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+    "privacy.py": "da6251a39bef9aa5bc0bde969ff70e3e0a36a88a40d9a4255288ddbe0e3bbed4",
+    "providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+    "store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+    "fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+    "policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+    "fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+    "resources/language_model.json": "94f15fb4d817617a298533e513c45816fd4ac26ddac2d09421b32583cac3aad2",
+    "models/fraud-model.json": "161a1e21925c8b3b171fcc09fbc51fb94970c55e035bb35d1977fc05f83f4c65",
+    "system_evaluation.py": "19de4bd6d357cad2f7dceb663a43188702348e779a9e3cfab383022a371429d7"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "systems": {
+    "keyword_rules": {
+      "cases": 70,
+      "in_scope_cases": 60,
+      "correct_outcomes": 48,
+      "outcome_accuracy": 0.6857142857142857,
+      "safe_automated_resolutions": 16,
+      "safe_automated_resolution_rate_all_in_scope": 0.26666666666666666,
+      "attempted_automation": 25,
+      "attempted_automation_share_all_cases": 0.35714285714285715,
+      "containment_no_verified_transfer": 0.7285714285714285,
+      "required_handoffs": 30,
+      "verified_handoffs": 19,
+      "missed_required_handoffs": 11,
+      "unnecessary_handoff_proposals": 0,
+      "handoffs_with_required_packet_fields": 19,
+      "handoffs_preserving_reference_request": 19,
+      "handoffs_appropriate_to_reference": 17,
+      "unauthorized_disclosure_or_action": 0,
+      "materially_wrong_outcomes": 15,
+      "incorrect_outcomes": 22,
+      "final_states": {
+        "resolved": 17,
+        "escalated": 19,
+        "clarification": 20,
+        "case_lookup": 8,
+        "abstained": 6
+      },
+      "latency_ms": {
+        "p50": 5.350979001377709,
+        "p95": 10.589833700942108,
+        "max": 24.614000009023584,
+        "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+      },
+      "provider_usage": {
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "unknown_cost_attempts": 0,
+        "reserved_budget_usd": 0,
+        "estimated_cost_usd": 0,
+        "known_usage_estimate_usd": 0,
+        "cost_complete": true,
+        "model_ids": [],
+        "by_provider": {},
+        "pricing_dates": [
+          "2026-10-02"
+        ],
+        "cost_basis": "provider usage multiplied by published tariffs; not invoice spend",
+        "token_count_scope": "sum of validated usage reports; unknown attempts not imputed",
+        "scope": "measured case requests, excluding session/seed-case setup and warmup"
+      },
+      "model_api_spend_usd": 0.0,
+      "model_api_cost_per_attempt_usd": 0.0,
+      "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+      "estimated_model_api_cost_per_attempt_usd": 0.0,
+      "estimated_model_api_cost_per_successful_automated_resolution_usd": 0.0,
+      "infrastructure_cost": "unmeasured; host/electricity/hardware excluded",
+      "language_slices": {
+        "es": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 23,
+          "outcome_accuracy": 0.6571428571428571,
+          "safe_automated_resolutions": 7,
+          "safe_automated_resolution_rate_all_in_scope": 0.23333333333333334,
+          "attempted_automation": 11,
+          "attempted_automation_share_all_cases": 0.3142857142857143,
+          "containment_no_verified_transfer": 0.7142857142857143,
+          "required_handoffs": 15,
+          "verified_handoffs": 10,
+          "missed_required_handoffs": 5,
+          "unnecessary_handoff_proposals": 0,
+          "handoffs_with_required_packet_fields": 10,
+          "handoffs_preserving_reference_request": 10,
+          "handoffs_appropriate_to_reference": 9,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 7,
+          "incorrect_outcomes": 12,
+          "final_states": {
+            "resolved": 8,
+            "escalated": 10,
+            "clarification": 11,
+            "case_lookup": 3,
+            "abstained": 3
+          },
+          "latency_ms": {
+            "p50": 5.413166989455931,
+            "p95": 10.84538389550289,
+            "max": 11.421332994359545,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "unknown_cost_attempts": 0,
+            "reserved_budget_usd": 0,
+            "estimated_cost_usd": 0,
+            "known_usage_estimate_usd": 0,
+            "cost_complete": true,
+            "model_ids": [],
+            "by_provider": {},
+            "pricing_dates": [
+              "2026-10-02"
+            ],
+            "cost_basis": "provider usage multiplied by published tariffs; not invoice spend",
+            "token_count_scope": "sum of validated usage reports; unknown attempts not imputed",
+            "scope": "measured case requests, excluding session/seed-case setup and warmup"
+          },
+          "model_api_spend_usd": 0.0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "estimated_model_api_cost_per_attempt_usd": 0.0,
+          "estimated_model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        },
+        "pt": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 25,
+          "outcome_accuracy": 0.7142857142857143,
+          "safe_automated_resolutions": 9,
+          "safe_automated_resolution_rate_all_in_scope": 0.3,
+          "attempted_automation": 14,
+          "attempted_automation_share_all_cases": 0.4,
+          "containment_no_verified_transfer": 0.7428571428571429,
+          "required_handoffs": 15,
+          "verified_handoffs": 9,
+          "missed_required_handoffs": 6,
+          "unnecessary_handoff_proposals": 0,
+          "handoffs_with_required_packet_fields": 9,
+          "handoffs_preserving_reference_request": 9,
+          "handoffs_appropriate_to_reference": 8,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 8,
+          "incorrect_outcomes": 10,
+          "final_states": {
+            "resolved": 9,
+            "escalated": 9,
+            "clarification": 9,
+            "case_lookup": 5,
+            "abstained": 3
+          },
+          "latency_ms": {
+            "p50": 5.3309159993659705,
+            "p95": 8.935700001893558,
+            "max": 24.614000009023584,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "unknown_cost_attempts": 0,
+            "reserved_budget_usd": 0,
+            "estimated_cost_usd": 0,
+            "known_usage_estimate_usd": 0,
+            "cost_complete": true,
+            "model_ids": [],
+            "by_provider": {},
+            "pricing_dates": [
+              "2026-10-02"
+            ],
+            "cost_basis": "provider usage multiplied by published tariffs; not invoice spend",
+            "token_count_scope": "sum of validated usage reports; unknown attempts not imputed",
+            "scope": "measured case requests, excluding session/seed-case setup and warmup"
+          },
+          "model_api_spend_usd": 0.0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "estimated_model_api_cost_per_attempt_usd": 0.0,
+          "estimated_model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        }
+      },
+      "failures": [
+        {
+          "case_id": "challenge-dispute-01-es",
+          "semantic_group": "challenge-dispute-01",
+          "language": "es",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.573458009166643,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-dispute-01-pt",
+          "semantic_group": "challenge-dispute-01",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 24.614000009023584,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-dispute-02-es",
+          "semantic_group": "challenge-dispute-02",
+          "language": "es",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.374416999984533,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-dispute-02-pt",
+          "semantic_group": "challenge-dispute-02",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.3309159993659705,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-dispute-03-es",
+          "semantic_group": "challenge-dispute-03",
+          "language": "es",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.5953329865587875,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-dispute-03-pt",
+          "semantic_group": "challenge-dispute-03",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.470542004331946,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-dispute-04-pt",
+          "semantic_group": "challenge-dispute-04",
+          "language": "pt",
+          "expected_intent": "dispute",
+          "predicted_intent": "transaction_status",
+          "final_state": "resolved",
+          "state_sequence": [
+            "clarification",
+            "resolved"
+          ],
+          "calls": 2,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 5.263707993435673,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-scam-01-es",
+          "semantic_group": "challenge-scam-01",
+          "language": "es",
+          "expected_intent": "scam",
+          "predicted_intent": "human",
+          "final_state": "escalated",
+          "state_sequence": [
+            "awaiting_confirmation",
+            "escalated"
+          ],
+          "calls": 3,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": true,
+          "required_handoff": true,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": true,
+            "reference_request_preserved": true,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 7.386625002254732,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-scam-01-pt",
+          "semantic_group": "challenge-scam-01",
+          "language": "pt",
+          "expected_intent": "scam",
+          "predicted_intent": "human",
+          "final_state": "escalated",
+          "state_sequence": [
+            "awaiting_confirmation",
+            "escalated"
+          ],
+          "calls": 3,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": true,
+          "required_handoff": true,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": true,
+            "reference_request_preserved": true,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 7.548583002062514,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-scam-04-es",
+          "semantic_group": "challenge-scam-04",
+          "language": "es",
+          "expected_intent": "scam",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 3.115500003332272,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-scam-04-pt",
+          "semantic_group": "challenge-scam-04",
+          "language": "pt",
+          "expected_intent": "scam",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.8005839994875714,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-human-05-es",
+          "semantic_group": "challenge-human-05",
+          "language": "es",
+          "expected_intent": "human",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.9441670048981905,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-human-05-pt",
+          "semantic_group": "challenge-human-05",
+          "language": "pt",
+          "expected_intent": "human",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": true,
+          "missed_handoff": true,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.798707995680161,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-case_status-01-es",
+          "semantic_group": "challenge-case_status-01",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.79762499849312,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-case_status-03-es",
+          "semantic_group": "challenge-case_status-03",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.7749169967137277,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-case_status-03-pt",
+          "semantic_group": "challenge-case_status-03",
+          "language": "pt",
+          "expected_intent": "case_status",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.829375007422641,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-case_status-04-es",
+          "semantic_group": "challenge-case_status-04",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "unsupported",
+          "final_state": "abstained",
+          "state_sequence": [
+            "abstained"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.6217499980702996,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-03-es",
+          "semantic_group": "challenge-unsupported-03",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.767083002254367,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-04-es",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "case_status",
+          "final_state": "case_lookup",
+          "state_sequence": [
+            "case_lookup"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 2.9544999997597188,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-04-pt",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "case_status",
+          "final_state": "case_lookup",
+          "state_sequence": [
+            "case_lookup"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": true,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": true,
+          "latency_ms": 3.369124999153428,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-05-es",
+          "semantic_group": "challenge-unsupported-05",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.9023750103078783,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-05-pt",
+          "semantic_group": "challenge-unsupported-05",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 2.7600000030361116,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        }
+      ],
+      "fault_suite": {
+        "performed": true,
+        "cases": 22,
+        "passed": 22,
+        "results": [
+          {
+            "scenario": "unauthenticated_records",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "missing_amount_no_financial_claim",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "unknown_currency_no_financial_claim",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "incorrect_status_no_financial_claim",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "unauthenticated_records",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "missing_amount_no_financial_claim",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "unknown_currency_no_financial_claim",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "incorrect_status_no_financial_claim",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "pt",
+            "passed": true
+          }
+        ]
+      },
+      "all_run_usage_including_setup_warmup_faults": {
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0,
+        "unknown_cost_attempts": 0,
+        "cost_complete": true,
+        "reserved_budget_usd": 0,
+        "model_ids": [],
+        "by_provider": {},
+        "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+        "pricing_date": "2026-10-02"
+      }
+    },
+    "tfidf_logistic": {
+      "cases": 70,
+      "in_scope_cases": 60,
+      "correct_outcomes": 64,
+      "outcome_accuracy": 0.9142857142857143,
+      "safe_automated_resolutions": 18,
+      "safe_automated_resolution_rate_all_in_scope": 0.3,
+      "attempted_automation": 18,
+      "attempted_automation_share_all_cases": 0.2571428571428571,
+      "containment_no_verified_transfer": 0.5714285714285714,
+      "required_handoffs": 30,
+      "verified_handoffs": 30,
+      "missed_required_handoffs": 0,
+      "unnecessary_handoff_proposals": 2,
+      "handoffs_with_required_packet_fields": 30,
+      "handoffs_preserving_reference_request": 30,
+      "handoffs_appropriate_to_reference": 30,
+      "unauthorized_disclosure_or_action": 0,
+      "materially_wrong_outcomes": 0,
+      "incorrect_outcomes": 6,
+      "final_states": {
+        "resolved": 10,
+        "escalated": 30,
+        "case_lookup": 8,
+        "clarification": 11,
+        "abstained": 9,
+        "awaiting_confirmation": 2
+      },
+      "latency_ms": {
+        "p50": 6.531708502734546,
+        "p95": 10.724329643562669,
+        "max": 10.890666002524085,
+        "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+      },
+      "provider_usage": {
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "unknown_cost_attempts": 0,
+        "reserved_budget_usd": 0,
+        "estimated_cost_usd": 0,
+        "known_usage_estimate_usd": 0,
+        "cost_complete": true,
+        "model_ids": [],
+        "by_provider": {},
+        "pricing_dates": [
+          "2026-10-02"
+        ],
+        "cost_basis": "provider usage multiplied by published tariffs; not invoice spend",
+        "token_count_scope": "sum of validated usage reports; unknown attempts not imputed",
+        "scope": "measured case requests, excluding session/seed-case setup and warmup"
+      },
+      "model_api_spend_usd": 0.0,
+      "model_api_cost_per_attempt_usd": 0.0,
+      "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+      "estimated_model_api_cost_per_attempt_usd": 0.0,
+      "estimated_model_api_cost_per_successful_automated_resolution_usd": 0.0,
+      "infrastructure_cost": "unmeasured; host/electricity/hardware excluded",
+      "language_slices": {
+        "es": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 31,
+          "outcome_accuracy": 0.8857142857142857,
+          "safe_automated_resolutions": 8,
+          "safe_automated_resolution_rate_all_in_scope": 0.26666666666666666,
+          "attempted_automation": 8,
+          "attempted_automation_share_all_cases": 0.22857142857142856,
+          "containment_no_verified_transfer": 0.5714285714285714,
+          "required_handoffs": 15,
+          "verified_handoffs": 15,
+          "missed_required_handoffs": 0,
+          "unnecessary_handoff_proposals": 1,
+          "handoffs_with_required_packet_fields": 15,
+          "handoffs_preserving_reference_request": 15,
+          "handoffs_appropriate_to_reference": 15,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 0,
+          "incorrect_outcomes": 4,
+          "final_states": {
+            "resolved": 5,
+            "escalated": 15,
+            "case_lookup": 3,
+            "clarification": 6,
+            "abstained": 5,
+            "awaiting_confirmation": 1
+          },
+          "latency_ms": {
+            "p50": 6.439542004955001,
+            "p95": 10.742662702978123,
+            "max": 10.890666002524085,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "unknown_cost_attempts": 0,
+            "reserved_budget_usd": 0,
+            "estimated_cost_usd": 0,
+            "known_usage_estimate_usd": 0,
+            "cost_complete": true,
+            "model_ids": [],
+            "by_provider": {},
+            "pricing_dates": [
+              "2026-10-02"
+            ],
+            "cost_basis": "provider usage multiplied by published tariffs; not invoice spend",
+            "token_count_scope": "sum of validated usage reports; unknown attempts not imputed",
+            "scope": "measured case requests, excluding session/seed-case setup and warmup"
+          },
+          "model_api_spend_usd": 0.0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "estimated_model_api_cost_per_attempt_usd": 0.0,
+          "estimated_model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        },
+        "pt": {
+          "cases": 35,
+          "in_scope_cases": 30,
+          "correct_outcomes": 33,
+          "outcome_accuracy": 0.9428571428571428,
+          "safe_automated_resolutions": 10,
+          "safe_automated_resolution_rate_all_in_scope": 0.3333333333333333,
+          "attempted_automation": 10,
+          "attempted_automation_share_all_cases": 0.2857142857142857,
+          "containment_no_verified_transfer": 0.5714285714285714,
+          "required_handoffs": 15,
+          "verified_handoffs": 15,
+          "missed_required_handoffs": 0,
+          "unnecessary_handoff_proposals": 1,
+          "handoffs_with_required_packet_fields": 15,
+          "handoffs_preserving_reference_request": 15,
+          "handoffs_appropriate_to_reference": 15,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 0,
+          "incorrect_outcomes": 2,
+          "final_states": {
+            "resolved": 5,
+            "escalated": 15,
+            "case_lookup": 5,
+            "clarification": 5,
+            "awaiting_confirmation": 1,
+            "abstained": 4
+          },
+          "latency_ms": {
+            "p50": 6.62387500051409,
+            "p95": 10.71205889020348,
+            "max": 10.797374998219311,
+            "scope": "in-process HTTP from first chat through clarification, confirmation and read-back; session/fixture setup excluded; no human think time"
+          },
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "unknown_cost_attempts": 0,
+            "reserved_budget_usd": 0,
+            "estimated_cost_usd": 0,
+            "known_usage_estimate_usd": 0,
+            "cost_complete": true,
+            "model_ids": [],
+            "by_provider": {},
+            "pricing_dates": [
+              "2026-10-02"
+            ],
+            "cost_basis": "provider usage multiplied by published tariffs; not invoice spend",
+            "token_count_scope": "sum of validated usage reports; unknown attempts not imputed",
+            "scope": "measured case requests, excluding session/seed-case setup and warmup"
+          },
+          "model_api_spend_usd": 0.0,
+          "model_api_cost_per_attempt_usd": 0.0,
+          "model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "estimated_model_api_cost_per_attempt_usd": 0.0,
+          "estimated_model_api_cost_per_successful_automated_resolution_usd": 0.0,
+          "infrastructure_cost": "unmeasured; host/electricity/hardware excluded"
+        }
+      },
+      "failures": [
+        {
+          "case_id": "challenge-case_status-03-es",
+          "semantic_group": "challenge-case_status-03",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "transaction_status",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.292666995548643,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-case_status-04-es",
+          "semantic_group": "challenge-case_status-04",
+          "language": "es",
+          "expected_intent": "case_status",
+          "predicted_intent": "unsupported",
+          "final_state": "abstained",
+          "state_sequence": [
+            "abstained"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.3054999948944896,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-ambiguous-04-es",
+          "semantic_group": "challenge-ambiguous-04",
+          "language": "es",
+          "expected_intent": "ambiguous",
+          "predicted_intent": "scam",
+          "final_state": "awaiting_confirmation",
+          "state_sequence": [
+            "awaiting_confirmation"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": true,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.078875000937842,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-ambiguous-04-pt",
+          "semantic_group": "challenge-ambiguous-04",
+          "language": "pt",
+          "expected_intent": "ambiguous",
+          "predicted_intent": "scam",
+          "final_state": "awaiting_confirmation",
+          "state_sequence": [
+            "awaiting_confirmation"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": true,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": true,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.570583008695394,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-04-es",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "es",
+          "expected_intent": "unsupported",
+          "predicted_intent": "dispute",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.3697909966576844,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        },
+        {
+          "case_id": "challenge-unsupported-04-pt",
+          "semantic_group": "challenge-unsupported-04",
+          "language": "pt",
+          "expected_intent": "unsupported",
+          "predicted_intent": "ambiguous",
+          "final_state": "clarification",
+          "state_sequence": [
+            "clarification"
+          ],
+          "calls": 1,
+          "correct_outcome": false,
+          "in_scope": false,
+          "attempted_automation": false,
+          "successful_automated_resolution": false,
+          "verified_handoff": false,
+          "required_handoff": false,
+          "missed_handoff": false,
+          "unnecessary_handoff_proposed": false,
+          "handoff_packet": {
+            "required_fields_present": false,
+            "reference_request_preserved": false,
+            "appropriate_for_reference_intent": false
+          },
+          "grounded_case_lookup": false,
+          "unauthorized_disclosure_or_action": false,
+          "materially_wrong_outcome": false,
+          "latency_ms": 3.2689170038793236,
+          "provider_usage": {
+            "attempts": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0,
+            "unknown_cost_attempts": 0,
+            "cost_complete": true,
+            "reserved_budget_usd": 0,
+            "model_ids": [],
+            "by_provider": {},
+            "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+            "pricing_date": "2026-10-02"
+          }
+        }
+      ],
+      "fault_suite": {
+        "performed": true,
+        "cases": 22,
+        "passed": 22,
+        "results": [
+          {
+            "scenario": "unauthenticated_records",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "missing_amount_no_financial_claim",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "unknown_currency_no_financial_claim",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "incorrect_status_no_financial_claim",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "es",
+            "passed": true
+          },
+          {
+            "scenario": "unauthenticated_records",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "cross_customer_reference",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "missing_csrf",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "expired_session",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "model_timeout_no_false_success",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "missing_amount_no_financial_claim",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "unknown_currency_no_financial_claim",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "incorrect_status_no_financial_claim",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "failed_readback_no_receipt",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "retry_same_key_single_verified_case",
+            "language": "pt",
+            "passed": true
+          },
+          {
+            "scenario": "injection_no_records_or_action",
+            "language": "pt",
+            "passed": true
+          }
+        ]
+      },
+      "all_run_usage_including_setup_warmup_faults": {
+        "attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0,
+        "unknown_cost_attempts": 0,
+        "cost_complete": true,
+        "reserved_budget_usd": 0,
+        "model_ids": [],
+        "by_provider": {},
+        "cost_basis": "Public peak/cache-miss tariff estimate; not invoice charges. Unknown attempts excluded from estimated total and retained in reservations.",
+        "pricing_date": "2026-10-02"
+      }
+    }
+  }
+}

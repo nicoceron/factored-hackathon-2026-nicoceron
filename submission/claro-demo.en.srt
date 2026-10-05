@@ -1,133 +1,136 @@
 1
-00:00:00,350 --> 00:00:03,791
-Meet Claro, banking support in Spanish and Portuguese.
+00:00:00,350 --> 00:00:06,055
+Meet Claro, banking support in Spanish and Portuguese, with no language or
+profile setup.
 
 2
-00:00:03,791 --> 00:00:08,073
-These screenshots come from actual local test runs with team authored
-fixtures.
+00:00:06,055 --> 00:00:10,174
+These screenshots show actual local test runs with team authored fixtures.
 
 3
-00:00:08,073 --> 00:00:16,698
-The application understands transactions, prepares review cases, and completes
-a human follow up. It never connects to real bank accounts.
+00:00:10,174 --> 00:00:15,945
+The customer opens the chat immediately. The service keeps a trusted, isolated
+demo identity.
 
 4
-00:00:17,598 --> 00:00:20,675
-The Portuguese customer asks whether a payment went through.
+00:00:16,845 --> 00:00:22,488
+The same customer moves from Spanish to Portuguese without changing identity
+or selecting a language.
 
 5
-00:00:20,675 --> 00:00:23,424
-Claro asks which transaction before answering.
+00:00:22,488 --> 00:00:29,069
+Claro identifies the transaction from the conversation, asking for
+clarification when the reference is ambiguous.
 
 6
-00:00:23,424 --> 00:00:31,850
-An authorized record tool returns thirty eight dollars and fifty cents as
-pending, preserving the currency, source reference, and historical date.
+00:00:29,069 --> 00:00:36,010
+The authorized record shows one hundred twenty nine thousand Colombian pesos
+as pending, with its source and historical date.
 
 7
-00:00:32,750 --> 00:00:36,661
-This Spanish report describes an unfamiliar charge after a phone call.
+00:00:36,910 --> 00:00:40,754
+The customer reports an unfamiliar Tienda charge after a phone call.
 
 8
-00:00:36,661 --> 00:00:40,017
-The preview preserves that context and redacts the test email.
+00:00:40,754 --> 00:00:45,363
+The review preview keeps that description separate from verified transaction
+facts.
 
 9
-00:00:40,017 --> 00:00:45,354
-A separate confirmation is required to create a case. Typing yes in chat
-cannot execute it.
+00:00:45,363 --> 00:00:50,015
+A separate confirmation creates the case. Typing yes in chat cannot execute
+it.
 
 10
-00:00:45,354 --> 00:00:47,520
+00:00:50,015 --> 00:00:52,182
 No refund or card blocking is promised.
 
 11
-00:00:48,420 --> 00:00:52,747
+00:00:53,082 --> 00:00:57,409
 Every successful case creation needs a committed record and verified read
 back.
 
 12
-00:00:52,747 --> 00:00:56,841
+00:00:57,409 --> 00:01:01,503
 Retries keep the same idempotency key and stop after three attempts.
 
 13
-00:00:56,841 --> 00:00:59,984
+00:01:01,503 --> 00:01:04,646
 A verification failure never becomes a success claim.
 
 14
-00:01:00,884 --> 00:01:04,574
-The analyst asks whether the charge was noticed during or after the call.
+00:01:05,546 --> 00:01:08,969
+The analyst workspace asks a specific follow up question.
 
 15
-00:01:04,574 --> 00:01:09,033
-The Portuguese customer sees that exact question and can answer inside the
-case.
+00:01:08,969 --> 00:01:13,138
+The customer opens that saved question and answers with the same chat
+composer.
 
 16
-00:01:09,033 --> 00:01:12,095
+00:01:13,138 --> 00:01:16,199
 A verified reply returns the case to the review queue.
 
 17
-00:01:12,995 --> 00:01:18,183
-The analyst now sees the original report, the question, and the customer reply
-in order.
+00:01:17,099 --> 00:01:21,997
+The analyst sees the original report, the question, and the customer reply in
+order.
 
 18
-00:01:18,183 --> 00:01:23,291
-The review is closed, and all four events remain after refreshing and
-switching profiles.
+00:01:21,997 --> 00:01:25,906
+After closing the review, reloading reads the four persisted events.
 
 19
-00:01:23,291 --> 00:01:26,647
-The backend stores the history; the browser does not invent it.
+00:01:25,906 --> 00:01:31,026
+Customer chat and reviewer links replace profile selection. The backend owns
+the history.
 
 20
-00:01:27,547 --> 00:01:32,809
+00:01:31,926 --> 00:01:37,188
 One FastAPI service owns sessions, scoped tools, and transactional case
 storage.
 
 21
-00:01:32,809 --> 00:01:36,912
+00:01:37,188 --> 00:01:41,291
 Jev routing and DeepSeek Flash wording are implemented behind bounded
 adapters.
 
 22
-00:01:36,912 --> 00:01:43,232
+00:01:41,291 --> 00:01:47,612
 Live inference still requires explicit authorization for metered use. These
 captures used local processing.
 
 23
-00:01:43,232 --> 00:01:52,008
+00:01:47,612 --> 00:01:56,387
 Provider status and fallback are disclosed. Only entered sandbox messages and
 minimized fixture context may leave; organizer data never does.
 
 24
-00:01:52,908 --> 00:01:57,138
+00:01:57,287 --> 00:02:01,517
 Language understanding and complete workflow outcomes are evaluated
 separately.
 
 25
-00:01:57,138 --> 00:02:04,116
-The repository preserves offline baselines, failure analysis, language slices,
-and service segments.
+00:02:01,517 --> 00:02:08,855
+The same authored workloads compare the baseline and proposed system. Current
+reruns are regression evidence, with failures preserved.
 
 26
-00:02:04,116 --> 00:02:10,017
+00:02:08,855 --> 00:02:14,756
 Authored scenarios and mocked provider tests do not prove real customer
 performance or live provider quality.
 
 27
-00:02:10,917 --> 00:02:17,895
-The fraud candidates did not pass the validation promotion gate. Risk remains
-unavailable for these out of domain fixtures.
+00:02:15,656 --> 00:02:22,355
+The fraud candidates did not pass the validation promotion gate. These public
+fixtures receive no fraud probability.
 
 28
-00:02:17,895 --> 00:02:20,573
-A low score never dismisses the customer report.
+00:02:22,355 --> 00:02:24,898
+The customer report still reaches human review.
 
 29
-00:02:20,573 --> 00:02:29,952
-Claro delivers a working bilingual follow up with explicit controls and
-measured limits, ready for review, with real banking production still outside
-this prototype.
+00:02:24,898 --> 00:02:36,529
+Claro completes a bilingual conversation and verified follow up, with explicit
+limits and reproducible evidence. Real banking requires approved identity,
+policies, and durable storage.

@@ -1,0 +1,40 @@
+{
+  "verified_at": "2026-10-05T04:20:05.447064+00:00",
+  "base_commit": "b4e25699e7b814244ae9462aa85f70a6725bd6d1",
+  "source_status": "uncommitted chat revision, source frozen for final review",
+  "checks": {
+    "make_check": true,
+    "ruff_lint_and_format": true,
+    "pytest_passed": 352,
+    "javascript_parse": true,
+    "git_diff_check": true,
+    "sanitized_snapshot_secret_scan": true
+  },
+  "core_sha256": {
+    "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+    "src/factored_banking/api.py": "78bdfcd77586a5b4cb1956b1f5701021e8be610d24f6db6904e4474e5ecf1c9b",
+    "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+    "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+    "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+    "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+    "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+    "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+    "src/factored_banking/privacy.py": "da6251a39bef9aa5bc0bde969ff70e3e0a36a88a40d9a4255288ddbe0e3bbed4",
+    "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+    "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+    "src/factored_banking/references.py": "d26c415ff32c089b370af214ebaf93a5d84cd25b0f6c760173d24dc8397aae15",
+    "src/factored_banking/service_segments.py": "70e91193c48fa6f05aa443e9d6dc8aad72f50616cffd0769957f146ad04b0ec2",
+    "src/factored_banking/static/app.css": "1c54aa5bb05ce5c9352f5bcb38c97d2794fd63dff2cba3cd7212b927ee2469e6",
+    "src/factored_banking/static/app.js": "756e0272ce0a02908df6c5a3e1f5bd32c2c9cd5380bd30344255424cdf9256cd",
+    "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+    "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+    "src/factored_banking/system_evaluation.py": "19de4bd6d357cad2f7dceb663a43188702348e779a9e3cfab383022a371429d7",
+    "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+    "src/factored_banking/workflow.py": "69bd0566c0a32c471cc04d03458ba4d895d7e2b0503b82231812085b49e716f5"
+  },
+  "limitations": [
+    "One Starlette TestClient deprecation warning; no failing tests.",
+    "Local gates do not attest deployed behavior or organizer acceptance.",
+    "No external production model inference or organizer submission."
+  ]
+}
