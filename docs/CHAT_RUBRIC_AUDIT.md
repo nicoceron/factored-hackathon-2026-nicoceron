@@ -80,6 +80,8 @@ The requested final Claude Opus 5.5 review returned conditional approval. It tra
 
 The final local gates pass 413 tests and 27 scoped browser checks. Both v3 workloads and all six controlled strata were rerun after the source freeze, and packaged reports match the documentation bytes. The refreshed media demonstrate this local source. Planned deployment remains separate from local screenshot proof; no organizer submission is authorized.
 
+Late hosted QA found **F7, a continuation of the F4 report-retention issue**, after the initial Opus review: an ambiguous transaction reply returned clarification before pending-intent restoration. It retained the text but downgraded a pending dispute to a status query; the next exact reference then replaced the allegation. The correction restores the existing continuation intent before record-resolution early returns, preserving explicit new requests and fresh safety-signal priority. The actual three-turn ES→PT sequence and its PT→ES counterpart now retain allegation and added details through proposal, idempotent retry, session restoration, explicit confirmation and persisted read-back. Five new focused checks bring `make check` to **430 passing tests**. Frozen corpora, model artifacts and scoring contracts remain unchanged; the three regressions are refreshed for the new workflow hash. Public verification of this correction remains pending. The seven earlier local media captures retain their actual pre-cache/pre-F7 backend hashes and demonstrate their captured flows, not this newly fixed sequence.
+
 ## Comments and questions inventory
 
 ### GitHub: exhaustive repository read

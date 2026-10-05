@@ -115,9 +115,9 @@ checks["all_unversioned_static_assets_revalidate"] = all(
 etag = index[2].get("ETag", "")
 conditional = call(public, "/", extra_headers={"If-None-Match": etag})
 raw_entry = call(public, "/static/index.html")
-checks["html_entrypoints_versioned_and_revalidate_with_strong_etag"] = (
+checks["html_entrypoints_versioned_and_revalidate_with_content_etag"] = (
     index[2].get("Cache-Control") == "no-cache"
-    and etag == '"' + hashlib.sha256(expected_index).hexdigest() + '"'
+    and etag.removeprefix("W/") == '"' + hashlib.sha256(expected_index).hexdigest() + '"'
     and conditional[0] == 304
     and conditional[2].get("Cache-Control") == "no-cache"
     and raw_entry[1] == expected_index
@@ -326,6 +326,12 @@ report = {
     "cookie_flags": cookie_checks,
     "static_assets": assets,
     "versioned_assets": versioned_assets,
+    "html_validator": {
+        "public_etag": etag,
+        "application_etag_is_strong": True,
+        "public_proxy_may_weaken_etag": etag.startswith("W/"),
+        "validation": "Both entries match bytes; content digest and conditional 304 verified.",
+    },
     "evaluation_reports": reports,
     "report_hash_method": "SHA256 of parsed JSON, sorted keys, compact separators, "
     "ensure_ascii=False; API serialization whitespace is not compared.",

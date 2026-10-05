@@ -522,6 +522,15 @@ def run(message, language, transaction_id, context, records, classifier):
         message, context, continuation=continuation, selection_only=selection_reply
     )
     result["customer_report"] = report
+    # Record ambiguity can return before selecting a transaction. Restore the
+    # pending review intent first so those clarifications retain the same task.
+    if (
+        not review_required
+        and continuation
+        and pending in {"dispute", "scam", "human"}
+        and intent in {"ambiguous", "transaction_status", "unsupported"}
+    ):
+        intent = pending
     referenced = re.findall(r"\bTX-[A-Z]{2}-\d+\b", message.upper())
     for identifier in authorized_ids:
         if re.search(r"(?<!\w)" + re.escape(identifier) + r"(?!\w)", message, re.IGNORECASE):
@@ -572,13 +581,7 @@ def run(message, language, transaction_id, context, records, classifier):
         else:
             transaction_id = reference.candidates[0]["id"]
     if not review_required:
-        if (
-            continuation
-            and pending in {"dispute", "scam", "human"}
-            and intent in {"ambiguous", "transaction_status", "unsupported"}
-        ):
-            intent = pending
-        elif pending in {"transaction_status", "dispute", "scam", "human"} and (
+        if pending in {"transaction_status", "dispute", "scam", "human"} and (
             deictic_selection(text, language) or reference.selection_only
         ):
             # Without a selected record this still clarifies; it never chooses a record.
