@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Presentation, PresentationFile } from '@oai/artifact-tool';
-import { GlobalFonts } from '@napi-rs/canvas';
+import { GlobalFonts, loadImage } from '@napi-rs/canvas';
 
 const root = process.env.CLARO_REPO;
 if (!root) throw new Error('Set CLARO_REPO to the repository root');
@@ -26,11 +26,21 @@ const json = async (p) => JSON.parse(await fs.readFile(path.join(root,p),'utf8')
 const fraud = await json('docs/evidence/ml-evaluation.json');
 const language = await json('docs/evidence/language-evaluation.json');
 const deployment = await json('submission/deployment.json');
+const scenes = await json('submission/demo-scenes.json');
+const captureFor = (name) => {
+ const provenance=scenes.find(scene=>scene.image===name)?.capture_provenance;
+ if(!provenance)throw new Error(`Missing declared capture provenance for ${name}`);
+ return provenance;
+};
+const currentHostedChat = deployment.verified && deployment.chat_redesign_verified === true;
 const challenge = await json('docs/evidence/system-challenge-evaluation.json');
 const regression = await json('docs/evidence/system-challenge-regression.json');
 const workflow = await json('docs/evidence/system-evaluation-v2.json').catch(() => null);
 const segments = await json('docs/evidence/service-segment-evaluation.json').catch(() => null);
 const currentRegression = await json('docs/evidence/system-challenge-regression-v2.json').catch(() => null);
+const chatWorkflow = await json('docs/evidence/chat-system-regression.json').catch(() => null);
+const chatChallenge = await json('docs/evidence/chat-challenge-regression.json').catch(() => null);
+const chatSegments = await json('docs/evidence/chat-service-segment-regression.json').catch(() => null);
 
 function text(slide, value, x,y,w,h,size=26,color=C.ink,bold=false,align='left') {
  const s=slide.shapes.add({geometry:'textbox',position:{left:x,top:y,width:w,height:h},fill:'none',line:{fill:'none',width:0}});
@@ -59,8 +69,18 @@ function chart(s,{x,y,w,h,categories,values,labels,max=1,format='0%',color=C.tea
  });applyPresentationChartFont(c,{fontFamily:font});return c;
 }
 async function screenshot(s,name,position,alt,crop){
- const file=path.join(output,'assets',name);
- s.images.add({blob:await fs.readFile(file),contentType:'image/jpeg',alt,fit:crop?'cover':'contain',position,...(crop?{crop}:{})});
+ const file=path.join(output,'demo-assets',name);
+ const blob=await fs.readFile(file);
+ const source=await loadImage(blob);
+ let frame={...position};
+ if(crop){
+  const ratio=(source.width*(1-crop.left-crop.right))/(source.height*(1-crop.top-crop.bottom));
+  const width=Math.min(position.width,position.height*ratio),height=width/ratio;
+  frame={left:position.left+(position.width-width)/2,top:position.top+(position.height-height)/2,width,height};
+ }
+ // A fit mode recomputes the source rectangle; explicit native crops use the declared rectangle.
+ const image=s.images.add({blob,contentType:'image/jpeg',alt,...(crop?{}:{fit:'contain'}),position:frame});
+ if(crop)image.crop=crop;
 }
 
 // 1. Data-backed problem and focused customer-service scope.
@@ -68,7 +88,7 @@ async function screenshot(s,name,position,alt,crop){
  const s=ppt.slides.add();s.background.fill=C.navy;
  text(s,'Claro',64,46,760,105,86,C.white,true);
  text(s,'Banking support with\nverified outcomes',64,173,730,150,51,C.white,true);
- text(s,'Spanish and Portuguese transaction support\nwith confirmed cases for human review',67,351,730,90,27,C.muted);
+ text(s,'Immediate Spanish and Portuguese chat\nwith verified cases for human review',67,351,730,90,27,C.muted);
  text(s,'4.43M',890,167,320,78,64,C.mint,true);
  text(s,'transactions audited',893,251,320,36,24,C.white);
  text(s,'42',890,337,280,78,64,C.mint,true);
@@ -79,15 +99,18 @@ async function screenshot(s,name,position,alt,crop){
 }
 // 2. Actual product evidence and workflow.
 {
- const s=slide('Specific requests, verified cases and follow-up',2);
- await screenshot(s,'customer-specific-report.jpg',{left:64,top:173,width:776,height:453},'Actual local Claro confirmation showing the redacted specific customer report before case creation',{left:0.33,top:0.23,right:0.33,bottom:0.23});
- text(s,'1  Preserve the request',880,178,330,43,27,C.teal,true);
- text(s,'Retain redacted customer\nwords beside verified facts.',880,225,330,77,23);
+ const s=slide('One conversation from inquiry to follow-up',2);
+ await screenshot(s,'chat-confirm-es.jpg',{left:64,top:153,width:310,height:493},'Actual local Claro explicit confirmation with the attached transaction and augmented redacted report',{left:500/1488,top:75/1038,right:(1488-990)/1488,bottom:(1038-960)/1038});
+ text(s,'Attached record in this capture',405,227,420,40,25,C.teal,true);
+ text(s,'TX-ES-102\nTienda Demo\nCOP 129000.00\nPending\n17 June 2026 snapshot',405,282,420,204,25,C.ink);
+ text(s,'The augmented redacted report\nis visible before confirmation.',405,521,420,75,22,C.gray);
+ text(s,'1  Start in chat',880,178,330,43,27,C.teal,true);
+ text(s,'Automatic ES/PT language.\nClarify the transaction in chat.',880,225,330,77,23);
  text(s,'2  Confirm and verify',880,323,330,43,27,C.teal,true);
- text(s,'Commit one sandbox case.\nRead it back before success.',880,370,330,77,23);
+ text(s,'Inspect the attached record.\nConfirm, then read back.',880,370,330,77,23);
  text(s,'3  Persist follow-up',880,468,330,43,27,C.teal,true);
- text(s,'Save the analyst question,\ncustomer reply and status.',880,515,330,77,23);
- notes(s,'Screenshot: actual local Claro UI, team-authored synthetic fixtures, with external providers disabled. The customer report preserves specific redacted allegations through transaction clarification and is labeled unverified; permitted record facts remain separate. Customer sees the text before confirming. Atomic case commit and fresh read-back precede the receipt. Analyst questions and customer replies persist as scoped, idempotent case history. No real money movement, refunds or card blocking. Sources: docs/SYSTEM_EVALUATION.md, docs/OPERATIONS.md, api.py, privacy.py, store.py and workflow.py.');
+ text(s,'Ask a specific question.\nReply in the same composer.',880,515,330,77,23);
+ notes(s,`Screenshot provenance: ${captureFor('chat-confirm-es.jpg')}. The UI creates a trusted sandbox session without persona or language selectors. ES/PT detection never changes customer identity. Exact references narrow validated authorized records and ambiguity prompts clarification. The customer report preserves specific redacted allegations through transaction clarification and is labeled unverified; permitted record facts remain separate. Customer sees the specific redacted report and attached transaction ID, merchant, amount/currency and recorded status before confirming. Explicit general human-review requests attach no transaction. Atomic case commit and fresh read-back precede the receipt. The reviewer route is /?review=1. The owning customer answers a persisted question in the same composer. Case events remain scoped and idempotent. No real money movement, refunds or card blocking. Sources: docs/SYSTEM_EVALUATION.md, docs/OPERATIONS.md, api.py, privacy.py, store.py and workflow.py.`);
 }
 // 3. Native editable architecture diagram.
 {
@@ -122,35 +145,37 @@ async function screenshot(s,name,position,alt,crop){
 {
  const s=slide('Measured language and workflow results',5);
  const languageSystems=['keyword_rules','tfidf_logistic','gemma3_4b_local'].map(k=>language.systems[k]);
- const selectedWorkflow=workflow || await json('docs/evidence/system-evaluation.json');
+ const selectedWorkflow=chatWorkflow || workflow || await json('docs/evidence/system-evaluation.json');
  const workflowSystems=['keyword_rules','tfidf_logistic'].map(k=>selectedWorkflow.systems[k]);
  const learnedWorkflow=selectedWorkflow.systems.tfidf_logistic;
  text(s,'Intent classification',64,151,550,43,29,C.teal,true);
  text(s,'140 frozen authored cases / macro-F1',64,194,550,37,22,C.gray);
  chart(s,{x:61,y:247,w:545,h:277,categories:['Rules','Local ML','Gemma 3'],values:languageSystems.map(v=>v.macro_f1),labels:languageSystems.map(v=>v.macro_f1.toFixed(3)),max:1,format:'0.0'});
- text(s,workflow?'Current local workflow':'Historical v1.0 workflow',668,151,545,43,29,C.teal,true);
+ text(s,chatWorkflow?'Current chat regression':workflow?'Historical v1.1 workflow':'Historical v1.0 workflow',668,151,545,43,29,C.teal,true);
  text(s,'140 exposed cases / correct regression outcomes',668,194,545,60,22,C.gray);
  chart(s,{x:663,y:247,w:545,h:277,categories:['Rules','Local ML'],values:workflowSystems.map(v=>v.outcome_accuracy),labels:workflowSystems.map(v=>`${v.correct_outcomes} / ${v.cases}`),max:1,format:'0%'});
- text(s,'117/140 exact labels correct',65,537,550,45,25,C.ink,true);
- text(s,workflow?`${learnedWorkflow.handoffs_preserving_reference_request}/${learnedWorkflow.required_handoffs} handoffs preserve the request`:'Request-preservation recheck pending',668,537,540,60,24,C.ink,true);
- const perSegment=segments?Object.values(segments.systems.tfidf_logistic.strata).map(v=>v.correct_outcomes):[];
- const segmentText=segments&&new Set(perSegment).size===1?`Six status/currency strata: ${perSegment[0]}/140 each. Same utterances, no demographic claim.`:'Six controlled status/currency strata frozen. Final replay pending.';
+ text(s,'Historical intent labels: 117/140',65,537,550,45,25,C.ink,true);
+ text(s,chatWorkflow?`${learnedWorkflow.handoffs_preserving_reference_request}/${learnedWorkflow.required_handoffs} handoffs; ${learnedWorkflow.incorrect_outcomes} workflow errors`:workflow?`${learnedWorkflow.handoffs_preserving_reference_request}/${learnedWorkflow.required_handoffs} handoffs preserve the request`:'Request-preservation recheck pending',668,537,540,60,24,C.ink,true);
+ const selectedSegments=chatSegments || segments;
+ const perSegment=selectedSegments?Object.values(selectedSegments.systems.tfidf_logistic.strata).map(v=>v.correct_outcomes):[];
+ const segmentText=selectedSegments&&new Set(perSegment).size===1?`${chatSegments?'Current':'Historical'} six status/currency strata: ${perSegment[0]}/140 each. Same authored utterances.`:'Six controlled status/currency strata. Current replay pending.';
  text(s,segmentText,64,597,1145,32,21,C.gray);
- text(s,'Authored tests, no independent human review. New 70-case provider challenge unscored.',64,633,1145,28,20,C.gray);
- notes(s,`Sources: docs/LANGUAGE_EVALUATION.md, docs/SYSTEM_EVALUATION.md and aggregate evidence. Component train196/development56/test140 uses frozen semantic groups. Local TF-IDF/logistic117/140 macroF10.8230; rules65/140 F10.4207; local Gemma3 4B115/140 F10.8045. Small ML/Gemma difference is not claimed significant. Workflow figure is ${workflow?'request-preservation-v2 current local regression':'historical v1.0 pending current recheck'}. First untouched challenge remains61/70 learned versus43/70 rules, with28/30 required transfers. Separate exposed regression ${currentRegression?.systems.tfidf_logistic.correct_outcomes || regression.systems.tfidf_logistic.correct_outcomes}/70 follows fixes; it is never relabeled blind. Six strata contain140 unique utterances and70 semantic pairs, counterbalanced ES/PT,840replays/system. These are selected-transaction status/currency groups, not demographic fairness. All labels/translations are assistant-authored without independent human/native-language review. Fresh prospective70 is frozen but unscored. Zero offline provider attempts do not establish free provider inference. No hardware/hosting or representative customer cost claim.`);
+ text(s,chatWorkflow?'Stronger case grounding scorer. Exposed authored regressions, no independent human review.':'Authored tests, no independent human review. New 70-case provider challenge unscored.',64,633,1145,28,20,C.gray);
+ notes(s,`Sources: docs/LANGUAGE_EVALUATION.md, docs/SYSTEM_EVALUATION.md and aggregate evidence. Component train196/development56/test140 uses frozen semantic groups. Local TF-IDF/logistic117/140 macroF10.8230; rules65/140 F10.4207; local Gemma3 4B115/140 F10.8045. Small ML/Gemma difference is not claimed significant. Workflow figure is ${chatWorkflow?'current v3 chat regression with a stronger case-lookup scorer':workflow?'historical v1.1 request-preservation regression':'historical v1.0 pending current recheck'}. Current v3 requires the returned exact persisted case, localized status, timestamp, supporting case evidence and pending question. Independently reading the endpoint is insufficient. The scorer differs from v1.1, so old and new correctness percentages are not directly comparable. Original labels remain unchanged, including two CASE-009 requests for a nonexistent seeded case, recorded as fixture/reference mismatches rather than silently relabeled successes. Current safe automated resolutions: ${learnedWorkflow.safe_automated_resolutions}/${learnedWorkflow.in_scope_cases}. Current incorrect outcomes: ${learnedWorkflow.incorrect_outcomes}; unnecessary proposals: ${learnedWorkflow.unnecessary_handoff_proposals}. Language slices and all errors are published. First untouched challenge remains61/70 learned versus43/70 rules, with28/30 required transfers. Separate exposed regression ${chatChallenge?.systems.tfidf_logistic.correct_outcomes || currentRegression?.systems.tfidf_logistic.correct_outcomes || regression.systems.tfidf_logistic.correct_outcomes}/70 follows fixes; it is never relabeled blind. Source-matched current files are docs/evidence/chat-system-regression.json and docs/evidence/chat-challenge-regression.json. Historical v1.1 sources remain preserved. ${chatSegments?'Current':'Historical v1.1'} six strata contain140 unique utterances and70 semantic pairs, counterbalanced ES/PT,840replays/system. These are selected-transaction status/currency groups, not demographic fairness. All labels/translations are assistant-authored without independent human/native-language review. Fresh prospective70 is frozen but unscored. Zero offline provider attempts do not establish free provider inference. No hardware/hosting or representative customer cost claim.`);
 }
 // 6. Product review and explicit deployment/production boundary.
 {
  const s=slide('Demo and the route to a bank integration',6,true);
- await screenshot(s,'analyst-followup.jpg',{left:64,top:167,width:570,height:336},'Actual local Claro analyst case with retained customer report and persisted follow-up history',{left:0.46,top:0.285,right:0.02,bottom:0.08});
- text(s, deployment.verified ? 'Public demo / release receipt linked' : 'Deployment verification pending',64,515,590,42,25,C.mint,true);
- text(s,deployment.verified?deployment.url:'A working URL will replace this line after verification.',64,563,590,77,20,C.white);
+ await screenshot(s,'chat-history-pt.jpg',{left:64,top:195,width:570,height:365},'Current local Claro reviewer case with the persisted report, question, reply and closure',{left:699/1488,top:405/982,right:(1488-1441)/1488,bottom:(982-885)/982});
+ text(s,'LOCAL SANDBOX CAPTURE',64,158,570,28,17,C.muted,true);
+ text(s, currentHostedChat ? 'Hosted chat demo: verified' : deployment.verified ? 'Prior v1.1 host; new chat is local' : 'Deployment verification pending',64,583,590,35,23,C.mint,true);
+ text(s,deployment.verified?deployment.url:'A working URL will replace this line after verification.',64,625,590,40,16,C.white);
  text(s,'Deliberate trade-offs',690,164,520,43,29,C.mint,true);
  text(s,'Single worker and SQLite\nSimple deployment. Free-host restarts\ncan reset sandbox state.',690,225,510,121,24,C.white);
  text(s,'Optional external models\nUsage and tariff estimates are logged.\nLive provider results are still unverified.',690,370,510,121,24,C.white);
  text(s,'Before real customers',690,511,510,39,26,C.mint,true);
  text(s,'Bank identity, approved policies, durable\nstorage and independent ES/PT review.',690,558,515,82,24,C.white);
- notes(s,'Repository: https://github.com/nicoceron/factored-hackathon-2026-nicoceron . Public URL is tied to the commit and verification date in submission/deployment.json. Current local screenshots do not independently prove that a newer branch is deployed. Optional Jev/DeepSeek adapters are implemented/mocked but live inference remains unverified pending authorized metered use. External tariff estimates are not invoice spend. Screenshot is the actual local app using team fixtures and disabled providers. Free-host filesystem may reset. Sources: docs/AI_PROVIDERS.md, docs/OPERATIONS.md and submission/deployment.json. Real-bank requirements include approved identity/entitlements/MFA/policies, durable data, monitored rollout, privacy controls, independent ES/PT review and staffing. Organizer submission is intentionally outside requested scope. No real-bank operation or production safety certification.');
+ notes(s,`Repository: https://github.com/nicoceron/factored-hackathon-2026-nicoceron . ${currentHostedChat?'The separate deployment receipt verifies the current chat source and public assets at the recorded commit.':'Public URL remains tied to the prior v1.1 receipt. The current chat redesign is local and has not been deployed.'} Reviewer access is /?review=1 and customer chat is /. Current local screenshots do not independently prove that a newer branch is deployed. Optional Jev/DeepSeek adapters are implemented/mocked but live inference remains unverified pending authorized metered use. External tariff estimates are not invoice spend. Screenshot is a declared geometry crop of the current local reviewer timeline. Its Spanish interface retains the original Spanish report plus Portuguese question and reply; the filename does not imply a Portuguese-only interface. Declared screenshot provenance: ${captureFor('chat-history-pt.jpg')}. Free-host filesystem may reset. Sources: docs/AI_PROVIDERS.md, docs/OPERATIONS.md and submission/deployment.json. Real-bank requirements include approved identity/entitlements/MFA/policies, durable data, monitored rollout, privacy controls, independent ES/PT review and staffing. Organizer submission is intentionally outside requested scope. No real-bank operation or production safety certification.`);
 }
 
 await fs.mkdir(build,{recursive:true});

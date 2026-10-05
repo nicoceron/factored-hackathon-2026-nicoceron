@@ -1,120 +1,136 @@
 {
-  "capture_provenance": "CUA Chrome, localhost:8096, 2026-10-02; actual isolated sandbox; evaluation and architecture slides explicitly labeled",
+  "version": "claro-demo-chat-v3",
+  "source_definition_sha256": "0bd999cc9c2cb1055961121d48ee5ecf3deb9d8e39f21e9f1d5ab3ae5c08aec7",
+  "builder_sha256": "521b714abf2efd1955f665a2fd523a54523970c8c430c68bd46345749752aa4a",
+  "capture_provenance": [
+    "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json"
+  ],
   "format": "Narrated screenshots and labeled diagrams, not a continuous screen recording",
   "voice": "macOS Samantha synthetic voice; no voice cloning",
   "scenes": [
     {
-      "title": "Banking help.\nWith evidence.",
-      "source": "demo-assets/login.jpg",
-      "source_sha256": "c0f095686ee2f44bff4ca4d410fbdbb7aae1a27aa73c992da80afb0755d808ff",
+      "title": "Banking help\nIn your language",
+      "source": "demo-assets/chat-welcome.jpg",
+      "source_sha256": "8cc00f8c97a533b2151a9287a214b41f56ad2055c9f9fb8b2a24177760c9862c",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": null,
       "start_seconds": 0.0,
-      "duration_seconds": 17.247667
+      "duration_seconds": 16.495063
     },
     {
-      "title": "Understand.\nThen clarify.",
-      "source": "demo-assets/customer-pt-evidence.jpg",
-      "source_sha256": "4b64c796d370f05e1b7a476603af22d9c900f406bd54300f978e0d936cf2ca10",
+      "title": "Understand\nThen clarify",
+      "source": "demo-assets/chat-evidence-pt.jpg",
+      "source_sha256": "78fca65c7a8cf47bbeeb72338d899efd8935dbca5fd0cc5cf8fa29e372731601",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": [
-        716,
-        300,
-        1470,
-        924
+        318,
+        105,
+        1167,
+        590
       ],
-      "start_seconds": 17.247667,
-      "duration_seconds": 15.152229
+      "start_seconds": 16.495063,
+      "duration_seconds": 20.065063
     },
     {
-      "title": "Your report.\nYour confirmation.",
-      "source": "demo-assets/specific-report-confirmation-es.jpg",
-      "source_sha256": "3ea7b9de93eac861efd497e07f8e9ce3422e51b232f61ab874f71d46007c4e07",
+      "title": "Your report\nYour confirmation",
+      "source": "demo-assets/chat-confirm-es.jpg",
+      "source_sha256": "64e2e71405be3449d0fbcaa170643af0e397551a9a90a24c64fa2d9e612f55fa",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": [
-        492,
-        220,
-        992,
-        820
+        500,
+        75,
+        990,
+        960
       ],
-      "start_seconds": 32.399896,
-      "duration_seconds": 15.670063
+      "start_seconds": 36.560126,
+      "duration_seconds": 29.923208
     },
     {
-      "title": "An action needs\na verified receipt.",
-      "source": "demo-assets/customer-pt-receipt.jpg",
-      "source_sha256": "da14812c2290be0221ba30498dbc175cf179c5c4905d56f589987689824da380",
+      "title": "An action needs\na verified receipt",
+      "source": "demo-assets/chat-receipt-pt.jpg",
+      "source_sha256": "bab24b0e43b2d0dcf8b36b7af4adcd72c7b2839263a62149820e67f403a5d516",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": [
-        716,
-        300,
-        1470,
-        924
+        318,
+        315,
+        1167,
+        610
       ],
-      "start_seconds": 48.069959,
+      "start_seconds": 66.483334,
       "duration_seconds": 12.464146
     },
     {
-      "title": "Ask a question.\nReceive an answer.",
-      "source": "demo-assets/customer-question-pt.jpg",
-      "source_sha256": "b2158b40ca763417784247e9d915ad36c31e73aaa95c9e47ae0a103792cc3fb8",
+      "title": "Human follow up\nIn the same chat",
+      "source": "demo-assets/chat-reply-pt.jpg",
+      "source_sha256": "8e7db13f61088bed1b0adef66721cb64a1e0d51da5f8d9f8f0339beb8b84c99b",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": [
-        702,
-        968,
-        1446,
-        1585
+        318,
+        275,
+        1167,
+        965
       ],
-      "start_seconds": 60.534105,
-      "duration_seconds": 12.110396
+      "start_seconds": 78.94748,
+      "duration_seconds": 11.553708
     },
     {
-      "title": "History that\nsurvives refresh.",
-      "source": "demo-assets/analyst-history-pt.jpg",
-      "source_sha256": "b662635730fb364e4f6ad9833511bbc262ea502b202d37616a245cf520714591",
+      "title": "History that\nsurvives refresh",
+      "source": "demo-assets/chat-history-pt.jpg",
+      "source_sha256": "c90cc1170266d4f55063de649cda49e2ac1defab521550b9dfb9ea6ccb37bf5b",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": [
-        704,
-        1035,
-        1448,
-        1470
+        699,
+        405,
+        1441,
+        885
       ],
-      "start_seconds": 72.64450099999999,
-      "duration_seconds": 14.552646
+      "start_seconds": 90.501188,
+      "duration_seconds": 14.826958
     },
     {
-      "title": "AI explains.\nThe service controls.",
+      "title": "AI explains\nThe service controls",
       "source": "demo-assets/architecture-v2.png",
-      "source_sha256": "e3248e9d66817c229f5239d315c52780b92add2c6ef8083c9ea489b6543451fd",
+      "source_sha256": "5df942cd45af6f32df4912b3a6dcab85a2c12181b0f999f92ee8b8a5b5b2eb08",
       "source_kind": "architecture_diagram",
+      "capture_provenance": null,
       "crop": null,
-      "start_seconds": 87.19714699999999,
+      "start_seconds": 105.328146,
       "duration_seconds": 25.360542
     },
     {
-      "title": "Measure outcomes.\nPublish the limits.",
+      "title": "Measured outcomes\nPublished limits",
       "source": "demo-assets/evaluation-v2.png",
-      "source_sha256": "9159163240222df3aa152e17f944565a09768223d0bbabfb69ce6acf0614a043",
+      "source_sha256": "f68f798541355b2ed8caf968cc47258ed10c5d589949e16dc15d76c5d2f51380",
       "source_kind": "evaluation_report_chart",
+      "capture_provenance": null,
       "crop": null,
-      "start_seconds": 112.55768899999998,
-      "duration_seconds": 18.008833
+      "start_seconds": 130.688688,
+      "duration_seconds": 18.36875
     },
     {
-      "title": "Keep evidence.\nKeep human oversight.",
-      "source": "demo-assets/customer-replied-pt.jpg",
-      "source_sha256": "f8d9178ab5ae261af9e689f738ec84608a474d24499e35835d5476b95a3d5199",
+      "title": "A complete\nsupport workflow",
+      "source": "demo-assets/chat-complete-pt.jpg",
+      "source_sha256": "22d2f5681d5cbc97b2b01fefda96c4a1a5a5b96991590f7e23ac3cbddc10cb97",
       "source_kind": "actual_local_app_capture",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
       "crop": [
-        704,
-        969,
-        1448,
-        1585
+        318,
+        450,
+        1172,
+        803
       ],
-      "start_seconds": 130.566522,
-      "duration_seconds": 19.935542
+      "start_seconds": 149.05743800000002,
+      "duration_seconds": 21.773708
     }
   ],
-  "duration_seconds": 150.569229,
-  "output_sha256": "85a80b1bcfe6881a4aa32f48e4c9d8becdfca9f69ed368f9d4e912942d1f20c0"
+  "duration_seconds": 170.920736,
+  "output_sha256": "0fabd326d7bc0710ac82f2a51347dc1447168a8440e3ad6fd0bc50599c42d7f6",
+  "subtitle_sha256": "11b9487886564f7f1d68554db8d728b722b62e1dc5758162f35ba45f850f7652",
+  "transcript_sha256": "3c70ac4c98e955f2f65cd1ddc0710bfcc981b20528e4964caf56a49f4c38b64c"
 }

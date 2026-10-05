@@ -23,9 +23,10 @@ receipt = summary["receipt"]
 inputs = [
     "submission/build-deck.mjs",
     "submission/build-deck.sh",
+    "submission/demo-scenes.json",
     "submission/deployment.json",
-    "submission/assets/customer-specific-report.jpg",
-    "submission/assets/analyst-followup.jpg",
+    "submission/demo-assets/chat-confirm-es.jpg",
+    "submission/demo-assets/chat-history-pt.jpg",
     "docs/evidence/ml-evaluation.json",
     "docs/evidence/language-evaluation.json",
     "docs/evidence/system-challenge-evaluation.json",
@@ -36,6 +37,9 @@ for current, historical in (
     ("docs/evidence/system-evaluation-v2.json", "docs/evidence/system-evaluation.json"),
     ("docs/evidence/system-challenge-regression-v2.json", None),
     ("docs/evidence/service-segment-evaluation.json", None),
+    ("docs/evidence/chat-system-regression.json", None),
+    ("docs/evidence/chat-challenge-regression.json", None),
+    ("docs/evidence/chat-service-segment-regression.json", None),
 ):
     if (ROOT / current).exists():
         inputs.append(current)
@@ -64,7 +68,7 @@ with ZipFile(ROOT / outputs[0]) as archive:
     embedded_workbooks = [p for p in archive.namelist() if p.endswith(".xlsx")]
     assert len(embedded_workbooks) == 3
 manifest = {
-    "version": "claro-deck-v2",
+    "version": "claro-deck-chat-v3",
     "slide_count": 6,
     "native_chart_count": 3,
     "embedded_chart_workbook_count": len(embedded_workbooks),
@@ -85,8 +89,17 @@ manifest = {
     "native_powerpoint_application_verified": False,
     "input_output_sha256": hashes,
     "asset_provenance": (
-        "Actual local Claro app screenshots containing team-authored synthetic fixtures only."
+        "Actual CUA Chrome local Claro captures with declared per-image provenance, "
+        "team-authored fixtures and disabled providers. "
+        "Declared image crops improve readability without editing screenshot pixels. "
+        "The reviewer timeline retains a Spanish interface, Spanish report and "
+        "Portuguese question/reply."
     ),
+    "capture_provenance": {
+        scene["image"]: scene["capture_provenance"]
+        for scene in json.loads((ROOT / "submission/demo-scenes.json").read_text())
+        if scene["image"] in {"chat-confirm-es.jpg", "chat-history-pt.jpg"}
+    },
     "limitations": [
         "Screenshots illustrate the app; they do not prove deployed behavior.",
         "Deployment readiness evidence is separate from full browser workflow verification.",

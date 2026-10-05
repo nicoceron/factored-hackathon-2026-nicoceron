@@ -2,10 +2,12 @@
 
 import json
 import os
+import re
 import secrets
 import sqlite3
 import time
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
@@ -16,11 +18,13 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from factored_banking import workflow
 from factored_banking.fixtures import AS_OF, PERSONAS, transactions
+from factored_banking.language import detect_language
 from factored_banking.privacy import redact_text
 from factored_banking.store import Store, digest, encode
 
 ROOT = Path(__file__).parent
 SESSION_TTL = 3600
+ROLE_COOKIES = {"customer": "claro_customer_session", "analyst": "claro_analyst_session"}
 
 
 class StrictModel(BaseModel):
@@ -28,13 +32,13 @@ class StrictModel(BaseModel):
 
 
 class Login(StrictModel):
-    persona: Literal["customer_es", "customer_pt", "analyst"]
+    persona: Literal["customer_es", "customer_pt", "analyst"] = "customer_es"
     language: Literal["es", "pt"] = "es"
 
 
 class Chat(StrictModel):
     message: str = Field(min_length=1, max_length=2000)
-    language: Literal["es", "pt"] = "es"
+    language: Literal["es", "pt"] | None = None
     transaction_id: str | None = Field(default=None, max_length=40)
     idempotency_key: str = Field(min_length=8, max_length=100)
 
@@ -97,17 +101,26 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         if request.headers.get("sec-fetch-site") == "cross-site":
             raise HTTPException(403, "Cross-site requests are not permitted")
 
+    def requested_role(request):
+        hint = request.headers.get("x-claro-role")
+        if hint is not None and hint not in ROLE_COOKIES:
+            raise HTTPException(400, "Unknown session role")
+        return hint
+
     def session(request, *, mutate=False, role=None):
-        token = request.cookies.get("claro_session", "")
+        hint = requested_role(request)
+        cookie_name = ROLE_COOKIES[hint] if hint else "claro_session"
+        token = request.cookies.get(cookie_name) or request.cookies.get("claro_session", "")
         with app.state.store.connect() as db:
             row = db.execute(
-                "SELECT * FROM sessions WHERE token_hash=? AND expires>?",
-                (digest(token), time.time()),
+                "SELECT s.* FROM sessions s JOIN workspaces w ON w.id=s.workspace "
+                "WHERE s.token_hash=? AND s.expires>? AND w.token_hash=?",
+                (digest(token), time.time(), digest(request.cookies.get("claro_workspace", ""))),
             ).fetchone()
         if row is None:
             raise HTTPException(401, "Session expired. Open a new demo session.")
         value = dict(row)
-        if role and value["role"] != role:
+        if (hint and value["role"] != hint) or (role and value["role"] != role):
             raise HTTPException(403, "Role is not authorized for this action")
         if mutate:
             origin_check(request)
@@ -116,8 +129,13 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         return value
 
     def session_response(s):
-        persona = next(p for p in PERSONAS.values() if p["customer"] == s["customer"])
-        return {
+        persona_id, persona = next(
+            (key, value)
+            for key, value in PERSONAS.items()
+            if value["customer"] == s["customer"] and value["role"] == s["role"]
+        )
+        result = {
+            "demo_persona": persona_id,
             "user": {
                 "role": s["role"],
                 "display_name": persona["display_name"],
@@ -130,6 +148,53 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             "data_provenance": "team_authored_synthetic",
             "context": json.loads(s.get("state", "{}")),
             "ai": app.state.ai.status(),
+            "proposal": None,
+            "proposal_evidence": [],
+        }
+        if s.get("token_hash") and s["role"] == "customer":
+            with app.state.store.connect() as db:
+                pending = db.execute(
+                    "SELECT * FROM proposals WHERE session_hash=? AND workspace=? "
+                    "AND customer=? AND cancelled=0 AND expires>? "
+                    "AND NOT EXISTS(SELECT 1 FROM cases WHERE proposal_id=proposals.id) "
+                    "ORDER BY created DESC LIMIT 1",
+                    (s["token_hash"], s["workspace"], s["customer"], time.time()),
+                ).fetchone()
+            if pending:
+                payload = json.loads(pending["payload"])
+                result["proposal"] = proposal_response(
+                    pending["id"], payload, max(0, int(pending["expires"] - time.time()))
+                )
+                result["proposal_evidence"] = payload["evidence"]
+        return result
+
+    def proposal_response(proposal_id, payload, expires_in_seconds=600):
+        transaction = payload.get("transaction")
+        if transaction is not None:
+            validated = workflow.TransactionEvidence.model_validate(transaction).model_dump()
+            transaction = {
+                field: validated[field]
+                for field in (
+                    "id",
+                    "merchant",
+                    "amount",
+                    "currency",
+                    "status",
+                    "date",
+                    "as_of",
+                    "source",
+                    "provenance",
+                )
+            }
+        return {
+            "id": proposal_id,
+            "action": "create_case",
+            "summary": payload["summary"],
+            "customer_report": payload["customer_report"],
+            "report_provenance": payload["report_provenance"],
+            "open_questions": payload["open_questions"],
+            "transaction": transaction,
+            "expires_in_seconds": expires_in_seconds,
         }
 
     def active_session(db, s):
@@ -182,6 +247,110 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         if row is None:
             raise HTTPException(404, "Case not found")
         return visible_case(row)
+
+    def scoped_cases(s):
+        with app.state.store.connect() as db:
+            rows = db.execute(
+                "SELECT * FROM cases WHERE workspace=? AND (?='analyst' OR customer=?) "
+                "ORDER BY created DESC LIMIT 100",
+                (s["workspace"], s["role"], s["customer"]),
+            ).fetchall()
+        return [visible_case(row) for row in rows]
+
+    def conversational_cases(message, s, language, result):
+        values = scoped_cases(s)
+        references = set(re.findall(r"\bCASE-[A-Z0-9]+\b", message.upper()))
+        known_case = result.pop("case_context_id", None)
+        if not references and known_case:
+            references = {known_case}
+        if references:
+            owned = {case["id"] for case in values}
+            if not references <= owned:
+                result.update(
+                    message=(
+                        "No hay un caso autorizado con esa referencia en tu sesión."
+                        if language == "es"
+                        else "Não há um caso autorizado com essa referência na sua sessão."
+                    ),
+                    state="blocked",
+                    cases=[],
+                    context={},
+                )
+                return result
+            values = [case for case in values if case["id"] in references]
+        if not values:
+            result.update(
+                message=(
+                    "Todavía no tienes casos de prueba guardados. Describe qué ocurrió "
+                    "y puedo preparar una solicitud de revisión humana."
+                    if language == "es"
+                    else "Você ainda não tem casos de teste salvos. Conte o que aconteceu "
+                    "e posso preparar uma solicitação de análise humana."
+                ),
+                cases=[],
+            )
+            return result
+        labels = {
+            "open": ("en revisión humana", "em análise humana"),
+            "needs_information": ("esperando tu respuesta", "aguardando sua resposta"),
+            "reviewed_closed": ("revisión cerrada", "análise encerrada"),
+        }
+        lines = [
+            "Leí estos casos guardados en tu sesión de prueba:"
+            if language == "es"
+            else "Consultei estes casos salvos na sua sessão de teste:"
+        ]
+        evidence = []
+        for case in values:
+            status = labels[case["status"]][language == "pt"]
+            updated = datetime.fromtimestamp(case["updated_at"], UTC).isoformat(timespec="seconds")
+            transaction = case.get("transaction") or {}
+            reference = " · " + transaction["id"] if transaction.get("id") else ""
+            lines.append(f"{case['id']}: {status}{reference}. UTC: {updated}.")
+            if case["pending_question"]:
+                prefix = "El analista pregunta: " if language == "es" else "O analista pergunta: "
+                lines.append(prefix + case["pending_question"]["text"])
+            evidence.append(
+                {
+                    "id": case["id"],
+                    "title": "Caso guardado" if language == "es" else "Caso salvo",
+                    "source": "sandbox_case_store/" + case["id"],
+                    "text": status,
+                    "as_of": updated,
+                    "provenance": "persisted_sandbox_case",
+                }
+            )
+        lines.append(
+            "El estado del caso no determina fraude ni concede un reembolso."
+            if language == "es"
+            else "O estado do caso não determina fraude nem concede um reembolso."
+        )
+        next_context = {"last_case_id": values[0]["id"]} if len(values) == 1 else {}
+        result.update(
+            message="\n".join(lines), cases=values, evidence=evidence, context=next_context
+        )
+        return result
+
+    def bounded_history(context, message, answer):
+        """Keep a short redacted UI recovery window, never a raw full transcript."""
+        existing = context.get("history", [])
+        history = (
+            [
+                {"role": item["role"], "content": redact_text(item["content"])[:3000]}
+                for item in existing[-10 if message is not None else -11 :]
+                if isinstance(item, dict)
+                and item.get("role") in {"user", "assistant"}
+                and isinstance(item.get("content"), str)
+            ]
+            if isinstance(existing, list)
+            else []
+        )
+        if message is not None:
+            history.append({"role": "user", "content": redact_text(message)[:2000]})
+        history.append({"role": "assistant", "content": redact_text(answer)[:3000]})
+        while len(history) > 2 and sum(len(item["content"]) for item in history) > 12000:
+            history = history[2:]
+        return history
 
     def retry(db, s, key, fingerprint):
         row = db.execute(
@@ -281,13 +450,19 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
     @app.post("/api/session")
     def login(body: Login, request: Request, response: Response):
         origin_check(request)
+        hint = requested_role(request)
+        persona = PERSONAS[body.persona]
+        if hint and hint != persona["role"]:
+            raise HTTPException(400, "Requested session role does not match the demo identity")
         app.state.store.cleanup()
         now = time.time()
         workspace_token = request.cookies.get("claro_workspace", "")
-        token = secrets.token_urlsafe(32)
-        csrf = secrets.token_urlsafe(24)
-        persona = PERSONAS[body.persona]
+        legacy_token = request.cookies.get("claro_session", "")
+        role_cookie = ROLE_COOKIES[persona["role"]]
+        token = request.cookies.get(role_cookie) or legacy_token
+        legacy_session = None
         with app.state.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
             row = db.execute(
                 "SELECT id FROM workspaces WHERE token_hash=?", (digest(workspace_token),)
             ).fetchone()
@@ -300,31 +475,74 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
                     "INSERT INTO workspaces VALUES(?,?,?)",
                     (workspace_id, digest(workspace_token), now),
                 )
-            db.execute(
-                "DELETE FROM sessions WHERE token_hash=?",
-                (digest(request.cookies.get("claro_session", "")),),
+            legacy_session = db.execute(
+                "SELECT * FROM sessions WHERE token_hash=? AND workspace=? AND expires>?",
+                (digest(legacy_token), workspace_id, now),
+            ).fetchone()
+            existing = db.execute(
+                "SELECT * FROM sessions WHERE token_hash=? AND workspace=? AND role=? "
+                "AND expires>?",
+                (digest(token), workspace_id, persona["role"], now),
+            ).fetchone()
+            if existing and existing["customer"] == persona["customer"]:
+                language = (
+                    body.language if "language" in body.model_fields_set else existing["language"]
+                )
+                db.execute(
+                    "UPDATE sessions SET expires=?,language=?,revision=revision+? "
+                    "WHERE token_hash=?",
+                    (
+                        now + SESSION_TTL,
+                        language,
+                        int(language != existing["language"]),
+                        existing["token_hash"],
+                    ),
+                )
+            else:
+                # Changing a test identity revokes only its role in this workspace.
+                # A reviewer login must leave the customer's proposals and retries intact.
+                db.execute(
+                    "DELETE FROM sessions WHERE token_hash=? AND workspace=? AND role=?",
+                    (digest(token), workspace_id, persona["role"]),
+                )
+                token = secrets.token_urlsafe(32)
+                db.execute(
+                    "INSERT INTO sessions"
+                    "(token_hash,workspace,customer,role,language,csrf,expires) "
+                    "VALUES(?,?,?,?,?,?,?)",
+                    (
+                        digest(token),
+                        workspace_id,
+                        persona["customer"],
+                        persona["role"],
+                        body.language,
+                        secrets.token_urlsafe(24),
+                        now + SESSION_TTL,
+                    ),
+                )
+            current = dict(
+                db.execute("SELECT * FROM sessions WHERE token_hash=?", (digest(token),)).fetchone()
             )
-            db.execute(
-                "INSERT INTO sessions(token_hash,workspace,customer,role,language,csrf,expires) "
-                "VALUES(?,?,?,?,?,?,?)",
-                (
-                    digest(token),
-                    workspace_id,
-                    persona["customer"],
-                    persona["role"],
-                    body.language,
-                    csrf,
-                    now + SESSION_TTL,
-                ),
+        if legacy_session and legacy_session["role"] != persona["role"]:
+            previous_cookie = ROLE_COOKIES[legacy_session["role"]]
+            if not request.cookies.get(previous_cookie):
+                response.set_cookie(
+                    previous_cookie,
+                    legacy_token,
+                    max_age=max(0, int(legacy_session["expires"] - now)),
+                    httponly=True,
+                    secure=secure,
+                    samesite="strict",
+                )
+        for name in (role_cookie, "claro_session"):
+            response.set_cookie(
+                name,
+                token,
+                max_age=SESSION_TTL,
+                httponly=True,
+                secure=secure,
+                samesite="strict",
             )
-        response.set_cookie(
-            "claro_session",
-            token,
-            max_age=SESSION_TTL,
-            httponly=True,
-            secure=secure,
-            samesite="strict",
-        )
         response.set_cookie(
             "claro_workspace",
             workspace_token,
@@ -333,9 +551,7 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             secure=secure,
             samesite="strict",
         )
-        return session_response(
-            {**persona, "csrf": csrf, "language": body.language, "expires": now + SESSION_TTL}
-        )
+        return session_response(current)
 
     @app.get("/api/session")
     def whoami(request: Request):
@@ -348,7 +564,9 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             db.execute("BEGIN IMMEDIATE")
             active_session(db, s)
             db.execute("DELETE FROM sessions WHERE token_hash=?", (s["token_hash"],))
-        response.delete_cookie("claro_session")
+        response.delete_cookie(ROLE_COOKIES[s["role"]])
+        if digest(request.cookies.get("claro_session", "")) == s["token_hash"]:
+            response.delete_cookie("claro_session")
         return {"signed_out": True}
 
     @app.delete("/api/workspace")
@@ -364,6 +582,8 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             )
             db.execute("DELETE FROM workspaces WHERE id=?", (s["workspace"],))
         response.delete_cookie("claro_session")
+        for name in ROLE_COOKIES.values():
+            response.delete_cookie(name)
         response.delete_cookie("claro_workspace")
         return {"deleted": True}
 
@@ -415,6 +635,7 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             if count >= 60 or pending_count >= 2:
                 raise HTTPException(429, "Demo request limit reached")
             context = json.loads(current["state"])
+            language = detect_language(body.message, body.language or current["language"])
             revision = current["revision"]
             pending_claim = {
                 "_pending": True,
@@ -436,19 +657,21 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
 
                 result = workflow.run(
                     message,
-                    body.language,
+                    language,
                     body.transaction_id,
                     context,
                     transactions(s["customer"]),
                     classifier_fn,
                 )
-                result.update(trace_id=secrets.token_hex(12), language=body.language)
+                if result["state"] == "case_lookup":
+                    result = conversational_cases(message, s, language, result)
+                result.update(trace_id=secrets.token_hex(12), language=language)
                 history = (
                     [{"role": "user", "content": context["customer_report"]}]
                     if context.get("customer_report")
                     else []
                 )
-                composed = app.state.composer(message, body.language, result, history=history)
+                composed = app.state.composer(message, language, result, history=history)
                 result["message"] = composed["message"]
                 assessment = result.get("assessment", {})
                 result["ai"] = {
@@ -499,19 +722,13 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
                             0,
                         ),
                     )
-                    result["proposal"] = {
-                        "id": proposal_id,
-                        "action": "create_case",
-                        "summary": payload["summary"],
-                        "customer_report": payload["customer_report"],
-                        "report_provenance": payload["report_provenance"],
-                        "open_questions": payload["open_questions"],
-                        "expires_in_seconds": 600,
-                    }
+                    result["proposal"] = proposal_response(proposal_id, payload)
                 next_context = result.pop("context", context)
+                if result["state"] != "cancelled":
+                    next_context["history"] = bounded_history(context, message, result["message"])
                 db.execute(
                     "UPDATE sessions SET state=?,language=?,revision=revision+1 WHERE token_hash=?",
-                    (encode(next_context), body.language, s["token_hash"]),
+                    (encode(next_context), language, s["token_hash"]),
                 )
                 remember(db, s, body.idempotency_key, fingerprint, result)
                 record_event(db, s, result, started)
@@ -619,10 +836,27 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         }
         with app.state.store.connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            active_session(db, s)
+            active = active_session(db, s)
             cached = retry(db, s, body.idempotency_key, fingerprint)
             if cached:
                 return cached
+            context = json.loads(active["state"])
+            history = context.get("history", [])
+            if not isinstance(history, list):
+                history = []
+            if not history or history[-1].get("content") != message:
+                history = bounded_history(context, None, message)
+            next_context = {
+                "history": history[-12:],
+                "last_case_id": case_id,
+                "pending_intent": "transaction_status",
+            }
+            if payload.get("transaction"):
+                next_context["transaction_id"] = payload["transaction"]["id"]
+            db.execute(
+                "UPDATE sessions SET state=?,revision=revision+1 WHERE token_hash=?",
+                (encode(next_context), s["token_hash"]),
+            )
             remember(db, s, body.idempotency_key, fingerprint, result)
             record_event(db, s, result, started, "case_verified")
         return result
@@ -630,13 +864,7 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
     @app.get("/api/cases")
     def cases(request: Request):
         s = session(request)
-        with app.state.store.connect() as db:
-            rows = db.execute(
-                "SELECT * FROM cases WHERE workspace=? AND (?='analyst' OR customer=?) "
-                "ORDER BY created DESC LIMIT 100",
-                (s["workspace"], s["role"], s["customer"]),
-            ).fetchall()
-        return {"cases": [visible_case(row) for row in rows]}
+        return {"cases": scoped_cases(s)}
 
     @app.get("/api/cases/{case_id}")
     def case_detail(case_id: str, request: Request):
@@ -809,6 +1037,12 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
     @app.get("/api/evaluation")
     def evaluation():
         reports = {}
+        report_files = {}
+        current_regressions = {
+            "system-evaluation": "chat-system-regression.json",
+            "system-challenge-regression": "chat-challenge-regression.json",
+            "service-segment-evaluation": "chat-service-segment-regression.json",
+        }
         for name in (
             "language-evaluation",
             "fraud-evaluation",
@@ -819,9 +1053,18 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         ):
             latest = ROOT / "resources" / f"{name}-v2.json"
             path = latest if latest.exists() else ROOT / "resources" / f"{name}.json"
+            current_name = current_regressions.get(name)
+            current = ROOT / "resources" / current_name if current_name else None
+            if current is not None and current.exists():
+                path = current
             if path.exists():
                 reports[name] = json.loads(path.read_text())
-        return {"reports": reports, "provenance": "offline evaluation; see repository methodology"}
+                report_files[name] = path.name
+        return {
+            "reports": reports,
+            "report_files": report_files,
+            "provenance": "offline authored evaluation and regression; see repository methodology",
+        }
 
     @app.get("/")
     def index():

@@ -27,18 +27,39 @@ def check(base_url):
 
     assert call("/readyz")["ready"]
     for language, persona, prefix, message in [
-        ("es", "customer_es", "ES", "No reconozco este cargo"),
-        ("pt", "customer_pt", "PT", "Não reconheço essa cobrança"),
+        ("es", "customer_es", "ES", "No reconozco el cargo de Mercado Demo"),
+        ("pt", "customer_pt", "PT", "Não reconheço a cobrança de Mercado Demo"),
     ]:
         csrf = call("/api/session", {"persona": persona, "language": language})["csrf_token"]
-        tx = call("/api/transactions")["transactions"][0]
+        transactions = call("/api/transactions")["transactions"]
+        tx = transactions[0]
         assert tx["id"].startswith("TX-" + prefix)
+
+        def chat(text):
+            return call("/api/chat", {"message": text, "idempotency_key": str(uuid.uuid4())})
+
+        options = chat(
+            "Quiero consultar un movimiento."
+            if language == "es"
+            else "Quero consultar uma transação."
+        )
+        assert {row["id"] for row in options["transaction_options"]} == {
+            row["id"] for row in transactions
+        }
+        selected = chat("La segunda" if language == "es" else "A segunda")
+        assert selected["transaction"]["id"] == transactions[1]["id"]
+        switched = chat(
+            "Qual é o valor da cobrança de Tienda Demo?"
+            if language == "es"
+            else "¿Cuál es el importe del cargo de Tienda Demo?"
+        )
+        assert switched["language"] == ("pt" if language == "es" else "es")
+        assert switched["transaction"] == transactions[1]
+        assert call("/api/session")["demo_persona"] == persona
         result = call(
             "/api/chat",
             {
                 "message": message,
-                "language": language,
-                "transaction_id": tx["id"],
                 "idempotency_key": str(uuid.uuid4()),
             },
         )
@@ -101,6 +122,8 @@ def check(base_url):
                 "url": base_url,
                 "passed": True,
                 "languages": ["es", "pt"],
+                "chat_only_reference_and_ordinal_verified": True,
+                "automatic_language_switch_same_identity": True,
                 "verified_cases": 2,
                 "duplicate_writes": 0,
                 "analyst_resolution": True,

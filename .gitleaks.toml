@@ -8,11 +8,18 @@ description = "Exact source-code SHA256 entries in evaluation receipts are check
 condition = "AND"
 regexTarget = "line"
 regexes = ['''^\s*"api\.py": "[a-f0-9]{64}",?\s*$''']
-paths = ['''^(docs/evidence|src/factored_banking/resources)/(system[^/]*|service-segment-evaluation)\.json$''']
+paths = ['''(^|/)(docs/evidence|src/factored_banking/resources)/(system[^/]*|service-segment-evaluation|chat-(system|challenge|service-segment)-regression)\.json$''']
+
+[[rules.allowlists]]
+description = "Exact API source checksum in local check receipts, not a credential"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"src/factored_banking/api\.py": "[a-f0-9]{64}",?\s*$''']
+paths = ['''(^|/)docs/evidence/chat-(checks|browser-checks)\.json$''']
 
 [[rules.allowlists]]
 description = "API source checksum in the deployment receipt, not an API credential"
 condition = "AND"
 regexTarget = "line"
 regexes = ['''^\s*"api_sha256": "[a-f0-9]{64}",?\s*$''']
-paths = ['''^submission/deployment\.json$''']
+paths = ['''(^|/)submission/deployment\.json$''']

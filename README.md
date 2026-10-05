@@ -6,7 +6,7 @@ A bilingual customer-service prototype that explains historical transactions, cl
 
 **[Open the live demo](https://claro-banking-hackathon-2026.onrender.com)** · [Presentation and video](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.1.0) · [Rubric evidence](docs/RUBRIC.md)
 
-The free service can take about a minute to wake. Cases and sessions are temporary and may reset when the host restarts. The public release keeps external providers disabled under the free-only budget constraint; Jev/DeepSeek adapters are implemented and mocked, with live inference still unverified.
+The linked demo, presentation and video describe the verified **v1.1 release**. The current chat redesign is verified locally and **has not been deployed or added to that public release**. Current local review materials and provenance are in [submission/README.md](submission/README.md). Post-Opus corrections pass 413 local tests and 27 scoped Chrome checks; refreshed local media show that revision. The free service can take about a minute to wake. Cases and sessions are temporary and may reset when the host restarts. The public release keeps external providers disabled under the free-only budget constraint; Jev/DeepSeek adapters are implemented and mocked, with live inference still unverified.
 
 ## Try it locally
 
@@ -16,13 +16,15 @@ make check          # lint, formatting, integration/security/data/ML tests
 make dev            # http://127.0.0.1:8000
 ```
 
-Choose a demo customer, ask about a transaction, or report an unrecognized charge. Review the evidence and confirm the proposed case. Switch to the analyst persona in the same browser to inspect the handoff and record a review outcome. Each browser receives an isolated workspace. These are trusted **test identities**, not real-bank authentication.
+Open the page and start chatting. The application creates an isolated demo session automatically; there is no persona or language selector. Write in Spanish or Portuguese and refer to a transaction by its merchant, amount, currency, date or displayed reference. If several records fit, Claro asks for clarification in the conversation. Language follows the message while short replies retain the conversation's language.
+
+Report an unrecognized charge, review the evidence and explicitly confirm the proposed case. Open **Revisión humana / Análise humana** (`/?review=1`) in the same browser to inspect the handoff, ask a question or close the sandbox review. Return to `/` for the customer conversation and case follow-up. Analyst actions use direct buttons rather than dropdowns. Each browser receives an isolated workspace. These are trusted **test identities**, not real-bank authentication. Current verification status is in [UI.md](docs/UI.md).
 
 Three paths to demonstrate in either language:
 
 | Path | Spanish | Portuguese | Expected result |
 | --- | --- | --- | --- |
-| Explain | ¿Cuál es el estado de esta transacción? | Qual é o estado desta transação? | Exact recorded amount, currency, status and source |
+| Explain | ¿Cuál es el estado del cargo de Tienda Demo? | Qual é o estado da cobrança da Tienda Demo? | Exact recorded amount, currency, status and source |
 | Clarify | ¿Y esa operación? | E essa operação? | Ask which operation; preserve the pending request |
 | Human review | No reconozco este cargo | Não reconheço essa cobrança | Propose a case; confirm; read back a verified receipt |
 
@@ -30,7 +32,7 @@ No real money movement, card blocking, credit approval, or refund promises are a
 
 ## What is implemented
 
-- Customer and analyst web UI, ES/PT, responsive layouts and accessible controls.
+- Chat-first customer UI with automatic ES/PT, conversational transaction clarification, sourced answers, confirmation and inline case follow-up; a separate analyst/reviewer workspace.
 - Opaque expiring sessions, CSRF/origin controls, workspace/customer isolation, explicit action confirmation, idempotent retries, persistent local cases, and read-back verification.
 - Jev one-shot typed intent classification and DeepSeek Flash conversational wording behind explicit server-side configuration and a usage budget. The local learned classifier and deterministic responses remain available without external calls. See [provider contracts and verification status](docs/AI_PROVIDERS.md).
 - Versioned synthetic policy evidence, exact transaction tools, redacted customer-specific handoffs, two-way case follow-up, append-only case history and workspace-scoped operational analytics.
@@ -65,7 +67,7 @@ Read [SETUP.md](docs/SETUP.md) for participant access. Data and modeling evidenc
 
 [SUBMISSION.md](docs/SUBMISSION.md) tracks the public repository, deployed link, 4–6 slide deck and video of at most three minutes. **Do not submit or email these materials: the owner explicitly excluded organizer delivery.** Closing date: **October 5, 2026**; the supplied materials do not establish an exact hour/timezone. [BRIEF.md](docs/BRIEF.md) maps source requirements, and [RUBRIC.md](docs/RUBRIC.md) maps implementation to evidence.
 
-The original [architecture proposal](docs/ARCHITECTURE.md) and [build plan](docs/PLAN.md) remain historical decision context. The implemented architecture and deviations are in [OPERATIONS.md](docs/OPERATIONS.md). Component evidence must not be confused with full-system outcomes or deployment proof.
+The original [architecture proposal](docs/ARCHITECTURE.md) and [build plan](docs/PLAN.md) remain historical decision context. The implemented architecture and deviations are in [OPERATIONS.md](docs/OPERATIONS.md). [CHAT_RUBRIC_AUDIT.md](docs/CHAT_RUBRIC_AUDIT.md) maps the supplied judging criteria, requirements and available comments to the focused chat work. Component evidence must not be confused with full-system outcomes or deployment proof.
 
 ## Repository boundaries
 

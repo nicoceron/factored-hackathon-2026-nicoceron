@@ -3,58 +3,58 @@
 Actual screenshots of the running local sandbox; narrated with the macOS Samantha system voice.
 No footage is represented as a continuous recording. Architecture and evaluation slides are labeled separately. UI content is from team-authored fixtures.
 
-## 1. Banking help. With evidence.
+## 1. Banking help In your language
 
-Meet Claro, banking support in Spanish and Portuguese.
-These screenshots come from actual local test runs with team authored fixtures.
-The application understands transactions, prepares review cases, and completes a human follow up. It never connects to real bank accounts.
+Meet Claro, banking support in Spanish and Portuguese, with no language or profile setup.
+These screenshots show actual local test runs with team authored fixtures.
+The customer opens the chat immediately. The service keeps a trusted, isolated demo identity.
 
-## 2. Understand. Then clarify.
+## 2. Understand Then clarify
 
-The Portuguese customer asks whether a payment went through.
-Claro asks which transaction before answering.
-An authorized record tool returns thirty eight dollars and fifty cents as pending, preserving the currency, source reference, and historical date.
+The same customer moves from Spanish to Portuguese without changing identity or selecting a language.
+Claro identifies the transaction from the conversation, asking for clarification when the reference is ambiguous.
+The authorized record shows one hundred twenty nine thousand Colombian pesos as pending, with its source and historical date.
 
-## 3. Your report. Your confirmation.
+## 3. Your report Your confirmation
 
-This Spanish report describes an unfamiliar charge after a phone call.
-The preview preserves that context and redacts the test email.
-A separate confirmation is required to create a case. Typing yes in chat cannot execute it.
-No refund or card blocking is promised.
+The customer reports an unfamiliar Tienda charge after a phone call.
+Before creating the case, the confirmation shows the attached transaction: T X E S one zero two, one hundred twenty nine thousand Colombian pesos, pending.
+It keeps the customer report separate from verified record facts. A separate confirmation creates the case; typing yes in chat cannot execute it.
+An explicit general request for an analyst attaches no transaction. No refund or card blocking is promised.
 
-## 4. An action needs a verified receipt.
+## 4. An action needs a verified receipt
 
 Every successful case creation needs a committed record and verified read back.
 Retries keep the same idempotency key and stop after three attempts.
 A verification failure never becomes a success claim.
 
-## 5. Ask a question. Receive an answer.
+## 5. Human follow up In the same chat
 
-The analyst asks whether the charge was noticed during or after the call.
-The Portuguese customer sees that exact question and can answer inside the case.
+The analyst workspace asks a specific follow up question.
+The customer opens that saved question and answers with the same chat composer.
 A verified reply returns the case to the review queue.
 
-## 6. History that survives refresh.
+## 6. History that survives refresh
 
-The analyst now sees the original report, the question, and the customer reply in order.
-The review is closed, and all four events remain after refreshing and switching profiles.
-The backend stores the history; the browser does not invent it.
+The analyst sees the original report, the question, and the customer reply in order.
+After closing the review, reloading reads the four persisted events.
+Customer chat and reviewer links replace profile selection. The backend owns the history.
 
-## 7. AI explains. The service controls.
+## 7. AI explains The service controls
 
 One FastAPI service owns sessions, scoped tools, and transactional case storage.
 Jev routing and DeepSeek Flash wording are implemented behind bounded adapters.
 Live inference still requires explicit authorization for metered use. These captures used local processing.
 Provider status and fallback are disclosed. Only entered sandbox messages and minimized fixture context may leave; organizer data never does.
 
-## 8. Measure outcomes. Publish the limits.
+## 8. Measured outcomes Published limits
 
 Language understanding and complete workflow outcomes are evaluated separately.
-The repository preserves offline baselines, failure analysis, language slices, and service segments.
+The same authored workloads compare the baseline and proposed system. Current reruns are regression evidence, with failures preserved.
 Authored scenarios and mocked provider tests do not prove real customer performance or live provider quality.
 
-## 9. Keep evidence. Keep human oversight.
+## 9. A complete support workflow
 
-The fraud candidates did not pass the validation promotion gate. Risk remains unavailable for these out of domain fixtures.
-A low score never dismisses the customer report.
-Claro delivers a working bilingual follow up with explicit controls and measured limits, ready for review, with real banking production still outside this prototype.
+The fraud candidates did not pass the validation promotion gate. These public fixtures receive no fraud probability.
+The customer report still reaches human review.
+Claro completes a bilingual conversation and verified follow up, with explicit limits and reproducible evidence. Real banking requires approved identity, policies, and durable storage.

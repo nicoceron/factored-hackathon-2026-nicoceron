@@ -35,10 +35,36 @@ Object.assign(words.es, { intakeQuestions: 'Preguntas al crear el caso', ai_retr
 Object.assign(words.pt, { intakeQuestions: 'Perguntas ao criar o caso', ai_retry_deferred: 'Nova tentativa do provedor adiada', rejectedAction: 'A solicitação foi rejeitada. Verifique o caso ou corrija os dados antes de continuar.' });
 Object.assign(words.es, { modelCost: 'Costo estimado de API de modelos', providerAttempts: 'Intentos con proveedores', unknownCostAttempts: 'Intentos con costo desconocido', providerCostNotice: 'Estimación según tarifas; no es una factura. Si falta información de uso, el costo se muestra como no disponible.' });
 Object.assign(words.pt, { modelCost: 'Custo estimado de API de modelos', providerAttempts: 'Tentativas com provedores', unknownCostAttempts: 'Tentativas com custo desconhecido', providerCostNotice: 'Estimativa segundo tarifas; não é uma fatura. Se faltarem dados de uso, o custo aparece como indisponível.' });
-Object.assign(words.es, { closedReadOnly: 'La revisión está cerrada. El historial se conserva para consulta.' });
-Object.assign(words.pt, { closedReadOnly: 'A análise está encerrada. O histórico é mantido para consulta.' });
+Object.assign(words.es, { analystBoundary: 'Aquí se revisan los casos de este navegador. Vuelve al chat para crear una solicitud de prueba.', closedReadOnly: 'La revisión está cerrada. El historial se conserva para consulta.' });
+Object.assign(words.pt, { analystBoundary: 'Aqui são analisados os casos deste navegador. Volte à conversa para criar uma solicitação de teste.', closedReadOnly: 'A análise está encerrada. O histórico é mantido para consulta.' });
+
+Object.assign(words.es, {
+  chatWelcome: '¿En qué te ayudo?', chatIntro: 'Consulta un movimiento, cuéntame qué pasó o pide ayuda. Seguimos la conversación en tu idioma.',
+  chatGreeting: 'Hola, soy Claro. Puedo explicar un movimiento o preparar un caso para revisión humana. Cuéntame qué necesitas.',
+  chatPrivacy: 'Datos ficticios. Sin acceso a cuentas reales. No compartas claves ni datos personales.', chatLimits: 'No se mueve dinero. Los casos pueden borrarse al reiniciar el servicio.',
+  newChat: 'Nueva conversación', reviewDemo: 'Revisión humana', customerChat: 'Volver al chat', judgeEvidence: 'Evidencia del proyecto',
+  languageAuto: 'Español y português, sin configurar nada', chatExample: 'Por ejemplo: «¿Qué pasó con el cargo de Tienda Demo?»',
+  sessionRetry: 'Abrir conversación', yourCases: 'Seguimiento de tus casos', closeCase: 'Volver a la conversación',
+  askQuestion: 'Enviar pregunta al cliente', closeReview: 'Cerrar revisión', sessionStarting: 'Preparando la conversación…',
+  sourcesContext: 'Datos ficticios al', regressionProtocol: 'Regresión v3: exige respuestas de casos guardados con estado, fecha y evidencia. No es directamente comparable con v2; conserva los fallos de referencias inexistentes.', replyInChat: 'Responde aquí a la pregunta del analista.', jumpToLatest: 'Ver lo último', replyInComposer: 'Responder por chat', replyingTo: 'Respondiendo al analista', leaveReply: 'Seguir con otra consulta',
+  attachedRecord: 'Movimiento adjunto al caso', noAttachedRecord: 'Solicitud general de revisión: no se adjuntará ningún movimiento.',
+});
+Object.assign(words.pt, {
+  chatWelcome: 'Como posso ajudar?', chatIntro: 'Consulte uma transação, conte o que aconteceu ou peça ajuda. Seguimos a conversa no seu idioma.',
+  chatGreeting: 'Olá, sou o Claro. Posso explicar uma transação ou preparar um caso para análise humana. Conte como posso ajudar.',
+  chatPrivacy: 'Dados fictícios. Sem acesso a contas reais. Não compartilhe senhas nem dados pessoais.', chatLimits: 'Nenhum dinheiro é movimentado. Casos podem ser apagados ao reiniciar o serviço.',
+  newChat: 'Nova conversa', reviewDemo: 'Análise humana', customerChat: 'Voltar à conversa', judgeEvidence: 'Evidências do projeto',
+  languageAuto: 'Español e português, sem configurar nada', chatExample: 'Por exemplo: «O que aconteceu com a cobrança de Tienda Demo?»',
+  sessionRetry: 'Abrir conversa', yourCases: 'Acompanhe seus casos', closeCase: 'Voltar à conversa',
+  askQuestion: 'Enviar pergunta ao cliente', closeReview: 'Encerrar análise', sessionStarting: 'Preparando a conversa…',
+  sourcesContext: 'Dados fictícios até', regressionProtocol: 'Regressão v3: exige respostas de casos salvos com estado, data e evidências. Não é diretamente comparável à v2; mantém as falhas de referências inexistentes.', replyInChat: 'Responda aqui à pergunta do analista.', jumpToLatest: 'Ver o mais recente', replyInComposer: 'Responder na conversa', replyingTo: 'Respondendo ao analista', leaveReply: 'Continuar com outra consulta',
+  attachedRecord: 'Transação anexada ao caso', noAttachedRecord: 'Solicitação geral de análise: nenhuma transação será anexada.',
+});
+
 const MAX_ATTEMPTS = 3;
-const state = { language: 'es', user: null, csrf: null, persona: 'customer_es', view: 'support', session: null, transactions: [], transactionError: false, selected: null, messages: [], chatBusy: false, retry: null, cases: [], casesError: false, caseFilter: 'all', caseDetail: null, casesLoading: false, evaluation: null, evaluationError: false, analytics: null, analyticsError: false, loginBusy: false, loginError: '', generation: 0, chatAttempts: 0, caseDrafts: {}, caseOperations: {}, caseNotice: null };
+const browserLanguage = (navigator.languages || [navigator.language]).find(value => /^(es|pt)(-|$)/i.test(value)) || 'es';
+const reviewMode = new URLSearchParams(location.search).has('review');
+const state = { language: browserLanguage.toLowerCase().startsWith('pt') ? 'pt' : 'es', user: null, csrf: null, persona: null, view: 'support', session: null, transactions: [], transactionError: false, selected: null, messages: [], chatBusy: false, retry: null, cases: [], casesError: false, caseFilter: 'all', caseDetail: null, casesLoading: false, evaluation: null, evaluationError: false, analytics: null, analyticsError: false, loginBusy: false, loginError: '', generation: 0, chatAttempts: 0, caseDrafts: {}, caseOperations: {}, caseNotice: null, draft: '', replyCase: null, booting: true, scrollToEnd: true };
 const t = key => words[state.language][key] || words.es[key] || key;
 const root = document.querySelector('#app');
 const date = value => { if (!value) return t('noData'); const d = new Date(typeof value === 'number' ? (value < 1e12 ? value * 1000 : value) : String(value).length === 10 ? `${value}T12:00:00Z` : value); return Number.isNaN(d.getTime()) ? String(value) : new Intl.DateTimeFormat(state.language === 'pt' ? 'pt-BR' : 'es-CO', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(d); };
@@ -47,7 +73,7 @@ const statusLabel = value => (['posted', 'completed', 'approved', 'pending', 'de
 const statusClass = value => ['posted', 'completed', 'approved', 'reviewed_closed', 'closed', 'resolved'].includes(value) ? 'green' : ['declined', 'failed'].includes(value) ? 'red' : 'amber';
 const statusPill = value => `<span class="pill ${statusClass(value)}"><span class="dot"></span>${esc(statusLabel(value))}</span>`;
 const initials = name => String(name || 'C').split(' ').slice(0, 2).map(part => part.charAt(0)).join('').toUpperCase();
-const langButtons = () => `<div class="lang-toggle" role="group" aria-label="${t('language')}"><button type="button" data-language="es" aria-label="Español" aria-pressed="${state.language === 'es'}">ES</button><button type="button" data-language="pt" aria-label="Português" aria-pressed="${state.language === 'pt'}">PT</button></div>`;
+
 const brand = (cls = '') => `<div class="brand ${cls}"><span class="brand-mark" aria-hidden="true">c.</span><span class="wordmark">claro</span></div>`;
 const loading = () => `<span class="loading-dots" role="status" aria-label="${t('thinking')}"><i></i><i></i><i></i></span>`;
 function announce(text) { document.querySelector('#announcer').textContent = text; }
@@ -58,14 +84,15 @@ async function api(path, { method = 'GET', body, anonymous = false } = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 30000);
   try {
-    const headers = { Accept: 'application/json' };
+    // Select the route's authenticated session; the server still validates its role.
+    const headers = { Accept: 'application/json', 'X-Claro-Role': reviewMode ? 'analyst' : 'customer' };
     if (body !== undefined) headers['Content-Type'] = 'application/json';
     if (method !== 'GET' && state.csrf && !anonymous) headers['X-CSRF-Token'] = state.csrf;
     const response = await fetch(path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body), credentials: 'same-origin', cache: 'no-store', signal: controller.signal });
     let data = {};
     if (response.status !== 204) { try { data = await response.json(); } catch { throw new ApiError(t('errorGeneric'), response.status); } }
     if (!response.ok) {
-      if (response.status === 401 && state.user) { clearSession(); render(); throw new ApiError(t('errorExpired'), 401); }
+      if (response.status === 401 && state.user) { clearSession(); state.loginError = t('errorExpired'); render(); throw new ApiError(t('errorExpired'), 401); }
       const localizedError = { 401: 'errorExpired', 403: 'errorForbidden', 404: 'errorNotFound', 409: 'errorConflict', 422: 'errorValidation', 429: 'errorRateLimit', 503: 'errorUnavailable' }[response.status];
       const detail = t(localizedError || 'errorGeneric');
       throw new ApiError(detail, response.status);
@@ -74,32 +101,45 @@ async function api(path, { method = 'GET', body, anonymous = false } = {}) {
   } catch (error) { if (error instanceof ApiError) throw error; throw new ApiError(t('errorNetwork'), 0); }
   finally { clearTimeout(timeout); }
 }
-function clearSession() { announce(''); state.generation++; Object.assign(state, { user: null, csrf: null, session: null, transactions: [], messages: [], selected: null, cases: [], caseDetail: null, analytics: null, chatBusy: false, retry: null, chatAttempts: 0, caseDrafts: {}, caseOperations: {}, caseNotice: null }); }
+function clearSession() { announce(''); state.generation++; Object.assign(state, { user: null, csrf: null, session: null, transactions: [], messages: [], selected: null, cases: [], caseDetail: null, analytics: null, chatBusy: false, retry: null, chatAttempts: 0, caseDrafts: {}, caseOperations: {}, caseNotice: null, replyCase: null }); }
 function syncLocale() { document.documentElement.lang = state.language; document.title = t('title'); }
 function renderLogin() {
-  const personas = [{ id: 'customer_es', title: 'esPersona', description: 'esPersonaDescription', symbol: 'user' }, { id: 'customer_pt', title: 'ptPersona', description: 'ptPersonaDescription', symbol: 'globe' }, { id: 'analyst', title: 'analystPersona', description: 'analystPersonaDescription', symbol: 'analyst' }];
-  root.innerHTML = `<main id="main" class="login"><section class="login-story" aria-labelledby="story-title">${brand()}<div class="login-story-body"><p class="story-eyebrow"><span class="dot"></span>${t('storyEyebrow')}</p><h1 id="story-title">${t('storyTitle')}</h1><p class="story-description">${t('storyDescription')}</p><div class="story-flow"><div class="flow-row"><span class="flow-number">01</span>${t('understand')}</div><div class="flow-connector"></div><div class="flow-row"><span class="flow-number">02</span>${t('verify')}</div><div class="flow-connector"></div><div class="flow-row"><span class="flow-number">03</span>${t('accompany')}${icon('arrow')}</div></div></div><div class="story-footer"><span>${t('hackathon')}</span><span>ES / PT</span></div></section><section class="login-workspace" aria-labelledby="login-title"><div class="login-top"><span class="pill">${icon('clock')}${t('sandbox')}</span>${langButtons()}</div><div class="login-form-wrap"><p class="label">${t('entry')}</p><h2 id="login-title">${t('welcome')}</h2><p class="muted">${t('entryDescription')}</p><div class="persona-list" role="group" aria-label="${t('enter')}">${personas.map(p => `<button type="button" class="persona" data-persona="${p.id}" aria-pressed="${state.persona === p.id}" ${state.loginBusy ? 'disabled' : ''}><span class="persona-icon">${icon(p.symbol)}</span><span class="persona-text"><strong>${t(p.title)}</strong><small>${t(p.description)}</small></span><span class="persona-radio" aria-hidden="true"></span></button>`).join('')}</div>${state.loginError ? `<p class="inline-error" role="alert">${esc(state.loginError)}</p>` : ''}<button type="button" class="btn primary login-submit" data-action="login" ${state.loginBusy ? 'disabled' : ''}><span>${t(state.loginBusy ? 'entering' : 'enter')}</span>${icon('arrow')}</button><p class="login-disclaimer">${icon('shield')}<span>${t('loginDisclaimer')}</span></p><p class="provider-notice login-provider-notice">${t('providerNotice')}</p></div><p class="login-footer">${icon('lock')} ${t('privateWorkspace')}</p></section></main>`;
+  root.innerHTML = `<div class="chat-shell">${chatHeader()}<main id="main" class="chat-main" tabindex="-1"><section class="conversation" aria-label="${t('chatLabel')}"><div class="chat-intro"><span class="intro-mark" aria-hidden="true">c.</span><p class="eyebrow">${t('languageAuto')}</p><h1>${t('chatWelcome')}</h1><p>${t('chatIntro')}</p></div><div class="session-state" role="status">${state.loginError ? `<p class="inline-error">${esc(state.loginError)}</p><button type="button" class="btn secondary" data-action="login">${t('sessionRetry')}${icon('arrow')}</button>` : `${loading()}<p>${t('sessionStarting')}</p>`}</div><p class="chat-disclosure">${icon('shield')}${t('chatPrivacy')}<span>${t('chatLimits')}</span></p></section></main></div>`;
 }
+function chatHeader() {
+  return `<header class="chat-topbar">${brand()}<span class="chat-demo-label"><span class="dot"></span>Demo</span><div class="chat-topbar-actions">${state.user ? `<button type="button" class="icon-button" data-action="reset-chat" title="${t('newChat')}" aria-label="${t('newChat')}" ${state.chatBusy ? 'disabled' : ''}>${icon('refresh')}</button>` : ''}<a class="review-link" href="/?review=1">${t('reviewDemo')}${icon('external')}</a></div></header>`;
+}
+
 function navItems() { return state.user?.role === 'analyst' ? [{ id: 'cases', label: 'reviewQueue', symbol: 'cases' }, { id: 'analytics', label: 'analytics', symbol: 'chart' }, { id: 'evaluation', label: 'evaluation', symbol: 'shield' }] : [{ id: 'support', label: 'support', symbol: 'chat' }, { id: 'cases', label: 'myCases', symbol: 'cases' }, { id: 'evaluation', label: 'evaluation', symbol: 'chart' }]; }
 function render() {
+  const input = document.querySelector('#message-input');
+  if (input) state.draft = input.value;
+  const active = document.activeElement?.id;
+  const selection = input && active === 'message-input' ? [input.selectionStart, input.selectionEnd] : null;
+  const previousLog = document.querySelector('#chat-log');
+  const scrollPosition = previousLog?.scrollTop;
   syncLocale();
   if (!state.user) return renderLogin();
-  const analyst = state.user.role === 'analyst';
-  const current = navItems().find(item => item.id === state.view) || navItems()[0];
-  root.innerHTML = `<div class="shell"><aside class="sidebar" aria-label="${t('workspace')}">${brand()}<p class="workspace-label">${t('workspace')}</p><nav class="nav-list">${navItems().map(item => `<button type="button" class="nav-link" data-view="${item.id}" ${state.view === item.id ? 'aria-current="page"' : ''} title="${t(item.label)}">${icon(item.symbol)}<span>${t(item.label)}</span></button>`).join('')}</nav><div class="sidebar-note">${icon('shield')}<strong>${t('demoNoteTitle')}</strong><p>${t('demoNote')}</p></div><button type="button" class="sidebar-reset" data-action="reset-sandbox" title="${t('resetSandbox')}">${icon('refresh')}<span>${t('resetSandbox')}</span></button><div class="sidebar-bottom"><span>${t('workspaceFooter')}</span><span>v1.1.0</span></div></aside><div class="workspace"><header class="topbar">${brand('mobile-brand')}<div class="breadcrumb"><span>${t(analyst ? 'analystBreadcrumb' : 'breadcrumb')}</span>${icon('chevron')}<span>${t(current.label)}</span></div><div class="topbar-actions"><span class="pill">${icon('clock')}${t('sandbox')}</span>${langButtons()}<div class="user-block"><div class="avatar" aria-hidden="true">${esc(initials(state.user.display_name))}</div><div><strong>${esc(state.user.display_name)}</strong><small>${t(analyst ? 'analystRole' : 'customerRole')}</small></div><button type="button" class="icon-button logout" data-action="logout" title="${t('logout')}" aria-label="${t('logout')}">${icon('logout')}</button></div></div></header><main id="main" class="main" tabindex="-1">${renderView()}<footer class="footer-bar"><span>${icon('shield')}${t('footer')}</span><span>${t('footerDisclaimer')}</span></footer></main></div></div>`;
-  if (state.view === 'support') { updateChat(); }
+  if (state.user.role === 'customer') {
+    root.innerHTML = `<div class="chat-shell">${chatHeader()}<main id="main" class="chat-main" tabindex="-1">${renderSupport()}</main></div>`;
+    updateChat();
+  } else {
+    const current = navItems().find(item => item.id === state.view) || navItems()[0];
+    root.innerHTML = `<div class="shell"><aside class="sidebar" aria-label="${t('workspace')}">${brand()}<p class="workspace-label">${t('analystBreadcrumb')}</p><nav class="nav-list">${navItems().map(item => `<button type="button" class="nav-link" data-view="${item.id}" ${state.view === item.id ? 'aria-current="page"' : ''}>${icon(item.symbol)}<span>${t(item.label)}</span></button>`).join('')}</nav><div class="sidebar-note">${icon('shield')}<strong>${t('demoNoteTitle')}</strong><p>${t('demoNote')}</p></div><a class="sidebar-reset" href="/">${icon('chat')}<span>${t('customerChat')}</span></a><button type="button" class="sidebar-reset" data-action="reset-sandbox">${icon('refresh')}<span>${t('resetSandbox')}</span></button></aside><div class="workspace"><header class="topbar">${brand('mobile-brand')}<div class="breadcrumb"><span>${t('analystBreadcrumb')}</span>${icon('chevron')}<span>${t(current.label)}</span></div><a class="review-link" href="/">${t('customerChat')}${icon('arrow')}</a></header><main id="main" class="main" tabindex="-1">${renderView()}<footer class="footer-bar"><span>${icon('shield')}${t('footer')}</span><span>${t('footerDisclaimer')}</span></footer></main></div></div>`;
+  }
+  const fresh = document.querySelector('#message-input');
+  if (fresh) { fresh.value = state.draft; resizeComposer(fresh); if (selection) { fresh.focus({ preventScroll: true }); fresh.setSelectionRange(...selection); } }
+  const log = document.querySelector('#chat-log');
+  if (log && scrollPosition != null && !state.scrollToEnd) log.scrollTop = scrollPosition;
 }
+
 function heading(eyebrow, title, description) { return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${description}</p></div><span class="pill">${icon('lock')}${t('protected')}</span></div>`; }
 function stat(symbol, label, value, sub = '') { return `<div class="stat"><span class="stat-icon">${icon(symbol)}</span><div><p>${esc(label)}</p><strong>${esc(value)}</strong>${sub ? `<small>${esc(sub)}</small>` : ''}</div></div>`; }
 function renderView() { if (state.view === 'cases') return renderCases(); if (state.view === 'analytics') return renderAnalytics(); if (state.view === 'evaluation') return renderEvaluation(); return renderSupport(); }
 function renderSupport() {
-  return `${heading(`${t('hello')}, ${esc((state.user.display_name || '').split(' ')[0])}`, t('supportTitle'), t('supportDescription'))}<section class="stats" aria-label="${t('historical')}">${stat('calendar', t('snapshot'), date(state.session?.as_of || state.asOf))}${stat('card', t('records'), state.transactionError ? '—' : state.transactions.length, t('recordsSuffix'))}${stat('globe', t('channel'), t('channelValue'))}</section><div class="content-grid"><div><section class="panel" aria-labelledby="transactions-title"><div class="panel-heading"><div><h2 id="transactions-title">${t('transactions')}</h2><p>${t('transactionHint')}</p></div><button type="button" class="icon-button" data-action="refresh-transactions" title="${t('refresh')}" aria-label="${t('refresh')}">${icon('refresh')}</button></div><div id="transactions">${renderTransactions()}</div><div class="panel-footnote">${icon('clock')}<span>${t('historical')}<br>${t('asOf')} ${esc(date(state.asOf || state.session?.as_of))}</span></div></section><div class="trust-note">${icon('shield')}<div><strong>${t('trustTitle')}</strong><p>${t('trustText')}</p></div></div></div><section class="panel chat-panel" aria-labelledby="chat-title"><div class="panel-heading"><div class="assistant-heading"><span class="assistant-icon">${icon('sparkle')}</span><div><h2 id="chat-title">${t('assistant')}</h2><p><span class="dot"></span>${t('assistantSubtitle')}</p></div></div><div class="chat-heading-actions"><span class="chat-badge">${state.language.toUpperCase()}</span><button type="button" class="icon-button" data-action="reset-chat" title="${t('resetChat')}" aria-label="${t('resetChat')}" ${state.chatBusy ? 'disabled' : ''}>${icon('refresh')}</button></div></div>${renderProviderNotice()}<div id="chat-log" class="chat-log" role="log" aria-label="${t('chatLabel')}" aria-live="polite" aria-relevant="additions"></div><div id="chat-context"></div><form class="composer" id="chat-form"><label class="sr-only" for="message-input">${t('messagePlaceholder')}</label><div class="composer-field"><textarea id="message-input" name="message" rows="1" maxlength="2000" placeholder="${t('messagePlaceholder')}" required ${state.chatBusy ? 'disabled' : ''}></textarea><button type="submit" class="send-button" aria-label="${t('send')}" ${state.chatBusy ? 'disabled' : ''}>${icon('send')}</button></div><p class="composer-hint">${t('composerHint')}</p></form></section></div>`;
+  return `<section class="conversation ${state.messages.some(m => m.role === 'user') ? 'has-messages' : ''}" aria-label="${t('chatLabel')}"><div class="chat-intro"><span class="intro-mark" aria-hidden="true">c.</span><p class="eyebrow">${t('languageAuto')}</p><h1>${t('chatWelcome')}</h1><p>${t('chatIntro')}</p></div><div id="chat-log" class="chat-log" role="log" aria-label="${t('chatLabel')}" aria-live="polite" aria-relevant="additions text"></div>${state.caseDetail ? `<section class="inline-case panel" aria-label="${t('yourCases')}"><div class="panel-heading"><h2>${t('yourCases')}</h2><button type="button" class="icon-button" data-action="close-case" aria-label="${t('closeCase')}">${icon('close')}</button></div>${renderCaseDetail()}</section>` : ''}<div class="composer-dock"><div id="chat-context"></div><form class="composer" id="chat-form"><label class="sr-only" for="message-input">${t('messagePlaceholder')}</label><div class="composer-field"><textarea id="message-input" name="message" rows="1" maxlength="2000" placeholder="${t('messagePlaceholder')}" required></textarea><button type="submit" class="send-button" aria-label="${t('send')}" ${state.chatBusy ? 'disabled' : ''}>${icon('send')}</button></div><p class="composer-hint">${t('composerHint')}</p></form><p class="chat-disclosure">${icon('shield')}<span>${t('chatPrivacy')}<small>${t('chatLimits')}</small></span></p><details class="session-details"><summary>${t('sourcesContext')} ${esc(date(state.session?.as_of))}</summary>${renderProviderNotice()}<p>${t('chatExample')}</p><a href="/?review=1&view=evaluation">${t('judgeEvidence')}${icon('external')}</a></details></div></section>`;
 }
-function renderTransactions() {
-  if (state.transactionError) return `<div class="retry-inline"><p>${t('errorLoad')}</p><button type="button" class="btn secondary compact" data-action="refresh-transactions">${icon('refresh')}${t('retry')}</button></div>`;
-  if (!state.transactions.length) return `<div class="empty">${icon('card')}<h3>${t('noTransactions')}</h3><p>${t('noTransactionsText')}</p></div>`;
-  return `<div class="record-list">${state.transactions.map((tx, index) => `<button type="button" class="record" data-transaction="${esc(tx.id)}" aria-pressed="${state.selected === tx.id}" aria-label="${esc(`${tx.merchant || t('unlistedMerchant')}, ${amount(tx)}, ${statusLabel(tx.status)}`)}"><span class="record-icon">${icon(index % 2 ? 'receipt' : 'card')}</span><span class="record-info"><strong>${esc(tx.merchant || t('unlistedMerchant'))}</strong><small>${esc(date(tx.date || tx.transaction_date))}</small></span><span class="record-amount"><strong>${esc(amount(tx))}</strong>${statusPill(tx.status)}</span></button>`).join('')}</div>`;
-}
+
 function renderEvidence(evidence = []) {
   if (!Array.isArray(evidence) || !evidence.length) return '';
   return `<details class="evidence"><summary>${t('evidence')} · ${evidence.length}</summary>${evidence.map(item => `<div class="evidence-item"><strong>${esc(item.title || item.id || t('source'))}</strong>${esc(item.text || '')}<span>${esc(item.source || '')}${item.as_of ? ` · ${t('asOf')} ${esc(date(item.as_of))}` : ''}</span>${item.id ? `<span>${esc(item.id)}</span>` : ''}</div>`).join('')}</details>`;
@@ -123,11 +163,13 @@ function renderProviderNotice() {
   return `<div class="provider-notice"><p>${t(ai?.external_enabled === true ? 'providerActiveNotice' : ai?.external_enabled === false ? 'providerLocalNotice' : 'providerNotice')}</p>${renderAI(ai, true)}</div>`;
 }
 function renderProposalSummary(proposal) {
-  return `${proposal.customer_report ? `<div class="proposal-report"><span class="label">${t('redactedReport')}</span><p>${esc(proposal.customer_report)}</p><small>${t('reportPrivacy')}</small></div>` : ''}${Array.isArray(proposal.open_questions) && proposal.open_questions.length ? `<div class="proposal-questions"><span class="label">${t('pendingQuestions')}</span><ul>${proposal.open_questions.map(question => `<li>${esc(question)}</li>`).join('')}</ul></div>` : ''}`;
+  const tx = proposal.transaction;
+  const attached = tx ? `<div class="proposal-transaction"><span class="label">${t('attachedRecord')}</span><dl class="detail-grid">${fact(t('transactionId'), tx.id)}${fact(t('merchant'), tx.merchant || t('unlistedMerchant'))}${fact(t('amount'), amount(tx))}${fact(t('status'), statusLabel(tx.status))}${fact(t('recordDate'), date(tx.date))}${fact(t('asOf'), date(tx.as_of))}</dl>${tx.source ? `<small>${t('source')}: ${esc(tx.source)}</small>` : ''}</div>` : `<p class="proposal-unattached">${t('noAttachedRecord')}</p>`;
+  return `${attached}${proposal.customer_report ? `<div class="proposal-report"><span class="label">${t('redactedReport')}</span><p>${esc(proposal.customer_report)}</p><small>${t('reportPrivacy')}</small></div>` : ''}${Array.isArray(proposal.open_questions) && proposal.open_questions.length ? `<div class="proposal-questions"><span class="label">${t('pendingQuestions')}</span><ul>${proposal.open_questions.map(question => `<li>${esc(question)}</li>`).join('')}</ul></div>` : ''}`;
 }
 function renderProposal(proposal, index) {
   if (!proposal) return '';
-  return `<div class="proposal"><strong>${icon('cases')}${t('proposalTitle')}</strong><p>${esc(proposal.summary || t('proposalNotice'))}</p>${renderProposalSummary(proposal)}<p>${t('proposalNotice')}</p><div class="proposal-actions">${proposal.done ? `<span class="pill green">${t('confirmed')}</span>` : proposal.cancelled ? `<span class="pill">${t('cancelledProposal')}</span>` : `<button type="button" class="btn primary compact" data-confirm="${index}" ${state.chatBusy || proposal.attempts >= MAX_ATTEMPTS ? 'disabled' : ''}>${t('confirm')}${icon('arrow')}</button><button type="button" class="btn secondary compact" data-dismiss="${index}" ${state.chatBusy ? 'disabled' : ''}>${t('dismiss')}</button>`}</div>${proposal.attempts >= MAX_ATTEMPTS && !proposal.done ? `<p class="retry-note">${t('retryLimit')}</p><button type="button" class="btn secondary compact" data-view="cases">${t('myCases')}</button>` : ''}</div>`;
+  return `<div class="proposal"><strong>${icon('cases')}${t('proposalTitle')}</strong><p>${esc(proposal.summary || t('proposalNotice'))}</p>${renderProposalSummary(proposal)}<p>${t('proposalNotice')}</p><div class="proposal-actions">${proposal.done ? `<span class="pill green">${t('confirmed')}</span>` : proposal.cancelled ? `<span class="pill">${t('cancelledProposal')}</span>` : `<button type="button" class="btn primary compact" data-confirm="${index}" ${state.chatBusy || proposal.attempts >= MAX_ATTEMPTS ? 'disabled' : ''}>${t('confirm')}${icon('arrow')}</button><button type="button" class="btn secondary compact" data-dismiss="${index}" ${state.chatBusy ? 'disabled' : ''}>${t('dismiss')}</button>`}</div>${proposal.attempts >= MAX_ATTEMPTS && !proposal.done ? `<p class="retry-note">${t('retryLimit')}</p><button type="button" class="btn secondary compact" data-action="read-cases">${t('myCases')}</button>` : ''}</div>`;
 }
 function renderReceipt(receipt) {
   if (!receipt) return '';
@@ -137,22 +179,39 @@ function renderReceipt(receipt) {
 }
 function messageMarkup(m, index) {
   if (m.kind === 'restored') return `<p class="session-restore-note">${t('sessionRestored')}</p>`;
-  if (m.kind === 'welcome') return `<article class="chat-message"><span class="message-avatar">${icon('sparkle')}</span><div class="message-body"><p class="message-name">Claro</p><div class="message-copy">${t('greeting')}<br><br>${t('greetingPrompt')}</div><div class="welcome-prompts"><button type="button" class="prompt-btn" data-prompt="statusMessage">${t('promptStatus')}</button><button type="button" class="prompt-btn" data-prompt="disputeMessage">${t('promptDispute')}</button><button type="button" class="prompt-btn" data-prompt="humanMessage">${t('promptHuman')}</button></div></div></article>`;
+  if (m.kind === 'welcome') return `<article class="chat-message welcome-message"><span class="message-avatar">${icon('sparkle')}</span><div class="message-body"><p class="message-name">Claro</p><div class="message-copy">${t('chatGreeting')}</div></div></article>`;
   const user = m.role === 'user';
-  return `<article class="chat-message ${user ? 'user' : m.error ? 'system' : ''}">${user ? '' : `<span class="message-avatar">${icon(m.error ? 'alert' : 'sparkle')}</span>`}<div class="message-body"><p class="message-name">${user ? t('you') : 'Claro'}</p><div class="message-copy">${esc(m.message)}</div>${renderEvidence(m.evidence)}${renderProposal(m.proposal, index)}${renderReceipt(m.receipt)}${renderAI(m.ai)}${m.trace_id ? `<p class="trace-id">${t('trace')}: ${esc(m.trace_id)}</p>` : ''}${m.error && state.retry ? `<p class="retry-note">${t(state.chatAttempts >= MAX_ATTEMPTS ? 'retryLimit' : 'uncertainAction')} · ${t('retryCount')} ${state.chatAttempts}/${MAX_ATTEMPTS}</p><button type="button" class="btn secondary compact" data-action="retry-chat" ${state.chatAttempts >= MAX_ATTEMPTS ? 'disabled' : ''}>${icon('refresh')}${t('retry')}</button>` : ''}</div></article>`;
+  return `<article class="chat-message ${user ? 'user' : m.error ? 'system' : ''}">${user ? '' : `<span class="message-avatar">${icon(m.error ? 'alert' : 'sparkle')}</span>`}<div class="message-body"><p class="message-name">${user ? t('you') : 'Claro'}</p><div class="message-copy" ${m.language ? `lang="${esc(m.language)}"` : ''}>${esc(m.message)}</div>${renderEvidence(m.evidence)}${renderProposal(m.proposal, index)}${renderReceipt(m.receipt)}${Array.isArray(m.cases) && m.cases.length ? `<div class="chat-cases">${m.cases.map(c => `<div class="chat-case-card"><button type="button" class="chat-case-link" data-case="${esc(c.id)}"><span>${icon('cases')}${esc(c.id)}</span>${statusPill(c.status)}</button>${c.pending_question?.text ? `<p>${esc(c.pending_question.text)}</p><button type="button" class="btn primary compact" data-reply-chat="${esc(c.id)}">${icon('chat')}${t('replyInComposer')}</button>` : ''}</div>`).join('')}</div>` : ''}${renderAI(m.ai)}${m.caseOperationKey && state.caseOperations[m.caseOperationKey] ? operationNotice(state.caseOperations[m.caseOperationKey], { id: m.caseOperationKey.split(':')[0] }) : ''}${m.trace_id ? `<details class="trace-details"><summary>${t('trace')}</summary><code>${esc(m.trace_id)}</code></details>` : ''}${m.error && state.retry ? `<p class="retry-note">${t(state.chatAttempts >= MAX_ATTEMPTS ? 'retryLimit' : 'uncertainAction')} · ${t('retryCount')} ${state.chatAttempts}/${MAX_ATTEMPTS}</p><button type="button" class="btn secondary compact" data-action="retry-chat" ${state.chatAttempts >= MAX_ATTEMPTS ? 'disabled' : ''}>${icon('refresh')}${t('retry')}</button>` : ''}</div></article>`;
 }
+
 function updateChat() {
   const log = document.querySelector('#chat-log'); if (!log) return;
+  const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 90;
   const messages = state.messages.length ? state.messages : [{ kind: 'welcome' }];
-  log.innerHTML = messages.map(messageMarkup).join('') + (state.chatBusy ? `<div class="chat-message"><span class="message-avatar">${icon('sparkle')}</span><div class="message-body"><span class="message-name">${t('thinking')}</span>${loading()}</div></div>` : '');
+  // Keep unchanged log entries in place so assistive technology announces new content once.
+  log.querySelector('[data-thinking]')?.remove();
+  const entries = [...log.children];
+  messages.forEach((m, index) => {
+    const markup = messageMarkup(m, index);
+    if (entries[index]?.dataset.markup === markup) return;
+    const template = document.createElement('template'); template.innerHTML = markup;
+    const element = template.content.firstElementChild;
+    element.dataset.markup = markup;
+    if (entries[index]) entries[index].replaceWith(element); else log.append(element);
+  });
+  entries.slice(messages.length).forEach(element => element.remove());
+  if (state.chatBusy) { const thinking = document.createElement('div'); thinking.className = 'chat-message thinking-message'; thinking.dataset.thinking = 'true'; thinking.innerHTML = `<span class="message-avatar">${icon('sparkle')}</span><div class="message-body"><span class="message-name">${t('thinking')}</span>${loading()}</div>`; log.append(thinking); }
   log.setAttribute('aria-busy', String(state.chatBusy));
-  log.scrollTop = log.scrollHeight;
-  const tx = state.transactions.find(item => item.id === state.selected);
-  document.querySelector('#chat-context').innerHTML = tx ? `<div class="context-chip">${icon('card')}<span>${t('selected')}: ${esc(tx.merchant || tx.id)} · ${esc(amount(tx))}</span><button type="button" data-action="clear-selection" aria-label="${t('clearSelection')}" ${state.chatBusy ? 'disabled' : ''}>${icon('close')}</button></div>` : '';
-  const input = document.querySelector('#message-input'); if (input) input.disabled = state.chatBusy;
+  document.querySelector('.conversation')?.classList.toggle('has-messages', messages.some(m => m.role === 'user'));
+  if (nearBottom || state.scrollToEnd) { log.scrollTop = log.scrollHeight; state.scrollToEnd = false; }
+  const context = document.querySelector('#chat-context');
+  if (context) context.innerHTML = state.replyCase ? `<div class="reply-context"><span>${icon('cases')}<strong>${t('replyingTo')} · ${esc(state.replyCase.id)}</strong><small>${esc(state.replyCase.question.text)}</small></span><button type="button" class="icon-button" data-action="leave-reply" aria-label="${t('leaveReply')}" ${state.chatBusy ? 'disabled' : ''}>${icon('close')}</button></div>` : '';
+  const reset = document.querySelector('[data-action="reset-chat"]'); if (reset) reset.disabled = state.chatBusy;
+  const input = document.querySelector('#message-input'); if (input) input.placeholder = t(state.replyCase ? 'replyPlaceholder' : 'messagePlaceholder');
   const send = document.querySelector('.send-button'); if (send) send.disabled = state.chatBusy;
-  for (const button of document.querySelectorAll('[data-prompt], [data-transaction], [data-action="reset-chat"]')) button.disabled = state.chatBusy;
 }
+function resizeComposer(input) { input.style.height = 'auto'; input.style.height = `${Math.min(input.scrollHeight, 144)}px`; }
+
 function reportOf(c) { return c.customer_report || c.report || c.summary || c.request || ''; }
 function renderCases() {
   const analyst = state.user.role === 'analyst';
@@ -197,8 +256,8 @@ function renderCaseActions(c) {
   const notice = state.caseNotice?.id === c.id ? `<p class="case-save-success" role="status">${t(state.caseNotice.kind === 'reply' ? 'replySaved' : 'reviewSaved')}</p>` : '';
   const pending = question?.text ? `<section class="pending-question"><div class="label">${t(analyst ? 'waitingReply' : 'replyRequestedBy')}</div><p>${esc(question.text)}</p></section>` : '';
   if (analyst && ['reviewed_closed', 'closed', 'resolved'].includes(c.status)) return `${notice}${operationNotice(op, c)}<p class="resolution-note closed-case-note">${t('closedReadOnly')}</p>`;
-  if (analyst) return `${pending}<form class="detail-section case-action-form" id="resolution-form" data-case-id="${esc(c.id)}" aria-busy="${Boolean(op?.busy)}"><h3 class="label">${t('review')}</h3><fieldset ${locked ? 'disabled' : ''}><label for="resolution">${t('resolution')}</label><select id="resolution" name="resolution" class="resolution-select"><option value="reviewed_closed" ${draft.resolution === 'reviewed_closed' ? 'selected' : ''}>${t('resolutionClosed')}</option><option value="needs_information" ${draft.resolution === 'needs_information' ? 'selected' : ''}>${t('resolutionNeeds')}</option></select><div id="review-question" ${draft.resolution === 'needs_information' ? '' : 'hidden'}><label for="case-question">${t('questionLabel')}</label><textarea id="case-question" name="question" minlength="5" maxlength="1000" ${draft.resolution === 'needs_information' ? 'required' : ''} placeholder="${t('questionPlaceholder')}" aria-describedby="question-hint">${esc(draft.question)}</textarea><p class="resolution-note" id="question-hint">${t('questionHint')}</p></div><p class="resolution-note">${t('resolutionDisclaimer')}</p><button type="submit" class="btn primary">${icon('check')}${t(op?.busy ? 'saving' : 'saveReview')}</button></fieldset>${notice}${operationNotice(op, c)}</form>`;
-  return `${pending}${c.status === 'needs_information' && question?.text || op ? `<form class="detail-section case-action-form" id="case-reply-form" data-case-id="${esc(c.id)}" aria-busy="${Boolean(op?.busy)}"><h3 class="label">${t('replyLabel')}</h3><fieldset ${locked ? 'disabled' : ''}><input type="hidden" name="question_id" value="${esc(question?.id || '')}"><label class="sr-only" for="case-reply">${t('replyLabel')}</label><textarea id="case-reply" name="message" maxlength="2000" required placeholder="${t('replyPlaceholder')}" aria-describedby="reply-hint">${esc(draft.reply)}</textarea><p class="resolution-note" id="reply-hint">${t('replyHelp')} ${t('composerHint').split('Enter')[0]}</p><button type="submit" class="btn primary">${icon('send')}${t(op?.busy ? 'saving' : 'sendReply')}</button></fieldset>${operationNotice(op, c)}</form>` : c.status === 'needs_information' ? `<p class="resolution-note">${t('noPendingQuestion')}</p>` : ''}${notice}`;
+  if (analyst) return `${pending}<form class="detail-section case-action-form" id="resolution-form" data-case-id="${esc(c.id)}" aria-busy="${Boolean(op?.busy)}"><h3 class="label">${t('review')}</h3><fieldset ${locked ? 'disabled' : ''}><input type="hidden" name="resolution" value="needs_information"><label for="case-question">${t('questionLabel')}</label><textarea id="case-question" name="question" maxlength="1000" placeholder="${t('questionPlaceholder')}" aria-describedby="question-hint">${esc(draft.question)}</textarea><p class="resolution-note" id="question-hint">${t('questionHint')}</p><p class="resolution-note">${t('resolutionDisclaimer')}</p><div class="review-actions"><button type="submit" class="btn primary" name="review-action" value="needs_information">${icon('send')}${t(op?.busy ? 'saving' : 'askQuestion')}</button><button type="submit" class="btn secondary" name="review-action" value="reviewed_closed">${icon('check')}${t('closeReview')}</button></div></fieldset>${notice}${operationNotice(op, c)}</form>`;
+  return `${pending}${c.status === 'needs_information' && question?.text ? `<div class="detail-section"><p class="resolution-note">${t('replyInChat')}</p><button type="button" class="btn primary" data-reply-chat="${esc(c.id)}" ${locked ? 'disabled' : ''}>${icon('chat')}${t('replyInComposer')}</button>${operationNotice(op, c)}</div>` : op ? operationNotice(op, c) : ''}${notice}`;
 }
 function metricValue(value) { if (value == null) return '—'; if (typeof value === 'number') return Number.isInteger(value) ? String(value) : value.toFixed(3); return String(value); }
 function estimatedCost(value) {
@@ -239,7 +298,7 @@ function renderEvaluationReport(reports) {
     html += `<section class="panel"><div class="panel-heading"><h2>${t('languageReport')}</h2><span class="pill">ES + PT</span></div><p class="section-copy">${t('languageNote')}</p>${comparisonTable(language.systems, columns, [['cases', 'sample'], ['macro_f1', 'macroF1', percent], ['accuracy', 'accuracy', percent], ['customer_reports_misrouted_to_other_intent', 'misroutedReports']])}<div class="report-section"><h3>${t('languageSlice')}</h3>${comparisonTable(Object.fromEntries(Object.entries(language.systems).map(([key, item]) => [key, { es: item.language_slices?.es?.macro_f1, pt: item.language_slices?.pt?.macro_f1 }])), columns, [['es', 'languageEs', percent], ['pt', 'languagePt', percent]])}<p class="report-notes">Macro-F1 · ${t('comparisonNote')}</p></div>${reportDisclosure(language)}</section>`;
   }
   if (system?.systems) {
-    html += `<section class="panel"><div class="panel-heading"><h2>${t('workflowReport')}</h2><span class="pill">${esc(system.cases_per_system)} ${t('sample').toLowerCase()}</span></div><p class="section-copy">${t('workflowNote')}</p>${comparisonTable(system.systems, [['keyword_rules', 'Reglas / Regras'], ['tfidf_logistic', 'TF-IDF + LR']], [['cases', 'sample'], ['correct_outcomes', 'correctOutcomes'], ['safe_automated_resolutions', 'safeResolutions'], ['missed_required_handoffs', 'missedHandoffs'], ['unnecessary_handoff_proposals', 'unnecessaryHandoffs'], ['materially_wrong_outcomes', 'wrongOutcomes'], ['unauthorized_disclosure_or_action', 'unauthorized']])}<p class="report-notes">${t('noProduction')} ${t('comparisonNote')}</p>${reportDisclosure(system)}</section>`;
+    html += `<section class="panel"><div class="panel-heading"><h2>${t('workflowReport')}</h2><span class="pill">${esc(system.cases_per_system)} ${t('sample').toLowerCase()}</span></div><p class="section-copy">${t('workflowNote')}</p>${system.version === 'system-grounded-case-lookup-v3' ? `<p class="report-notes">${t('regressionProtocol')}</p>` : ''}${comparisonTable(system.systems, [['keyword_rules', 'Reglas / Regras'], ['tfidf_logistic', 'TF-IDF + LR']], [['cases', 'sample'], ['correct_outcomes', 'correctOutcomes'], ['safe_automated_resolutions', 'safeResolutions'], ['missed_required_handoffs', 'missedHandoffs'], ['unnecessary_handoff_proposals', 'unnecessaryHandoffs'], ['materially_wrong_outcomes', 'wrongOutcomes'], ['unauthorized_disclosure_or_action', 'unauthorized']])}<p class="report-notes">${t('noProduction')} ${t('comparisonNote')}</p>${reportDisclosure(system)}</section>`;
   }
   if (fraud?.metrics?.test) {
     const models = ['constant', 'amount_history_rule', 'logistic', 'catboost'].filter(key => fraud.metrics.test[key]);
@@ -251,13 +310,23 @@ async function login() {
   if (state.loginBusy) return;
   state.loginBusy = true; state.loginError = ''; render();
   try {
-    const language = state.persona === 'customer_pt' ? 'pt' : state.persona === 'customer_es' ? 'es' : state.language;
-    const data = await api('/api/session', { method: 'POST', body: { persona: state.persona, language }, anonymous: true });
-    state.session = data; state.user = data.user; state.csrf = data.csrf_token; state.language = language; state.view = data.user.role === 'analyst' ? 'cases' : 'support'; state.messages = [{ kind: 'welcome' }];
-    await loadInitial(); render(); document.querySelector('#main')?.focus();
+    const persona = reviewMode ? 'analyst' : state.persona && state.persona !== 'analyst' ? state.persona : state.language === 'pt' ? 'customer_pt' : 'customer_es';
+    const data = await api('/api/session', { method: 'POST', body: { persona, language: state.language }, anonymous: true });
+    applySession(data);
+    await loadInitial();
+    if (state.user.role === 'analyst' && new URLSearchParams(location.search).get('view') === 'evaluation') { state.view = 'evaluation'; await loadEvaluation(); }
   } catch (error) { state.loginError = error.message; }
-  finally { state.loginBusy = false; render(); }
+  finally { state.loginBusy = false; state.booting = false; render(); }
 }
+function applySession(data) {
+  state.session = data; state.user = data.user; state.csrf = data.csrf_token; state.persona = data.demo_persona || state.persona; state.language = data.user.language === 'pt' ? 'pt' : 'es';
+  state.view = data.user.role === 'analyst' ? 'cases' : 'support'; state.selected = data.context?.transaction_id || null;
+  const history = Array.isArray(data.context?.history) ? data.context.history : [];
+  state.messages = [{ kind: 'welcome' }, ...history.filter(m => ['user', 'assistant'].includes(m.role) && typeof m.content === 'string').map(m => ({ role: m.role, message: m.content })), ...(history.length ? [{ kind: 'restored' }] : [])];
+  if (data.proposal) state.messages.push({ role: 'assistant', message: data.proposal.summary, proposal: data.proposal, evidence: data.proposal_evidence || [] });
+  state.scrollToEnd = true;
+}
+
 async function loadInitial() { if (state.user?.role === 'analyst') await loadCases(); else await loadTransactions(); }
 async function loadTransactions() {
   const generation = state.generation;
@@ -272,9 +341,9 @@ async function loadCases() {
 }
 async function loadCase(id) {
   const generation = state.generation; state.caseDetail = { id, loading: true }; render();
-  try { const data = await api(`/api/cases/${encodeURIComponent(id)}`); if (generation !== state.generation || state.caseDetail?.id !== id) return; state.caseDetail = data.case || data; reconcileCaseOperations(state.caseDetail); }
+  try { const data = await api(`/api/cases/${encodeURIComponent(id)}`); if (generation !== state.generation || state.caseDetail?.id !== id) return; state.caseDetail = data.case || data; syncCaseCards(state.caseDetail); reconcileCaseOperations(state.caseDetail); }
   catch (error) { if (error.status !== 401) state.caseDetail = { id, error: true }; }
-  if (state.view === 'cases') render();
+  if (state.view === 'cases' || state.user?.role === 'customer') render();
 }
 async function navigate(view) {
   if (!navItems().some(item => item.id === view)) return;
@@ -289,25 +358,45 @@ async function loadEvaluation() { try { state.evaluation = await api('/api/evalu
 async function sendChat(message, retryBody) {
   if (state.chatBusy || !state.user || !message.trim()) return;
   if (message.length > 2000) { toast(t('tooLong')); return; }
+  if (state.replyCase && !retryBody) { await sendChatReply(message.trim()); return; }
   const generation = state.generation;
   if (retryBody && state.chatAttempts >= MAX_ATTEMPTS) return;
   if (!retryBody) state.chatAttempts = 0;
   state.chatAttempts++;
-  const body = retryBody || { message: message.trim(), language: state.language, ...(state.selected ? { transaction_id: state.selected } : {}), idempotency_key: crypto.randomUUID() };
-  if (!retryBody) { state.messages.forEach(m => { if (m.proposal && !m.proposal.done) m.proposal.cancelled = true; }); state.messages.push({ role: 'user', message: message.trim() }); }
+  const body = retryBody || { message: message.trim(), idempotency_key: crypto.randomUUID() };
+  if (!retryBody) { state.messages.push({ role: 'user', message: message.trim() }); }
   else state.messages = state.messages.filter(m => !m.error);
-  state.chatBusy = true; state.retry = null;
+  state.chatBusy = true; state.retry = null; state.draft = ''; state.scrollToEnd = true;
   const input = document.querySelector('#message-input'); if (input) { input.value = ''; input.style.height = 'auto'; }
   updateChat();
-  try { const data = await api('/api/chat', { method: 'POST', body }); if (generation !== state.generation) return; state.messages.push({ role: 'assistant', ...data }); if (data.transaction?.id) state.selected = data.transaction.id; }
+  try { const data = await api('/api/chat', { method: 'POST', body }); if (generation !== state.generation) return; if (data.state === 'cancelled' || data.proposal) state.messages.forEach(m => { if (m.proposal && !m.proposal.done && m.proposal.id !== data.proposal?.id) m.proposal.cancelled = true; }); state.messages.push({ role: 'assistant', ...data }); if (data.transaction?.id) state.selected = data.transaction.id; if (data.language && data.language !== state.language) { state.language = data.language; render(); } }
   catch (error) { if (generation !== state.generation) return; state.messages.push({ role: 'assistant', message: error.message, error: true }); state.retry = body; }
-  finally { if (generation === state.generation) { state.chatBusy = false; updateChat(); document.querySelector('#message-input')?.focus(); } }
+  finally { if (generation === state.generation) { state.chatBusy = false; updateChat(); document.querySelector('#message-input')?.focus({ preventScroll: true }); } }
 }
+async function sendChatReply(message) {
+  const reply = state.replyCase;
+  if (!reply || state.caseOperations[reply.id + ':reply'] && !state.caseOperations[reply.id + ':reply'].editable) { toast(t('pendingOperation')); return; }
+  const key = reply.id + ':reply';
+  const body = { message, question_id: reply.question.id, idempotency_key: crypto.randomUUID() };
+  state.caseOperations[key] = { kind: 'reply', body, attempts: 0, busy: false, error: '', retryable: true, chat: true };
+  state.messages.push({ role: 'user', message }); state.draft = ''; state.scrollToEnd = true;
+  const input = document.querySelector('#message-input'); if (input) input.value = '';
+  state.caseDetail = null;
+  await performCaseAction(reply.id, 'reply');
+}
+function syncCaseCards(c) { state.messages.forEach(message => { if (Array.isArray(message.cases)) message.cases = message.cases.map(value => value.id === c.id ? c : value); }); }
+function finishChatReply(c, key) {
+  syncCaseCards(c);
+  state.messages = state.messages.filter(message => message.caseOperationKey !== key);
+  state.messages.push({ role: 'assistant', message: t('replySaved'), cases: [c] });
+  state.replyCase = null; state.caseDetail = null; state.scrollToEnd = true;
+}
+
 function openConfirm(index) {
   const message = state.messages[index]; if (!message?.proposal || message.proposal.done || message.proposal.cancelled || message.proposal.attempts >= MAX_ATTEMPTS || state.chatBusy) return;
   const proposal = message.proposal;
-  const dialog = document.createElement('dialog'); dialog.className = 'dialog'; dialog.setAttribute('aria-labelledby', 'confirm-title');
-  dialog.innerHTML = `<h2 id="confirm-title">${t('confirmTitle')}</h2><p>${t('proposalNotice')}</p><div class="summary">${esc(proposal.summary || t('proposalTitle'))}${renderProposalSummary(proposal)}</div><div id="confirm-error"></div><div class="dialog-actions"><button type="button" class="btn secondary" id="close-confirm">${t('cancel')}</button><button type="button" class="btn primary" id="submit-confirm">${icon('check')}${t('confirmAction')}</button></div>`;
+  const dialog = document.createElement('dialog'); dialog.id = 'confirm-dialog'; dialog.className = 'dialog'; dialog.setAttribute('aria-labelledby', 'confirm-title');
+  dialog.innerHTML = `<div class="dialog-body"><h2 id="confirm-title">${t('confirmTitle')}</h2><p>${t('proposalNotice')}</p><div class="summary">${esc(proposal.summary || t('proposalTitle'))}${renderProposalSummary(proposal)}</div><div id="confirm-error"></div></div><div class="dialog-actions"><button type="button" class="btn secondary" id="close-confirm">${t('cancel')}</button><button type="button" class="btn primary" id="submit-confirm">${icon('check')}${t('confirmAction')}</button></div>`;
   document.body.append(dialog);
   let running = false;
   dialog.addEventListener('cancel', e => { if (running) e.preventDefault(); });
@@ -335,6 +424,7 @@ function reconcileCaseOperations(c) {
     const key = c.id + ':' + kind;
     const op = state.caseOperations[key];
     if (op && events.some(event => event.client_request_id === op.body.idempotency_key)) {
+      if (op.chat) finishChatReply(c, key);
       delete state.caseOperations[key]; delete state.caseDrafts[c.id];
       state.caseNotice = { id: c.id, kind };
     } else if (op?.rejected) { delete state.caseOperations[key]; }
@@ -362,13 +452,14 @@ async function performCaseAction(id, kind) {
   const op = state.caseOperations[key];
   if (!op || op.busy || !op.retryable || op.attempts >= MAX_ATTEMPTS || !state.user) return;
   const generation = state.generation;
-  op.busy = true; op.attempts++; op.error = ''; render();
+  op.busy = true; op.attempts++; op.error = ''; if (op.chat) state.chatBusy = true; render();
   try {
     const data = await api(`/api/cases/${encodeURIComponent(id)}/${kind === 'resolve' ? 'resolve' : 'messages'}`, { method: 'POST', body: op.body });
     if (generation !== state.generation) return;
     const value = data.case || data;
     if (data.receipt?.verified !== true && value.receipt?.verified !== true) throw new ApiError(t('actionUnverified'), 503);
     if (state.caseDetail?.id === id) state.caseDetail = value;
+    if (op.chat) finishChatReply(value, key);
     delete state.caseOperations[key]; delete state.caseDrafts[id];
     state.caseNotice = { id, kind };
     await loadCases();
@@ -379,8 +470,9 @@ async function performCaseAction(id, kind) {
     op.retryable = [0, 408, 429, 500, 502, 503, 504].includes(error.status);
     op.rejected = [400, 403, 404, 409, 422].includes(error.status);
     op.editable = [400, 422].includes(error.status);
+    if (op.chat) { state.messages = state.messages.filter(message => message.caseOperationKey !== key); state.messages.push({ role: 'assistant', message: op.error, caseOperationKey: key }); }
   } finally {
-    if (generation === state.generation) { op.busy = false; render(); }
+    if (generation === state.generation) { op.busy = false; if (op.chat) state.chatBusy = false; render(); document.querySelector('#message-input')?.focus({ preventScroll: true }); }
   }
 }
 async function cancelProposal(index) {
@@ -391,7 +483,7 @@ async function cancelProposal(index) {
   try {
     await api('/api/conversation/reset', { method: 'POST' });
     if (generation !== state.generation) return;
-    state.selected = null; state.retry = null;
+    state.selected = null; state.retry = null; state.replyCase = null; state.caseDetail = null;
     state.messages.forEach(message => { if (message.proposal && !message.proposal.done) message.proposal.cancelled = true; });
     announce(t('cancelled'));
   } catch (error) { toast(error.message); }
@@ -404,7 +496,7 @@ async function resetConversation(clearMessages = true) {
   try {
     await api('/api/conversation/reset', { method: 'POST' });
     if (generation !== state.generation) return;
-    state.selected = null; state.retry = null;
+    state.selected = null; state.retry = null; state.replyCase = null; state.caseDetail = null;
     state.messages.forEach(message => { if (message.proposal && !message.proposal.done) message.proposal.cancelled = true; });
     if (clearMessages) state.messages = [{ kind: 'welcome' }];
   } catch (error) { if (generation === state.generation) toast(error.message); }
@@ -419,49 +511,48 @@ function openResetSandbox() {
 }
 root.addEventListener('click', async event => {
   const button = event.target.closest('button'); if (!button || button.disabled) return;
-  if (button.dataset.language) { const input = document.querySelector('#message-input'); const draft = input?.value; state.language = button.dataset.language; render(); const fresh = document.querySelector('#message-input'); if (fresh && draft) fresh.value = draft; return; }
-  if (button.dataset.persona) { state.persona = button.dataset.persona; state.loginError = ''; render(); return; }
   if (button.dataset.view) { await navigate(button.dataset.view); return; }
-  if (button.dataset.transaction) { if (state.chatBusy) return; if (state.selected === button.dataset.transaction) { await resetConversation(false); return; } state.selected = button.dataset.transaction; document.querySelector('#transactions').innerHTML = renderTransactions(); updateChat(); document.querySelector('#message-input')?.focus(); return; }
   if (button.dataset.prompt) { await sendChat(t(button.dataset.prompt)); return; }
   if (button.dataset.confirm) { openConfirm(Number(button.dataset.confirm)); return; }
   if (button.dataset.dismiss) { await cancelProposal(Number(button.dataset.dismiss)); return; }
   if (button.dataset.filter) { state.caseFilter = button.dataset.filter; render(); return; }
   if (button.dataset.retryCase) { await performCaseAction(button.dataset.caseId, button.dataset.retryCase); return; }
+  if (button.dataset.replyChat) { const c = state.caseDetail?.id === button.dataset.replyChat ? state.caseDetail : state.messages.flatMap(m => m.cases || []).reverse().find(c => c.id === button.dataset.replyChat); if (c?.id === button.dataset.replyChat && c.pending_question?.id) { state.replyCase = { id: c.id, question: c.pending_question }; state.caseDetail = null; render(); document.querySelector('#message-input')?.focus(); } return; }
   if (button.dataset.case) { await loadCase(button.dataset.case); return; }
-  if (button.dataset.caseLink) { state.view = 'cases'; await loadCases(); await loadCase(button.dataset.caseLink); return; }
+  if (button.dataset.caseLink) { await loadCases(); await loadCase(button.dataset.caseLink); return; }
   switch (button.dataset.action) {
     case 'login': await login(); break;
+    case 'leave-reply': state.replyCase = null; render(); document.querySelector('#message-input')?.focus(); break;
+    case 'close-case': state.caseDetail = null; render(); document.querySelector('#message-input')?.focus(); break;
     case 'logout': button.disabled = true; try { await api('/api/session', { method: 'DELETE' }); clearSession(); render(); } catch (error) { toast(error.message); button.disabled = false; } break;
     case 'clear-selection': await resetConversation(false); break;
     case 'reset-chat': await resetConversation(); break;
     case 'reset-sandbox': openResetSandbox(); break;
     case 'refresh-transactions': button.disabled = true; await loadTransactions(); render(); announce(t('refreshDone')); break;
-    case 'refresh-cases': await loadCases(); render(); break;
+    case 'refresh-cases': { const id = state.caseDetail?.id; await loadCases(); if (id && state.user) await loadCase(id); else render(); break; }
     case 'refresh-analytics': await loadAnalytics(); render(); break;
     case 'refresh-evaluation': await loadEvaluation(); render(); break;
+    case 'read-cases': await sendChat(state.language === 'pt' ? 'Quero consultar meus casos.' : 'Quiero consultar mis casos.'); break;
     case 'retry-chat': if (state.retry) await sendChat(state.retry.message, state.retry); break;
   }
 });
-root.addEventListener('submit', event => { if (event.target.id === 'chat-form') { event.preventDefault(); sendChat(new FormData(event.target).get('message') || ''); } if (event.target.id === 'resolution-form') { event.preventDefault(); submitCaseAction(event.target, 'resolve'); } if (event.target.id === 'case-reply-form') { event.preventDefault(); submitCaseAction(event.target, 'reply'); } });
+root.addEventListener('submit', event => { if (event.target.id === 'chat-form') { event.preventDefault(); sendChat(new FormData(event.target).get('message') || ''); } if (event.target.id === 'resolution-form') { event.preventDefault(); event.target.elements.resolution.value = event.submitter?.value || 'needs_information'; event.target.querySelector('textarea').setCustomValidity(''); submitCaseAction(event.target, 'resolve'); } if (event.target.id === 'case-reply-form') { event.preventDefault(); submitCaseAction(event.target, 'reply'); } });
 root.addEventListener('keydown', event => { if (event.target.id === 'message-input' && event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); event.target.form.requestSubmit(); } });
-root.addEventListener('change', event => {
-  if (event.target.id !== 'resolution') return;
-  const form = event.target.form;
-  const draft = state.caseDrafts[form.dataset.caseId]; if (!draft) return;
-  draft.resolution = event.target.value;
-  const needed = event.target.value === 'needs_information';
-  form.querySelector('#review-question').hidden = !needed;
-  form.querySelector('#case-question').required = needed;
-  form.querySelector('#case-question').setCustomValidity('');
-  if (needed) form.querySelector('#case-question').focus();
-});
 root.addEventListener('input', event => {
   if (!['case-question', 'case-reply'].includes(event.target.id)) return;
   event.target.setCustomValidity('');
   const id = event.target.form.dataset.caseId;
   if (state.caseDrafts[id]) state.caseDrafts[id][event.target.id === 'case-question' ? 'question' : 'reply'] = event.target.value;
 });
-root.addEventListener('input', event => { if (event.target.id === 'message-input') { event.target.style.height = 'auto'; event.target.style.height = `${Math.min(event.target.scrollHeight, 110)}px`; } });
-async function boot() { try { const data = await api('/api/session', { anonymous: true }); if (data.user) { state.session = data; state.user = data.user; state.csrf = data.csrf_token; state.language = data.user.language === 'pt' ? 'pt' : 'es'; state.view = data.user.role === 'analyst' ? 'cases' : 'support'; state.selected = data.context?.transaction_id || null; state.messages = [{ kind: 'welcome' }, ...(data.context?.transaction_id ? [{ kind: 'restored' }] : [])]; await loadInitial(); } } catch { /* An unauthenticated visitor chooses a demo persona. */ } render(); }
+root.addEventListener('input', event => { if (event.target.id === 'message-input') { state.draft = event.target.value; resizeComposer(event.target); } });
+async function boot() {
+  render();
+  try {
+    const data = await api('/api/session', { anonymous: true });
+    if (Boolean(data.user?.role === 'analyst') !== reviewMode) { await login(); return; }
+    applySession(data); await loadInitial();
+    if (reviewMode && new URLSearchParams(location.search).get('view') === 'evaluation') { state.view = 'evaluation'; await loadEvaluation(); }
+    state.booting = false; render();
+  } catch { await login(); }
+}
 boot();

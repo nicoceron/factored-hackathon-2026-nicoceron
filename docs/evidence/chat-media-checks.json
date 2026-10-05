@@ -1,0 +1,115 @@
+{
+  "version": "claro-chat-media-checks-v3",
+  "verified_at": "2026-10-05T05:23:19.420298+00:00",
+  "scope": "Current local six-slide deck and edited nine-scene demo; not hosted deployment proof or organizer submission.",
+  "checks": {
+    "deck_manifest_all_input_output_hashes_match": true,
+    "six_slide_pdf_verified": true,
+    "all_six_final_pdf_pages_visually_reviewed": true,
+    "three_native_editable_charts_and_workbooks": true,
+    "package_geometry_chart_reimport_checks_pass": true,
+    "demo_manifest_all_source_output_hashes_match": true,
+    "all_nine_composed_scenes_visually_reviewed": true,
+    "all_crops_within_original_capture_bounds": true,
+    "diagrams_match_final_pdf_slides_three_and_five": true,
+    "all_seven_captures_match_final_browser_receipt": true,
+    "browser_backend_static_hashes_match_current_source": true,
+    "captions_monotonic_and_within_video_duration": true,
+    "under_three_minutes": true,
+    "full_encoded_file_decodes_without_errors": true,
+    "audio_signal_present": true
+  },
+  "video": {
+    "duration_seconds": 170.920736,
+    "size_bytes": 4923690,
+    "video_codec": "h264",
+    "width": 1920,
+    "height": 1080,
+    "frames_per_second": 24,
+    "audio_codec": "aac",
+    "audio_channels": 1,
+    "audio_sample_rate_hz": 48000,
+    "subtitle_codec": "mov_text",
+    "subtitle_language": "eng",
+    "external_srt_cue_count": 29,
+    "last_caption_end_seconds": 170.281,
+    "decode_command_exit_code": 0,
+    "audio_sample_count": 8214162,
+    "mean_volume_db": -16.0,
+    "peak_volume_db": -1.1
+  },
+  "scene_dimensions": [
+    {
+      "source": "submission/demo-assets/chat-welcome.jpg",
+      "width": 1488,
+      "height": 1038,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/chat-evidence-pt.jpg",
+      "width": 1488,
+      "height": 1038,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/chat-confirm-es.jpg",
+      "width": 1488,
+      "height": 1038,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/chat-receipt-pt.jpg",
+      "width": 1488,
+      "height": 1038,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/chat-reply-pt.jpg",
+      "width": 1488,
+      "height": 1038,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/chat-history-pt.jpg",
+      "width": 1488,
+      "height": 982,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/architecture-v2.png",
+      "width": 1281,
+      "height": 720,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/evaluation-v2.png",
+      "width": 1281,
+      "height": 720,
+      "crop_within_source": true
+    },
+    {
+      "source": "submission/demo-assets/chat-complete-pt.jpg",
+      "width": 1488,
+      "height": 1038,
+      "crop_within_source": true
+    }
+  ],
+  "output_and_manifest_sha256": {
+    "submission/Claro-Hackathon-2026.pptx": "6d29106c60c70505c2cad7ba3274f33ed78270c06f38d6303712cff3da9e3a9b",
+    "submission/Claro-Hackathon-2026.pdf": "7830b56033b73feb99a860b12e6caf844f4880674343229d07a0c9ebf27f46b5",
+    "submission/claro-demo.mp4": "0fabd326d7bc0710ac82f2a51347dc1447168a8440e3ad6fd0bc50599c42d7f6",
+    "submission/claro-demo.en.srt": "11b9487886564f7f1d68554db8d728b722b62e1dc5758162f35ba45f850f7652",
+    "submission/demo-script.md": "3c70ac4c98e955f2f65cd1ddc0710bfcc981b20528e4964caf56a49f4c38b64c",
+    "submission/deck-manifest.json": "5b52e561823487cada2658f3725de8b4510331b5174de281443f3658bffabffc",
+    "submission/demo-manifest.json": "52516795ca872ea6dcab7955fc81d0ec6682b351d9e8936c8085038c803df69f"
+  },
+  "browser_receipt_sha256": "9a70e214db0990dd2e474ba63bb93e9a6b95918668647039d177fd7b63f75e58",
+  "deployment_receipt_sha256": "f86c8fc1704f9f3cc4d4eaf410ac311c0cb960eaa867eb784b2a6665bb605cf5",
+  "limitations": [
+    "The video is narrated screenshots and labeled diagrams, not a continuous screen recording.",
+    "Actual captures use team-authored fixtures and disabled external inference at local port 8096 on October 5, 2026 UTC.",
+    "Stream/audio measurements do not establish an independent linguistic or human listening review.",
+    "Native Microsoft PowerPoint application rendering is not established.",
+    "Hosted deployment requires its own receipt."
+  ]
+}

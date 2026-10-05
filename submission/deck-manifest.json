@@ -1,16 +1,16 @@
 {
-  "version": "claro-deck-v2",
+  "version": "claro-deck-chat-v3",
   "slide_count": 6,
   "native_chart_count": 3,
   "embedded_chart_workbook_count": 3,
   "editable_architecture_slide": 3,
   "pdf_word_counts_by_slide": [
     48,
-    47,
+    72,
     68,
     90,
     98,
-    64
+    68
   ],
   "pdf_embedded_fonts": [
     "NotoSans-Bold",
@@ -24,11 +24,12 @@
   "visual_review_scope": "Assistant inspected every final PDF page at 1280x720 for font fallback, clipping, overlaps, diagram direction, chart labels and caveats.",
   "native_powerpoint_application_verified": false,
   "input_output_sha256": {
-    "submission/build-deck.mjs": "693e8fb34f14c58440924b39db175974061a602878a7dd580c20cd044a3c99e5",
+    "submission/build-deck.mjs": "6c4c42fa36b1e6b7bd1a6b40103591376afc3efbac9893780521cd3a4c4156cd",
     "submission/build-deck.sh": "d035f4b946e805d056d96740c6c189eb386d3e534be15792d3959469980e7acb",
+    "submission/demo-scenes.json": "0bd999cc9c2cb1055961121d48ee5ecf3deb9d8e39f21e9f1d5ab3ae5c08aec7",
     "submission/deployment.json": "f86c8fc1704f9f3cc4d4eaf410ac311c0cb960eaa867eb784b2a6665bb605cf5",
-    "submission/assets/customer-specific-report.jpg": "3ea7b9de93eac861efd497e07f8e9ce3422e51b232f61ab874f71d46007c4e07",
-    "submission/assets/analyst-followup.jpg": "cefb68f536f20a90e173309402ac131813757244bfe5fe18455bb6f1d68ed8da",
+    "submission/demo-assets/chat-confirm-es.jpg": "64e2e71405be3449d0fbcaa170643af0e397551a9a90a24c64fa2d9e612f55fa",
+    "submission/demo-assets/chat-history-pt.jpg": "c90cc1170266d4f55063de649cda49e2ac1defab521550b9dfb9ea6ccb37bf5b",
     "docs/evidence/ml-evaluation.json": "ccf85850bb95d8a03466b4c3522389d93152c04bf87b5a8f80016a211002abf1",
     "docs/evidence/language-evaluation.json": "027c0791b6ecb66a0e594c1caeb29e80c751316137d8f0b5526dfb94c826a7ae",
     "docs/evidence/system-challenge-evaluation.json": "c882d8163fcdacf9e8e389e7aed8f0f571a5fb7a45477853942c5777b6dca770",
@@ -37,10 +38,17 @@
     "docs/evidence/system-evaluation-v2.json": "09e962db8edd89eeeeb82625057663439cff2c9cae5aece441dda76b3a448863",
     "docs/evidence/system-challenge-regression-v2.json": "1e56ea5b731db106c3b5dfaed04a58578376fa2b92e4cbe0e628fbdbfa6aa41b",
     "docs/evidence/service-segment-evaluation.json": "e0fff495a32c56e19b5c690d1207b2f76dd4392682017a502697c2d72a4fb781",
-    "submission/Claro-Hackathon-2026.pptx": "79b29678116384d89dc05d03b32c3f63ffa9c52d22f08ed2c989e179be6d60d0",
-    "submission/Claro-Hackathon-2026.pdf": "3704a7aae85c1a094500260af96024155c6c4b794523641bd94e3eb757eae59b"
+    "docs/evidence/chat-system-regression.json": "6cd2362dd30313843ceeac914407b6d748a59dcd98db5a1514ea721fa093b34b",
+    "docs/evidence/chat-challenge-regression.json": "ca9dddeb7c0258d29263de61e6d3a18dbdf64eaf27b4a1e7ec6b2d997ed83fdd",
+    "docs/evidence/chat-service-segment-regression.json": "32b3c8093dcd9c4108b142c40587ddc7ae1002427197958d129938727add6740",
+    "submission/Claro-Hackathon-2026.pptx": "6d29106c60c70505c2cad7ba3274f33ed78270c06f38d6303712cff3da9e3a9b",
+    "submission/Claro-Hackathon-2026.pdf": "7830b56033b73feb99a860b12e6caf844f4880674343229d07a0c9ebf27f46b5"
   },
-  "asset_provenance": "Actual local Claro app screenshots containing team-authored synthetic fixtures only.",
+  "asset_provenance": "Actual CUA Chrome local Claro captures with declared per-image provenance, team-authored fixtures and disabled providers. Declared image crops improve readability without editing screenshot pixels. The reviewer timeline retains a Spanish interface, Spanish report and Portuguese question/reply.",
+  "capture_provenance": {
+    "chat-confirm-es.jpg": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "chat-history-pt.jpg": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json"
+  },
   "limitations": [
     "Screenshots illustrate the app; they do not prove deployed behavior.",
     "Deployment readiness evidence is separate from full browser workflow verification.",

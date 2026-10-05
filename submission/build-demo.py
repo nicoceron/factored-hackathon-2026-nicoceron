@@ -118,12 +118,22 @@ def main():
         if not shutil.which(binary):
             raise SystemExit(f"Required local tool unavailable: {binary}")
     BUILD.mkdir(parents=True, exist_ok=True)
+    captures = [
+        scene
+        for scene in SCENES
+        if scene.get("source_kind", "actual_local_app_capture") == "actual_local_app_capture"
+    ]
+    if any(not scene.get("capture_provenance") for scene in captures):
+        raise SystemExit("Declare capture_provenance for every actual app scene before rendering")
+    capture_provenance = list(dict.fromkeys(scene["capture_provenance"] for scene in captures))
     subtitle_items = []
     manifest = {
-        "capture_provenance": (
-            "CUA Chrome, localhost:8096, 2026-10-02; actual isolated sandbox; "
-            "evaluation and architecture slides explicitly labeled"
-        ),
+        "version": "claro-demo-chat-v3",
+        "source_definition_sha256": hashlib.sha256(
+            (ROOT / "demo-scenes.json").read_bytes()
+        ).hexdigest(),
+        "builder_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "capture_provenance": capture_provenance,
         "format": "Narrated screenshots and labeled diagrams, not a continuous screen recording",
         "voice": "macOS Samantha synthetic voice; no voice cloning",
         "scenes": [],
@@ -236,6 +246,7 @@ def main():
                 "source": str(source.relative_to(ROOT)),
                 "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
                 "source_kind": scene.get("source_kind", "actual_local_app_capture"),
+                "capture_provenance": scene.get("capture_provenance"),
                 "crop": scene.get("crop"),
                 "start_seconds": offset,
                 "duration_seconds": seconds,
@@ -290,8 +301,11 @@ def main():
     )
     manifest["duration_seconds"] = duration(output)
     manifest["output_sha256"] = hashlib.sha256(output.read_bytes()).hexdigest()
+    transcript_path = ROOT / "demo-script.md"
+    transcript_path.write_text("\n".join(transcript))
+    manifest["subtitle_sha256"] = hashlib.sha256(subtitles.read_bytes()).hexdigest()
+    manifest["transcript_sha256"] = hashlib.sha256(transcript_path.read_bytes()).hexdigest()
     (ROOT / "demo-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    (ROOT / "demo-script.md").write_text("\n".join(transcript))
     print(f"DONE {manifest['duration_seconds']:.2f}s: {output}", flush=True)
 
 
