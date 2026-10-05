@@ -158,8 +158,10 @@ def selection_matches(text, choice):
     rejected = []
     negative = r"(?:no|nao|nunca|jamas|jamais) "
     ending = r"(?:[.!? ]*$|\s*[,.;](?=\s|$))"
-    for boundary in re.finditer(r"(?:^|(?<=[,.;]))\s*", text):
-        start = boundary.end()
+    # Decimal punctuation belongs to the amount, never to a new choice clause.
+    boundaries = [0] + [match.end() for match in re.finditer(r";|(?<!\d)[.,]|[.,](?!\d)", text)]
+    for boundary in boundaries:
+        start = boundary + re.match(r"\s*", text[boundary:]).end()
         match = re.match(wrapped + ending, text[start:])
         if match and not full:
             spans.append((start, start + match.end()))
