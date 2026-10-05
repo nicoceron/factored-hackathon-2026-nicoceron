@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import uuid
 from datetime import UTC, datetime
@@ -11,6 +12,8 @@ from http.cookies import SimpleCookie
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import HTTPCookieProcessor, Request, build_opener
+
+from factored_banking.web_assets import render_index
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("url", help="Public HTTPS sandbox URL with external providers disabled")
@@ -30,8 +33,9 @@ def client():
     return build_opener(HTTPCookieProcessor(CookieJar()))
 
 
-def call(browser, path, body=None, method=None, csrf=None, origin=None):
+def call(browser, path, body=None, method=None, csrf=None, origin=None, extra_headers=None):
     headers = {"Content-Type": "application/json"}
+    headers.update(extra_headers or {})
     if csrf:
         headers["X-CSRF-Token"] = csrf
     if origin:
@@ -63,6 +67,8 @@ def canonical_hash(data):
 
 public = client()
 checks = {}
+static_dir = ROOT / "src/factored_banking/static"
+expected_index = render_index(static_dir).encode()
 checks["health_http_200"] = call(public, "/healthz")[0] == 200
 ready = call(public, "/readyz")
 checks["readiness_http_200_and_ready"] = ready[0] == 200 and decoded(ready).get("ready") is True
@@ -83,7 +89,8 @@ for path in sorted((ROOT / "src/factored_banking/static").rglob("*")):
         continue
     route = "/static/" + path.relative_to(ROOT / "src/factored_banking/static").as_posix()
     response = call(public, route)
-    expected = hashlib.sha256(path.read_bytes()).hexdigest()
+    expected_bytes = expected_index if path.name == "index.html" else path.read_bytes()
+    expected = hashlib.sha256(expected_bytes).hexdigest()
     actual = hashlib.sha256(response[1]).hexdigest()
     assets.append(
         {
@@ -92,16 +99,47 @@ for path in sorted((ROOT / "src/factored_banking/static").rglob("*")):
             "sha256_matches_local": expected == actual,
             "local_sha256": expected,
             "deployed_sha256": actual,
+            "revalidates_before_reuse": response[2].get("Cache-Control") == "no-cache",
         }
     )
 index = call(public, "/")
 checks["index_http_200_and_sha256_matches_local"] = (
-    index[0] == 200
-    and hashlib.sha256(index[1]).digest()
-    == hashlib.sha256((ROOT / "src/factored_banking/static/index.html").read_bytes()).digest()
+    index[0] == 200 and hashlib.sha256(index[1]).digest() == hashlib.sha256(expected_index).digest()
 )
 checks["all_static_assets_http_200_and_byte_identical"] = all(
     a["http_200"] and a["sha256_matches_local"] for a in assets
+)
+checks["all_unversioned_static_assets_revalidate"] = all(
+    a["revalidates_before_reuse"] for a in assets
+)
+etag = index[2].get("ETag", "")
+conditional = call(public, "/", extra_headers={"If-None-Match": etag})
+raw_entry = call(public, "/static/index.html")
+checks["html_entrypoints_versioned_and_revalidate_with_strong_etag"] = (
+    index[2].get("Cache-Control") == "no-cache"
+    and etag == '"' + hashlib.sha256(expected_index).hexdigest() + '"'
+    and conditional[0] == 304
+    and conditional[2].get("Cache-Control") == "no-cache"
+    and raw_entry[1] == expected_index
+    and raw_entry[2].get("ETag") == etag
+)
+versioned_urls = re.findall(
+    r'(?:src|href)="(/static/[^"?]+\?v=[a-f0-9]{64})"', expected_index.decode()
+)
+versioned_assets = []
+for route in versioned_urls:
+    response = call(public, route)
+    filename, version = route.removeprefix("/static/").split("?v=")
+    expected_bytes = (static_dir / filename).read_bytes()
+    versioned_assets.append(
+        {
+            "path": route,
+            "current_version_sha256": hashlib.sha256(expected_bytes).hexdigest() == version,
+            "deployed_bytes_match": response[0] == 200 and response[1] == expected_bytes,
+        }
+    )
+checks["css_js_and_icon_use_current_content_versions"] = len(versioned_assets) == 3 and all(
+    r["current_version_sha256"] and r["deployed_bytes_match"] for r in versioned_assets
 )
 
 remote_reports_response = call(public, "/api/evaluation")
@@ -273,7 +311,7 @@ checks["bilingual_smoke_passed"] = (
     and smoke["workspace_erased"]
 )
 report = {
-    "version": "deployed-api-checks-v1.1",
+    "version": "deployed-api-checks-chat-v3",
     "url": BASE,
     "started_at_utc": started,
     "completed_at_utc": datetime.now(UTC).isoformat(),
@@ -287,6 +325,7 @@ report = {
     "checks": checks,
     "cookie_flags": cookie_checks,
     "static_assets": assets,
+    "versioned_assets": versioned_assets,
     "evaluation_reports": reports,
     "report_hash_method": "SHA256 of parsed JSON, sorted keys, compact separators, "
     "ensure_ascii=False; API serialization whitespace is not compared.",

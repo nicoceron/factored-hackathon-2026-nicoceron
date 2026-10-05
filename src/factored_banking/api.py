@@ -8,11 +8,12 @@ import sqlite3
 import time
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime
+from hashlib import sha256
 from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request, Response
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -21,6 +22,7 @@ from factored_banking.fixtures import AS_OF, PERSONAS, transactions
 from factored_banking.language import detect_language
 from factored_banking.privacy import redact_text
 from factored_banking.store import Store, digest, encode
+from factored_banking.web_assets import render_index
 
 ROOT = Path(__file__).parent
 SESSION_TTL = 3600
@@ -83,6 +85,12 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         app.state.ai.close()
 
     app = FastAPI(title="Claro Banking Sandbox", version="1.1.0", lifespan=lifespan)
+    static = StaticFiles(directory=ROOT / "static", check_dir=False)
+    index_html = render_index(ROOT / "static")
+    index_headers = {
+        "ETag": f'"{sha256(index_html.encode("utf-8")).hexdigest()}"',
+        "Cache-Control": "no-cache",
+    }
     app.state.store = Store(db_path or os.getenv("CLARO_DB", ".local/claro.sqlite"))
     app.state.ai = ProviderRuntime.from_env(
         enabled=enable_external,
@@ -420,6 +428,8 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         )
         if request.url.path.startswith("/api/"):
             response.headers["Cache-Control"] = "no-store"
+        elif request.url.path == "/" or request.url.path.startswith("/static/"):
+            response.headers["Cache-Control"] = "no-cache"
         return response
 
     @app.get("/healthz")
@@ -1066,11 +1076,17 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             "provenance": "offline authored evaluation and regression; see repository methodology",
         }
 
-    @app.get("/")
-    def index():
-        return FileResponse(ROOT / "static" / "index.html")
+    @app.api_route("/", methods=["GET", "HEAD"])
+    @app.api_route("/static/index.html", methods=["GET", "HEAD"], include_in_schema=False)
+    def index(request: Request):
+        response = HTMLResponse(index_html, headers=index_headers)
+        if static.is_not_modified(response.headers, request.headers):
+            return Response(status_code=304, headers=index_headers)
+        if request.method == "HEAD":
+            response.body = b""
+        return response
 
-    app.mount("/static", StaticFiles(directory=ROOT / "static", check_dir=False), name="static")
+    app.mount("/static", static, name="static")
     return app
 
 

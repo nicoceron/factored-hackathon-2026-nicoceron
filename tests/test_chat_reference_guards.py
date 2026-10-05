@@ -1,6 +1,7 @@
 """Authored conversational regressions; these do not form a new blind benchmark."""
 
 import json
+import shutil
 
 import pytest
 from fastapi.testclient import TestClient
@@ -257,6 +258,7 @@ def test_current_regressions_are_served_and_historical_artifacts_remain(tmp_path
     for name, filename in names.items():
         (resource / f"{name}-v2.json").write_text(json.dumps(old))
         (resource / filename).write_text(json.dumps(current))
+    shutil.copytree(api.ROOT / "static", tmp_path / "static")
     monkeypatch.setattr(api, "ROOT", tmp_path)
     app = api.create_app(str(tmp_path / "reports.sqlite"), enable_external=False)
     with TestClient(app) as client:

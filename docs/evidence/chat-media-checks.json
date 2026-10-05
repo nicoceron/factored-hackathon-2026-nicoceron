@@ -3,7 +3,6 @@
   "verified_at": "2026-10-05T05:23:19.420298+00:00",
   "scope": "Current local six-slide deck and edited nine-scene demo; not hosted deployment proof or organizer submission.",
   "checks": {
-    "deck_manifest_all_input_output_hashes_match": true,
     "six_slide_pdf_verified": true,
     "all_six_final_pdf_pages_visually_reviewed": true,
     "three_native_editable_charts_and_workbooks": true,
@@ -13,11 +12,12 @@
     "all_crops_within_original_capture_bounds": true,
     "diagrams_match_final_pdf_slides_three_and_five": true,
     "all_seven_captures_match_final_browser_receipt": true,
-    "browser_backend_static_hashes_match_current_source": true,
     "captions_monotonic_and_within_video_duration": true,
     "under_three_minutes": true,
     "full_encoded_file_decodes_without_errors": true,
-    "audio_signal_present": true
+    "audio_signal_present": true,
+    "capture_backend_static_hashes_match_capture_receipt": true,
+    "deck_manifest_inputs_matched_at_recorded_media_build": true
   },
   "video": {
     "duration_seconds": 170.920736,
@@ -111,5 +111,34 @@
     "Stream/audio measurements do not establish an independent linguistic or human listening review.",
     "Native Microsoft PowerPoint application rendering is not established.",
     "Hosted deployment requires its own receipt."
-  ]
+  ],
+  "capture_revision": {
+    "origin": "http://127.0.0.1:8096",
+    "captured_at_utc": "2026-10-05T05:14:25.958219+00:00",
+    "backend_sha256": {
+      "src/factored_banking/api.py": "1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b",
+      "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+      "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+      "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2",
+      "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea"
+    },
+    "static_sha256": {
+      "index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+      "app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+      "app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+      "favicon.svg": "565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118"
+    },
+    "browser_receipt_sha256": "9a70e214db0990dd2e474ba63bb93e9a6b95918668647039d177fd7b63f75e58",
+    "scope": "Actual seven local captures from the pre-cache-correction API; these hashes are not overwritten with a later backend revision."
+  },
+  "source_delta_after_capture": {
+    "scope": "HTTP asset URL fingerprinting and cache revalidation only; customer/reviewer UI and workflow behavior unchanged.",
+    "api_sha256": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+    "web_assets_sha256": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+    "app_css_js_and_favicon_unchanged": true,
+    "tests_passed_after_cache_correction": 425,
+    "current_regressions_rerun_with_same_outcomes": true,
+    "fresh_report_input_hashes_require_deck_manifest_refresh": true,
+    "hosted_cache_fix_verification_pending": true
+  }
 }

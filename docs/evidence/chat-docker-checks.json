@@ -1,7 +1,7 @@
 {
-  "verified_at": "2026-10-05T05:12:05.500204+00:00",
+  "verified_at": "2026-10-05T05:45:22.559432+00:00",
   "origin": "http://127.0.0.1:8097",
-  "image_id": "sha256:e0258ffdaafb6054c927e40e737454905c1d1d4a2f8eeff60228ca7ab4277bb7",
+  "image_id": "sha256:6fa127265a961ee7271301c220314e3db8cd76fc09042605a6d9db6c5d8f9b14",
   "source_only_nonroot_docker": true,
   "all_static_assets_byte_identical": true,
   "static_asset_checks": {
@@ -13,6 +13,13 @@
     "/static/fonts/manrope-latin.woff2": true,
     "/static/fonts/DM-Sans-OFL.txt": true,
     "/static/fonts/dm-sans-latin.woff2": true
+  },
+  "rendered_entry_and_strong_etag": true,
+  "conditional_304_revalidation": true,
+  "content_versioned_assets": {
+    "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118": true,
+    "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87": true,
+    "/static/app.js?v=4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82": true
   },
   "current_published_reports_identical": true,
   "report_files": {
