@@ -32,6 +32,10 @@ inputs = [
     "docs/evidence/system-challenge-evaluation.json",
     "docs/evidence/system-challenge-regression.json",
     "docs/AI_PROVIDERS.md",
+    "docs/evidence/chat-deployed-api-checks.json",
+    "docs/evidence/chat-deployed-browser-checks.json",
+    "docs/evidence/chat-deployed-conversation-checks.json",
+    "docs/evidence/chat-browser-checks.json",
 ]
 for current, historical in (
     ("docs/evidence/system-evaluation-v2.json", "docs/evidence/system-evaluation.json"),
@@ -102,7 +106,9 @@ manifest = {
     },
     "limitations": [
         "Screenshots illustrate the app; they do not prove deployed behavior.",
-        "Deployment readiness evidence is separate from full browser workflow verification.",
+        "Public API/browser and supplemental conversational HTTPS receipts verify their separate "
+        "scopes at the final hosted commit; local screenshots retain their original capture source "
+        "and disclosed cache/F7/F8/M1/L1/N1/N2/P1–P4/Q1/Q2 deltas.",
         "Charts represent authored synthetic evaluation and retrospective synthetic fraud labels.",
     ],
 }

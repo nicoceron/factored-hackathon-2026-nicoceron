@@ -1,0 +1,222 @@
+{
+  "version": "deployed-api-checks-chat-v4",
+  "url": "https://claro-banking-hackathon-2026.onrender.com",
+  "started_at_utc": "2026-10-05T16:44:40.773822+00:00",
+  "completed_at_utc": "2026-10-05T16:45:00.072852+00:00",
+  "local_release_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+  "deployment_commit_reported_by_release_owner": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+  "commit_evidence_scope": "Release owner identifies the Render-confirmed deployed commit; this probe independently verifies actual static bytes and report contents, not runtime API source attestation.",
+  "all_checks_passed": true,
+  "checks": {
+    "health_http_200": true,
+    "readiness_http_200_and_ready": true,
+    "unauthenticated_transactions_http_401": true,
+    "foreign_origin_session_http_403": true,
+    "index_http_200_and_sha256_matches_local": true,
+    "all_static_assets_http_200_and_byte_identical": true,
+    "all_unversioned_static_assets_revalidate": true,
+    "html_entrypoints_versioned_and_revalidate_with_content_etag": true,
+    "css_js_and_icon_use_current_content_versions": true,
+    "evaluation_http_200_and_all_six_reports_equal": true,
+    "same_origin_session_http_200": true,
+    "both_cookies_secure_httponly_samesite_strict": true,
+    "missing_csrf_mutation_http_403": true,
+    "foreign_origin_authenticated_mutation_http_403": true,
+    "isolated_workspace_proposal_created": true,
+    "isolated_workspace_case_verified": true,
+    "separate_browser_analyst_sees_empty_case_list": true,
+    "separate_browser_analyst_foreign_case_http_404": true,
+    "separate_browser_analyst_foreign_resolution_http_404": true,
+    "same_browser_analyst_sees_exact_own_case": true,
+    "foreign_attempt_did_not_change_case_status": true,
+    "audit_workspace_1_erased": true,
+    "audit_session_1_invalid_after_erasure": true,
+    "audit_workspace_2_erased": true,
+    "audit_session_2_invalid_after_erasure": true,
+    "bilingual_smoke_passed": true
+  },
+  "cookie_flags": {
+    "claro_session": {
+      "present": true,
+      "secure": true,
+      "http_only": true,
+      "same_site_strict": true
+    },
+    "claro_workspace": {
+      "present": true,
+      "secure": true,
+      "http_only": true,
+      "same_site_strict": true
+    }
+  },
+  "static_assets": [
+    {
+      "path": "/static/app.css",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+      "deployed_sha256": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/app.js",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+      "deployed_sha256": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/favicon.svg",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+      "deployed_sha256": "565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/fonts/DM-Sans-OFL.txt",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "7ec15e79c59bc14b86436a17e5eb7926b46cbcaeb08e1a7e6c110b415e6eb2a2",
+      "deployed_sha256": "7ec15e79c59bc14b86436a17e5eb7926b46cbcaeb08e1a7e6c110b415e6eb2a2",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/fonts/Manrope-OFL.txt",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "d6a309fcfb963d329a93baf9df66fa5f3c23a4be2b5f67edf24d6cafecde12ac",
+      "deployed_sha256": "d6a309fcfb963d329a93baf9df66fa5f3c23a4be2b5f67edf24d6cafecde12ac",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/fonts/dm-sans-latin.woff2",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "468d56b6b25b05b70190b6c233d773f6f1770e8579827ce022a57f03fa8002fb",
+      "deployed_sha256": "468d56b6b25b05b70190b6c233d773f6f1770e8579827ce022a57f03fa8002fb",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/fonts/manrope-latin.woff2",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "e310b55a7fd9677f5e3555e6c6c4d064fa1f1d24393f0ddbe217cea12a8c432f",
+      "deployed_sha256": "e310b55a7fd9677f5e3555e6c6c4d064fa1f1d24393f0ddbe217cea12a8c432f",
+      "revalidates_before_reuse": true
+    },
+    {
+      "path": "/static/index.html",
+      "http_200": true,
+      "sha256_matches_local": true,
+      "local_sha256": "25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73",
+      "deployed_sha256": "25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73",
+      "revalidates_before_reuse": true
+    }
+  ],
+  "versioned_assets": [
+    {
+      "path": "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+      "current_version_sha256": true,
+      "deployed_bytes_match": true
+    },
+    {
+      "path": "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+      "current_version_sha256": true,
+      "deployed_bytes_match": true
+    },
+    {
+      "path": "/static/app.js?v=0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+      "current_version_sha256": true,
+      "deployed_bytes_match": true
+    }
+  ],
+  "html_validator": {
+    "public_etag": "W/\"25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73\"",
+    "application_etag_is_strong": true,
+    "public_proxy_may_weaken_etag": true,
+    "validation": "Both entry bytes, content digest and conditional 304 verified."
+  },
+  "evaluation_reports": [
+    {
+      "name": "language-evaluation",
+      "present": true,
+      "expected_file": "language-evaluation.json",
+      "declared_file_matches_local": true,
+      "canonical_json_sha256_matches_local": true,
+      "local_sha256": "5f44ff0f92c1b05d13a5b1b05fb7577bda336ab732e9e5803c905f290aee1bcb",
+      "deployed_sha256": "5f44ff0f92c1b05d13a5b1b05fb7577bda336ab732e9e5803c905f290aee1bcb"
+    },
+    {
+      "name": "fraud-evaluation",
+      "present": true,
+      "expected_file": "fraud-evaluation.json",
+      "declared_file_matches_local": true,
+      "canonical_json_sha256_matches_local": true,
+      "local_sha256": "920f9ff4e324a4896904310d9bc99cfbbfc9e1addd4bb136ecc623205b77d245",
+      "deployed_sha256": "920f9ff4e324a4896904310d9bc99cfbbfc9e1addd4bb136ecc623205b77d245"
+    },
+    {
+      "name": "system-evaluation",
+      "present": true,
+      "expected_file": "chat-system-regression.json",
+      "declared_file_matches_local": true,
+      "canonical_json_sha256_matches_local": true,
+      "local_sha256": "98830cf4a5df4d576d3c26fb758902f635c3834a95c5326bcdc0a1adb56194b3",
+      "deployed_sha256": "98830cf4a5df4d576d3c26fb758902f635c3834a95c5326bcdc0a1adb56194b3"
+    },
+    {
+      "name": "system-challenge-evaluation",
+      "present": true,
+      "expected_file": "system-challenge-evaluation.json",
+      "declared_file_matches_local": true,
+      "canonical_json_sha256_matches_local": true,
+      "local_sha256": "c7ceae964623b777dcda14dae6e14156fcd38a2bc7a6548830c4fd7a901e01b7",
+      "deployed_sha256": "c7ceae964623b777dcda14dae6e14156fcd38a2bc7a6548830c4fd7a901e01b7"
+    },
+    {
+      "name": "system-challenge-regression",
+      "present": true,
+      "expected_file": "chat-challenge-regression.json",
+      "declared_file_matches_local": true,
+      "canonical_json_sha256_matches_local": true,
+      "local_sha256": "9250931354c76496b27f931ad5af055dff9aa47b1944edcc6e6c8c192d02c771",
+      "deployed_sha256": "9250931354c76496b27f931ad5af055dff9aa47b1944edcc6e6c8c192d02c771"
+    },
+    {
+      "name": "service-segment-evaluation",
+      "present": true,
+      "expected_file": "chat-service-segment-regression.json",
+      "declared_file_matches_local": true,
+      "canonical_json_sha256_matches_local": true,
+      "local_sha256": "d1a8f6e71a25f40f4afec47c8350fd848af47b37c9cf25ed255eacbd54b5397f",
+      "deployed_sha256": "d1a8f6e71a25f40f4afec47c8350fd848af47b37c9cf25ed255eacbd54b5397f"
+    }
+  ],
+  "report_hash_method": "SHA256 of parsed JSON, sorted keys, compact separators, ensure_ascii=False.",
+  "bilingual_smoke": {
+    "url": "https://claro-banking-hackathon-2026.onrender.com",
+    "passed": true,
+    "languages": [
+      "es",
+      "pt"
+    ],
+    "chat_only_reference_and_ordinal_verified": true,
+    "automatic_language_switch_same_identity": true,
+    "verified_cases": 2,
+    "duplicate_writes": 0,
+    "analyst_resolution": true,
+    "specific_report_preserved": true,
+    "two_way_followup_verified": true,
+    "reply_history_restored_and_idempotent": true,
+    "reply_response_language_verified": true,
+    "complete_case_history_verified": true,
+    "workspace_erased": true
+  },
+  "data_scope": "Only authored public sandbox fixtures. No cookie/CSRF/session/workspace values or raw bank records saved. Disposable probe workspaces erased.",
+  "limits": [
+    "Recorded checks are not an uptime or production certification.",
+    "Free-host state is ephemeral; browser behavior is verified separately."
+  ]
+}

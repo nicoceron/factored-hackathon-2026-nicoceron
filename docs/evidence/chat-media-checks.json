@@ -1,27 +1,33 @@
 {
-  "version": "claro-chat-media-checks-v3",
-  "verified_at": "2026-10-05T05:23:19.420298+00:00",
-  "scope": "Current local six-slide deck and edited nine-scene demo; not hosted deployment proof or organizer submission.",
+  "version": "claro-chat-media-checks-v8",
+  "verified_at": "2026-10-05T19:13:30.560191+00:00",
+  "scope": "Final six-slide editable deck and edited nine-scene local-capture demo with source-matched reports and separate verified hosted caption. Original seven local captures preserve their actual source revision. Four supplemental hosted PNGs and public API/browser receipts verify the final deployed application separately. No organizer submission or final Opus review is inferred.",
   "checks": {
     "six_slide_pdf_verified": true,
     "all_six_final_pdf_pages_visually_reviewed": true,
     "three_native_editable_charts_and_workbooks": true,
     "package_geometry_chart_reimport_checks_pass": true,
+    "deck_manifest_all_current_input_output_hashes_match": true,
     "demo_manifest_all_source_output_hashes_match": true,
     "all_nine_composed_scenes_visually_reviewed": true,
     "all_crops_within_original_capture_bounds": true,
     "diagrams_match_final_pdf_slides_three_and_five": true,
-    "all_seven_captures_match_final_browser_receipt": true,
+    "all_seven_local_captures_match_original_capture_receipt": true,
+    "all_four_hosted_captures_match_final_public_receipt": true,
+    "supplemental_conversational_https_receipt_bound_separately": true,
+    "historical_host_receipts_and_original_images_match_corrected_n3_scope": true,
+    "final_packaged_source_matches_public_receipt": true,
+    "all_43_regression_source_hashes_and_package_copies_match": true,
     "captions_monotonic_and_within_video_duration": true,
     "under_three_minutes": true,
     "full_encoded_file_decodes_without_errors": true,
     "audio_signal_present": true,
-    "capture_backend_static_hashes_match_capture_receipt": true,
-    "deck_manifest_inputs_matched_at_recorded_media_build": true
+    "capture_backend_static_hashes_preserved_with_disclosed_deltas": true,
+    "verified_host_caption_retains_explicit_local_capture_label": true
   },
   "video": {
     "duration_seconds": 170.920736,
-    "size_bytes": 4923690,
+    "size_bytes": 4923528,
     "video_codec": "h264",
     "width": 1920,
     "height": 1080,
@@ -32,6 +38,8 @@
     "subtitle_codec": "mov_text",
     "subtitle_language": "eng",
     "external_srt_cue_count": 29,
+    "muxed_srt_cue_count": 29,
+    "muxed_captions_match_external_srt": true,
     "last_caption_end_seconds": 170.281,
     "decode_command_exit_code": 0,
     "audio_sample_count": 8214162,
@@ -41,77 +49,132 @@
   "scene_dimensions": [
     {
       "source": "submission/demo-assets/chat-welcome.jpg",
+      "source_sha256": "8cc00f8c97a533b2151a9287a214b41f56ad2055c9f9fb8b2a24177760c9862c",
+      "crop": null,
+      "composed_scene_sha256": "79002910bab740b73eb3a875b9884a7236518665e28118c6a43ccaede696da98",
       "width": 1488,
       "height": 1038,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/chat-evidence-pt.jpg",
+      "source_sha256": "78fca65c7a8cf47bbeeb72338d899efd8935dbca5fd0cc5cf8fa29e372731601",
+      "crop": [
+        318,
+        105,
+        1167,
+        590
+      ],
+      "composed_scene_sha256": "2b57fe3b8abe8138c5d8f8a02ec63318aa423fe431d04391347cad58b6b792f1",
       "width": 1488,
       "height": 1038,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/chat-confirm-es.jpg",
+      "source_sha256": "64e2e71405be3449d0fbcaa170643af0e397551a9a90a24c64fa2d9e612f55fa",
+      "crop": [
+        500,
+        75,
+        990,
+        960
+      ],
+      "composed_scene_sha256": "b9c2f173a4f0369306c7ba0a20d65eb9d0cf30bf2c38e9fe3ea20713e0c7623f",
       "width": 1488,
       "height": 1038,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/chat-receipt-pt.jpg",
+      "source_sha256": "bab24b0e43b2d0dcf8b36b7af4adcd72c7b2839263a62149820e67f403a5d516",
+      "crop": [
+        318,
+        315,
+        1167,
+        610
+      ],
+      "composed_scene_sha256": "c6cba887740d5d5b6a3fc02eb2825d0147011c178a316f94fece86f2a37ab465",
       "width": 1488,
       "height": 1038,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/chat-reply-pt.jpg",
+      "source_sha256": "8e7db13f61088bed1b0adef66721cb64a1e0d51da5f8d9f8f0339beb8b84c99b",
+      "crop": [
+        318,
+        275,
+        1167,
+        965
+      ],
+      "composed_scene_sha256": "4b5c79688efcd6c63159e85d312d71fc812963d03bf99c06b6f2a99922096e6f",
       "width": 1488,
       "height": 1038,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/chat-history-pt.jpg",
+      "source_sha256": "c90cc1170266d4f55063de649cda49e2ac1defab521550b9dfb9ea6ccb37bf5b",
+      "crop": [
+        699,
+        405,
+        1441,
+        885
+      ],
+      "composed_scene_sha256": "434f932e89d7cdb8a202bee9f9b4b507335cd7ae6729fb8bd3b1c149950371c3",
       "width": 1488,
       "height": 982,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/architecture-v2.png",
+      "source_sha256": "5df942cd45af6f32df4912b3a6dcab85a2c12181b0f999f92ee8b8a5b5b2eb08",
+      "crop": null,
+      "composed_scene_sha256": "5172b92b6d556d485358f4fe6dfc4de3c6ae13ff85f7a8ea4dcc1957c734cfbf",
       "width": 1281,
       "height": 720,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/evaluation-v2.png",
+      "source_sha256": "bb6f8a1b2c892d8edae480e0acd2c85766a4717f6714aba67d041f9c8ef34397",
+      "crop": null,
+      "composed_scene_sha256": "135edab60f2a54290aec7a87a329dc9bba05c246bb4a8c6ff9be9280c2dba6c8",
       "width": 1281,
       "height": 720,
       "crop_within_source": true
     },
     {
       "source": "submission/demo-assets/chat-complete-pt.jpg",
+      "source_sha256": "22d2f5681d5cbc97b2b01fefda96c4a1a5a5b96991590f7e23ac3cbddc10cb97",
+      "crop": [
+        318,
+        450,
+        1172,
+        803
+      ],
+      "composed_scene_sha256": "9a104636c0795a1c93807569f77ba171d88fa56c7399d98286f8baf7cf69b430",
       "width": 1488,
       "height": 1038,
       "crop_within_source": true
     }
   ],
   "output_and_manifest_sha256": {
-    "submission/Claro-Hackathon-2026.pptx": "6d29106c60c70505c2cad7ba3274f33ed78270c06f38d6303712cff3da9e3a9b",
-    "submission/Claro-Hackathon-2026.pdf": "7830b56033b73feb99a860b12e6caf844f4880674343229d07a0c9ebf27f46b5",
-    "submission/claro-demo.mp4": "0fabd326d7bc0710ac82f2a51347dc1447168a8440e3ad6fd0bc50599c42d7f6",
+    "submission/Claro-Hackathon-2026.pptx": "95b5bf385c9ddc5df1259047b0fa05d94a8e80b4f792cde457ced8c4ce6386b0",
+    "submission/Claro-Hackathon-2026.pdf": "e0ba7c1de9fd0024f652099a19d3f354a77087307948fc4242e0e68f018c708a",
+    "submission/claro-demo.mp4": "802783bc0b74be294538136bf94fe14aa746f987c932e2dd075a779c4ebc2ecc",
     "submission/claro-demo.en.srt": "11b9487886564f7f1d68554db8d728b722b62e1dc5758162f35ba45f850f7652",
     "submission/demo-script.md": "3c70ac4c98e955f2f65cd1ddc0710bfcc981b20528e4964caf56a49f4c38b64c",
-    "submission/deck-manifest.json": "5b52e561823487cada2658f3725de8b4510331b5174de281443f3658bffabffc",
-    "submission/demo-manifest.json": "52516795ca872ea6dcab7955fc81d0ec6682b351d9e8936c8085038c803df69f"
+    "submission/deck-manifest.json": "b642d6335305d302eefdf99f5c51144e76b6606c0140f3e91744ebe1d324e8f2",
+    "submission/demo-manifest.json": "4f4f4472aeb9364caeb7732ace9e19836861ece3443a9ceaec8681c756ff652a"
   },
-  "browser_receipt_sha256": "9a70e214db0990dd2e474ba63bb93e9a6b95918668647039d177fd7b63f75e58",
-  "deployment_receipt_sha256": "f86c8fc1704f9f3cc4d4eaf410ac311c0cb960eaa867eb784b2a6665bb605cf5",
-  "limitations": [
-    "The video is narrated screenshots and labeled diagrams, not a continuous screen recording.",
-    "Actual captures use team-authored fixtures and disabled external inference at local port 8096 on October 5, 2026 UTC.",
-    "Stream/audio measurements do not establish an independent linguistic or human listening review.",
-    "Native Microsoft PowerPoint application rendering is not established.",
-    "Hosted deployment requires its own receipt."
-  ],
+  "bound_receipt_sha256": {
+    "docs/evidence/chat-deployed-api-checks.json": "a66fb97ae1bf9634ff8e82c28dae7fa2605c1afd02e68ba1ea226b16b8c16549",
+    "docs/evidence/chat-deployed-browser-checks.json": "45900e1d91ba9a8b21a9a635000861f334c615f4c4043e4d8654dfdb78f9d164",
+    "docs/evidence/chat-deployed-conversation-checks.json": "b490f77a92a43ce2be9f89fad9c3407c86f6ef919030e4da9166a52c0d32a233",
+    "docs/evidence/chat-browser-checks.json": "9a70e214db0990dd2e474ba63bb93e9a6b95918668647039d177fd7b63f75e58",
+    "submission/deployment.json": "5e57e0514730fd6e4710eec27fba5c61e8fe0c43e13c9481476dc2331815d2ef"
+  },
   "capture_revision": {
     "origin": "http://127.0.0.1:8096",
     "captured_at_utc": "2026-10-05T05:14:25.958219+00:00",
@@ -132,22 +195,109 @@
     "scope": "Actual seven local captures from the pre-cache-correction API; these hashes are not overwritten with a later backend revision."
   },
   "source_delta_after_capture": {
-    "scope": "Cache revalidation/fingerprinted asset URLs, F7 pending-review restoration before clarification, and F8 verified reply/ack session-history recovery plus one validated client locale-owner line; original captures retain their actual backend/static hashes.",
-    "api_sha256": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
-    "web_assets_sha256": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
-    "app_css_js_and_favicon_unchanged": false,
-    "tests_passed_after_cache_correction": 425,
-    "current_regressions_rerun_with_same_outcomes": true,
-    "fresh_report_input_hashes_require_deck_manifest_refresh": true,
-    "hosted_cache_fix_verification_pending": true,
-    "workflow_sha256": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab",
-    "tests_passed_after_cache_and_continuation_corrections": 430,
-    "f7_report_continuation_verified_locally": true,
-    "f7_hosted_browser_verification_pending": true,
-    "app_js_sha256": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
-    "app_js_change": "finishChatReply accepts only es/pt response_language before its existing acknowledgement; saved-case language and identity preserved.",
-    "tests_passed_after_reply_history_correction": 438,
-    "f8_reply_history_verified_locally": true,
-    "f8_hosted_browser_verification_pending": true
+    "scope": "SHA asset URL/revalidation and public entry ETags; F7 pending-review restoration before clarification; F8 verified reply/ack bounded session-history recovery and validated client reply locale; M1 shared grammatical denial polarity and conservative unresolved-negation review; L1 explicit ordinal-choice grammar and rejected-selection protection; N1 polite and leading choices, report details and scoped merchant constructions; N2 indefinite duplicate-charge non-selection; additional past/bare first-person denial polarity; P1 decimal amount punctuation stays within a reference clause while invalid/conflicting numeric choices remain rejected; P2 explicit rejected amounts never attach or revive context; P3 bounded currency evidence intersects monetary references; P4 exact generated numeric case references survive history redaction; Q1 amount-adjacent R$/\u20ac symbols constrain units; Q2 pure rejected choices preserve the preceding factual/review task before clarification. Original capture bytes and backend/static hashes remain unchanged. These later behaviors are separately verified on the final hosted commit.",
+    "final_api_sha256": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+    "final_workflow_sha256": "e78820c5c77fdaee63a040c65608e5d2768b8e5753b773e89dcb9b479b3c9d8e",
+    "final_web_assets_sha256": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+    "final_app_js_sha256": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+    "css_template_and_favicon_unchanged_since_original_capture": true,
+    "app_js_change": "finishChatReply accepts only es/pt response_language before the existing acknowledgement; saved-case language and fixture identity preserved.",
+    "tests_after_cache": 425,
+    "tests_after_f7": 430,
+    "tests_after_f8": 438,
+    "tests_after_m1_l1": 506,
+    "tests_after_n1_n2_and_additional_denials": 592,
+    "tests_after_p1_decimal_amounts": 604,
+    "tests_after_p2_p3_p4": 653,
+    "tests_after_q1_q2": 680,
+    "learned_regression_outcomes_preserved": true,
+    "rules_baseline_main_correct_outcomes": 85,
+    "rules_baseline_challenge_correct_outcomes": 49,
+    "cache_f7_f8_m1_l1_n1_n2_verified_in_final_public_receipts": true,
+    "final_language_sha256": "41a340133acdcb3c02362025ec698525954d07abb001a8a405ed5e63427af096",
+    "final_references_sha256": "0a306b51aaca8b80b2a53fc21473d8ac839155ede723e722d0c4650a028bdb38",
+    "final_privacy_sha256": "317709f63c3f53edad0c384727cd7360bd2d36cd094e1575c94e5dceb80ac0a6",
+    "p1_decimal_reference_verified_separately_in_final_semantic_receipt": true,
+    "portuguese_fixture_currency": "USD",
+    "p2_rejected_amount_verified_separately_in_final_semantic_receipt": true,
+    "p3_explicit_currency_constraints_verified_separately_in_final_semantic_receipt": true,
+    "p4_numeric_case_reference_preservation_has_focused_source_regressions": true,
+    "q1_unambiguous_currency_symbols_verified_separately_in_final_semantic_receipt": true,
+    "q2_rejected_choice_factual_review_intent_verified_separately_in_final_semantic_receipt": true,
+    "explicit_invalid_options_do_not_fall_back_to_retained_record": true
+  },
+  "hosted_verification": {
+    "commit": "6a4cf24fcb105d1587475d71c35c0de6ca4043ea",
+    "deployment_id": "dep-db1v74cs728c73afmro0",
+    "origin": "https://claro-banking-hackathon-2026.onrender.com",
+    "api_checks_passed": 26,
+    "browser_checks_passed": 22,
+    "conversation_receipt_sha256": "b490f77a92a43ce2be9f89fad9c3407c86f6ef919030e4da9166a52c0d32a233",
+    "conversational_https_scenarios_passed": 70,
+    "conversational_https_verified_cases": 28,
+    "conversational_https_chat_retries": 68,
+    "conversational_https_confirmation_retries": 28,
+    "conversational_https_owned_workspaces_erased": 70,
+    "conversational_https_external_provider_attempts": 0,
+    "source_identity_scope": "Host-confirmed Git commit ties packaged app source; separate HTTPS receipt verifies actual static bytes and six report contents. No runtime API source-hash attestation is claimed.",
+    "supplemental_capture_sha256": {
+      "submission/demo-assets/chat-hosted-welcome.png": "fb0d1ed8d8c6943ceecd63341e042281be57409db845422c1515acf2a1624ae5",
+      "submission/demo-assets/chat-hosted-confirm.png": "8255e65753e28cfb1bf1d0edb1f78dff9d29f9c25c2742c0c5240664f143c9ac",
+      "submission/demo-assets/chat-hosted-reply-restored.png": "ed1ac7b0352acc747c56332b39604f86113d6bdae1c33dfbbb02d399c1eec229",
+      "submission/demo-assets/chat-hosted-history.png": "cf15e0c961002ab04a0373290b6f9cff2a57425de520b2ba87c83be50a6dea77"
+    },
+    "supplemental_captures_visually_reviewed": true,
+    "supplemental_capture_scope": {
+      "submission/demo-assets/chat-hosted-reply-restored.png": "Fresh repeated sandbox reply/read-back/reload contract after the page animation settled. The saved Portuguese capture case differs from the main complete closed-case walkthrough; confirmation and full history captures retain that main case."
+    },
+    "hosted_scenes_are_not_substituted_for_original_local_video_workspace": true
+  },
+  "regression_proof": {
+    "chat-system-regression": {
+      "sha256": "aa19d33b2fdec58c83cfe069ef44355c2cad20583bd81681b3100b1292c0f6a1",
+      "source_hash_count": 14,
+      "source_hashes_match": true,
+      "package_copy_exact": true
+    },
+    "chat-challenge-regression": {
+      "sha256": "bb67e7eda0a81ed45ae883ae291ccb646c1aa873edcbaa969cb0cb22cd606b72",
+      "source_hash_count": 14,
+      "source_hashes_match": true,
+      "package_copy_exact": true
+    },
+    "chat-service-segment-regression": {
+      "sha256": "a0eba23ba49e45f6bc15c4202d0a522f827efa58ca8fa1c1eae7c2a65d387522",
+      "source_hash_count": 15,
+      "source_hashes_match": true,
+      "package_copy_exact": true
+    }
+  },
+  "limitations": [
+    "Edited narrated screenshots and labeled diagrams, not a continuous screen recording.",
+    "Original local captures use team-authored fixtures and disabled providers at port 8096 on October 5 UTC; final hosted images belong to a distinct sandbox workspace.",
+    "Native Microsoft PowerPoint rendering, independent linguistic/human listening review, native mobile keyboards, Safari and formal accessibility certification are not established.",
+    "Public proof is observed behavior at the recorded time, not uptime, restart durability, real-bank authorization or a production safety certification.",
+    "External provider live inference remains unverified; no paid service or organizer submission occurred."
+  ],
+  "prior_media_verification": {
+    "immutable_receipt": "docs/evidence/history/media-b495a0f.json",
+    "sha256": "2e4a103077b46a258d9bd59d2471e3bce2e95282cb83b04ef4ddb9e625108a74",
+    "artifact_revision": "b495a0f47c23548046be7fdca1eca220e83351a1",
+    "scope": "Immutable v7 653-test/b495 artifact-byte receipt and its original 26 API, 22 browser and 56 semantic scopes. Later Q1/Q2 source/report/capture verification is bound separately. Original 53/823/ed287/a5 historical scopes remain source-specific."
+  },
+  "corrected_immutable_host_history": {
+    "docs/evidence/history/api-a5d5f9.json": "77e3f27a800fd276eb7af2e02d8239ebd1e2c24337c4d70852eebc340211a425",
+    "docs/evidence/history/browser-a5d5f9.json": "1b001a6aa85fb1cac7f08dec0d4130c545ad03b2d3e1f0205ac788201f0b5d75",
+    "docs/evidence/history/api-ed287ce.json": "19ac073b1f6d80ad8380067b4b034757d679b6083da244cdc2f0356a23ec4e5a",
+    "docs/evidence/history/browser-ed287ce.json": "f752ad5664af43670e137a3fc119468942388cd2ea5782b55459d323be02adf9",
+    "docs/evidence/history/api-823aa83.json": "4886e4612d5561eff9b88b0ea384332d1c1edc01dbc8d2bd9d099ca44787669e",
+    "docs/evidence/history/browser-823aa83.json": "7a6267f7a83dad51de19404b69a3a6867dc6ff5468942a9bf2893442f9830ad8",
+    "docs/evidence/history/conversation-823aa83.json": "4d484dc30383955040f0d42f891f3a3c9c8c54c48dcb9311e15a1f7337c1e286",
+    "docs/evidence/history/api-53d9ce7.json": "baa7a07f9087686bc53c92c8c8dac2953aee43bcc69dfe6c70779d50b8d444f0",
+    "docs/evidence/history/browser-53d9ce7.json": "d5b01b0c0d721a7e01a4099d8902455a7e636de954ed4585763be8397af29fe0",
+    "docs/evidence/history/conversation-53d9ce7.json": "fcd314035f1cd321d6207ae768313a168e117f9fc02077b8705063d0318d9193",
+    "docs/evidence/history/api-b495a0f.json": "006dec0596a67aa28a3118dfe79de61f82ddde67c17bcaa5216ad2827ee16afd",
+    "docs/evidence/history/browser-b495a0f.json": "5a37339b42f314cfc376c73f6d2e709ce0b68e0a5ccf25affeeac365207001c8",
+    "docs/evidence/history/conversation-b495a0f.json": "286385f7578e01a36cebbf4b621ee37a14d11e2528e739b1febd289ddc1b9f7a"
   }
 }

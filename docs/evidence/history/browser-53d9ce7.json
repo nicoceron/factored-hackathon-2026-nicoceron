@@ -1,0 +1,503 @@
+{
+  "verified_at_utc": "2026-10-05T17:27:57.062Z",
+  "checks": {
+    "one_customer_textarea_zero_select_or_combobox": true,
+    "automatic_es_pt_same_authored_customer": true,
+    "genuine_two_choice_ambiguity_asks_without_attaching_record": true,
+    "repeated_clarification_preserves_all_three_meaningful_report_turns": true,
+    "clear_leading_portuguese_choice_avoids_repeated_clarification": true,
+    "customer_and_reviewer_sessions_independent": true,
+    "customer_reload_preserves_proposal_report_and_portuguese_locale": true,
+    "proposal_and_native_confirmation_name_exact_attached_record": true,
+    "confirmation_controls_visible_at_320x780": true,
+    "no_horizontal_overflow_in_320x780_confirmation": true,
+    "temporary_viewport_reset": true,
+    "native_explicit_confirm_creates_verified_sandbox_case": true,
+    "stored_case_report_equals_full_confirmation_report": true,
+    "saved_analyst_question_answered_in_main_composer": true,
+    "spanish_verified_reply_ack_switches_current_ui_language": true,
+    "customer_reload_restores_redacted_reply_and_verified_ack": true,
+    "saved_portuguese_case_language_survives_spanish_reply": true,
+    "reviewer_reload_preserves_four_chronological_events": true,
+    "closed_case_query_uses_current_scoped_status_timestamp_and_evidence": true,
+    "final_portuguese_request_switches_ui_and_response": true,
+    "ordinary_returning_chrome_reload_uses_final_versioned_js": true,
+    "customer_and_reviewer_console_warning_error_logs_empty": true
+  },
+  "responsive_confirmation": {
+    "body_scroll_width": 320,
+    "confirm_bottom": 746,
+    "confirm_top": 702,
+    "dialog_bottom": 762,
+    "dialog_top": 18,
+    "height": 780,
+    "width": 320
+  },
+  "final_desktop_viewport": {
+    "height": 1038,
+    "width": 1488
+  },
+  "console_counts": {
+    "customer_warning_or_error": 0,
+    "reviewer_warning_or_error": 0
+  },
+  "origin": "https://claro-banking-hackathon-2026.onrender.com",
+  "surface": "CUA-controlled returning Chrome, ordinary reload; no cache clearing or hard reload. Responsive customer viewport tested through tab-scoped developer emulation and reset.",
+  "host_confirmed_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+  "host_deploy_id": "dep-db1tpoflot8c73d5ei70",
+  "host_dashboard_observation": "Deploy succeeded|Live, exact full GitHub commit link, manual clean-cache deploy duration 1m04s; independent served report equality passed.",
+  "backend_identity_scope": "Host-confirmed Git commit ties packaged app source; separate HTTPS receipt verifies actual static bytes and six report contents. No runtime API source-hash attestation is claimed.",
+  "all_checks_passed": true,
+  "observed_record_attachment": {
+    "record_id": "TX-ES-102",
+    "merchant": "Tienda Demo",
+    "amount": 129000,
+    "currency": "COP",
+    "status": "pending"
+  },
+  "source_sha256": {
+    "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+    "src/factored_banking/workflow.py": "b6940eee49971ce601f1cad0cbad6529b7d7fec5bfe9c607a7459ba34b5081b2",
+    "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+    "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+    "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+    "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+    "src/factored_banking/language.py": "41a340133acdcb3c02362025ec698525954d07abb001a8a405ed5e63427af096",
+    "src/factored_banking/references.py": "058cb28b6d24b553f3b9792cf932a9b7fd064fdb66c9fd4b82a6644b755286aa"
+  },
+  "screenshots": [
+    {
+      "path": "submission/demo-assets/hosted-53d9ce7/chat-hosted-welcome.png",
+      "sha256": "0c990a003fbb0c94f7139e1934a20e5caf37741f2e92adfbda921786b934b55c",
+      "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+      "capture_source_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+      "capture_started_at_utc": "2026-10-05T17:27:44.775Z",
+      "capture_saved_at_utc": "2026-10-05T17:27:44.802Z",
+      "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+      "original_output_path": "submission/demo-assets/chat-hosted-welcome.png"
+    },
+    {
+      "path": "submission/demo-assets/hosted-53d9ce7/chat-hosted-confirm.png",
+      "sha256": "8255e65753e28cfb1bf1d0edb1f78dff9d29f9c25c2742c0c5240664f143c9ac",
+      "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+      "capture_source_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+      "capture_started_at_utc": "2026-10-05T17:25:56.309Z",
+      "capture_saved_at_utc": "2026-10-05T17:25:56.353Z",
+      "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+      "original_output_path": "submission/demo-assets/chat-hosted-confirm.png"
+    },
+    {
+      "path": "submission/demo-assets/hosted-53d9ce7/chat-hosted-reply-restored.png",
+      "sha256": "a9e4e3eb054c127fa27b549da5f72316273a6f29db18f0dcca748c6a0a367294",
+      "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+      "capture_source_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+      "capture_started_at_utc": "2026-10-05T17:27:02.430Z",
+      "capture_saved_at_utc": "2026-10-05T17:27:02.497Z",
+      "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+      "original_output_path": "submission/demo-assets/chat-hosted-reply-restored.png"
+    },
+    {
+      "path": "submission/demo-assets/hosted-53d9ce7/chat-hosted-history.png",
+      "sha256": "e2fc409ac8ea954ef691da6478e6e1a0120a30a03fee8a8883869119c61674c0",
+      "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+      "capture_source_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+      "capture_started_at_utc": "2026-10-05T17:27:44.689Z",
+      "capture_saved_at_utc": "2026-10-05T17:27:44.775Z",
+      "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+      "capture_extent": "Full page, including all four stored chronological events.",
+      "original_output_path": "submission/demo-assets/chat-hosted-history.png"
+    }
+  ],
+  "data_scope": "Authored public sandbox fixtures only. No cookie, CSRF, workspace or live session values retained. Screenshots show only team-authored test reports. No organizer submission performed.",
+  "limitations": [
+    "Observed public Chrome behavior at this time, not an uptime or production security certification.",
+    "Native mobile keyboards, Safari and formal accessibility certification were not exercised.",
+    "Conservative automatic language detection retains current locale for ambiguous short or shared phrases.",
+    "Cases and sessions use ephemeral Free-host sandbox storage; restart durability is not established.",
+    "Original seven local video captures retain their own source hashes and are distinct from these final hosted captures.",
+    "This current receipt has 22 browser checks; older six edge-case browser checks are not relabeled as current. Separate HTTPS conversational receipt exercises those and the final conversational fixes including P1 decimal references.",
+    "Live typed synthetic PIN remains in optimistic local rendering until reload; stored reply and restored chat are redacted."
+  ],
+  "previous_hosted_verification": {
+    "verified_at_utc": "2026-10-05T16:49:30.696Z",
+    "checks": {
+      "one_customer_textarea_zero_select_or_combobox": true,
+      "automatic_es_pt_same_authored_customer": true,
+      "genuine_two_choice_ambiguity_asks_without_attaching_record": true,
+      "repeated_clarification_preserves_all_three_meaningful_report_turns": true,
+      "clear_leading_portuguese_choice_avoids_repeated_clarification": true,
+      "customer_and_reviewer_sessions_independent": true,
+      "customer_reload_preserves_proposal_report_and_portuguese_locale": true,
+      "proposal_and_native_confirmation_name_exact_attached_record": true,
+      "confirmation_controls_visible_at_320x780": true,
+      "no_horizontal_overflow_in_320x780_confirmation": true,
+      "temporary_viewport_reset": true,
+      "native_explicit_confirm_creates_verified_sandbox_case": true,
+      "stored_case_report_equals_full_confirmation_report": true,
+      "saved_analyst_question_answered_in_main_composer": true,
+      "spanish_verified_reply_ack_switches_current_ui_language": true,
+      "customer_reload_restores_redacted_reply_and_verified_ack": true,
+      "saved_portuguese_case_language_survives_spanish_reply": true,
+      "reviewer_reload_preserves_four_chronological_events": true,
+      "closed_case_query_uses_current_scoped_status_timestamp_and_evidence": true,
+      "final_portuguese_request_switches_ui_and_response": true,
+      "ordinary_returning_chrome_reload_uses_final_versioned_js": true,
+      "customer_and_reviewer_console_warning_error_logs_empty": true
+    },
+    "responsive_confirmation": {
+      "body_scroll_width": 320,
+      "confirm_bottom": 746,
+      "confirm_top": 702,
+      "dialog_bottom": 762,
+      "dialog_top": 18,
+      "height": 780,
+      "width": 320
+    },
+    "final_desktop_viewport": {
+      "height": 1038,
+      "width": 1488
+    },
+    "console_counts": {
+      "customer_warning_or_error": 0,
+      "reviewer_warning_or_error": 0
+    },
+    "origin": "https://claro-banking-hackathon-2026.onrender.com",
+    "surface": "CUA-controlled returning Chrome, ordinary reload; no cache clearing or hard reload. Responsive customer viewport tested through tab-scoped developer emulation and reset.",
+    "host_confirmed_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+    "host_deploy_id": "dep-db1t6lqd0e5s7398pf60",
+    "host_dashboard_observation": "Deploy succeeded|Live, exact full GitHub commit link, manual clean-cache deploy duration 1m16s; independent served report equality passed.",
+    "backend_identity_scope": "Host-confirmed Git commit ties packaged app source; separate HTTPS receipt verifies actual static bytes and six report contents. No runtime API source-hash attestation is claimed.",
+    "all_checks_passed": true,
+    "observed_record_attachment": {
+      "record_id": "TX-ES-102",
+      "merchant": "Tienda Demo",
+      "amount": 129000,
+      "currency": "COP",
+      "status": "pending"
+    },
+    "source_sha256": {
+      "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+      "src/factored_banking/workflow.py": "b6940eee49971ce601f1cad0cbad6529b7d7fec5bfe9c607a7459ba34b5081b2",
+      "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+      "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+      "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+      "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+      "src/factored_banking/language.py": "41a340133acdcb3c02362025ec698525954d07abb001a8a405ed5e63427af096",
+      "src/factored_banking/references.py": "75931e9c2eaaa0a77f95ea69a4f38d954643a2d44553605328caf268199f375a"
+    },
+    "screenshots": [
+      {
+        "path": "submission/demo-assets/hosted-823aa83/chat-hosted-welcome.png",
+        "sha256": "0c990a003fbb0c94f7139e1934a20e5caf37741f2e92adfbda921786b934b55c",
+        "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+        "capture_source_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+        "capture_started_at_utc": "2026-10-05T16:48:42.861Z",
+        "capture_saved_at_utc": "2026-10-05T16:48:42.996Z",
+        "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+        "original_output_path": "submission/demo-assets/chat-hosted-welcome.png"
+      },
+      {
+        "path": "submission/demo-assets/hosted-823aa83/chat-hosted-confirm.png",
+        "sha256": "8255e65753e28cfb1bf1d0edb1f78dff9d29f9c25c2742c0c5240664f143c9ac",
+        "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+        "capture_source_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+        "capture_started_at_utc": "2026-10-05T16:46:13.300Z",
+        "capture_saved_at_utc": "2026-10-05T16:46:13.399Z",
+        "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+        "original_output_path": "submission/demo-assets/chat-hosted-confirm.png"
+      },
+      {
+        "path": "submission/demo-assets/hosted-823aa83/chat-hosted-reply-restored.png",
+        "sha256": "1b153c99a1bb6bbaf2a66f24dea1920bb765e0ddad12ef419d17189008a15b3a",
+        "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+        "capture_source_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+        "capture_started_at_utc": "2026-10-05T16:47:26.380Z",
+        "capture_saved_at_utc": "2026-10-05T16:47:26.405Z",
+        "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+        "original_output_path": "submission/demo-assets/chat-hosted-reply-restored.png"
+      },
+      {
+        "path": "submission/demo-assets/hosted-823aa83/chat-hosted-history.png",
+        "sha256": "a67fa6c68ee1de44adb2746d528e087221bcf9eb0e3ab17fbc86cfd6418294db",
+        "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+        "capture_source_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+        "capture_started_at_utc": "2026-10-05T16:49:30.641Z",
+        "capture_saved_at_utc": "2026-10-05T16:49:30.696Z",
+        "timestamp_scope": "Capture request start and completed artifact-save UTC timestamps bound this capture; not source attestation.",
+        "capture_extent": "Full page, including all four stored chronological events.",
+        "original_output_path": "submission/demo-assets/chat-hosted-history.png"
+      }
+    ],
+    "data_scope": "Authored public sandbox fixtures only. No cookie, CSRF, workspace or live session values retained. Screenshots show only team-authored test reports. No organizer submission performed.",
+    "limitations": [
+      "Observed public Chrome behavior at this time, not an uptime or production security certification.",
+      "Native mobile keyboards, Safari and formal accessibility certification were not exercised.",
+      "Conservative automatic language detection retains current locale for ambiguous short or shared phrases.",
+      "Cases and sessions use ephemeral Free-host sandbox storage; restart durability is not established.",
+      "Original seven local video captures retain their own source hashes and are distinct from these final hosted captures.",
+      "This current receipt has 22 browser checks; older six edge-case browser checks are not relabeled as current. Separate HTTPS conversational receipt exercises those and the final conversational fixes.",
+      "Live typed synthetic PIN remains in optimistic local rendering until reload; stored reply and restored chat are redacted."
+    ],
+    "previous_hosted_verification": {
+      "verified_at_utc": "2026-10-05T08:03:30.886125+00:00",
+      "origin": "https://claro-banking-hackathon-2026.onrender.com",
+      "surface": "CUA-controlled returning Chrome, ordinary reload; no cache clearing or hard reload",
+      "host_confirmed_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+      "host_deploy_id": "dep-db1lcb49v7es7384deh0",
+      "host_dashboard_observation": "Deploy succeeded|Live, exact full GitHub commit link, manual deploy duration 1m21s",
+      "backend_identity_scope": "Host-confirmed Git commit ties packaged app source; separate HTTPS receipt verifies actual static bytes and six report contents. No runtime API source-hash attestation is claimed.",
+      "all_checks_passed": true,
+      "checks": {
+        "one_customer_textarea_zero_select_or_combobox": true,
+        "automatic_es_pt_same_authored_customer": true,
+        "repeated_clarification_preserves_all_three_meaningful_report_turns": true,
+        "proposal_and_native_confirmation_name_exact_attached_record": true,
+        "customer_and_reviewer_sessions_independent": true,
+        "customer_reload_preserves_proposal_report_and_portuguese_locale": true,
+        "native_explicit_confirm_creates_verified_sandbox_case": true,
+        "stored_case_report_equals_full_confirmation_report": true,
+        "saved_portuguese_case_language_survives_spanish_reply": true,
+        "saved_analyst_question_answered_in_main_composer": true,
+        "spanish_verified_reply_ack_switches_current_ui_language": true,
+        "customer_reload_restores_redacted_reply_and_verified_ack": true,
+        "reviewer_reload_preserves_four_chronological_events": true,
+        "closed_case_query_uses_current_scoped_status_timestamp_and_evidence": true,
+        "final_portuguese_request_switches_ui_and_response": true,
+        "confirmation_controls_visible_at_320x780": true,
+        "no_horizontal_overflow_in_320x780_confirmation": true,
+        "temporary_viewport_reset": true,
+        "customer_and_reviewer_console_warning_error_logs_empty": true,
+        "ordinary_returning_chrome_reload_uses_final_versioned_js": true,
+        "spanish_perfect_authorization_denial_proposes_review_on_exact_record": true,
+        "portuguese_negative_self_authorization_denial_proposes_review_on_exact_record": true,
+        "negated_choice_keeps_all_candidates_without_record_attachment": true,
+        "post_noun_ordinal_timing_keeps_all_candidates_without_record_attachment": true,
+        "short_spanish_tercer_resolves_shown_third_record": true,
+        "portuguese_no_preposition_keeps_factual_status_query": true
+      },
+      "observed_record_attachment": {
+        "record_id": "TX-ES-102",
+        "merchant": "Tienda Demo",
+        "amount": 129000,
+        "currency": "COP",
+        "status": "pending"
+      },
+      "responsive_confirmation": {
+        "width": 320,
+        "height": 780,
+        "body_scroll_width": 320,
+        "dialog_top": 18,
+        "dialog_bottom": 762,
+        "confirm_top": 702,
+        "confirm_bottom": 746
+      },
+      "final_desktop_viewport": {
+        "width": 1488,
+        "height": 982
+      },
+      "console_counts": {
+        "customer_warning_or_error": 0,
+        "reviewer_warning_or_error": 0
+      },
+      "source_sha256": {
+        "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+        "src/factored_banking/workflow.py": "ef6e3151afb34c7e97a0ce52a8d848e70eac15eee42f52537d56bedcc2338158",
+        "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+        "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+        "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+        "src/factored_banking/language.py": "ef22d1b240cf39300a0ff46c27f2d657889ed7ae0f140cc7bcec5d74f88faac1",
+        "src/factored_banking/references.py": "93745f577093701d90797eff77d02508a5565df6c29ff394e3c735dd101b16ee"
+      },
+      "screenshots": [
+        {
+          "path": "submission/demo-assets/hosted-ed287ce/chat-hosted-welcome.png",
+          "sha256": "8c534c29a4c95fa64d2a609d244c89bfa0dc045935fde7436885861d5e0efe0d",
+          "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+          "capture_source_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+          "capture_saved_at_utc": "2026-10-05T08:01:58.031838+00:00",
+          "timestamp_scope": "Local artifact save time at this hosted capture; not the exact browser capture instant.",
+          "original_output_path": "submission/demo-assets/chat-hosted-welcome.png"
+        },
+        {
+          "path": "submission/demo-assets/hosted-ed287ce/chat-hosted-confirm.png",
+          "sha256": "9a5fc3bf1a8976bbe2ea6ef6c8cab775c9e4de9afcd23359c52d567a8bc19ecc",
+          "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+          "capture_source_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+          "capture_saved_at_utc": "2026-10-05T07:57:18.299605+00:00",
+          "timestamp_scope": "Local artifact save time at this hosted capture; not the exact browser capture instant.",
+          "original_output_path": "submission/demo-assets/chat-hosted-confirm.png"
+        },
+        {
+          "path": "submission/demo-assets/hosted-ed287ce/chat-hosted-reply-restored.png",
+          "sha256": "f55534a7ffef559e0577284f49bd34a8bc0b082592744c6831302a24b0d4ff39",
+          "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+          "capture_source_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+          "capture_saved_at_utc": "2026-10-05T07:59:46.510082+00:00",
+          "timestamp_scope": "Local artifact save time at this hosted capture; not the exact browser capture instant.",
+          "original_output_path": "submission/demo-assets/chat-hosted-reply-restored.png"
+        },
+        {
+          "path": "submission/demo-assets/hosted-ed287ce/chat-hosted-history.png",
+          "sha256": "e9b2f780ed261729af908cdcc8b68c2cbee6c3adcf2d8005c0f31973501846a2",
+          "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+          "capture_source_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+          "capture_saved_at_utc": "2026-10-05T08:01:17.507350+00:00",
+          "timestamp_scope": "Local artifact save time at this hosted capture; not the exact browser capture instant.",
+          "original_output_path": "submission/demo-assets/chat-hosted-history.png"
+        }
+      ],
+      "data_scope": "Authored public sandbox fixtures only. No cookie, CSRF, workspace or live session values retained. Screenshots show only team-authored test reports. No organizer submission performed.",
+      "limitations": [
+        "Observed public Chrome behavior at this time, not an uptime or production security certification.",
+        "Native mobile keyboards, Safari and formal accessibility certification were not exercised.",
+        "Conservative automatic language detection retains current locale for ambiguous short or shared phrases.",
+        "Cases and sessions use ephemeral Free-host sandbox storage; restart durability is not established.",
+        "Original seven local video captures retain their own source hashes and are distinct from these final hosted captures."
+      ],
+      "previous_hosted_verification": {
+        "verified_at_utc": "2026-10-05T06:36:11.807371+00:00",
+        "origin": "https://claro-banking-hackathon-2026.onrender.com",
+        "surface": "CUA-controlled returning Chrome, ordinary navigation and reload; no cache clearing or hard reload",
+        "host_confirmed_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+        "host_deploy_id": "dep-db1k7mu0tbcc73b835n0",
+        "host_dashboard_observation": "Deploy succeeded|Live, exact full GitHub commit link, manual deploy duration 1m03s",
+        "backend_identity_scope": "Host-confirmed Git commit ties packaged app source; separate HTTPS receipt verifies actual static bytes and six report contents. No runtime API source-hash attestation is claimed.",
+        "all_checks_passed": true,
+        "checks": {
+          "ordinary_returning_chrome_navigation_uses_final_versioned_js": true,
+          "one_customer_textarea_zero_select_or_combobox": true,
+          "automatic_es_pt_same_authored_customer": true,
+          "repeated_clarification_preserves_all_three_meaningful_report_turns": true,
+          "proposal_and_native_confirmation_name_exact_attached_record": true,
+          "customer_and_reviewer_sessions_independent": true,
+          "customer_reload_preserves_proposal_report_and_portuguese_locale": true,
+          "native_explicit_confirm_creates_verified_sandbox_case": true,
+          "stored_case_report_equals_full_confirmation_report": true,
+          "saved_portuguese_case_language_survives_spanish_reply": true,
+          "saved_analyst_question_answered_in_main_composer": true,
+          "spanish_verified_reply_ack_switches_current_ui_language": true,
+          "customer_reload_restores_redacted_reply_and_verified_ack": true,
+          "reviewer_reload_preserves_four_chronological_events": true,
+          "closed_case_query_uses_current_scoped_status_timestamp_and_evidence": true,
+          "final_portuguese_request_switches_ui_and_response": true,
+          "confirmation_controls_visible_at_320x780": true,
+          "no_horizontal_overflow_in_320x780_confirmation": true,
+          "temporary_viewport_reset": true,
+          "customer_and_reviewer_console_warning_error_logs_empty": true
+        },
+        "observed_record_attachment": {
+          "record_id": "TX-ES-102",
+          "merchant": "Tienda Demo",
+          "amount": 129000,
+          "currency": "COP",
+          "status": "pending"
+        },
+        "responsive_confirmation": {
+          "width": 320,
+          "height": 780,
+          "body_scroll_width": 320,
+          "dialog_top": 18,
+          "dialog_bottom": 762,
+          "confirm_top": 702,
+          "confirm_bottom": 746
+        },
+        "final_desktop_viewport": {
+          "width": 1488,
+          "height": 982
+        },
+        "console_counts": {
+          "customer_warning_or_error": 0,
+          "reviewer_warning_or_error": 0
+        },
+        "source_sha256": {
+          "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+          "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab",
+          "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+          "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b"
+        },
+        "screenshots": [
+          {
+            "path": "submission/demo-assets/hosted-a5d5f9/chat-hosted-welcome.png",
+            "sha256": "c208dfd076f3b66b9a3937bd53e947461a46ec986509692beea6bbb33bec2755",
+            "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+            "capture_source_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+            "original_output_path": "submission/demo-assets/chat-hosted-welcome.png",
+            "capture_saved_at_utc": "2026-10-05T06:31:28.428261+00:00",
+            "timestamp_scope": "Local artifact save time preserved from the actual prior capture, not the exact browser capture instant."
+          },
+          {
+            "path": "submission/demo-assets/hosted-a5d5f9/chat-hosted-confirm.png",
+            "sha256": "9a5fc3bf1a8976bbe2ea6ef6c8cab775c9e4de9afcd23359c52d567a8bc19ecc",
+            "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+            "capture_source_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+            "original_output_path": "submission/demo-assets/chat-hosted-confirm.png",
+            "capture_saved_at_utc": "2026-10-05T06:32:33.431848+00:00",
+            "timestamp_scope": "Local artifact save time preserved from the actual prior capture, not the exact browser capture instant."
+          },
+          {
+            "path": "submission/demo-assets/hosted-a5d5f9/chat-hosted-reply-restored.png",
+            "sha256": "201dac6b685710988cb4d6c4cd2bd39226494e06217273fa87c840ce7395f2c5",
+            "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+            "capture_source_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+            "original_output_path": "submission/demo-assets/chat-hosted-reply-restored.png",
+            "capture_saved_at_utc": "2026-10-05T06:34:28.922087+00:00",
+            "timestamp_scope": "Local artifact save time preserved from the actual prior capture, not the exact browser capture instant."
+          },
+          {
+            "path": "submission/demo-assets/hosted-a5d5f9/chat-hosted-history.png",
+            "sha256": "47059a26808bb04f7ff5efa1142491c71f6683b735609b7438829eaa910077d5",
+            "capture_origin": "https://claro-banking-hackathon-2026.onrender.com",
+            "capture_source_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+            "original_output_path": "submission/demo-assets/chat-hosted-history.png",
+            "capture_saved_at_utc": "2026-10-05T06:35:21.532032+00:00",
+            "timestamp_scope": "Local artifact save time preserved from the actual prior capture, not the exact browser capture instant."
+          }
+        ],
+        "data_scope": "Authored public sandbox fixtures only. No cookie, CSRF, workspace or live session values retained. Screenshots show only team-authored test reports. No organizer submission performed.",
+        "limitations": [
+          "Observed public Chrome behavior at this time, not an uptime or production security certification.",
+          "Native mobile keyboards, Safari and formal accessibility certification were not exercised.",
+          "Conservative automatic language detection retains current locale for ambiguous short or shared phrases.",
+          "Cases and sessions use ephemeral Free-host sandbox storage; restart durability is not established.",
+          "Original seven local video captures retain their own source hashes and are distinct from these final hosted captures."
+        ],
+        "historical_receipt_sha256": "a7b56cd53cb6ae73750748bd9ea9311f616ae31909bd3371c208c1dc9acf087d",
+        "restoration_scope": "Restored original twenty-check a5d5 receipt from the frozen previous-review snapshot; screenshot files preserved under an immutable historical directory. No ed287 M1/L1 observation is assigned to this prior deployment."
+      },
+      "observed_case": {
+        "case_id": "CASE-A93E31A7FB92",
+        "saved_case_language": "pt",
+        "reply_language": "es",
+        "final_status": "reviewed_closed",
+        "closed_at_utc": "2026-10-05T08:00:10+00:00",
+        "events": [
+          "case_created",
+          "question_requested",
+          "customer_reply",
+          "review_closed"
+        ],
+        "stored_reply_redacted": true
+      },
+      "sampled_language_and_reference_scope": "The exact ES perfect and PT negative-self denial examples produced human-review previews for TX-ES-102 before any action. Rejected first-record preference and Portuguese timing retained all candidates; Spanish tercer selected TX-ES-103. The Portuguese no-meu-registro query answered recorded TX-ES-102 status. These are authored probes, not exhaustive linguistic validation.",
+      "capture_scope": "Four newly captured hosted PNGs bind this final source: clean Portuguese entry, full ES-to-PT three-turn native confirmation, Spanish redacted reply/ack restored after reload, and four saved reviewer events. The original seven local media captures remain separate.",
+      "provenance_correction": "N3 corrected: previous deployment restored from its frozen twenty-check receipt; capture-save timestamps and preserved historical PNGs distinguish independent captures. Identical confirmation PNG bytes occurred at two recorded save times; they are not source attestation."
+    },
+    "deployment_mismatch_resolution": {
+      "observed_at_utc": "2026-10-05T16:41:17Z",
+      "dashboard_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+      "dashboard_deployment_id": "dep-db1t37jncjis73c8aa50",
+      "dashboard_status": "Deploy succeeded|Live",
+      "dashboard_duration": "3m25s",
+      "served_packaged_report_matches_prior_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+      "evaluation_cache_control": "no-store",
+      "cf_cache_status": "DYNAMIC",
+      "local_same_full_api_sequence": "passes3-to2-to102",
+      "cause_scope": "Observed deployment/source mismatch; internal provider cache cause not established.",
+      "remediation": "Documented Clear build cache & deploy, same checked commit, existing Free service.",
+      "new_deployment_id": "dep-db1t6lqd0e5s7398pf60"
+    }
+  }
+}

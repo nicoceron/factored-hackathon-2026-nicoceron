@@ -1,10 +1,13 @@
 # Requirement-to-evidence map
 
-**Post-Opus local verification complete.** Stronger ordinal guards, visible attached-record confirmation, independent role sessions, augmented reports and fresh captures pass 413 local tests and 27 scoped Chrome checks. Refreshed v3 regressions and media bind the final local source. Hosted release verification is separate.
+**Final chat deployment verified.** The application passes 680 local tests. Separate receipts record 26 public HTTPS checks and 22 observed returning-Chrome checks at `6a4cf24fcb105d1587475d71c35c0de6ca4043ea`. Source-matched v3 regressions, six editable slides and the captioned demo retain scoped limitations and exact provenance. A separate authored conversational HTTPS receipt passes 70/70 scenarios. Organizer submission remains excluded.
 
 This map follows the participant problem statement and kickoff, without inventing scoring weights. It distinguishes implementation, offline evidence, and hosted behavior. No metric is a production claim.
 
-The exact judging instruction is that the solution should work first (kickoff p. 20); depth, demonstrated behavior and engineering judgment determine the score, and more workflows earn no automatic bonus (problem statement p. 3). [The chat audit](CHAT_RUBRIC_AUDIT.md) records the complete requirement/comment inventory and the focused priorities. The current chat redesign passes 413 local tests and 27 scoped Chrome checks and is not deployed. Current v3 regression receipts are source-matched; public v1.1 browser/media and historical receipts verify their recorded revisions. The stricter v3 case-grounding scorer prevents direct old/new percentage comparisons.
+The exact judging instruction is that the solution should work first (kickoff p. 20); depth, demonstrated behavior and engineering judgment determine the score, and more workflows earn no automatic bonus (problem statement p. 3). [The chat audit](CHAT_RUBRIC_AUDIT.md) records the complete requirement/comment inventory and the focused priorities. The current chat passes 680 local tests, 26 public HTTPS checks and 22 observed returning-Chrome checks at the exact hosted commit in [deployment.json](../submission/deployment.json). Current v3 regression receipts are source-matched; original local screenshots and historical v1.1 receipts keep their recorded revisions. The stricter v3 case-grounding scorer prevents direct old/new percentage comparisons.
+
+
+The supplemental [conversational HTTPS receipt](evidence/chat-deployed-conversation-checks.json) passes 70/70 authored scenarios, with 28 verified cases, 68 chat retries and 28 confirmation retries, all 70 owned workspaces deleted, zero provider attempts, and exact report gates before/after. This is exposed regression evidence, separately from browser observations and the frozen evaluation workloads.
 
 | Evaluation dimension | Implemented decision and evidence | Limits |
 | --- | --- | --- |

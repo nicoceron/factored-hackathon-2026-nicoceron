@@ -1,0 +1,417 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-05T17:25:50.473246Z",
+  "started_at": "2026-10-05T17:25:12.564850Z",
+  "origin": "https://claro-banking-hackathon-2026.onrender.com",
+  "application_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+  "method": "Python urllib HTTPS requests with private CookieJars and role-scoped CSRF",
+  "data_provenance": "team_authored_synthetic",
+  "scope": "Supplemental authored conversational regressions, outside frozen evaluation corpora",
+  "limitations": [
+    "Not a held-out benchmark, native-language review, browser or keyboard proof",
+    "Cases are sandbox human-review handoffs, not real banking actions",
+    "Public host state may reset on restart"
+  ],
+  "external_provider_attempts": 0,
+  "all_passed": true,
+  "probe_sha256": "707d7da4edfbae1802c45d76b75dd3a7b61c5b71bac3d0522175d8a33e095a90",
+  "evaluation_gate": {
+    "all_exact_matches": true,
+    "unchanged_after_checks": true,
+    "reports": {
+      "system-evaluation": {
+        "file": "chat-system-regression.json",
+        "canonical_report_sha256": "0951318365553f94a8238309033a2e96c4a588dd4a1a716a0baefd63756d6682",
+        "source_manifest_sha256": "095d2a189cbd58fbf8cce41d18407579300a8a8e4d876b3d92437025a84bf91a"
+      },
+      "system-challenge-regression": {
+        "file": "chat-challenge-regression.json",
+        "canonical_report_sha256": "a7f9070952ce2a143c8cdd52c052cf3f94b480d57eff0c4316d98d17e90a858c",
+        "source_manifest_sha256": "095d2a189cbd58fbf8cce41d18407579300a8a8e4d876b3d92437025a84bf91a"
+      },
+      "service-segment-evaluation": {
+        "file": "chat-service-segment-regression.json",
+        "canonical_report_sha256": "8b9e035f6a7fdd843313f96307273038bec79126341db38c94ad616cfa6021ec",
+        "source_manifest_sha256": "1550930392b4cd5a7f32bf7c316d54aa98cab595367ac84164940e21883cc375"
+      }
+    }
+  },
+  "summary": {
+    "scenarios": 36,
+    "passed": 36,
+    "verified_cases": 19,
+    "owned_workspaces_erased": 36,
+    "verified_chat_retries": 24,
+    "verified_confirmation_retries": 19
+  },
+  "checks": [
+    {
+      "name": "pure_choice_1",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_2",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_3",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_4",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_5",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_6",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "direct_portuguese_details",
+      "category": "direct_two_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "direct_spanish_details",
+      "category": "direct_two_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "ambiguous_portuguese_details",
+      "category": "ambiguous_three_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "ambiguous_spanish_details",
+      "category": "ambiguous_three_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "indefinite_duplicate_1",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "indefinite_duplicate_2",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "indefinite_duplicate_3",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "indefinite_duplicate_4",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_1",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_2",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_3",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_4",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_5",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_6",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "unknown_merchant_es",
+      "category": "unknown_merchant_no_reuse",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "unknown_merchant_pt",
+      "category": "unknown_merchant_no_reuse",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "past_recognition_es",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "past_recognition_pt",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "past_self_es",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "past_self_pt",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "bare_self_es",
+      "category": "bare_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "bare_self_pt",
+      "category": "bare_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pt_decimal_period_fact",
+      "category": "pt_decimal_factual",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "pt_decimal_comma_fact",
+      "category": "pt_decimal_factual",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "pt_decimal_natural_fact",
+      "category": "pt_decimal_factual",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "pt_decimal_period_dispute",
+      "category": "pt_decimal_pending_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pt_decimal_comma_dispute",
+      "category": "pt_decimal_pending_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pt_decimal_natural_report_details",
+      "category": "pt_decimal_pending_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pt_decimal_numeric_contradiction",
+      "category": "pt_decimal_selection_guard",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "pt_decimal_numeric_retraction",
+      "category": "pt_decimal_selection_guard",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 0
+    }
+  ],
+  "previous_verified_conversation": {
+    "immutable_receipt": "docs/evidence/history/conversation-823aa83.json",
+    "sha256": "4d484dc30383955040f0d42f891f3a3c9c8c54c48dcb9311e15a1f7337c1e286",
+    "application_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+    "scenario_count": 28,
+    "probe_sha256": "a9de012aae7dd09af2deb40d3dc85b7b58f300034d8795e470794a1eea5a52c2",
+    "scope": "Exact prior receipt preserved; added decimal scenarios have separate current proof"
+  }
+}

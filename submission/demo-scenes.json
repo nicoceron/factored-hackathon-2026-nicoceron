@@ -13,7 +13,7 @@
       "These screenshots show actual local test runs with team authored fixtures.",
       "The customer opens the chat immediately. The service keeps a trusted, isolated demo identity."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json"
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged"
   },
   {
     "title": "Understand\nThen clarify",
@@ -29,7 +29,7 @@
       "Claro identifies the transaction from the conversation, asking for clarification when the reference is ambiguous.",
       "The authorized record shows one hundred twenty nine thousand Colombian pesos as pending, with its source and historical date."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
     "crop": [
       318,
       105,
@@ -52,7 +52,7 @@
       "It keeps the customer report separate from verified record facts. A separate confirmation creates the case; typing yes in chat cannot execute it.",
       "An explicit general request for an analyst attaches no transaction. No refund or card blocking is promised."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
     "crop": [
       500,
       75,
@@ -74,7 +74,7 @@
       "Retries keep the same idempotency key and stop after three attempts.",
       "A verification failure never becomes a success claim."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
     "crop": [
       318,
       315,
@@ -96,7 +96,7 @@
       "The customer opens that saved question and answers with the same chat composer.",
       "A verified reply returns the case to the review queue."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
     "crop": [
       318,
       275,
@@ -118,7 +118,7 @@
       "After closing the review, reloading reads the four persisted events.",
       "Customer chat and reviewer links replace profile selection. The backend owns the history."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
     "crop": [
       699,
       405,
@@ -177,7 +177,7 @@
       "The customer report still reaches human review.",
       "Claro completes a bilingual conversation and verified follow up, with explicit limits and reproducible evidence. Real banking requires approved identity, policies, and durable storage."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1–P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
     "crop": [
       318,
       450,

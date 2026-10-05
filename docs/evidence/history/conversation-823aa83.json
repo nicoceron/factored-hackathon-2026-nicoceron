@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-05T16:50:57.728132Z",
+  "started_at": "2026-10-05T16:50:26.237523Z",
+  "origin": "https://claro-banking-hackathon-2026.onrender.com",
+  "application_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+  "method": "Python urllib HTTPS requests with private CookieJars and role-scoped CSRF",
+  "data_provenance": "team_authored_synthetic",
+  "scope": "Supplemental authored conversational regressions, outside frozen evaluation corpora",
+  "limitations": [
+    "Not a held-out benchmark, native-language review, browser or keyboard proof",
+    "Cases are sandbox human-review handoffs, not real banking actions",
+    "Public host state may reset on restart"
+  ],
+  "external_provider_attempts": 0,
+  "all_passed": true,
+  "probe_sha256": "a9de012aae7dd09af2deb40d3dc85b7b58f300034d8795e470794a1eea5a52c2",
+  "evaluation_gate": {
+    "all_exact_matches": true,
+    "unchanged_after_checks": true,
+    "reports": {
+      "system-evaluation": {
+        "file": "chat-system-regression.json",
+        "canonical_report_sha256": "98830cf4a5df4d576d3c26fb758902f635c3834a95c5326bcdc0a1adb56194b3",
+        "source_manifest_sha256": "5b9fada9e763b7e83eb9efe1e2906d654cf3e8e85490a216ba91b262f44e4981"
+      },
+      "system-challenge-regression": {
+        "file": "chat-challenge-regression.json",
+        "canonical_report_sha256": "9250931354c76496b27f931ad5af055dff9aa47b1944edcc6e6c8c192d02c771",
+        "source_manifest_sha256": "5b9fada9e763b7e83eb9efe1e2906d654cf3e8e85490a216ba91b262f44e4981"
+      },
+      "service-segment-evaluation": {
+        "file": "chat-service-segment-regression.json",
+        "canonical_report_sha256": "d1a8f6e71a25f40f4afec47c8350fd848af47b37c9cf25ed255eacbd54b5397f",
+        "source_manifest_sha256": "8761d9061f5e976498667ccc8fa0c8aa9ab9d620e0e6b365091ec25eedf0743a"
+      }
+    }
+  },
+  "summary": {
+    "scenarios": 28,
+    "passed": 28,
+    "verified_cases": 16,
+    "owned_workspaces_erased": 28,
+    "verified_chat_retries": 16,
+    "verified_confirmation_retries": 16
+  },
+  "checks": [
+    {
+      "name": "pure_choice_1",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_2",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_3",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_4",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_5",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "pure_choice_6",
+      "category": "polite_word_numeric_selection",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "direct_portuguese_details",
+      "category": "direct_two_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "direct_spanish_details",
+      "category": "direct_two_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "ambiguous_portuguese_details",
+      "category": "ambiguous_three_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "ambiguous_spanish_details",
+      "category": "ambiguous_three_turn_report",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "indefinite_duplicate_1",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "indefinite_duplicate_2",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "indefinite_duplicate_3",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "indefinite_duplicate_4",
+      "category": "indefinite_not_ordinal",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_1",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_2",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_3",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_4",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_5",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "retracted_choice_6",
+      "category": "word_numeric_retraction",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "unknown_merchant_es",
+      "category": "unknown_merchant_no_reuse",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "unknown_merchant_pt",
+      "category": "unknown_merchant_no_reuse",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 0,
+      "verified_chat_retries": 0,
+      "verified_confirmation_retries": 0
+    },
+    {
+      "name": "past_recognition_es",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "past_recognition_pt",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "past_self_es",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "past_self_pt",
+      "category": "past_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "bare_self_es",
+      "category": "bare_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    },
+    {
+      "name": "bare_self_pt",
+      "category": "bare_denial",
+      "passed": true,
+      "failure_check": null,
+      "owned_workspace_erased": true,
+      "verified_cases": 1,
+      "verified_chat_retries": 1,
+      "verified_confirmation_retries": 1
+    }
+  ]
+}
