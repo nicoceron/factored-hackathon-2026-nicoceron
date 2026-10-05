@@ -15,7 +15,7 @@ description = "Exact API source checksum in local check receipts, not a credenti
 condition = "AND"
 regexTarget = "line"
 regexes = ['''^\s*"src/factored_banking/api\.py": "[a-f0-9]{64}",?\s*$''']
-paths = ['''(^|/)docs/evidence/chat-(checks|browser-checks)\.json$''']
+paths = ['''(^|/)docs/evidence/chat-(checks|browser-checks|deployed-browser-checks)\.json$''']
 
 [[rules.allowlists]]
 description = "API source checksum in the deployment receipt, not an API credential"
@@ -28,5 +28,54 @@ paths = ['''(^|/)submission/deployment\.json$''']
 description = "Exact captured and current API source checksums in media provenance, not credentials"
 condition = "AND"
 regexTarget = "line"
-regexes = ['''^\s*"(src/factored_banking/api\.py|api_sha256)": "[a-f0-9]{64}",?\s*$''']
+regexes = ['''^\s*"(src/factored_banking/api\.py|api_sha256|final_api_sha256)": "[a-f0-9]{64}",?\s*$''']
 paths = ['''(^|/)docs/evidence/chat-media-checks\.json$''']
+
+[[rules.allowlists]]
+description = "Exact public API verification receipt checksum in final deck and media manifests"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"docs/evidence/chat-deployed-api-checks\.json": "[a-f0-9]{64}",?\s*$''']
+paths = ['''(^|/)(submission/deck-manifest|docs/evidence/chat-media-checks)\.json$''']
+
+[[rules.allowlists]]
+description = "Exact public API receipt SHA256 in deployment metadata, not an API key"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"api_receipt_sha256": "[a-f0-9]{64}",?\s*$''']
+paths = ['''(^|/)submission/deployment\.json$''']
+
+[[rules.allowlists]]
+description = "Independently verified exact historical API and receipt checksums, not credentials"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"(docs/evidence/chat\-deployed\-api\-checks\.json|docs/evidence/history/api\-a5d5f9\.json|docs/evidence/history/api\-ed287ce\.json|final_api_sha256|src/factored_banking/api\.py)": "(19ac073b1f6d80ad8380067b4b034757d679b6083da244cdc2f0356a23ec4e5a|1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b|77e3f27a800fd276eb7af2e02d8239ebd1e2c24337c4d70852eebc340211a425|cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da)",?\s*$''']
+paths = ['''(^|/)docs/evidence/(history/(browser-(a5d5f9|ed287ce)|media-ed287ce)|chat-media-checks)\.json$''']
+
+[[rules.allowlists]]
+description = "Verified exact historical API source or public receipt checksum, not credentials"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"(src/factored_banking/api\.py)": "(cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da)",?\s*$''']
+paths = ['''(^|/)docs/evidence/history/browser\-823aa83\.json$''']
+
+[[rules.allowlists]]
+description = "Verified exact historical API source or public receipt checksum, not credentials"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"(docs/evidence/chat\-deployed\-api\-checks\.json|docs/evidence/history/api\-a5d5f9\.json|docs/evidence/history/api\-ed287ce\.json|final_api_sha256|src/factored_banking/api\.py)": "(19ac073b1f6d80ad8380067b4b034757d679b6083da244cdc2f0356a23ec4e5a|1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b|4886e4612d5561eff9b88b0ea384332d1c1edc01dbc8d2bd9d099ca44787669e|77e3f27a800fd276eb7af2e02d8239ebd1e2c24337c4d70852eebc340211a425|cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da)",?\s*$''']
+paths = ['''(^|/)docs/evidence/history/media\-823aa83\.json$''']
+
+[[rules.allowlists]]
+description = "Verified exact historical API source or public receipt checksum, not credentials"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"(docs/evidence/history/api\-823aa83\.json)": "(4886e4612d5561eff9b88b0ea384332d1c1edc01dbc8d2bd9d099ca44787669e)",?\s*$''']
+paths = ['''(^|/)docs/evidence/chat\-media\-checks\.json$''']
+
+[[rules.allowlists]]
+description = "Verified exact historical API source or public receipt checksum, not credentials"
+condition = "AND"
+regexTarget = "secret"
+regexes = ['''^caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87$''']
+paths = ['''(^|/)docs/evidence/chat\-checks\.json$''']

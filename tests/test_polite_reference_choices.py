@@ -34,7 +34,6 @@ def offered(rows):
         "La compra en línea.",
         "O pagamento em junho.",
         "El cargo en junio.",
-        "El pago en dólares.",
     ],
 )
 def test_location_channel_month_and_currency_words_are_not_unknown_merchants(message):
@@ -360,3 +359,229 @@ def test_decimal_amounts_preserve_option_conflicts_retractions_and_invalid_choic
         result = run(message, "pt", None, context, rows, classify)
         assert result["state"] == "clarification" and not result.get("transaction")
         assert not result.get("proposal_payload") and result["receipt"] is None
+
+
+@pytest.mark.parametrize(
+    "persona,locale,amount", [("customer_es", "es", "129000"), ("customer_pt", "pt", "38")]
+)
+@pytest.mark.parametrize("separator", [".", ","])
+@pytest.mark.parametrize("start", ["offered_status", "offered_dispute", "retained_status"])
+def test_rejected_amount_never_attaches_an_offered_or_retained_record(
+    tmp_path, persona, locale, amount, separator, start
+):
+    with TestClient(create_app(str(tmp_path / "rejected.sqlite"), enable_external=False)) as client:
+        session = client.post("/api/session", json={"persona": persona, "language": locale}).json()
+        client.headers["X-CSRF-Token"] = session["csrf_token"]
+        original = "No reconozco un cargo." if locale == "es" else "Não reconheço uma cobrança."
+        initial = (
+            original
+            if start == "offered_dispute"
+            else (
+                "¿Cuál es el estado del pago?"
+                if locale == "es"
+                else "Qual é o estado do pagamento?"
+            )
+        )
+        if start == "retained_status":
+            initial += " Tienda Demo"
+        first = client.post(
+            "/api/chat", json={"message": initial, "idempotency_key": str(uuid4())}
+        ).json()
+        assert first["state"] == ("resolved" if start == "retained_status" else "clarification")
+        value = amount + separator + ("00" if locale == "es" else "50")
+        rejected = ("No la de " if locale == "es" else "Não a de ") + value + "."
+        request = {"message": rejected, "idempotency_key": str(uuid4())}
+        result = client.post("/api/chat", json=request).json()
+        assert result["state"] == "clarification" and result["language"] == locale
+        assert (
+            result.get("transaction") is None
+            and result["proposal"] is None
+            and result["receipt"] is None
+        )
+        assert client.post("/api/chat", json=request).json() == result
+        restored = client.get("/api/session").json()
+        assert restored["demo_persona"] == persona and restored["proposal"] is None
+        assert client.get("/api/cases").json()["cases"] == []
+        if start == "offered_dispute":
+            assert original in restored["context"]["customer_report"]
+            currency = "COP" if locale == "es" else "USD"
+            selected = client.post(
+                "/api/chat",
+                json={"message": value + " " + currency, "idempotency_key": str(uuid4())},
+            ).json()
+            assert selected["state"] == "awaiting_confirmation" and selected["intent"] == "dispute"
+            assert selected["proposal"]["customer_report"].startswith(original)
+            assert selected["proposal"]["transaction"]["id"] == "TX-" + locale.upper() + "-102"
+            confirmation = {
+                "proposal_id": selected["proposal"]["id"],
+                "idempotency_key": str(uuid4()),
+            }
+            confirmed = client.post("/api/actions/confirm", json=confirmation).json()
+            assert confirmed["receipt"]["verified"]
+            assert client.post("/api/actions/confirm", json=confirmation).json() == confirmed
+            stored = client.get("/api/cases/" + confirmed["receipt"]["id"]).json()
+            assert stored["customer_report"] == selected["proposal"]["customer_report"]
+            assert stored["transaction"]["id"] == "TX-" + locale.upper() + "-102"
+            assert len(stored["timeline"]) == 1
+
+
+@pytest.mark.parametrize(
+    "persona,locale,message,transaction_id",
+    [
+        ("customer_es", "es", "No autoricé el cargo de 129000,00 COP.", "TX-ES-102"),
+        ("customer_pt", "pt", "Não reconheço a cobrança de 38.50 USD.", "TX-PT-102"),
+    ],
+)
+def test_authorization_denial_is_not_rejected_amount_selection(
+    tmp_path, persona, locale, message, transaction_id
+):
+    with TestClient(create_app(str(tmp_path / "denial.sqlite"), enable_external=False)) as client:
+        session = client.post("/api/session", json={"persona": persona, "language": locale}).json()
+        client.headers["X-CSRF-Token"] = session["csrf_token"]
+        request = {"message": message, "idempotency_key": str(uuid4())}
+        result = client.post("/api/chat", json=request).json()
+        assert result["state"] == "awaiting_confirmation" and result["intent"] == "dispute"
+        assert result["proposal"]["transaction"]["id"] == transaction_id
+        assert result["proposal"]["customer_report"] == message and result["receipt"] is None
+        assert client.post("/api/chat", json=request).json() == result
+        confirmation = {"proposal_id": result["proposal"]["id"], "idempotency_key": str(uuid4())}
+        confirmed = client.post("/api/actions/confirm", json=confirmation).json()
+        assert confirmed["receipt"]["verified"]
+        assert client.post("/api/actions/confirm", json=confirmation).json() == confirmed
+        stored = client.get("/api/cases/" + confirmed["receipt"]["id"]).json()
+        assert (
+            stored["transaction"]["id"] == transaction_id and stored["customer_report"] == message
+        )
+
+
+@pytest.mark.parametrize("message", ["38,50 reais", "38.50 BRL", "38.50 euros", "38,50 EUR"])
+@pytest.mark.parametrize("dispute", [False, True])
+def test_explicit_currency_mismatch_cannot_attach_usd_fixture_or_change_identity(
+    tmp_path, message, dispute
+):
+    with TestClient(create_app(str(tmp_path / "currency.sqlite"), enable_external=False)) as client:
+        session = client.post(
+            "/api/session", json={"persona": "customer_pt", "language": "pt"}
+        ).json()
+        client.headers["X-CSRF-Token"] = session["csrf_token"]
+        original = (
+            "Não reconheço uma cobrança."
+            if dispute
+            else "Qual é o estado do pagamento na Tienda Demo?"
+        )
+        first = client.post(
+            "/api/chat", json={"message": original, "idempotency_key": str(uuid4())}
+        ).json()
+        assert first["state"] == ("clarification" if dispute else "resolved")
+        request = {"message": message, "idempotency_key": str(uuid4())}
+        result = client.post("/api/chat", json=request).json()
+        assert result["state"] == "clarification" and result.get("transaction") is None
+        assert result["proposal"] is None and result["receipt"] is None
+        assert client.post("/api/chat", json=request).json() == result
+        restored = client.get("/api/session").json()
+        assert restored["demo_persona"] == "customer_pt" and restored["proposal"] is None
+        if dispute:
+            assert original in restored["context"]["customer_report"]
+        assert client.get("/api/cases").json()["cases"] == []
+
+
+@pytest.mark.parametrize("locale,message", [("pt", "38.50 dólares"), ("es", "38,50 dólares")])
+def test_matching_currency_alias_preserves_portuguese_customer_identity_and_exact_usd_evidence(
+    tmp_path, locale, message
+):
+    with TestClient(create_app(str(tmp_path / "usd.sqlite"), enable_external=False)) as client:
+        session = client.post(
+            "/api/session", json={"persona": "customer_pt", "language": locale}
+        ).json()
+        client.headers["X-CSRF-Token"] = session["csrf_token"]
+        first = (
+            "Qual é o estado do pagamento?" if locale == "pt" else "¿Cuál es el estado del pago?"
+        )
+        assert (
+            client.post(
+                "/api/chat", json={"message": first, "idempotency_key": str(uuid4())}
+            ).json()["state"]
+            == "clarification"
+        )
+        result = client.post(
+            "/api/chat", json={"message": message, "idempotency_key": str(uuid4())}
+        ).json()
+        assert result["state"] == "resolved" and result["transaction"]["id"] == "TX-PT-102"
+        assert (
+            result["transaction"]["amount"] == "38.50"
+            and result["transaction"]["currency"] == "USD"
+        )
+        assert result["proposal"] is None and result["receipt"] is None
+        assert client.get("/api/session").json()["demo_persona"] == "customer_pt"
+
+
+@pytest.mark.parametrize(
+    "message,expected",
+    [
+        ("38.50 dólares", ["usd"]),
+        ("Reais 38,50", ["brl"]),
+        ("38.50 euros", ["eur"]),
+        ("38,50 pesos", ["cop", "ars", "mxn"]),
+        ("38.50 pesos colombianos", ["cop"]),
+        ("38.50 pesos argentinos", ["ars"]),
+        ("38.50 pesos mexicanos", ["mxn"]),
+        ("38.50 JPY", ["jpy"]),
+        ("38.50 USD BRL", []),
+        ("A opção 2. O valor é 38.50 reais.", ["brl"]),
+        ("A opção 1. O valor é 38.50 reais.", []),
+        ("El pago en dólares.", ["usd"]),
+    ],
+)
+def test_currency_evidence_intersects_amount_record_and_shown_order_without_collapsing_peso_family(
+    message, expected
+):
+    rows = [
+        {
+            **transactions("demo-pt")[1],
+            "id": "AUTH-" + currency.upper(),
+            "currency": currency.upper(),
+            "merchant": None,
+        }
+        for currency in ["usd", "brl", "eur", "cop", "ars", "mxn", "jpy"]
+    ]
+    reference = resolve_reference(message, offered(rows), rows)
+    assert reference.mentioned
+    assert [row["currency"].lower() for row in reference.candidates] == expected
+
+
+@pytest.mark.parametrize("merchant", ["Mercado Euro", "Café Dólar", "Loja USD"])
+def test_currency_words_inside_exact_authorized_merchant_name_do_not_change_currency(merchant):
+    row = {**transactions("demo-es")[0], "id": "AUTH-MERCHANT", "merchant": merchant}
+    reference = resolve_reference("El cargo de " + merchant + " por 84000.00", {}, [row])
+    assert reference.mentioned and reference.candidates == [row]
+
+
+def test_currency_alias_conflicting_with_explicit_record_requires_clarification():
+    rows = [
+        {**transactions("demo-pt")[1], "id": "AUTH-USD", "merchant": None},
+        {**transactions("demo-pt")[1], "id": "AUTH-BRL", "currency": "BRL", "merchant": None},
+    ]
+    result = run("AUTH-USD de 38.50 reais", "pt", None, offered(rows), rows, classify)
+    assert result["state"] == "clarification" and not result.get("transaction")
+    assert not result.get("proposal_payload") and result["receipt"] is None
+
+
+def test_currency_letters_inside_scoped_record_id_are_not_monetary_evidence():
+    row = {**transactions("demo-es")[0], "id": "AUTH-USD", "merchant": None}
+    reference = resolve_reference("¿Cuál es el estado de AUTH-USD?", {}, [row])
+    assert not reference.mentioned and reference.candidates == [row]
+
+
+@pytest.mark.parametrize(
+    "message,expected",
+    [
+        ("A segunda, não a de 16.75.", ["TX-PT-102"]),
+        ("A segunda, não a de 38.50.", []),
+        ("A de 16.75, não a de 38,50.", ["TX-PT-103"]),
+        ("No, a de 38.50.", ["TX-PT-102"]),
+    ],
+)
+def test_rejected_amount_intersects_affirmative_amount_and_ordinal_choices(message, expected):
+    rows = transactions("demo-pt")
+    reference = resolve_reference(message, offered(rows), rows)
+    assert reference.mentioned and [row["id"] for row in reference.candidates] == expected
