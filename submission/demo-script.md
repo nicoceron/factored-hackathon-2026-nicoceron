@@ -18,9 +18,9 @@ The authorized record shows one hundred twenty nine thousand Colombian pesos as 
 ## 3. Your report Your confirmation
 
 The customer reports an unfamiliar Tienda charge after a phone call.
-The review preview keeps that description separate from verified transaction facts.
-A separate confirmation creates the case. Typing yes in chat cannot execute it.
-No refund or card blocking is promised.
+Before creating the case, the confirmation shows the attached transaction: T X E S one zero two, one hundred twenty nine thousand Colombian pesos, pending.
+It keeps the customer report separate from verified record facts. A separate confirmation creates the case; typing yes in chat cannot execute it.
+An explicit general request for an analyst attaches no transaction. No refund or card blocking is promised.
 
 ## 4. An action needs a verified receipt
 

@@ -485,13 +485,42 @@ def run(message, language, transaction_id, context, records, classifier):
         identifier.casefold() for identifier in authorized_ids
     }
     pending = context.get("pending_intent")
-    continuation = pending in {"transaction_status", "dispute", "scam", "human"} and (
-        selection_only
-        or deictic_selection(text, language)
-        or reference.selection_only
-        or (intent == "ambiguous" and not review_required)
+    selection_reply = (
+        selection_only or deictic_selection(text, language) or reference.selection_only
     )
-    report = customer_report(message, context, continuation=continuation)
+    explicit_new_request = bool(
+        unsupported_action
+        or status_question
+        or re.search(
+            r"\b(?:otro|otra|outro|outra|nuevo|nueva|novo|nova) "
+            r"(?:cargo|cobranca|pago|pagamento|operacion|operacao|transaccion|transacao|"
+            r"transferencia|compra|debito|movimiento|movimento)\b",
+            text,
+        )
+        or re.match(
+            r"(?:(?:ahora|agora|en cambio|por otra parte|por outro lado)[, ]+)?"
+            r"(?:quiero|quero|necesito|preciso|me gustaria|gostaria|dime|diga|muestra|mostre|"
+            r"consulta|consulte|explica|explique|abre|abra|registrar|registre|abrir) "
+            r"(?!(?:agregar|anadir|aclarar|completar|acrescentar|adicionar|esclarecer|"
+            r"complementar)\b)",
+            text,
+        )
+    )
+    continuation = (
+        pending in {"transaction_status", "dispute", "scam", "human"}
+        and not explicit_new_request
+        and (
+            selection_reply
+            or (intent == "ambiguous" and not review_required)
+            or (
+                pending in {"dispute", "scam", "human"}
+                and (reference.mentioned or intent in {"dispute", "scam", "human"})
+            )
+        )
+    )
+    report = customer_report(
+        message, context, continuation=continuation, selection_only=selection_reply
+    )
     result["customer_report"] = report
     referenced = re.findall(r"\bTX-[A-Z]{2}-\d+\b", message.upper())
     for identifier in authorized_ids:
@@ -543,7 +572,13 @@ def run(message, language, transaction_id, context, records, classifier):
         else:
             transaction_id = reference.candidates[0]["id"]
     if not review_required:
-        if pending in {"transaction_status", "dispute", "scam", "human"} and (
+        if (
+            continuation
+            and pending in {"dispute", "scam", "human"}
+            and intent in {"ambiguous", "transaction_status", "unsupported"}
+        ):
+            intent = pending
+        elif pending in {"transaction_status", "dispute", "scam", "human"} and (
             deictic_selection(text, language) or reference.selection_only
         ):
             # Without a selected record this still clarifies; it never chooses a record.

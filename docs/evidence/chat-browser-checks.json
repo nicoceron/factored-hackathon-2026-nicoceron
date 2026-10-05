@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-10-05T04:21:01.277465+00:00",
+  "verified_at": "2026-10-05T05:14:25.958219+00:00",
   "origin": "http://127.0.0.1:8096",
   "surface": "CUA-controlled Chrome",
   "provenance": "team-authored synthetic fixtures, external inference disabled",
@@ -23,7 +23,14 @@
     "final_console_warning_and_error_log_empty": true,
     "390x300_composer_visible": true,
     "unidentified_payment_predicate_clarifies": true,
-    "fresh_vague_followup_clarifies_topic": true
+    "fresh_vague_followup_clarifies_topic": true,
+    "ordinary_ordinal_phrases_clarify_while_valid_ordinals_resolve": true,
+    "attached_transaction_visible_in_proposal_and_confirmation": true,
+    "general_review_explicitly_discloses_no_attached_transaction": true,
+    "customer_and_reviewer_two_tabs_preserve_context_and_proposal": true,
+    "augmented_redacted_report_matches_persisted_case": true,
+    "fresh_portuguese_case_lookup_capture_matches_current_backend": true,
+    "confirmation_controls_visible_at_320x780": true
   },
   "final_desktop": {
     "viewport_width": 1488,
@@ -35,38 +42,38 @@
   },
   "static_sha256": {
     "index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
-    "app.css": "1c54aa5bb05ce5c9352f5bcb38c97d2794fd63dff2cba3cd7212b927ee2469e6",
-    "app.js": "756e0272ce0a02908df6c5a3e1f5bd32c2c9cd5380bd30344255424cdf9256cd",
+    "app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+    "app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
     "favicon.svg": "565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118"
   },
   "screenshots": [
     {
       "path": "submission/demo-assets/chat-welcome.jpg",
-      "sha256": "b35ccccb90655d7fbbeb2d02f5231a47e8357902d83e80672d9ad6c2cf51ecde"
+      "sha256": "8cc00f8c97a533b2151a9287a214b41f56ad2055c9f9fb8b2a24177760c9862c"
     },
     {
       "path": "submission/demo-assets/chat-evidence-pt.jpg",
-      "sha256": "934494767c4ec1a41845a13022649f37d0c8364ee0240ac9587381ea2db44da1"
+      "sha256": "78fca65c7a8cf47bbeeb72338d899efd8935dbca5fd0cc5cf8fa29e372731601"
     },
     {
       "path": "submission/demo-assets/chat-confirm-es.jpg",
-      "sha256": "4f6c8a304e1c2b384da3b4b4e1cb3ff89b619b2f53c770483185ba52f4a41c22"
+      "sha256": "64e2e71405be3449d0fbcaa170643af0e397551a9a90a24c64fa2d9e612f55fa"
     },
     {
       "path": "submission/demo-assets/chat-receipt-pt.jpg",
-      "sha256": "11742a2b560f85168de41aad1b4cd341e2f07409108b7d78c2b32393c641dcfd"
+      "sha256": "bab24b0e43b2d0dcf8b36b7af4adcd72c7b2839263a62149820e67f403a5d516"
     },
     {
       "path": "submission/demo-assets/chat-reply-pt.jpg",
-      "sha256": "853bc3981e4b88bfbe98791efc644e3ffd1267882b65c29482a1f5964afad316"
+      "sha256": "8e7db13f61088bed1b0adef66721cb64a1e0d51da5f8d9f8f0339beb8b84c99b"
     },
     {
       "path": "submission/demo-assets/chat-history-pt.jpg",
-      "sha256": "71396b4bf4ebbca23b50620c3684d929697d9dd3cfc73a1f0b5c694c56a4bb4b"
+      "sha256": "c90cc1170266d4f55063de649cda49e2ac1defab521550b9dfb9ea6ccb37bf5b"
     },
     {
       "path": "submission/demo-assets/chat-complete-pt.jpg",
-      "sha256": "0b595e4b44cc6dcd113348194b6d40ad0fb136ac508e06aded4af37be0719f52"
+      "sha256": "22d2f5681d5cbc97b2b01fefda96c4a1a5a5b96991590f7e23ac3cbddc10cb97"
     }
   ],
   "limitations": [
@@ -81,5 +88,34 @@
     "body_width": 390,
     "shell_height": 300,
     "composer_bottom": 217.5
+  },
+  "prior_verification_at": "2026-10-05T04:21:01.277465+00:00",
+  "backend_sha256": {
+    "src/factored_banking/api.py": "1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b",
+    "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+    "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+    "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2",
+    "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea"
+  },
+  "post_review_verification": {
+    "findings_checked": [
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5"
+    ],
+    "role_tabs": "Actual simultaneous Chrome customer/reviewer tabs; customer proposal survives reviewer login and customer reload; both can then mutate their authorized endpoint without re-login.",
+    "report": "Two-turn original allegation plus call detail and redacted authored email retained in native preview and stored case.",
+    "screenshots": "All seven recaptured on the final backend; current frontend refresh-detail correction affects reviewer refresh only.",
+    "mobile_confirmation": {
+      "width": 320,
+      "height": 780,
+      "body_width": 320,
+      "dialog_top": 18,
+      "dialog_bottom": 762,
+      "confirm_button_bottom": 746
+    },
+    "history": "New authored case retains four actual events after reviewer reload; Portuguese lookup returns closed status and no pending question."
   }
 }

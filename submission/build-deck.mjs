@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Presentation, PresentationFile } from '@oai/artifact-tool';
-import { GlobalFonts } from '@napi-rs/canvas';
+import { GlobalFonts, loadImage } from '@napi-rs/canvas';
 
 const root = process.env.CLARO_REPO;
 if (!root) throw new Error('Set CLARO_REPO to the repository root');
@@ -26,6 +26,13 @@ const json = async (p) => JSON.parse(await fs.readFile(path.join(root,p),'utf8')
 const fraud = await json('docs/evidence/ml-evaluation.json');
 const language = await json('docs/evidence/language-evaluation.json');
 const deployment = await json('submission/deployment.json');
+const scenes = await json('submission/demo-scenes.json');
+const captureFor = (name) => {
+ const provenance=scenes.find(scene=>scene.image===name)?.capture_provenance;
+ if(!provenance)throw new Error(`Missing declared capture provenance for ${name}`);
+ return provenance;
+};
+const currentHostedChat = deployment.verified && deployment.chat_redesign_verified === true;
 const challenge = await json('docs/evidence/system-challenge-evaluation.json');
 const regression = await json('docs/evidence/system-challenge-regression.json');
 const workflow = await json('docs/evidence/system-evaluation-v2.json').catch(() => null);
@@ -63,14 +70,16 @@ function chart(s,{x,y,w,h,categories,values,labels,max=1,format='0%',color=C.tea
 }
 async function screenshot(s,name,position,alt,crop){
  const file=path.join(output,'demo-assets',name);
+ const blob=await fs.readFile(file);
+ const source=await loadImage(blob);
  let frame={...position};
  if(crop){
-  const ratio=(1488*(1-crop.left-crop.right))/(1038*(1-crop.top-crop.bottom));
+  const ratio=(source.width*(1-crop.left-crop.right))/(source.height*(1-crop.top-crop.bottom));
   const width=Math.min(position.width,position.height*ratio),height=width/ratio;
   frame={left:position.left+(position.width-width)/2,top:position.top+(position.height-height)/2,width,height};
  }
  // A fit mode recomputes the source rectangle; explicit native crops use the declared rectangle.
- const image=s.images.add({blob:await fs.readFile(file),contentType:'image/jpeg',alt,...(crop?{}:{fit:'contain'}),position:frame});
+ const image=s.images.add({blob,contentType:'image/jpeg',alt,...(crop?{}:{fit:'contain'}),position:frame});
  if(crop)image.crop=crop;
 }
 
@@ -91,14 +100,17 @@ async function screenshot(s,name,position,alt,crop){
 // 2. Actual product evidence and workflow.
 {
  const s=slide('One conversation from inquiry to follow-up',2);
- await screenshot(s,'chat-confirm-es.jpg',{left:64,top:173,width:776,height:453},'Actual local Claro chat and explicit case confirmation retaining the specific customer report',{left:495/1488,top:240/1038,right:(1488-995)/1488,bottom:(1038-805)/1038});
+ await screenshot(s,'chat-confirm-es.jpg',{left:64,top:153,width:310,height:493},'Actual local Claro explicit confirmation with the attached transaction and augmented redacted report',{left:500/1488,top:75/1038,right:(1488-990)/1488,bottom:(1038-960)/1038});
+ text(s,'Attached record in this capture',405,227,420,40,25,C.teal,true);
+ text(s,'TX-ES-102\nTienda Demo\nCOP 129000.00\nPending\n17 June 2026 snapshot',405,282,420,204,25,C.ink);
+ text(s,'The augmented redacted report\nis visible before confirmation.',405,521,420,75,22,C.gray);
  text(s,'1  Start in chat',880,178,330,43,27,C.teal,true);
  text(s,'Automatic ES/PT language.\nClarify the transaction in chat.',880,225,330,77,23);
  text(s,'2  Confirm and verify',880,323,330,43,27,C.teal,true);
- text(s,'Commit one sandbox case.\nRead it back before success.',880,370,330,77,23);
+ text(s,'Inspect the attached record.\nConfirm, then read back.',880,370,330,77,23);
  text(s,'3  Persist follow-up',880,468,330,43,27,C.teal,true);
  text(s,'Ask a specific question.\nReply in the same composer.',880,515,330,77,23);
- notes(s,'Screenshot: current local Claro chat captured with CUA at http://127.0.0.1:8096 on October 4, 2026 America/Bogota, team-authored synthetic fixtures and external providers disabled. The UI creates a trusted sandbox session without persona or language selectors. ES/PT detection never changes customer identity. Exact references narrow validated authorized records and ambiguity prompts clarification. The customer report preserves specific redacted allegations through transaction clarification and is labeled unverified; permitted record facts remain separate. Customer sees the text before confirming. Atomic case commit and fresh read-back precede the receipt. The reviewer route is /?review=1. The owning customer answers a persisted question in the same composer. Case events remain scoped and idempotent. No real money movement, refunds or card blocking. Sources: docs/SYSTEM_EVALUATION.md, docs/OPERATIONS.md, api.py, privacy.py, store.py and workflow.py.');
+ notes(s,`Screenshot provenance: ${captureFor('chat-confirm-es.jpg')}. The UI creates a trusted sandbox session without persona or language selectors. ES/PT detection never changes customer identity. Exact references narrow validated authorized records and ambiguity prompts clarification. The customer report preserves specific redacted allegations through transaction clarification and is labeled unverified; permitted record facts remain separate. Customer sees the specific redacted report and attached transaction ID, merchant, amount/currency and recorded status before confirming. Explicit general human-review requests attach no transaction. Atomic case commit and fresh read-back precede the receipt. The reviewer route is /?review=1. The owning customer answers a persisted question in the same composer. Case events remain scoped and idempotent. No real money movement, refunds or card blocking. Sources: docs/SYSTEM_EVALUATION.md, docs/OPERATIONS.md, api.py, privacy.py, store.py and workflow.py.`);
 }
 // 3. Native editable architecture diagram.
 {
@@ -154,15 +166,16 @@ async function screenshot(s,name,position,alt,crop){
 // 6. Product review and explicit deployment/production boundary.
 {
  const s=slide('Demo and the route to a bank integration',6,true);
- await screenshot(s,'chat-history-pt.jpg',{left:64,top:167,width:570,height:405},'Current local Claro reviewer case with the persisted report, question, reply and closure',{left:699/1488,top:447/1038,right:(1488-1441)/1488,bottom:(1038-933)/1038});
- text(s, deployment.verified ? 'Prior v1.1 hosted demo' : 'Deployment verification pending',64,583,590,35,23,C.mint,true);
+ await screenshot(s,'chat-history-pt.jpg',{left:64,top:195,width:570,height:365},'Current local Claro reviewer case with the persisted report, question, reply and closure',{left:699/1488,top:405/982,right:(1488-1441)/1488,bottom:(982-885)/982});
+ text(s,'LOCAL SANDBOX CAPTURE',64,158,570,28,17,C.muted,true);
+ text(s, currentHostedChat ? 'Hosted chat demo: verified' : deployment.verified ? 'Prior v1.1 host; new chat is local' : 'Deployment verification pending',64,583,590,35,23,C.mint,true);
  text(s,deployment.verified?deployment.url:'A working URL will replace this line after verification.',64,625,590,40,16,C.white);
  text(s,'Deliberate trade-offs',690,164,520,43,29,C.mint,true);
  text(s,'Single worker and SQLite\nSimple deployment. Free-host restarts\ncan reset sandbox state.',690,225,510,121,24,C.white);
  text(s,'Optional external models\nUsage and tariff estimates are logged.\nLive provider results are still unverified.',690,370,510,121,24,C.white);
  text(s,'Before real customers',690,511,510,39,26,C.mint,true);
  text(s,'Bank identity, approved policies, durable\nstorage and independent ES/PT review.',690,558,515,82,24,C.white);
- notes(s,'Repository: https://github.com/nicoceron/factored-hackathon-2026-nicoceron . Public URL is tied to the prior v1.1 commit and verification date in submission/deployment.json. The current chat redesign is local and has not been deployed. Reviewer access is /?review=1 and customer chat is /. Current local screenshots do not independently prove that a newer branch is deployed. Optional Jev/DeepSeek adapters are implemented/mocked but live inference remains unverified pending authorized metered use. External tariff estimates are not invoice spend. Screenshot is a declared geometry crop of the current local reviewer timeline. Its Spanish interface retains the original Spanish report plus Portuguese question and reply; the filename does not imply a Portuguese-only interface. Screenshot was captured with CUA at http://127.0.0.1:8096 on October 4, 2026 America/Bogota using team fixtures and disabled providers. Free-host filesystem may reset. Sources: docs/AI_PROVIDERS.md, docs/OPERATIONS.md and submission/deployment.json. Real-bank requirements include approved identity/entitlements/MFA/policies, durable data, monitored rollout, privacy controls, independent ES/PT review and staffing. Organizer submission is intentionally outside requested scope. No real-bank operation or production safety certification.');
+ notes(s,`Repository: https://github.com/nicoceron/factored-hackathon-2026-nicoceron . ${currentHostedChat?'The separate deployment receipt verifies the current chat source and public assets at the recorded commit.':'Public URL remains tied to the prior v1.1 receipt. The current chat redesign is local and has not been deployed.'} Reviewer access is /?review=1 and customer chat is /. Current local screenshots do not independently prove that a newer branch is deployed. Optional Jev/DeepSeek adapters are implemented/mocked but live inference remains unverified pending authorized metered use. External tariff estimates are not invoice spend. Screenshot is a declared geometry crop of the current local reviewer timeline. Its Spanish interface retains the original Spanish report plus Portuguese question and reply; the filename does not imply a Portuguese-only interface. Declared screenshot provenance: ${captureFor('chat-history-pt.jpg')}. Free-host filesystem may reset. Sources: docs/AI_PROVIDERS.md, docs/OPERATIONS.md and submission/deployment.json. Real-bank requirements include approved identity/entitlements/MFA/policies, durable data, monitored rollout, privacy controls, independent ES/PT review and staffing. Organizer submission is intentionally outside requested scope. No real-bank operation or production safety certification.`);
 }
 
 await fs.mkdir(build,{recursive:true});

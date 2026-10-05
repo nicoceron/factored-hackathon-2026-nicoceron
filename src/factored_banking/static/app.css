@@ -140,3 +140,7 @@
 .chat-case-card .chat-case-link { border: 0; padding: 12px 0; border-radius: 0; }
 .chat-case-card > p { font-size: 12px; line-height: 1.6; margin: 0 0 10px; color: #5e7166; }
 .chat-case-card:not(:has(> p)) { padding-bottom: 0; }
+
+.proposal-transaction{padding-top:12px;margin-top:12px;border-top:1px solid #dce6cc}.proposal-transaction .detail-grid{gap:8px}.proposal-transaction .detail-fact{background:#fff;padding:9px}.proposal-transaction>small{display:block;margin-top:9px;color:var(--muted);font-size:10px;overflow-wrap:anywhere}.proposal-unattached{font-size:12px;line-height:1.7;padding:10px;border:1px solid #dce6cc;border-radius:8px;background:#fff}.dialog .proposal-transaction .detail-grid{margin-top:9px}
+
+#confirm-dialog[open]{display:flex;flex-direction:column;max-height:calc(100dvh - 36px);padding:0;overflow:hidden}#confirm-dialog .dialog-body{min-height:0;overflow:auto;padding:23px}#confirm-dialog .dialog-actions{flex:none;margin:0;padding:15px 23px;border-top:1px solid var(--line);background:#fff;flex-wrap:wrap}#confirm-dialog .dialog-actions .btn{min-height:44px}

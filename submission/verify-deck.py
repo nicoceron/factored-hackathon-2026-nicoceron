@@ -89,12 +89,17 @@ manifest = {
     "native_powerpoint_application_verified": False,
     "input_output_sha256": hashes,
     "asset_provenance": (
-        "Actual CUA Chrome local Claro captures at http://127.0.0.1:8096 on "
-        "2026-10-04 America/Bogota, team-authored fixtures and disabled providers. "
+        "Actual CUA Chrome local Claro captures with declared per-image provenance, "
+        "team-authored fixtures and disabled providers. "
         "Declared image crops improve readability without editing screenshot pixels. "
         "The reviewer timeline retains a Spanish interface, Spanish report and "
         "Portuguese question/reply."
     ),
+    "capture_provenance": {
+        scene["image"]: scene["capture_provenance"]
+        for scene in json.loads((ROOT / "submission/demo-scenes.json").read_text())
+        if scene["image"] in {"chat-confirm-es.jpg", "chat-history-pt.jpg"}
+    },
     "limitations": [
         "Screenshots illustrate the app; they do not prove deployed behavior.",
         "Deployment readiness evidence is separate from full browser workflow verification.",

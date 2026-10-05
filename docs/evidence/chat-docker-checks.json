@@ -1,7 +1,7 @@
 {
-  "verified_at": "2026-10-05T04:23:02.557243+00:00",
+  "verified_at": "2026-10-05T05:12:05.500204+00:00",
   "origin": "http://127.0.0.1:8097",
-  "image_id": "sha256:3286d116df852ac276bb3c9eff410d8812a93721f6d4fb12b2b120590db7e3ca",
+  "image_id": "sha256:e0258ffdaafb6054c927e40e737454905c1d1d4a2f8eeff60228ca7ab4277bb7",
   "source_only_nonroot_docker": true,
   "all_static_assets_byte_identical": true,
   "static_asset_checks": {
@@ -28,6 +28,5 @@
   "limitations": [
     "Local Docker receipt does not establish deployed public behavior.",
     "Authored fixtures only; external inference disabled."
-  ],
-  "startup_probe_note": "An immediate first probe ran before startup completed and disconnected before any mutation; the complete smoke passed after readiness."
+  ]
 }

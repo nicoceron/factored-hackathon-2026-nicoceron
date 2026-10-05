@@ -22,6 +22,10 @@ ORDINALS = (
     ("cuarta", "cuarto", "quarta", "quarto"),
     ("quinta", "quinto"),
 )
+SELECTION_NOUN = (
+    r"(?:opcion|opcao|operacion|operacao|transaccion|transacao|movimiento|movimento|"
+    r"pago|pagamento|cargo|cobranca|compra|transferencia|debito)"
+)
 MERCHANT_DESCRIPTORS = {
     "demo",
     "tienda",
@@ -69,6 +73,72 @@ def amount_values(value):
         if number.is_finite() and number >= 0:
             values.add(number)
     return values
+
+
+def ordinal_reference(text):
+    """An ordinal selects a listed option only in affirmative selection grammar.
+
+    Calendar, duration and first-time statements do not have this structure.
+    Multiple named options remain multiple candidates rather than a ranked guess.
+    """
+    ordinal = "(?:" + "|".join(label for labels in ORDINALS for label in labels) + ")"
+    article = r"(?:la|el|a|o|esa|ese|essa|esse|esta|este)"
+    clause = (
+        r"(?:"
+        + article
+        + r" )?(?:"
+        + ordinal
+        + r"(?: "
+        + SELECTION_NOUN
+        + r")?|"
+        + SELECTION_NOUN
+        + r" "
+        + ordinal
+        + r")"
+    )
+    selection = re.fullmatch(
+        r"(?:(?:es|e|fue|foi|elijo|escolho|prefiero|prefiro) )?"
+        + clause
+        + r"(?: (?:o|ou|y|e) "
+        + clause
+        + r")*(?: por favor)?[.!? ]*",
+        text.strip("¿¡ "),
+    )
+    if selection:
+        selected_text = selection[0]
+    else:
+        # In a longer report, an ordinal must directly qualify a transaction or
+        # option noun. Negated qualifiers do not affirm which record is selected.
+        phrases = list(
+            re.finditer(
+                r"(?<![\w-])(?:"
+                + ordinal
+                + r" "
+                + SELECTION_NOUN
+                + r"|"
+                + SELECTION_NOUN
+                + r" "
+                + ordinal
+                + r")(?![\w-])",
+                text,
+            )
+        )
+        if not phrases or any(
+            re.search(
+                r"\b(?:no|nao) (?:(?:es|e|fue|foi|era|sera|elijo|escolho) )?"
+                r"(?:(?:la|el|a|o|esta|este|esa|ese|essa|esse) )?$",
+                text[: match.start()],
+            )
+            for match in phrases
+        ):
+            return [], False
+        selected_text = " ".join(match[0] for match in phrases)
+    indices = [
+        index
+        for index, labels in enumerate(ORDINALS)
+        if any(re.search(r"\b" + label + r"\b", selected_text) for label in labels)
+    ]
+    return indices, bool(selection)
 
 
 def resolve_reference(message, context, records):
@@ -192,11 +262,9 @@ def resolve_reference(message, context, records):
             row for row in candidates if any(Decimal(row["amount"]) in values for values in amounts)
         ]
     previous = context.get("transaction_candidates", [])
-    ordinals = []
-    for index, labels in enumerate(ORDINALS):
-        if any(re.search(r"\b" + label + r"\b", text) for label in labels):
-            ordinals.append(index)
-            reference_words.update(labels)
+    ordinals, ordinal_only = ordinal_reference(text)
+    for index in ordinals:
+        reference_words.update(ORDINALS[index])
     option_number = re.fullmatch(
         r"(?:(?:la|a|el|o) )?(?:(?:opcion|opcao|numero) )?([1-9]\d?)[.!? ]*", text
     )
@@ -249,4 +317,4 @@ def resolve_reference(message, context, records):
         "numero",
     }
     remaining = set(re.findall(r"[a-z]+", text)) - reference_words - selection_words
-    return Reference(candidates, mentioned, mentioned and not remaining)
+    return Reference(candidates, mentioned, mentioned and (ordinal_only or not remaining))

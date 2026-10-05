@@ -47,6 +47,7 @@ Object.assign(words.es, {
   sessionRetry: 'Abrir conversación', yourCases: 'Seguimiento de tus casos', closeCase: 'Volver a la conversación',
   askQuestion: 'Enviar pregunta al cliente', closeReview: 'Cerrar revisión', sessionStarting: 'Preparando la conversación…',
   sourcesContext: 'Datos ficticios al', regressionProtocol: 'Regresión v3: exige respuestas de casos guardados con estado, fecha y evidencia. No es directamente comparable con v2; conserva los fallos de referencias inexistentes.', replyInChat: 'Responde aquí a la pregunta del analista.', jumpToLatest: 'Ver lo último', replyInComposer: 'Responder por chat', replyingTo: 'Respondiendo al analista', leaveReply: 'Seguir con otra consulta',
+  attachedRecord: 'Movimiento adjunto al caso', noAttachedRecord: 'Solicitud general de revisión: no se adjuntará ningún movimiento.',
 });
 Object.assign(words.pt, {
   chatWelcome: 'Como posso ajudar?', chatIntro: 'Consulte uma transação, conte o que aconteceu ou peça ajuda. Seguimos a conversa no seu idioma.',
@@ -57,6 +58,7 @@ Object.assign(words.pt, {
   sessionRetry: 'Abrir conversa', yourCases: 'Acompanhe seus casos', closeCase: 'Voltar à conversa',
   askQuestion: 'Enviar pergunta ao cliente', closeReview: 'Encerrar análise', sessionStarting: 'Preparando a conversa…',
   sourcesContext: 'Dados fictícios até', regressionProtocol: 'Regressão v3: exige respostas de casos salvos com estado, data e evidências. Não é diretamente comparável à v2; mantém as falhas de referências inexistentes.', replyInChat: 'Responda aqui à pergunta do analista.', jumpToLatest: 'Ver o mais recente', replyInComposer: 'Responder na conversa', replyingTo: 'Respondendo ao analista', leaveReply: 'Continuar com outra consulta',
+  attachedRecord: 'Transação anexada ao caso', noAttachedRecord: 'Solicitação geral de análise: nenhuma transação será anexada.',
 });
 
 const MAX_ATTEMPTS = 3;
@@ -82,7 +84,8 @@ async function api(path, { method = 'GET', body, anonymous = false } = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 30000);
   try {
-    const headers = { Accept: 'application/json' };
+    // Select the route's authenticated session; the server still validates its role.
+    const headers = { Accept: 'application/json', 'X-Claro-Role': reviewMode ? 'analyst' : 'customer' };
     if (body !== undefined) headers['Content-Type'] = 'application/json';
     if (method !== 'GET' && state.csrf && !anonymous) headers['X-CSRF-Token'] = state.csrf;
     const response = await fetch(path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body), credentials: 'same-origin', cache: 'no-store', signal: controller.signal });
@@ -160,7 +163,9 @@ function renderProviderNotice() {
   return `<div class="provider-notice"><p>${t(ai?.external_enabled === true ? 'providerActiveNotice' : ai?.external_enabled === false ? 'providerLocalNotice' : 'providerNotice')}</p>${renderAI(ai, true)}</div>`;
 }
 function renderProposalSummary(proposal) {
-  return `${proposal.customer_report ? `<div class="proposal-report"><span class="label">${t('redactedReport')}</span><p>${esc(proposal.customer_report)}</p><small>${t('reportPrivacy')}</small></div>` : ''}${Array.isArray(proposal.open_questions) && proposal.open_questions.length ? `<div class="proposal-questions"><span class="label">${t('pendingQuestions')}</span><ul>${proposal.open_questions.map(question => `<li>${esc(question)}</li>`).join('')}</ul></div>` : ''}`;
+  const tx = proposal.transaction;
+  const attached = tx ? `<div class="proposal-transaction"><span class="label">${t('attachedRecord')}</span><dl class="detail-grid">${fact(t('transactionId'), tx.id)}${fact(t('merchant'), tx.merchant || t('unlistedMerchant'))}${fact(t('amount'), amount(tx))}${fact(t('status'), statusLabel(tx.status))}${fact(t('recordDate'), date(tx.date))}${fact(t('asOf'), date(tx.as_of))}</dl>${tx.source ? `<small>${t('source')}: ${esc(tx.source)}</small>` : ''}</div>` : `<p class="proposal-unattached">${t('noAttachedRecord')}</p>`;
+  return `${attached}${proposal.customer_report ? `<div class="proposal-report"><span class="label">${t('redactedReport')}</span><p>${esc(proposal.customer_report)}</p><small>${t('reportPrivacy')}</small></div>` : ''}${Array.isArray(proposal.open_questions) && proposal.open_questions.length ? `<div class="proposal-questions"><span class="label">${t('pendingQuestions')}</span><ul>${proposal.open_questions.map(question => `<li>${esc(question)}</li>`).join('')}</ul></div>` : ''}`;
 }
 function renderProposal(proposal, index) {
   if (!proposal) return '';
@@ -390,8 +395,8 @@ function finishChatReply(c, key) {
 function openConfirm(index) {
   const message = state.messages[index]; if (!message?.proposal || message.proposal.done || message.proposal.cancelled || message.proposal.attempts >= MAX_ATTEMPTS || state.chatBusy) return;
   const proposal = message.proposal;
-  const dialog = document.createElement('dialog'); dialog.className = 'dialog'; dialog.setAttribute('aria-labelledby', 'confirm-title');
-  dialog.innerHTML = `<h2 id="confirm-title">${t('confirmTitle')}</h2><p>${t('proposalNotice')}</p><div class="summary">${esc(proposal.summary || t('proposalTitle'))}${renderProposalSummary(proposal)}</div><div id="confirm-error"></div><div class="dialog-actions"><button type="button" class="btn secondary" id="close-confirm">${t('cancel')}</button><button type="button" class="btn primary" id="submit-confirm">${icon('check')}${t('confirmAction')}</button></div>`;
+  const dialog = document.createElement('dialog'); dialog.id = 'confirm-dialog'; dialog.className = 'dialog'; dialog.setAttribute('aria-labelledby', 'confirm-title');
+  dialog.innerHTML = `<div class="dialog-body"><h2 id="confirm-title">${t('confirmTitle')}</h2><p>${t('proposalNotice')}</p><div class="summary">${esc(proposal.summary || t('proposalTitle'))}${renderProposalSummary(proposal)}</div><div id="confirm-error"></div></div><div class="dialog-actions"><button type="button" class="btn secondary" id="close-confirm">${t('cancel')}</button><button type="button" class="btn primary" id="submit-confirm">${icon('check')}${t('confirmAction')}</button></div>`;
   document.body.append(dialog);
   let running = false;
   dialog.addEventListener('cancel', e => { if (running) e.preventDefault(); });
@@ -524,7 +529,7 @@ root.addEventListener('click', async event => {
     case 'reset-chat': await resetConversation(); break;
     case 'reset-sandbox': openResetSandbox(); break;
     case 'refresh-transactions': button.disabled = true; await loadTransactions(); render(); announce(t('refreshDone')); break;
-    case 'refresh-cases': await loadCases(); render(); break;
+    case 'refresh-cases': { const id = state.caseDetail?.id; await loadCases(); if (id && state.user) await loadCase(id); else render(); break; }
     case 'refresh-analytics': await loadAnalytics(); render(); break;
     case 'refresh-evaluation': await loadEvaluation(); render(); break;
     case 'read-cases': await sendChat(state.language === 'pt' ? 'Quero consultar meus casos.' : 'Quiero consultar mis casos.'); break;

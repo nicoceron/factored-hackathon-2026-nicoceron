@@ -1,17 +1,19 @@
 # Claro submission
 
+**Post-Opus local verification complete.** Stronger ordinal guards, visible attached-record confirmation, independent role sessions, augmented reports and fresh captures pass 413 local tests and 27 scoped Chrome checks. Refreshed v3 regressions and media bind the final local source. Hosted release verification is separate.
+
 **Factored AI & Data Hackathon 2026 · team/repository identifier `nicoceron`.** The prior v1.1 release is published through GitHub; current chat materials are prepared locally for review. Organizer submission is intentionally outside the requested work. No organizer email has been sent. The supplied deadline is October 5, 2026; an exact cutoff hour/timezone was not supplied.
 
 ## Current revision and published materials
 
-The current source introduces immediate chat, automatic ES/PT and conversational transaction references. It is **not deployed yet**. Local verification passes 352 tests, 20 scoped Chrome checks and the source-only Docker bilingual HTTP lifecycle with identical static assets/reports. The current v3 authored regressions measure 130/140 and 64/70 learned correct outcomes; all remaining failures are published. Its stronger case-grounding scorer prevents direct comparison with v1.1 percentages.
+The current source introduces immediate chat, automatic ES/PT and conversational transaction references. It is **not deployed yet**. Local verification passes 413 tests, 27 scoped Chrome checks and the source-only Docker bilingual HTTP lifecycle with identical static assets/reports. The current v3 authored regressions measure 130/140 and 64/70 learned correct outcomes; all remaining failures are published. Its stronger case-grounding scorer prevents direct comparison with v1.1 percentages.
 
-The local six-slide deck/PDF and 157.17-second captioned video now demonstrate the chat redesign and source-matched regressions. The public hosted app and [v1.1 release](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.1.0) remain the prior verified revision. Local screenshots do not establish deployment.
+The local six-slide deck/PDF and 170.92-second captioned video now demonstrate the chat redesign and source-matched regressions. The public hosted app and [v1.1 release](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.1.0) remain the prior verified revision. Local screenshots do not establish deployment. [The combined media receipt](evidence/chat-media-checks.json) verifies final source/output hashes, crops, all slide/scene reviews, charts, captions and full decode.
 
 ## Current local review materials
 
 - [x] Six-slide [presentation PDF](../submission/Claro-Hackathon-2026.pdf) and [editable PPTX](../submission/Claro-Hackathon-2026.pptx), with three native editable charts and embedded workbooks. All six final PDF pages were reviewed.
-- [x] [Demo video](../submission/claro-demo.mp4), **157.17 seconds (2:37.17)**, 1080p/24 fps with H.264, AAC mono narration, English embedded captions and 29 external SRT cues. All nine composed scenes were reviewed and the encoded file decodes without errors.
+- [x] [Demo video](../submission/claro-demo.mp4), **170.92 seconds (2:50.92)**, 1080p/24 fps with H.264, AAC mono narration, English embedded captions and 29 external SRT cues. All nine composed scenes were reviewed and the encoded file decodes without errors.
 - [x] [Media provenance and reproduction](../submission/README.md), exact input/output hashes and validation manifests. Captures contain team-authored fixtures and disabled providers.
 - [x] Existing [public repository](https://github.com/nicoceron/factored-hackathon-2026-nicoceron), correctly named `factored-hackathon-2026-nicoceron`, with the historical v1.1 release. Current local source/media are not a new publication receipt.
 - [x] Prior [hosted v1.1 application](https://claro-banking-hackathon-2026.onrender.com), previously verified on Render Free. Its exact source and checks are in the deployment receipt; the current chat revision has not been deployed.
@@ -45,7 +47,7 @@ The personas, records and bank policies are explicitly team-authored fixtures. T
 
 ## Historical v1.1 release evidence
 
-[Deployed v1.1 API receipt](evidence/deployed-v1.1-api-checks.json) records actual HTTPS workflows, isolation, cookie/security attributes, and file/report checksums without retaining session values. [Deployment receipt](../submission/deployment.json) identifies the public service and application commit. [UI verification](UI.md) and the hosted-browser release receipt cover customer/analyst behavior. Historical v1.1 media remain in the published release. The local manifests now verify the current six-slide deck and 157.17-second video; their source hashes and local screenshot provenance are separate from deployed v1.1 evidence.
+[Deployed v1.1 API receipt](evidence/deployed-v1.1-api-checks.json) records actual HTTPS workflows, isolation, cookie/security attributes, and file/report checksums without retaining session values. [Deployment receipt](../submission/deployment.json) identifies the public service and application commit. [UI verification](UI.md) and the hosted-browser release receipt cover customer/analyst behavior. Historical v1.1 media remain in the published release. The local manifests now verify the current six-slide deck and 170.92-second video; their source hashes and local screenshot provenance are separate from deployed v1.1 evidence.
 
 The original build plan and September 27 setup receipt are historical. Their incomplete scaffold status does not describe this release. Follow [SETUP.md](SETUP.md) to reproduce the current application and [DEPLOYMENT.md](DEPLOYMENT.md) for free-host operation and rollback.
 

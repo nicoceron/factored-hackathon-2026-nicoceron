@@ -13,7 +13,7 @@
       "These screenshots show actual local test runs with team authored fixtures.",
       "The customer opens the chat immediately. The service keeps a trusted, isolated demo identity."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled"
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json"
   },
   {
     "title": "Understand\nThen clarify",
@@ -29,35 +29,35 @@
       "Claro identifies the transaction from the conversation, asking for clarification when the reference is ambiguous.",
       "The authorized record shows one hundred twenty nine thousand Colombian pesos as pending, with its source and historical date."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
     "crop": [
       318,
-      235,
+      105,
       1167,
-      863
+      590
     ]
   },
   {
     "title": "Your report\nYour confirmation",
     "eyebrow": "02 · CONTROLLED ACTIONS",
     "points": [
-      "Keep the specific customer report",
-      "Separate allegations from facts",
-      "Confirm the proposed action"
+      "Show the attached transaction before writing",
+      "Separate allegations from verified facts",
+      "Confirm the complete proposed case"
     ],
     "image": "chat-confirm-es.jpg",
     "sentences": [
       "The customer reports an unfamiliar Tienda charge after a phone call.",
-      "The review preview keeps that description separate from verified transaction facts.",
-      "A separate confirmation creates the case. Typing yes in chat cannot execute it.",
-      "No refund or card blocking is promised."
+      "Before creating the case, the confirmation shows the attached transaction: T X E S one zero two, one hundred twenty nine thousand Colombian pesos, pending.",
+      "It keeps the customer report separate from verified record facts. A separate confirmation creates the case; typing yes in chat cannot execute it.",
+      "An explicit general request for an analyst attaches no transaction. No refund or card blocking is promised."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
     "crop": [
-      495,
-      240,
-      995,
-      805
+      500,
+      75,
+      990,
+      960
     ]
   },
   {
@@ -74,12 +74,12 @@
       "Retries keep the same idempotency key and stop after three attempts.",
       "A verification failure never becomes a success claim."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
     "crop": [
       318,
-      305,
+      315,
       1167,
-      847
+      610
     ]
   },
   {
@@ -96,10 +96,10 @@
       "The customer opens that saved question and answers with the same chat composer.",
       "A verified reply returns the case to the review queue."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
     "crop": [
       318,
-      430,
+      275,
       1167,
       965
     ]
@@ -118,12 +118,12 @@
       "After closing the review, reloading reads the four persisted events.",
       "Customer chat and reviewer links replace profile selection. The backend owns the history."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
     "crop": [
       699,
-      447,
+      405,
       1441,
-      933
+      885
     ]
   },
   {
@@ -177,12 +177,12 @@
       "The customer report still reaches human review.",
       "Claro completes a bilingual conversation and verified follow up, with explicit limits and reproducible evidence. Real banking requires approved identity, policies, and durable storage."
     ],
-    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-04 America/Bogota; actual isolated sandbox with team-authored fixtures and external providers disabled",
+    "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
     "crop": [
       318,
-      105,
+      450,
       1172,
-      463
+      803
     ]
   }
 ]

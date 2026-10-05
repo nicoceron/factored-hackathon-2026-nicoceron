@@ -8,6 +8,7 @@ import re
 import unicodedata
 
 REDACTED = "[REDACTED]"
+REPORT_LIMIT = 2000
 
 
 def redact_text(text: str) -> str:
@@ -53,11 +54,23 @@ def redact_text(text: str) -> str:
     return text.strip()
 
 
-def customer_report(message: str, context: dict, *, continuation: bool) -> str:
-    """Retain the reported problem through selection; never turn it into a bank fact."""
-    current = redact_text(message)[:2000]
+def customer_report(
+    message: str, context: dict, *, continuation: bool, selection_only: bool = False
+) -> str:
+    """Retain allegations and added facts through a bounded, redacted continuation."""
+    current = redact_text(message)[:REPORT_LIMIT]
     previous = context.get("customer_report", "") if continuation else ""
     if not isinstance(previous, str):
         previous = ""
-    previous = redact_text(previous)[:2000]
-    return previous or current
+    previous = redact_text(previous)[:REPORT_LIMIT]
+    if not previous:
+        return current
+    if selection_only or not current or current.casefold() in previous.casefold():
+        return previous
+    combined = previous + "\n" + current
+    if len(combined) <= REPORT_LIMIT:
+        return combined
+    # Retain the beginning of the original report and the latest details even
+    # when the bounded report is full; do not store unbounded chat transcripts.
+    previous_budget = max(REPORT_LIMIT - len(current) - 1, REPORT_LIMIT // 2)
+    return previous[:previous_budget] + "\n" + current[: REPORT_LIMIT - previous_budget - 1]

@@ -24,6 +24,7 @@ from factored_banking.store import Store, digest, encode
 
 ROOT = Path(__file__).parent
 SESSION_TTL = 3600
+ROLE_COOKIES = {"customer": "claro_customer_session", "analyst": "claro_analyst_session"}
 
 
 class StrictModel(BaseModel):
@@ -100,17 +101,26 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         if request.headers.get("sec-fetch-site") == "cross-site":
             raise HTTPException(403, "Cross-site requests are not permitted")
 
+    def requested_role(request):
+        hint = request.headers.get("x-claro-role")
+        if hint is not None and hint not in ROLE_COOKIES:
+            raise HTTPException(400, "Unknown session role")
+        return hint
+
     def session(request, *, mutate=False, role=None):
-        token = request.cookies.get("claro_session", "")
+        hint = requested_role(request)
+        cookie_name = ROLE_COOKIES[hint] if hint else "claro_session"
+        token = request.cookies.get(cookie_name) or request.cookies.get("claro_session", "")
         with app.state.store.connect() as db:
             row = db.execute(
-                "SELECT * FROM sessions WHERE token_hash=? AND expires>?",
-                (digest(token), time.time()),
+                "SELECT s.* FROM sessions s JOIN workspaces w ON w.id=s.workspace "
+                "WHERE s.token_hash=? AND s.expires>? AND w.token_hash=?",
+                (digest(token), time.time(), digest(request.cookies.get("claro_workspace", ""))),
             ).fetchone()
         if row is None:
             raise HTTPException(401, "Session expired. Open a new demo session.")
         value = dict(row)
-        if role and value["role"] != role:
+        if (hint and value["role"] != hint) or (role and value["role"] != role):
             raise HTTPException(403, "Role is not authorized for this action")
         if mutate:
             origin_check(request)
@@ -159,6 +169,23 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         return result
 
     def proposal_response(proposal_id, payload, expires_in_seconds=600):
+        transaction = payload.get("transaction")
+        if transaction is not None:
+            validated = workflow.TransactionEvidence.model_validate(transaction).model_dump()
+            transaction = {
+                field: validated[field]
+                for field in (
+                    "id",
+                    "merchant",
+                    "amount",
+                    "currency",
+                    "status",
+                    "date",
+                    "as_of",
+                    "source",
+                    "provenance",
+                )
+            }
         return {
             "id": proposal_id,
             "action": "create_case",
@@ -166,6 +193,7 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             "customer_report": payload["customer_report"],
             "report_provenance": payload["report_provenance"],
             "open_questions": payload["open_questions"],
+            "transaction": transaction,
             "expires_in_seconds": expires_in_seconds,
         }
 
@@ -422,13 +450,19 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
     @app.post("/api/session")
     def login(body: Login, request: Request, response: Response):
         origin_check(request)
+        hint = requested_role(request)
+        persona = PERSONAS[body.persona]
+        if hint and hint != persona["role"]:
+            raise HTTPException(400, "Requested session role does not match the demo identity")
         app.state.store.cleanup()
         now = time.time()
         workspace_token = request.cookies.get("claro_workspace", "")
-        token = secrets.token_urlsafe(32)
-        csrf = secrets.token_urlsafe(24)
-        persona = PERSONAS[body.persona]
+        legacy_token = request.cookies.get("claro_session", "")
+        role_cookie = ROLE_COOKIES[persona["role"]]
+        token = request.cookies.get(role_cookie) or legacy_token
+        legacy_session = None
         with app.state.store.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
             row = db.execute(
                 "SELECT id FROM workspaces WHERE token_hash=?", (digest(workspace_token),)
             ).fetchone()
@@ -441,31 +475,74 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
                     "INSERT INTO workspaces VALUES(?,?,?)",
                     (workspace_id, digest(workspace_token), now),
                 )
-            db.execute(
-                "DELETE FROM sessions WHERE token_hash=?",
-                (digest(request.cookies.get("claro_session", "")),),
+            legacy_session = db.execute(
+                "SELECT * FROM sessions WHERE token_hash=? AND workspace=? AND expires>?",
+                (digest(legacy_token), workspace_id, now),
+            ).fetchone()
+            existing = db.execute(
+                "SELECT * FROM sessions WHERE token_hash=? AND workspace=? AND role=? "
+                "AND expires>?",
+                (digest(token), workspace_id, persona["role"], now),
+            ).fetchone()
+            if existing and existing["customer"] == persona["customer"]:
+                language = (
+                    body.language if "language" in body.model_fields_set else existing["language"]
+                )
+                db.execute(
+                    "UPDATE sessions SET expires=?,language=?,revision=revision+? "
+                    "WHERE token_hash=?",
+                    (
+                        now + SESSION_TTL,
+                        language,
+                        int(language != existing["language"]),
+                        existing["token_hash"],
+                    ),
+                )
+            else:
+                # Changing a test identity revokes only its role in this workspace.
+                # A reviewer login must leave the customer's proposals and retries intact.
+                db.execute(
+                    "DELETE FROM sessions WHERE token_hash=? AND workspace=? AND role=?",
+                    (digest(token), workspace_id, persona["role"]),
+                )
+                token = secrets.token_urlsafe(32)
+                db.execute(
+                    "INSERT INTO sessions"
+                    "(token_hash,workspace,customer,role,language,csrf,expires) "
+                    "VALUES(?,?,?,?,?,?,?)",
+                    (
+                        digest(token),
+                        workspace_id,
+                        persona["customer"],
+                        persona["role"],
+                        body.language,
+                        secrets.token_urlsafe(24),
+                        now + SESSION_TTL,
+                    ),
+                )
+            current = dict(
+                db.execute("SELECT * FROM sessions WHERE token_hash=?", (digest(token),)).fetchone()
             )
-            db.execute(
-                "INSERT INTO sessions(token_hash,workspace,customer,role,language,csrf,expires) "
-                "VALUES(?,?,?,?,?,?,?)",
-                (
-                    digest(token),
-                    workspace_id,
-                    persona["customer"],
-                    persona["role"],
-                    body.language,
-                    csrf,
-                    now + SESSION_TTL,
-                ),
+        if legacy_session and legacy_session["role"] != persona["role"]:
+            previous_cookie = ROLE_COOKIES[legacy_session["role"]]
+            if not request.cookies.get(previous_cookie):
+                response.set_cookie(
+                    previous_cookie,
+                    legacy_token,
+                    max_age=max(0, int(legacy_session["expires"] - now)),
+                    httponly=True,
+                    secure=secure,
+                    samesite="strict",
+                )
+        for name in (role_cookie, "claro_session"):
+            response.set_cookie(
+                name,
+                token,
+                max_age=SESSION_TTL,
+                httponly=True,
+                secure=secure,
+                samesite="strict",
             )
-        response.set_cookie(
-            "claro_session",
-            token,
-            max_age=SESSION_TTL,
-            httponly=True,
-            secure=secure,
-            samesite="strict",
-        )
         response.set_cookie(
             "claro_workspace",
             workspace_token,
@@ -474,9 +551,7 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             secure=secure,
             samesite="strict",
         )
-        return session_response(
-            {**persona, "csrf": csrf, "language": body.language, "expires": now + SESSION_TTL}
-        )
+        return session_response(current)
 
     @app.get("/api/session")
     def whoami(request: Request):
@@ -489,7 +564,9 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             db.execute("BEGIN IMMEDIATE")
             active_session(db, s)
             db.execute("DELETE FROM sessions WHERE token_hash=?", (s["token_hash"],))
-        response.delete_cookie("claro_session")
+        response.delete_cookie(ROLE_COOKIES[s["role"]])
+        if digest(request.cookies.get("claro_session", "")) == s["token_hash"]:
+            response.delete_cookie("claro_session")
         return {"signed_out": True}
 
     @app.delete("/api/workspace")
@@ -505,6 +582,8 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
             )
             db.execute("DELETE FROM workspaces WHERE id=?", (s["workspace"],))
         response.delete_cookie("claro_session")
+        for name in ROLE_COOKIES.values():
+            response.delete_cookie(name)
         response.delete_cookie("claro_workspace")
         return {"deleted": True}
 

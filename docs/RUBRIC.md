@@ -1,8 +1,10 @@
 # Requirement-to-evidence map
 
+**Post-Opus local verification complete.** Stronger ordinal guards, visible attached-record confirmation, independent role sessions, augmented reports and fresh captures pass 413 local tests and 27 scoped Chrome checks. Refreshed v3 regressions and media bind the final local source. Hosted release verification is separate.
+
 This map follows the participant problem statement and kickoff, without inventing scoring weights. It distinguishes implementation, offline evidence, and hosted behavior. No metric is a production claim.
 
-The exact judging instruction is that the solution should work first (kickoff p. 20); depth, demonstrated behavior and engineering judgment determine the score, and more workflows earn no automatic bonus (problem statement p. 3). [The chat audit](CHAT_RUBRIC_AUDIT.md) records the complete requirement/comment inventory and the focused priorities. The current chat redesign passes 352 local tests and 20 scoped Chrome checks and is not deployed. Current v3 regression receipts are source-matched; public v1.1 browser/media and historical receipts verify their recorded revisions. The stricter v3 case-grounding scorer prevents direct old/new percentage comparisons.
+The exact judging instruction is that the solution should work first (kickoff p. 20); depth, demonstrated behavior and engineering judgment determine the score, and more workflows earn no automatic bonus (problem statement p. 3). [The chat audit](CHAT_RUBRIC_AUDIT.md) records the complete requirement/comment inventory and the focused priorities. The current chat redesign passes 413 local tests and 27 scoped Chrome checks and is not deployed. Current v3 regression receipts are source-matched; public v1.1 browser/media and historical receipts verify their recorded revisions. The stricter v3 case-grounding scorer prevents direct old/new percentage comparisons.
 
 | Evaluation dimension | Implemented decision and evidence | Limits |
 | --- | --- | --- |

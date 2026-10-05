@@ -6,7 +6,7 @@ A bilingual customer-service prototype that explains historical transactions, cl
 
 **[Open the live demo](https://claro-banking-hackathon-2026.onrender.com)** · [Presentation and video](https://github.com/nicoceron/factored-hackathon-2026-nicoceron/releases/tag/v1.1.0) · [Rubric evidence](docs/RUBRIC.md)
 
-The linked demo, presentation and video describe the verified **v1.1 release**. The current chat redesign is verified locally and **has not been deployed or added to that public release**. Current local review materials and provenance are in [submission/README.md](submission/README.md). The free service can take about a minute to wake. Cases and sessions are temporary and may reset when the host restarts. The public release keeps external providers disabled under the free-only budget constraint; Jev/DeepSeek adapters are implemented and mocked, with live inference still unverified.
+The linked demo, presentation and video describe the verified **v1.1 release**. The current chat redesign is verified locally and **has not been deployed or added to that public release**. Current local review materials and provenance are in [submission/README.md](submission/README.md). Post-Opus corrections pass 413 local tests and 27 scoped Chrome checks; refreshed local media show that revision. The free service can take about a minute to wake. Cases and sessions are temporary and may reset when the host restarts. The public release keeps external providers disabled under the free-only budget constraint; Jev/DeepSeek adapters are implemented and mocked, with live inference still unverified.
 
 ## Try it locally
 
