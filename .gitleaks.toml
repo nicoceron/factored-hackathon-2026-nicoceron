@@ -23,3 +23,10 @@ condition = "AND"
 regexTarget = "line"
 regexes = ['''^\s*"api_sha256": "[a-f0-9]{64}",?\s*$''']
 paths = ['''(^|/)submission/deployment\.json$''']
+
+[[rules.allowlists]]
+description = "Exact captured and current API source checksums in media provenance, not credentials"
+condition = "AND"
+regexTarget = "line"
+regexes = ['''^\s*"(src/factored_banking/api\.py|api_sha256)": "[a-f0-9]{64}",?\s*$''']
+paths = ['''(^|/)docs/evidence/chat-media-checks\.json$''']

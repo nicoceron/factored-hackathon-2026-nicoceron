@@ -702,6 +702,7 @@ def evaluate(challenge_path=None, challenge_regression=False):
             name: hashlib.sha256(Path(__file__).parent.joinpath(name).read_bytes()).hexdigest()
             for name in (
                 "api.py",
+                "web_assets.py",
                 "workflow.py",
                 "references.py",
                 "language.py",

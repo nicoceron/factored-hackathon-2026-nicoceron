@@ -146,6 +146,7 @@ def evaluate_segments():
                 "service_segments.py",
                 "system_evaluation.py",
                 "api.py",
+                "web_assets.py",
                 "workflow.py",
                 "references.py",
                 "privacy.py",
