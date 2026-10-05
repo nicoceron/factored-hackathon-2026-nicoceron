@@ -1,15 +1,15 @@
 {
-  "verified_at": "2026-10-05T07:44:08.355184+00:00",
-  "base_commit": "4f68fcb95ca37ad5653e95371b24cfd94b1f0a59",
-  "source_status": "Local M1 bounded perfect/self-identification denial and conservative unresolved-negation guard; shared ES/PT negator distinction and L1 rejected-choice correction. Source and all three regression/package copies frozen. New exact-revision hosted proof remains pending.",
+  "verified_at": "2026-10-05T16:24:17.578504+00:00",
+  "base_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+  "source_status": "Local final Opus #4 corrections: N1 polite/leading choices, bounded merchant references and pending-report preservation; N2 indefinite/retracted choice protection; M1 past/self denial coverage. Source and all three packaged regressions frozen. Exact-new-revision hosted proof remains pending.",
   "checks": {
     "make_check": true,
     "ruff_lint_and_format": true,
-    "pytest_passed": 506,
+    "pytest_passed": 592,
     "javascript_parse": true,
     "git_diff_check": true,
     "staged_secret_scan": true,
-    "staged_secret_scan_scope": "Exact final M1/L1 source, targeted tests, three source-matched reports and packaged copies; staged gitleaks scan passed. Final packaging has a separate staged gate."
+    "staged_secret_scan_scope": "Exact staged source/tests/regressions/source-check receipt only. Final media/evidence packaging is a separate scan."
   },
   "core_sha256": {
     "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
@@ -18,12 +18,12 @@
     "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
     "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
     "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
-    "src/factored_banking/language.py": "ef22d1b240cf39300a0ff46c27f2d657889ed7ae0f140cc7bcec5d74f88faac1",
+    "src/factored_banking/language.py": "41a340133acdcb3c02362025ec698525954d07abb001a8a405ed5e63427af096",
     "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
     "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
     "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
     "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
-    "src/factored_banking/references.py": "93745f577093701d90797eff77d02508a5565df6c29ff394e3c735dd101b16ee",
+    "src/factored_banking/references.py": "75931e9c2eaaa0a77f95ea69a4f38d954643a2d44553605328caf268199f375a",
     "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
     "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
     "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
@@ -32,7 +32,7 @@
     "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
     "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
     "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
-    "src/factored_banking/workflow.py": "ef6e3151afb34c7e97a0ce52a8d848e70eac15eee42f52537d56bedcc2338158"
+    "src/factored_banking/workflow.py": "b6940eee49971ce601f1cad0cbad6529b7d7fec5bfe9c607a7459ba34b5081b2"
   },
   "cache_contract": {
     "html_entry_paths": [
@@ -56,9 +56,9 @@
     "new_cache_contract_tests_passed": 12
   },
   "check_provenance": {
-    "current_make_check": "make check: Ruff lint/format on 73 files and 506 pytest tests passed after the second M1/L1 correction; one existing installed TestClient deprecation warning.",
-    "javascript_parse": "node --check passed on the unchanged application JavaScript; git diff --check passed.",
-    "secret_scan": "gitleaks git --staged --config .gitleaks.toml --redact passed on this exact final source-bearing revision.",
+    "current_make_check": "make check: Ruff lint/format on 74 files and 592 pytest tests passed after final choice and denial corrections; one existing installed TestClient deprecation warning.",
+    "javascript_parse": "node --check on unchanged application JS and git diff --check passed.",
+    "secret_scan": "gitleaks git --staged --redact passed for this exact source correction, then receipt restaged and scan repeated.",
     "browser_captures": "The seven local captures retain their original pre-cache API hash and captured-source receipt; no recapture is inferred from this check receipt."
   },
   "prior_verification": {
@@ -107,7 +107,7 @@
     "Local gates do not attest deployed behavior or organizer acceptance.",
     "No external production model inference or organizer submission."
   ],
-  "post_review": "Actual Opus 5.5/xhigh review completed 47 turns with GO and material M1/L1 findings treated as required corrections. Shared denial polarity covers negation plus object pronouns, perfect auxiliaries and explicit first-person identification. Factual-status policy preserves a learned dispute when grammatical negation remains unresolved; clear affirmative transaction recognition with unrelated negation stays factual. Shared per-turn locale detection distinguishes Portuguese no from Spanish no. L1 rejects negated selection verbs and temporal ordinal wording. Forty-two focused M1 checks and the final L1 targeted checks pass alongside all existing coverage. Frozen corpora, raw learned weights, fixture evidence and scorer remain unchanged. Current hosted proof and final media refresh are separate pending gates.",
+  "post_review": "Actual Claude Opus 5.5 configured xhigh review #4 completed with GO, 52 turns and 51 observed read-only tool calls. Its N1/N2/N3 findings were treated as mandatory corrections; past/self denial coverage was also extended. Source fixes use shared bounded grammar, preserve immutable validated record identity and explicit confirmation, and retain all frozen model/corpus/fixture/scorer bytes. N3 historical browser evidence is corrected separately; new hosted/media/final review gates remain pending.",
   "cache_verification_before_f7": {
     "verified_at": "2026-10-05T05:43:55.084805+00:00",
     "base_commit": "e9ad9c9b0174030b4ae4865c4bdf89d83039a7a0",
@@ -382,27 +382,6 @@
       "sha256": "bd2c2b1a6a3c61c9f60f85328f27d65bfb34c3902162fcf57d6a0d9e7c85d01b",
       "verified": "Ruff lint/format; corrected probe passed on both final Docker and public HTTPS origin."
     }
-  },
-  "m1_l1_regression_verification": {
-    "all_source_hashes_match": true,
-    "source_hash_count": 43,
-    "all_package_copies_byte_identical": true,
-    "frozen_corpora_model_fixture_and_scorer_hashes_unchanged": true,
-    "report_sha256": {
-      "chat-system-regression": "980cbc30cc2f7e8d47070922d041af4509dbe43aa610309410a6287f2b8ee443",
-      "chat-challenge-regression": "cbfc5cf14f71ac56da68ae4777d3f552a3c79866a9a6903c4d50154b70f805c3",
-      "chat-service-segment-regression": "c76a78027e3051926f88e9ab0907c663ed07f4bd9eb6a1adfbc30a4684f9e6cf"
-    },
-    "learned_correct": [
-      130,
-      64
-    ],
-    "rules_correct": [
-      85,
-      49
-    ],
-    "tests_added_m1": 42,
-    "tests_added_l1": 26
   },
   "verification_before_auxiliary_denial_guard": {
     "verified_at": "2026-10-05T07:20:09.893803+00:00",
@@ -809,6 +788,1021 @@
       ],
       "tests_added_m1": 21,
       "tests_added_l1": 14
+    }
+  },
+  "verification_before_final_choice_fixes": {
+    "verified_at": "2026-10-05T07:44:08.355184+00:00",
+    "base_commit": "4f68fcb95ca37ad5653e95371b24cfd94b1f0a59",
+    "source_status": "Local M1 bounded perfect/self-identification denial and conservative unresolved-negation guard; shared ES/PT negator distinction and L1 rejected-choice correction. Source and all three regression/package copies frozen. New exact-revision hosted proof remains pending.",
+    "checks": {
+      "make_check": true,
+      "ruff_lint_and_format": true,
+      "pytest_passed": 506,
+      "javascript_parse": true,
+      "git_diff_check": true,
+      "staged_secret_scan": true,
+      "staged_secret_scan_scope": "Exact final M1/L1 source, targeted tests, three source-matched reports and packaged copies; staged gitleaks scan passed. Final packaging has a separate staged gate."
+    },
+    "core_sha256": {
+      "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+      "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+      "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+      "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+      "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+      "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+      "src/factored_banking/language.py": "ef22d1b240cf39300a0ff46c27f2d657889ed7ae0f140cc7bcec5d74f88faac1",
+      "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+      "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+      "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+      "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+      "src/factored_banking/references.py": "93745f577093701d90797eff77d02508a5565df6c29ff394e3c735dd101b16ee",
+      "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+      "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+      "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+      "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+      "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+      "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+      "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+      "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+      "src/factored_banking/workflow.py": "ef6e3151afb34c7e97a0ce52a8d848e70eac15eee42f52537d56bedcc2338158"
+    },
+    "cache_contract": {
+      "html_entry_paths": [
+        "/",
+        "/static/index.html"
+      ],
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "public_html_and_static_cache_control": "no-cache",
+      "api_cache_control": "no-store",
+      "html_etag_kind": "strong SHA-256 of rendered HTML",
+      "asset_version_kind": "SHA-256 of packaged asset bytes, derived once at app creation",
+      "rendered_html_sha256": "25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73",
+      "versioned_asset_urls": [
+        "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+        "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "/static/app.js?v=0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d"
+      ],
+      "new_cache_contract_tests_passed": 12
+    },
+    "check_provenance": {
+      "current_make_check": "make check: Ruff lint/format on 73 files and 506 pytest tests passed after the second M1/L1 correction; one existing installed TestClient deprecation warning.",
+      "javascript_parse": "node --check passed on the unchanged application JavaScript; git diff --check passed.",
+      "secret_scan": "gitleaks git --staged --config .gitleaks.toml --redact passed on this exact final source-bearing revision.",
+      "browser_captures": "The seven local captures retain their original pre-cache API hash and captured-source receipt; no recapture is inferred from this check receipt."
+    },
+    "prior_verification": {
+      "verified_at": "2026-10-05T05:09:36.082508+00:00",
+      "base_commit": "b4e25699e7b814244ae9462aa85f70a6725bd6d1",
+      "source_status": "uncommitted chat revision, source frozen for final review",
+      "checks": {
+        "make_check": true,
+        "ruff_lint_and_format": true,
+        "pytest_passed": 413,
+        "javascript_parse": true,
+        "git_diff_check": true,
+        "sanitized_snapshot_secret_scan": true
+      },
+      "core_sha256": {
+        "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+        "src/factored_banking/api.py": "1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b",
+        "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+        "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+        "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+        "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+        "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+        "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+        "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+        "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+        "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+        "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+        "src/factored_banking/service_segments.py": "70e91193c48fa6f05aa443e9d6dc8aad72f50616cffd0769957f146ad04b0ec2",
+        "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+        "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+        "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+        "src/factored_banking/system_evaluation.py": "19de4bd6d357cad2f7dceb663a43188702348e779a9e3cfab383022a371429d7",
+        "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+        "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+      },
+      "limitations": [
+        "One Starlette TestClient deprecation warning; no failing tests.",
+        "Local gates do not attest deployed behavior or organizer acceptance.",
+        "No external production model inference or organizer submission."
+      ],
+      "post_review": "Ruff lint/format, 413 tests, JavaScript parse, diff checks and sanitized tracked-file secret scan passed after F1-F4 fixes. Final source-only re-review will follow hosted verification."
+    },
+    "limitations": [
+      "One Starlette TestClient deprecation warning; no failing tests.",
+      "Local gates do not attest deployed behavior or organizer acceptance.",
+      "No external production model inference or organizer submission."
+    ],
+    "post_review": "Actual Opus 5.5/xhigh review completed 47 turns with GO and material M1/L1 findings treated as required corrections. Shared denial polarity covers negation plus object pronouns, perfect auxiliaries and explicit first-person identification. Factual-status policy preserves a learned dispute when grammatical negation remains unresolved; clear affirmative transaction recognition with unrelated negation stays factual. Shared per-turn locale detection distinguishes Portuguese no from Spanish no. L1 rejects negated selection verbs and temporal ordinal wording. Forty-two focused M1 checks and the final L1 targeted checks pass alongside all existing coverage. Frozen corpora, raw learned weights, fixture evidence and scorer remain unchanged. Current hosted proof and final media refresh are separate pending gates.",
+    "cache_verification_before_f7": {
+      "verified_at": "2026-10-05T05:43:55.084805+00:00",
+      "base_commit": "e9ad9c9b0174030b4ae4865c4bdf89d83039a7a0",
+      "source_status": "Uncommitted cache-serving correction on the merged chat application; implementation and all three source-matched regressions frozen.",
+      "checks": {
+        "make_check": true,
+        "ruff_lint_and_format": true,
+        "pytest_passed": 425,
+        "javascript_parse": true,
+        "git_diff_check": true,
+        "staged_secret_scan": true,
+        "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+      },
+      "core_sha256": {
+        "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+        "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+        "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+        "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+        "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+        "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+        "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+        "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+        "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+        "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+        "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+        "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+        "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+        "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+        "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+        "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+        "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+        "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+        "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+        "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+      },
+      "post_review": "F1-F5 behavior remains verified in its scoped capture receipt. The subsequent returning-browser cache correction passes 425 tests and unchanged outcome/fault/cost results on all three fresh source-matched regressions. Final hosted browser proof and final Claude review remain separate."
+    },
+    "continuation_verification_before_f8": {
+      "verified_at": "2026-10-05T05:57:38.308747+00:00",
+      "base_commit": "217d5383f137bcdd405026099b6cf577bf6b2a06",
+      "source_status": "F7 report-continuation correction on the deployed cache-serving application; workflow and all source-matched replay inputs frozen.",
+      "checks": {
+        "make_check": true,
+        "ruff_lint_and_format": true,
+        "pytest_passed": 430,
+        "javascript_parse": true,
+        "git_diff_check": true,
+        "staged_secret_scan": true,
+        "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+      },
+      "core_sha256": {
+        "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+        "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+        "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+        "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+        "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+        "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+        "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+        "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+        "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+        "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+        "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+        "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+        "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+        "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+        "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+        "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+        "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+        "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+        "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+        "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab"
+      },
+      "post_review": "Late hosted QA F7 (F4 continuation) is corrected locally: ambiguous record clarification retains the pending review intent and bounded report. Five new focused checks verify ES/PT actual three-turn preview, retry, session restoration, confirmed persisted read-back, explicit new factual requests and scam-signal priority. Hosted proof and final Claude review remain separate."
+    },
+    "verification_probe_correction": {
+      "script": "scripts/smoke.py",
+      "change": "Read the existing session language contract from user.language; original probe incorrectly expected a top-level language field. No application source, scorer or fixture changed.",
+      "sha256": "bd2c2b1a6a3c61c9f60f85328f27d65bfb34c3902162fcf57d6a0d9e7c85d01b",
+      "verified": "Ruff lint/format; corrected probe passed on both final Docker and public HTTPS origin."
+    },
+    "verification_before_m1_l1": {
+      "verified_at": "2026-10-05T06:15:42.843956+00:00",
+      "base_commit": "cb17c73122b81ffb9cdcc38d5605d989396d3ff2",
+      "source_status": "F8 verified reply/history recovery and reply-language UI correction on the deployed F7 application; source frozen.",
+      "checks": {
+        "make_check": true,
+        "ruff_lint_and_format": true,
+        "pytest_passed": 438,
+        "javascript_parse": true,
+        "git_diff_check": true,
+        "staged_secret_scan": true,
+        "staged_secret_scan_scope": "Exact staged F8 reply-history application revision 041e301; source hashes are checksums, with narrowly scoped allowlists."
+      },
+      "core_sha256": {
+        "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+        "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+        "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+        "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+        "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+        "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+        "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+        "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+        "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+        "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+        "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+        "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+        "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+        "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+        "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+        "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+        "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+        "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+        "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+        "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab"
+      },
+      "cache_contract": {
+        "html_entry_paths": [
+          "/",
+          "/static/index.html"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "public_html_and_static_cache_control": "no-cache",
+        "api_cache_control": "no-store",
+        "html_etag_kind": "strong SHA-256 of rendered HTML",
+        "asset_version_kind": "SHA-256 of packaged asset bytes, derived once at app creation",
+        "rendered_html_sha256": "25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73",
+        "versioned_asset_urls": [
+          "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+          "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "/static/app.js?v=0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d"
+        ],
+        "new_cache_contract_tests_passed": 12
+      },
+      "check_provenance": {
+        "current_make_check": "make check: Ruff lint/format and 438 pytest tests passed after F8; one installed TestClient deprecation warning.",
+        "javascript_parse": "node --check passed on the updated finishChatReply locale-owner line.",
+        "secret_scan": "Staged F8 source scan passed before PR10. Final sanitized review snapshot and final evidence/media scan are separate gates.",
+        "browser_captures": "The seven local captures retain their original pre-cache API hash and captured-source receipt; no recapture is inferred from this check receipt."
+      },
+      "prior_verification": {
+        "verified_at": "2026-10-05T05:09:36.082508+00:00",
+        "base_commit": "b4e25699e7b814244ae9462aa85f70a6725bd6d1",
+        "source_status": "uncommitted chat revision, source frozen for final review",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 413,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "sanitized_snapshot_secret_scan": true
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70e91193c48fa6f05aa443e9d6dc8aad72f50616cffd0769957f146ad04b0ec2",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "19de4bd6d357cad2f7dceb663a43188702348e779a9e3cfab383022a371429d7",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+        },
+        "limitations": [
+          "One Starlette TestClient deprecation warning; no failing tests.",
+          "Local gates do not attest deployed behavior or organizer acceptance.",
+          "No external production model inference or organizer submission."
+        ],
+        "post_review": "Ruff lint/format, 413 tests, JavaScript parse, diff checks and sanitized tracked-file secret scan passed after F1-F4 fixes. Final source-only re-review will follow hosted verification."
+      },
+      "limitations": [
+        "One Starlette TestClient deprecation warning; no failing tests.",
+        "Local gates do not attest deployed behavior or organizer acceptance.",
+        "No external production model inference or organizer submission."
+      ],
+      "post_review": "Late hosted QA F8 is corrected locally using the existing bounded history in the final verified response transaction, with same-key recovery and no duplicated reply/ack. Eight new focused checks cover ES/PT restoration/restart, redaction, bounds and other context preservation, read-back failure, atomic final rollback, expiry/revocation and stale concurrent chat. Client acknowledgement locale follows the validated response_language without relabeling saved cases. Hosted proof and final Claude review remain separate.",
+      "cache_verification_before_f7": {
+        "verified_at": "2026-10-05T05:43:55.084805+00:00",
+        "base_commit": "e9ad9c9b0174030b4ae4865c4bdf89d83039a7a0",
+        "source_status": "Uncommitted cache-serving correction on the merged chat application; implementation and all three source-matched regressions frozen.",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 425,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "staged_secret_scan": true,
+          "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+          "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+        },
+        "post_review": "F1-F5 behavior remains verified in its scoped capture receipt. The subsequent returning-browser cache correction passes 425 tests and unchanged outcome/fault/cost results on all three fresh source-matched regressions. Final hosted browser proof and final Claude review remain separate."
+      },
+      "continuation_verification_before_f8": {
+        "verified_at": "2026-10-05T05:57:38.308747+00:00",
+        "base_commit": "217d5383f137bcdd405026099b6cf577bf6b2a06",
+        "source_status": "F7 report-continuation correction on the deployed cache-serving application; workflow and all source-matched replay inputs frozen.",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 430,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "staged_secret_scan": true,
+          "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+          "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab"
+        },
+        "post_review": "Late hosted QA F7 (F4 continuation) is corrected locally: ambiguous record clarification retains the pending review intent and bounded report. Five new focused checks verify ES/PT actual three-turn preview, retry, session restoration, confirmed persisted read-back, explicit new factual requests and scam-signal priority. Hosted proof and final Claude review remain separate."
+      },
+      "verification_probe_correction": {
+        "script": "scripts/smoke.py",
+        "change": "Read the existing session language contract from user.language; original probe incorrectly expected a top-level language field. No application source, scorer or fixture changed.",
+        "sha256": "bd2c2b1a6a3c61c9f60f85328f27d65bfb34c3902162fcf57d6a0d9e7c85d01b",
+        "verified": "Ruff lint/format; corrected probe passed on both final Docker and public HTTPS origin."
+      }
+    },
+    "m1_l1_regression_verification": {
+      "all_source_hashes_match": true,
+      "source_hash_count": 43,
+      "all_package_copies_byte_identical": true,
+      "frozen_corpora_model_fixture_and_scorer_hashes_unchanged": true,
+      "report_sha256": {
+        "chat-system-regression": "980cbc30cc2f7e8d47070922d041af4509dbe43aa610309410a6287f2b8ee443",
+        "chat-challenge-regression": "cbfc5cf14f71ac56da68ae4777d3f552a3c79866a9a6903c4d50154b70f805c3",
+        "chat-service-segment-regression": "c76a78027e3051926f88e9ab0907c663ed07f4bd9eb6a1adfbc30a4684f9e6cf"
+      },
+      "learned_correct": [
+        130,
+        64
+      ],
+      "rules_correct": [
+        85,
+        49
+      ],
+      "tests_added_m1": 42,
+      "tests_added_l1": 26
+    },
+    "verification_before_auxiliary_denial_guard": {
+      "verified_at": "2026-10-05T07:20:09.893803+00:00",
+      "base_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+      "source_status": "Local M1 shared negated-recognition guard and L1 conservative ordinal correction after the actual final Opus review; source and all three regression/package copies frozen. New hosted verification pending.",
+      "checks": {
+        "make_check": true,
+        "ruff_lint_and_format": true,
+        "pytest_passed": 473,
+        "javascript_parse": true,
+        "git_diff_check": true,
+        "staged_secret_scan": true,
+        "staged_secret_scan_scope": "Exact M1/L1 source, targeted tests, corrected smoke probe, three reports and packaged copies; gitleaks staged scan passed. Final evidence/media staged scan remains separate."
+      },
+      "core_sha256": {
+        "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+        "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+        "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+        "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+        "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+        "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+        "src/factored_banking/language.py": "2b30d2b77bfa700eaee99dfb833fd7841490852303f034c53ad05d8f70d80d18",
+        "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+        "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+        "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+        "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+        "src/factored_banking/references.py": "9ff003bd6efe09d53e62a305b207a7f7eab8f4142d6e2a8220556c105ed5188b",
+        "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+        "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+        "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+        "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+        "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+        "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+        "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+        "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+        "src/factored_banking/workflow.py": "6aceab37ec2d3c6d3bee09a51810d8614b45b371569498df7ad8f61e55e1875f"
+      },
+      "cache_contract": {
+        "html_entry_paths": [
+          "/",
+          "/static/index.html"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "public_html_and_static_cache_control": "no-cache",
+        "api_cache_control": "no-store",
+        "html_etag_kind": "strong SHA-256 of rendered HTML",
+        "asset_version_kind": "SHA-256 of packaged asset bytes, derived once at app creation",
+        "rendered_html_sha256": "25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73",
+        "versioned_asset_urls": [
+          "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+          "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "/static/app.js?v=0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d"
+        ],
+        "new_cache_contract_tests_passed": 12
+      },
+      "check_provenance": {
+        "current_make_check": "make check: Ruff lint/format on 73 files and 473 pytest tests passed after M1/L1; one existing installed TestClient deprecation warning.",
+        "javascript_parse": "node --check passed on the updated finishChatReply locale-owner line.",
+        "secret_scan": "gitleaks git --staged --config .gitleaks.toml --redact passed on the exact M1/L1 source-bearing revision.",
+        "browser_captures": "The seven local captures retain their original pre-cache API hash and captured-source receipt; no recapture is inferred from this check receipt."
+      },
+      "prior_verification": {
+        "verified_at": "2026-10-05T05:09:36.082508+00:00",
+        "base_commit": "b4e25699e7b814244ae9462aa85f70a6725bd6d1",
+        "source_status": "uncommitted chat revision, source frozen for final review",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 413,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "sanitized_snapshot_secret_scan": true
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70e91193c48fa6f05aa443e9d6dc8aad72f50616cffd0769957f146ad04b0ec2",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "19de4bd6d357cad2f7dceb663a43188702348e779a9e3cfab383022a371429d7",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+        },
+        "limitations": [
+          "One Starlette TestClient deprecation warning; no failing tests.",
+          "Local gates do not attest deployed behavior or organizer acceptance.",
+          "No external production model inference or organizer submission."
+        ],
+        "post_review": "Ruff lint/format, 413 tests, JavaScript parse, diff checks and sanitized tracked-file secret scan passed after F1-F4 fixes. Final source-only re-review will follow hosted verification."
+      },
+      "limitations": [
+        "One Starlette TestClient deprecation warning; no failing tests.",
+        "Local gates do not attest deployed behavior or organizer acceptance.",
+        "No external production model inference or organizer submission."
+      ],
+      "post_review": "Actual Opus 5.5/xhigh review completed 47 turns with GO and new M1/L1 findings. Shared reported-recognition polarity now handles negator plus pronouns/never before verbs and independently prevents status override. L1 ordinal recognition now rejects post-noun temporal wording and supports Spanish primer/tercer.21+14focusednewchecks pass alongside existing coverage. Frozen corpora, learned artifacts and scorer remain unchanged. Fresh offline learned outcomes stay 130/140 and 64/70 with 60/60 and 30/30 required handoffs; combined rules improve to 85/140 and 49/70. Hosted proof and final media refresh remain separate pending gates.",
+      "cache_verification_before_f7": {
+        "verified_at": "2026-10-05T05:43:55.084805+00:00",
+        "base_commit": "e9ad9c9b0174030b4ae4865c4bdf89d83039a7a0",
+        "source_status": "Uncommitted cache-serving correction on the merged chat application; implementation and all three source-matched regressions frozen.",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 425,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "staged_secret_scan": true,
+          "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+          "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+        },
+        "post_review": "F1-F5 behavior remains verified in its scoped capture receipt. The subsequent returning-browser cache correction passes 425 tests and unchanged outcome/fault/cost results on all three fresh source-matched regressions. Final hosted browser proof and final Claude review remain separate."
+      },
+      "continuation_verification_before_f8": {
+        "verified_at": "2026-10-05T05:57:38.308747+00:00",
+        "base_commit": "217d5383f137bcdd405026099b6cf577bf6b2a06",
+        "source_status": "F7 report-continuation correction on the deployed cache-serving application; workflow and all source-matched replay inputs frozen.",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 430,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "staged_secret_scan": true,
+          "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+          "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab"
+        },
+        "post_review": "Late hosted QA F7 (F4 continuation) is corrected locally: ambiguous record clarification retains the pending review intent and bounded report. Five new focused checks verify ES/PT actual three-turn preview, retry, session restoration, confirmed persisted read-back, explicit new factual requests and scam-signal priority. Hosted proof and final Claude review remain separate."
+      },
+      "verification_probe_correction": {
+        "script": "scripts/smoke.py",
+        "change": "Read the existing session language contract from user.language; original probe incorrectly expected a top-level language field. No application source, scorer or fixture changed.",
+        "sha256": "bd2c2b1a6a3c61c9f60f85328f27d65bfb34c3902162fcf57d6a0d9e7c85d01b",
+        "verified": "Ruff lint/format; corrected probe passed on both final Docker and public HTTPS origin."
+      },
+      "verification_before_m1_l1": {
+        "verified_at": "2026-10-05T06:15:42.843956+00:00",
+        "base_commit": "cb17c73122b81ffb9cdcc38d5605d989396d3ff2",
+        "source_status": "F8 verified reply/history recovery and reply-language UI correction on the deployed F7 application; source frozen.",
+        "checks": {
+          "make_check": true,
+          "ruff_lint_and_format": true,
+          "pytest_passed": 438,
+          "javascript_parse": true,
+          "git_diff_check": true,
+          "staged_secret_scan": true,
+          "staged_secret_scan_scope": "Exact staged F8 reply-history application revision 041e301; source hashes are checksums, with narrowly scoped allowlists."
+        },
+        "core_sha256": {
+          "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+          "src/factored_banking/api.py": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
+          "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+          "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+          "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+          "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+          "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+          "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+          "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+          "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+          "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+          "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+          "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+          "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+          "src/factored_banking/static/app.js": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+          "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+          "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+          "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+          "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+          "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+          "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab"
+        },
+        "cache_contract": {
+          "html_entry_paths": [
+            "/",
+            "/static/index.html"
+          ],
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "public_html_and_static_cache_control": "no-cache",
+          "api_cache_control": "no-store",
+          "html_etag_kind": "strong SHA-256 of rendered HTML",
+          "asset_version_kind": "SHA-256 of packaged asset bytes, derived once at app creation",
+          "rendered_html_sha256": "25589ce56676fec9f641006597624564e5d33e10253780df223c45284f7a3e73",
+          "versioned_asset_urls": [
+            "/static/favicon.svg?v=565aafc0e8203f6d17edbee74d758b3b04aa90a8797c88c4f30b7abaf990e118",
+            "/static/app.css?v=18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+            "/static/app.js?v=0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d"
+          ],
+          "new_cache_contract_tests_passed": 12
+        },
+        "check_provenance": {
+          "current_make_check": "make check: Ruff lint/format and 438 pytest tests passed after F8; one installed TestClient deprecation warning.",
+          "javascript_parse": "node --check passed on the updated finishChatReply locale-owner line.",
+          "secret_scan": "Staged F8 source scan passed before PR10. Final sanitized review snapshot and final evidence/media scan are separate gates.",
+          "browser_captures": "The seven local captures retain their original pre-cache API hash and captured-source receipt; no recapture is inferred from this check receipt."
+        },
+        "prior_verification": {
+          "verified_at": "2026-10-05T05:09:36.082508+00:00",
+          "base_commit": "b4e25699e7b814244ae9462aa85f70a6725bd6d1",
+          "source_status": "uncommitted chat revision, source frozen for final review",
+          "checks": {
+            "make_check": true,
+            "ruff_lint_and_format": true,
+            "pytest_passed": 413,
+            "javascript_parse": true,
+            "git_diff_check": true,
+            "sanitized_snapshot_secret_scan": true
+          },
+          "core_sha256": {
+            "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+            "src/factored_banking/api.py": "1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b",
+            "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+            "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+            "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+            "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+            "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+            "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+            "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+            "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+            "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+            "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+            "src/factored_banking/service_segments.py": "70e91193c48fa6f05aa443e9d6dc8aad72f50616cffd0769957f146ad04b0ec2",
+            "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+            "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+            "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+            "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+            "src/factored_banking/system_evaluation.py": "19de4bd6d357cad2f7dceb663a43188702348e779a9e3cfab383022a371429d7",
+            "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+            "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+          },
+          "limitations": [
+            "One Starlette TestClient deprecation warning; no failing tests.",
+            "Local gates do not attest deployed behavior or organizer acceptance.",
+            "No external production model inference or organizer submission."
+          ],
+          "post_review": "Ruff lint/format, 413 tests, JavaScript parse, diff checks and sanitized tracked-file secret scan passed after F1-F4 fixes. Final source-only re-review will follow hosted verification."
+        },
+        "limitations": [
+          "One Starlette TestClient deprecation warning; no failing tests.",
+          "Local gates do not attest deployed behavior or organizer acceptance.",
+          "No external production model inference or organizer submission."
+        ],
+        "post_review": "Late hosted QA F8 is corrected locally using the existing bounded history in the final verified response transaction, with same-key recovery and no duplicated reply/ack. Eight new focused checks cover ES/PT restoration/restart, redaction, bounds and other context preservation, read-back failure, atomic final rollback, expiry/revocation and stale concurrent chat. Client acknowledgement locale follows the validated response_language without relabeling saved cases. Hosted proof and final Claude review remain separate.",
+        "cache_verification_before_f7": {
+          "verified_at": "2026-10-05T05:43:55.084805+00:00",
+          "base_commit": "e9ad9c9b0174030b4ae4865c4bdf89d83039a7a0",
+          "source_status": "Uncommitted cache-serving correction on the merged chat application; implementation and all three source-matched regressions frozen.",
+          "checks": {
+            "make_check": true,
+            "ruff_lint_and_format": true,
+            "pytest_passed": 425,
+            "javascript_parse": true,
+            "git_diff_check": true,
+            "staged_secret_scan": true,
+            "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+          },
+          "core_sha256": {
+            "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+            "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+            "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+            "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+            "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+            "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+            "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+            "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+            "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+            "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+            "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+            "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+            "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+            "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+            "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+            "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+            "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+            "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+            "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+            "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+            "src/factored_banking/workflow.py": "8841e41c18ef36705977303f9cd54fa2be791bffe3f4ece81a133bc99df73fd2"
+          },
+          "post_review": "F1-F5 behavior remains verified in its scoped capture receipt. The subsequent returning-browser cache correction passes 425 tests and unchanged outcome/fault/cost results on all three fresh source-matched regressions. Final hosted browser proof and final Claude review remain separate."
+        },
+        "continuation_verification_before_f8": {
+          "verified_at": "2026-10-05T05:57:38.308747+00:00",
+          "base_commit": "217d5383f137bcdd405026099b6cf577bf6b2a06",
+          "source_status": "F7 report-continuation correction on the deployed cache-serving application; workflow and all source-matched replay inputs frozen.",
+          "checks": {
+            "make_check": true,
+            "ruff_lint_and_format": true,
+            "pytest_passed": 430,
+            "javascript_parse": true,
+            "git_diff_check": true,
+            "staged_secret_scan": true,
+            "staged_secret_scan_scope": "Exact staged cache revision; two media API-source checksum fields narrowly allowlisted."
+          },
+          "core_sha256": {
+            "src/factored_banking/__init__.py": "73a5efb52718f579e6d768fd480ba832e9119bf1f572bc48af16d3edce8d0099",
+            "src/factored_banking/api.py": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+            "src/factored_banking/data_pipeline.py": "c5b838408b34ccb84ba25560333bf210bbe4b1e9991b75c8c53252b90de91972",
+            "src/factored_banking/evaluation.py": "1826ee5700803feb13809b6295fa583e3aacdf670ffe7f61595f20f7527c35a9",
+            "src/factored_banking/fixtures.py": "ab53d84d3ecc64432f02696372debe2b92080b35ee95b0a0540d1e6074047dbc",
+            "src/factored_banking/fraud.py": "42a201ae93e9d5f4ca09991fd52df5240d305f5ec9ef5931ac889d6648896cbf",
+            "src/factored_banking/language.py": "6a503ca23894112cbf096bc4460fe353cbc62142cb3459e13b3d23fe383551ea",
+            "src/factored_banking/policy.py": "4995f58d70c5cf056eb4abb7eb74086dc0dbbb3a9385aa4b3a8331d0a13bd68e",
+            "src/factored_banking/privacy.py": "73cd82e1ff6e2c5b1d607a2b09056fc7161f7995bc11822aa49664a89d3ea009",
+            "src/factored_banking/profile.py": "ae003f0b2adfbd93ed33e9f83379842bdc8296f22afcd45b24579018f4dad3d3",
+            "src/factored_banking/providers.py": "00278486dbd405b2fdb08ff66f293947275ee2f28335d4b79a084bb2e0e0bfee",
+            "src/factored_banking/references.py": "49cc76f694a92dd270b6de951d6af7b8db3ef221b76490c32c3f892ab05009c9",
+            "src/factored_banking/service_segments.py": "70b46674cb969ebee774256fabba92696c1199aa0778f3d3acba7826b8ffaf62",
+            "src/factored_banking/static/app.css": "18270eff0443177cb3fbf517c570554eccbc21696932700c7bf894107c497c87",
+            "src/factored_banking/static/app.js": "4138c0213bcee41fbec2645e9becdb68c5fdb7e3e1d16677cb0c225aaacd0b82",
+            "src/factored_banking/static/index.html": "7acc0aa4f2588762c86633169c5c5c4e2c970e180d93ad647f4e7dfb4832c38b",
+            "src/factored_banking/store.py": "0d18ca7b0e4b5007ef6e0233b332194f75ea91ab286086cc5ec361ee8e373f57",
+            "src/factored_banking/system_evaluation.py": "6a562534f8f3fc0d4ed960dd94f71edc445c4dffcc377b3f644a34b6acd2a42e",
+            "src/factored_banking/train_fraud.py": "0e3eb0e63930405d4abf7e996be4179877f8cdbf728570c9757f4074858bda32",
+            "src/factored_banking/web_assets.py": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
+            "src/factored_banking/workflow.py": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab"
+          },
+          "post_review": "Late hosted QA F7 (F4 continuation) is corrected locally: ambiguous record clarification retains the pending review intent and bounded report. Five new focused checks verify ES/PT actual three-turn preview, retry, session restoration, confirmed persisted read-back, explicit new factual requests and scam-signal priority. Hosted proof and final Claude review remain separate."
+        },
+        "verification_probe_correction": {
+          "script": "scripts/smoke.py",
+          "change": "Read the existing session language contract from user.language; original probe incorrectly expected a top-level language field. No application source, scorer or fixture changed.",
+          "sha256": "bd2c2b1a6a3c61c9f60f85328f27d65bfb34c3902162fcf57d6a0d9e7c85d01b",
+          "verified": "Ruff lint/format; corrected probe passed on both final Docker and public HTTPS origin."
+        }
+      },
+      "m1_l1_regression_verification": {
+        "all_source_hashes_match": true,
+        "source_hash_count": 43,
+        "all_package_copies_byte_identical": true,
+        "frozen_corpora_and_model_hashes_unchanged": true,
+        "report_sha256": {
+          "chat-system-regression": "3d3783e1e4545c87d4343cae1e32ef82012f22dc0e68631fcbe6e24588c08d32",
+          "chat-challenge-regression": "3d5e517dc50c9ff76ba5ba9a7545cdfe6c898e3a2e9a3ee72d077fc3f168d8e5",
+          "chat-service-segment-regression": "778f59be2e58f1411600f619f81a3175684bfe4e91a6b707dac737ed77e345ee"
+        },
+        "learned_correct": [
+          130,
+          64
+        ],
+        "rules_correct": [
+          85,
+          49
+        ],
+        "tests_added_m1": 21,
+        "tests_added_l1": 14
+      }
+    }
+  },
+  "current_regression_verification": {
+    "all_source_hashes_match": true,
+    "source_hash_count": 43,
+    "all_package_copies_byte_identical": true,
+    "frozen_corpora_model_fixture_and_scorer_hashes_unchanged": true,
+    "report_sha256": {
+      "chat-system-regression": "113731ffe54402d7737336335c8c88a87e498b20a31b7f3e3e2e6ab8f3bb3e6c",
+      "chat-challenge-regression": "b8314e54aa2b77b6d79053c31105e6c4fe32be8c231c32c6a6ab42ebe4f20f97",
+      "chat-service-segment-regression": "293c90d404291cc110aa56f175b4328491ddc45ec7e0ad7cb64514f0485a50a9"
+    },
+    "systems": {
+      "chat-system-regression": {
+        "keyword_rules": {
+          "cases": 140,
+          "correct_outcomes": 85,
+          "safe_automated_resolutions": 31,
+          "required_handoffs": 60,
+          "verified_handoffs": 30,
+          "missed_required_handoffs": 30,
+          "unnecessary_handoff_proposals": 2,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 32,
+          "incorrect_outcomes": 55,
+          "faults_passed": 22
+        },
+        "tfidf_logistic": {
+          "cases": 140,
+          "correct_outcomes": 130,
+          "safe_automated_resolutions": 38,
+          "required_handoffs": 60,
+          "verified_handoffs": 60,
+          "missed_required_handoffs": 0,
+          "unnecessary_handoff_proposals": 1,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 0,
+          "incorrect_outcomes": 10,
+          "faults_passed": 22
+        }
+      },
+      "chat-challenge-regression": {
+        "keyword_rules": {
+          "cases": 70,
+          "correct_outcomes": 49,
+          "safe_automated_resolutions": 16,
+          "required_handoffs": 30,
+          "verified_handoffs": 20,
+          "missed_required_handoffs": 10,
+          "unnecessary_handoff_proposals": 0,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 14,
+          "incorrect_outcomes": 21,
+          "faults_passed": 22
+        },
+        "tfidf_logistic": {
+          "cases": 70,
+          "correct_outcomes": 64,
+          "safe_automated_resolutions": 18,
+          "required_handoffs": 30,
+          "verified_handoffs": 30,
+          "missed_required_handoffs": 0,
+          "unnecessary_handoff_proposals": 2,
+          "unauthorized_disclosure_or_action": 0,
+          "materially_wrong_outcomes": 0,
+          "incorrect_outcomes": 6,
+          "faults_passed": 22
+        }
+      },
+      "chat-service-segment-regression": {
+        "keyword_rules": {
+          "strata": {
+            "completed-cop": {
+              "cases": 140,
+              "correct_outcomes": 85,
+              "required_handoffs": 60,
+              "verified_handoffs": 30,
+              "safe_automated_resolutions": 31,
+              "missed_required_handoffs": 30,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 32
+            },
+            "completed-usd": {
+              "cases": 140,
+              "correct_outcomes": 85,
+              "required_handoffs": 60,
+              "verified_handoffs": 30,
+              "safe_automated_resolutions": 31,
+              "missed_required_handoffs": 30,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 32
+            },
+            "pending-cop": {
+              "cases": 140,
+              "correct_outcomes": 85,
+              "required_handoffs": 60,
+              "verified_handoffs": 30,
+              "safe_automated_resolutions": 31,
+              "missed_required_handoffs": 30,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 32
+            },
+            "pending-usd": {
+              "cases": 140,
+              "correct_outcomes": 85,
+              "required_handoffs": 60,
+              "verified_handoffs": 30,
+              "safe_automated_resolutions": 31,
+              "missed_required_handoffs": 30,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 32
+            },
+            "declined-cop": {
+              "cases": 140,
+              "correct_outcomes": 85,
+              "required_handoffs": 60,
+              "verified_handoffs": 30,
+              "safe_automated_resolutions": 31,
+              "missed_required_handoffs": 30,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 32
+            },
+            "declined-usd": {
+              "cases": 140,
+              "correct_outcomes": 85,
+              "required_handoffs": 60,
+              "verified_handoffs": 30,
+              "safe_automated_resolutions": 31,
+              "missed_required_handoffs": 30,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 32
+            }
+          },
+          "provider_requests": 0
+        },
+        "tfidf_logistic": {
+          "strata": {
+            "completed-cop": {
+              "cases": 140,
+              "correct_outcomes": 130,
+              "required_handoffs": 60,
+              "verified_handoffs": 60,
+              "safe_automated_resolutions": 38,
+              "missed_required_handoffs": 0,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 0
+            },
+            "completed-usd": {
+              "cases": 140,
+              "correct_outcomes": 130,
+              "required_handoffs": 60,
+              "verified_handoffs": 60,
+              "safe_automated_resolutions": 38,
+              "missed_required_handoffs": 0,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 0
+            },
+            "pending-cop": {
+              "cases": 140,
+              "correct_outcomes": 130,
+              "required_handoffs": 60,
+              "verified_handoffs": 60,
+              "safe_automated_resolutions": 38,
+              "missed_required_handoffs": 0,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 0
+            },
+            "pending-usd": {
+              "cases": 140,
+              "correct_outcomes": 130,
+              "required_handoffs": 60,
+              "verified_handoffs": 60,
+              "safe_automated_resolutions": 38,
+              "missed_required_handoffs": 0,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 0
+            },
+            "declined-cop": {
+              "cases": 140,
+              "correct_outcomes": 130,
+              "required_handoffs": 60,
+              "verified_handoffs": 60,
+              "safe_automated_resolutions": 38,
+              "missed_required_handoffs": 0,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 0
+            },
+            "declined-usd": {
+              "cases": 140,
+              "correct_outcomes": 130,
+              "required_handoffs": 60,
+              "verified_handoffs": 60,
+              "safe_automated_resolutions": 38,
+              "missed_required_handoffs": 0,
+              "unauthorized_disclosure_or_action": 0,
+              "materially_wrong_outcomes": 0
+            }
+          },
+          "provider_requests": 0
+        }
+      }
     }
   }
 }

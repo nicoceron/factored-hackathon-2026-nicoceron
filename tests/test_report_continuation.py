@@ -16,12 +16,12 @@ from factored_banking.workflow import run
     [
         (
             "No reconozco el cobro de Mercado Luna.",
-            "A segunda. Meu cartão ficou comigo e eu estava em casa.",
+            "A primeira ou a segunda. Meu cartão ficou comigo e eu estava em casa.",
             "É o cobro de Tienda Demo, 129000 COP. Meu cartão ficou comigo e eu estava em casa.",
         ),
         (
             "Não reconheço a cobrança de Mercado Luna.",
-            "La segunda. Mi tarjeta se quedó conmigo y yo estaba en casa.",
+            "La primera o la segunda. Mi tarjeta se quedó conmigo y yo estaba en casa.",
             "Es el cobro de Tienda Demo, 129000 COP. Mi tarjeta se quedó conmigo.",
         ),
     ],
@@ -45,6 +45,8 @@ def test_ambiguous_selection_keeps_pending_report_through_preview_retry_and_stor
         assert first["state"] == "clarification" and first["intent"] == "dispute"
         middle = chat(clarification)
         assert middle["state"] == "clarification" and middle["intent"] == "dispute"
+        assert {row["id"] for row in middle["transaction_options"]} == {"TX-ES-101", "TX-ES-102"}
+        assert middle.get("transaction") is None
         context = client.get("/api/session").json()["context"]
         assert context["pending_intent"] == "dispute"
         assert original in context["customer_report"]
@@ -80,13 +82,13 @@ def test_ambiguous_selection_keeps_pending_report_through_preview_retry_and_stor
         (
             "es",
             "No reconozco el cobro de Mercado Luna.",
-            "La segunda. Mi tarjeta se quedó conmigo y yo estaba en casa.",
+            "La primera o la segunda. Mi tarjeta se quedó conmigo y yo estaba en casa.",
             "Ahora dime el estado del cargo de Tienda Demo.",
         ),
         (
             "pt",
             "Não reconheço a cobrança de Mercado Luna.",
-            "A segunda. Meu cartão ficou comigo e eu estava em casa.",
+            "A primeira ou a segunda. Meu cartão ficou comigo e eu estava em casa.",
             "Agora diga o estado da cobrança de Tienda Demo.",
         ),
     ],
@@ -98,6 +100,8 @@ def test_explicit_new_fact_request_replaces_pending_dispute_after_ambiguity(
     first = run(original, language, None, {}, records, classify)
     middle = run(ambiguous, language, None, first["context"], records, classify)
     assert middle["state"] == "clarification" and middle["context"]["pending_intent"] == "dispute"
+    assert {row["id"] for row in middle["transaction_options"]} == {"TX-ES-101", "TX-ES-102"}
+    assert "transaction" not in middle
     changed = run(factual, language, None, middle["context"], records, classify)
     assert changed["state"] == "resolved" and changed["intent"] == "transaction_status"
     assert changed["transaction"]["id"] == "TX-ES-102"
