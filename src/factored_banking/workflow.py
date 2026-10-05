@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 from factored_banking import policy
 from factored_banking.fixtures import AS_OF
 from factored_banking.fraud import assess
-from factored_banking.language import authorization_polarity
+from factored_banking.language import authorization_polarity, has_negation
 from factored_banking.privacy import customer_report, redact_text
 from factored_banking.references import resolve_reference
 
@@ -428,6 +428,9 @@ def run(message, language, transaction_id, context, records, classifier):
     affirmative_authorization = authorization == "affirmed" and not review_required
     recorded_status_query = (
         status_question
+        # A factual question cannot erase a learned dispute with unresolved
+        # negation. Clear affirmative recognition can still resolve below.
+        and not has_negation(message, language)
         and bool(
             re.search(
                 r"\b(?:estado|estatus|status|situacion|situacao)\b",

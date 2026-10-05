@@ -10,7 +10,7 @@ from fastapi.testclient import TestClient
 
 from factored_banking.api import create_app
 from factored_banking.fixtures import transactions
-from factored_banking.language import classify, safety_signals
+from factored_banking.language import authorization_polarity, classify, safety_signals
 from factored_banking.workflow import run
 
 NEGATED_REPORTS = [
@@ -24,10 +24,21 @@ NEGATED_REPORTS = [
     ("pt", "O que aconteceu com a compra na Tienda Demo? Não a autorizei."),
     ("pt", "Por que aparece a cobrança da Tienda Demo? Jamais a realizei."),
     ("pt", "Qual é o status da compra na Tienda Demo? Nós não a autorizamos."),
+    ("es", "¿Cuál es el estado del cargo de Tienda Demo? No he autorizado esa compra."),
+    ("es", "¿Cuál es el estado del cargo de Tienda Demo? No fui yo quien lo autorizó."),
+    ("es", "¿Cuál es el estado del cargo de Tienda Demo? Yo no lo he realizado."),
+    ("pt", "Qual é o status da Tienda Demo? Não fui eu quem autorizou a compra."),
+    ("pt", "Qual é o estado da cobrança da Tienda Demo? Nunca a tinha autorizado."),
+    ("es", "¿Cuál es el estado del cargo de Tienda Demo? Nunca lo habíamos realizado."),
+]
+
+UNKNOWN_DENIAL_REPORTS = [
+    ("es", "¿Cuál es el estado del cargo de Tienda Demo? No di mi consentimiento para esa compra."),
+    ("pt", "Qual é o status da cobrança da Tienda Demo? Não dei meu consentimento para a compra."),
 ]
 
 
-@pytest.mark.parametrize("language,message", NEGATED_REPORTS)
+@pytest.mark.parametrize("language,message", NEGATED_REPORTS + [UNKNOWN_DENIAL_REPORTS[1]])
 def test_fact_question_with_negated_recognition_proposes_and_preserves_confirmed_report(
     tmp_path, language, message
 ):
@@ -35,13 +46,22 @@ def test_fact_question_with_negated_recognition_proposes_and_preserves_confirmed
     with TestClient(app) as client:
         auth = client.post("/api/session", json={"persona": "customer_es"}).json()
         client.headers["X-CSRF-Token"] = auth["csrf_token"]
+        if language == "es":
+            greeting = client.post(
+                "/api/chat", json={"message": "Olá.", "idempotency_key": str(uuid4())}
+            ).json()
+            assert greeting["language"] == "pt"
         key = str(uuid4())
         request = {"message": message, "idempotency_key": key}
         response = client.post("/api/chat", json=request)
         assert response.status_code == 200, response.text
         result = response.json()
         assert result["language"] == language
-        assert "customer_reported_dispute" in safety_signals(message)
+        if authorization_polarity(message) == "negated":
+            assert "customer_reported_dispute" in safety_signals(message)
+        else:
+            # A learned dispute with unresolved negation must also retain review.
+            assert classify(message, language)["intent"] == "dispute"
         assert result["intent"] == "dispute" and result["state"] == "awaiting_confirmation"
         assert result["receipt"] is None
         proposal = result["proposal"]
@@ -75,6 +95,13 @@ def test_fact_question_with_negated_recognition_proposes_and_preserves_confirmed
         ),
         ("es", "No tengo dudas: reconozco el cargo de Tienda Demo. Dime el importe."),
         ("pt", "Não tenho dúvida; reconheço a cobrança da Tienda Demo. Qual é o valor?"),
+        ("es", "¿Cuál es el estado del cargo de Tienda Demo? Sí he autorizado esa compra."),
+        ("pt", "Qual é o status da cobrança da Tienda Demo? Fui eu quem autorizou a compra."),
+        (
+            "es",
+            "No tengo dudas; fui yo quien lo autorizó. Dime el importe del cargo de Tienda Demo.",
+        ),
+        ("pt", "Não tenho dúvidas; tinha autorizado a cobrança da Tienda Demo. Qual é o valor?"),
     ],
 )
 def test_affirmed_recognition_with_unrelated_negation_remains_factual(language, message):
@@ -86,7 +113,10 @@ def test_affirmed_recognition_with_unrelated_negation_remains_factual(language, 
 
 
 @pytest.mark.parametrize("predicted", ["transaction_status", "dispute"])
-@pytest.mark.parametrize("language,message", [NEGATED_REPORTS[0], NEGATED_REPORTS[5]])
+@pytest.mark.parametrize(
+    "language,message",
+    [NEGATED_REPORTS[0], NEGATED_REPORTS[5], NEGATED_REPORTS[10], NEGATED_REPORTS[13]],
+)
 def test_service_polarity_guard_does_not_depend_on_classifier_signal_quality(
     predicted, language, message
 ):
@@ -97,6 +127,54 @@ def test_service_polarity_guard_does_not_depend_on_classifier_signal_quality(
         {},
         transactions("demo-es"),
         lambda *args: {"intent": predicted, "signals": []},
+    )
+    assert result["intent"] == "dispute" and result["state"] == "awaiting_confirmation"
+    assert result["proposal_payload"]["customer_report"] == message
+    assert not result.get("receipt")
+
+
+@pytest.mark.parametrize("language,message", UNKNOWN_DENIAL_REPORTS)
+@pytest.mark.parametrize("signals", [[], ["unrelated_classifier_advisory"]])
+def test_unresolved_negative_report_cannot_erase_a_learned_dispute(language, message, signals):
+    assert authorization_polarity(message) is None
+    result = run(
+        message,
+        language,
+        None,
+        {},
+        transactions("demo-es"),
+        lambda *args: {"intent": "dispute", "signals": signals},
+    )
+    assert result["intent"] == "dispute" and result["state"] == "awaiting_confirmation"
+    assert result["transaction"]["id"] == "TX-ES-102"
+    assert result["proposal_payload"]["customer_report"] == message
+    assert not result.get("receipt")
+
+
+def test_portuguese_preposition_no_does_not_negate_a_factual_question():
+    message = "Qual situação consta no meu registro para a cobrança da Tienda Demo?"
+    result = run(
+        message,
+        "pt",
+        None,
+        {},
+        transactions("demo-es"),
+        lambda *args: {"intent": "dispute", "signals": []},
+    )
+    assert result["intent"] == "transaction_status" and result["state"] == "resolved"
+    assert result["transaction"]["id"] == "TX-ES-102"
+    assert not result.get("proposal_payload") and not result.get("receipt")
+
+
+def test_spanish_unresolved_denial_retains_review_after_portuguese_context():
+    message = UNKNOWN_DENIAL_REPORTS[0][1]
+    result = run(
+        message,
+        "pt",
+        None,
+        {},
+        transactions("demo-es"),
+        lambda *args: {"intent": "dispute", "signals": []},
     )
     assert result["intent"] == "dispute" and result["state"] == "awaiting_confirmation"
     assert result["proposal_payload"]["customer_report"] == message

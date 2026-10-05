@@ -8,7 +8,7 @@ import re
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 
-from factored_banking.language import normalize
+from factored_banking.language import detect_language, has_negation, normalize
 
 STATUSES = {
     "completed": ("completada", "completado", "concluida", "concluido", "completed"),
@@ -144,14 +144,19 @@ def ordinal_reference(text):
                 text,
             )
         )
-        if not phrases or any(
-            re.search(
-                r"\b(?:no|nao) (?:(?:es|e|fue|foi|era|sera|elijo|escolho) )?"
+
+        def rejected(match):
+            prefix = re.search(
+                r"\b(?:no|nao|nunca|jamas|jamais) (?:(?:es|e|fue|foi|era|sera|quiero|quero|"
+                r"elijo|escolho|prefiero|prefiro|selecciono|seleciono) )?"
                 r"(?:(?:la|el|a|o|esta|este|esa|ese|essa|esse) )?$",
                 text[: match.start()],
             )
-            for match in phrases
-        ):
+            # Reuse the per-turn language contract: Portuguese "no" is a
+            # preposition, while Spanish "no" rejects the selection.
+            return bool(prefix and has_negation(prefix[0], detect_language(text)))
+
+        if not phrases or any(rejected(match) for match in phrases):
             return [], False
         selected_text = " ".join(match[0] for match in phrases)
     indices = [
