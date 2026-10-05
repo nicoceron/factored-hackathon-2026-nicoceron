@@ -309,6 +309,8 @@ checks["bilingual_smoke_passed"] = (
     and smoke["duplicate_writes"] == 0
     and smoke["analyst_resolution"]
     and smoke["workspace_erased"]
+    and smoke["reply_history_restored_and_idempotent"]
+    and smoke["reply_response_language_verified"]
 )
 report = {
     "version": "deployed-api-checks-chat-v3",
