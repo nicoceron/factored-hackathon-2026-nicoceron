@@ -52,6 +52,8 @@ def detect_language(message: str, fallback: str = "es") -> str:
             "quiero",
             "necesito",
             "reconozco",
+            "reconoci",
+            "reconocimos",
             "autorice",
             "cargo",
             "cargos",
@@ -87,12 +89,14 @@ def detect_language(message: str, fallback: str = "es") -> str:
             "llamada",
             "ninguna",
             "ninguno",
+            "yo",
         },
         "pt": {
             "ola",
             "quero",
             "preciso",
             "reconheco",
+            "reconheci",
             "autorizei",
             "cobranca",
             "cobrancas",
@@ -134,6 +138,7 @@ def detect_language(message: str, fallback: str = "es") -> str:
             "movimento",
             "depois",
             "nenhuma",
+            "eu",
         },
     }
     words = set(re.findall(r"[a-z]+", text))
@@ -168,13 +173,35 @@ def authorization_polarity(message: str) -> Literal["affirmed", "negated"] | Non
     Negators may precede an object/subject pronoun, as in ``no lo reconozco``
     or ``nao a reconheco``. First-person perfect auxiliaries and explicit
     self-identification clauses use the same prefix, such as ``no he autorizado``
-    and ``nao fui eu quem autorizou``. Negation elsewhere does not deny this
-    predicate. Any denied occurrence keeps a mixed report eligible for review.
+    and ``nao fui eu quem autorizou``. A complete ``no fui yo`` / ``nao fui eu``
+    clause also denies participation without needing another verb. Negation
+    elsewhere does not deny this predicate. Any denied occurrence keeps a mixed
+    report eligible for review.
     """
     text = normalize(message)
+    # The prefix is adjacent to a predicate, not an arbitrary earlier negator:
+    # Portuguese "no meu registro" cannot match, while a Spanish denial still
+    # counts inside a Portuguese question or after a Portuguese conversation.
+    negator = r"(?:no|nao|nunca|jamas|jamais)"
     objects = r"(?:lo|la|los|las|o|a|os|as|me|nos)"
+    denied_prefix = (
+        rf"\b{negator}\s+"
+        r"(?:(?:lo|la|los|las|o|a|os|as|me|yo|eu|nosotros|nosotras|nos)\s+){0,2}$"
+    )
+    # Bare self-identification must end its clause. An unrelated phrase such as
+    # "no fui yo al banco" does not negate a later recognition statement.
+    self_identification = re.finditer(
+        r"\b(?:(?:fui|fuimos|soy|somos)\s+(?:yo|nosotros|nosotras)|"
+        r"(?:fui|fomos|sou|somos)\s+(?:eu|nos))(?=\s*(?:[,;.!?]|$))",
+        text,
+    )
+    if any(
+        re.search(denied_prefix, text[: predicate.start()]) for predicate in self_identification
+    ):
+        return "negated"
     predicates = re.finditer(
-        r"\b(?:reconozco|reconocemos|reconheco|reconhecemos|autorice|autorizei|"
+        r"\b(?:reconozco|reconocemos|reconoci|reconocimos|reconheco|reconhecemos|reconheci|"
+        r"autorice|autorizei|"
         r"autorizamos|realice|realizei|realizamos|hice|hicimos|fiz|fizemos|"
         r"(?:he|hemos|habia|habiamos)\s+(?:autorizado|realizado|hecho|reconocido)|"
         r"(?:tenho|temos|tinha|tinhamos)\s+(?:autorizado|realizado|feito|reconhecido)|"
@@ -188,11 +215,7 @@ def authorization_polarity(message: str) -> Literal["affirmed", "negated"] | Non
     found = False
     for predicate in predicates:
         found = True
-        if re.search(
-            r"\b(?:no|nao|nunca|jamas|jamais)\s+"
-            r"(?:(?:lo|la|los|las|o|a|os|as|me|yo|eu|nosotros|nosotras|nos)\s+){0,2}$",
-            text[: predicate.start()],
-        ):
+        if re.search(denied_prefix, text[: predicate.start()]):
             return "negated"
     return "affirmed" if found else None
 

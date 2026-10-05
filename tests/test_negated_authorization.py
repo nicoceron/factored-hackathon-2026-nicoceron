@@ -13,6 +13,16 @@ from factored_banking.fixtures import transactions
 from factored_banking.language import authorization_polarity, classify, safety_signals
 from factored_banking.workflow import run
 
+PAST_AND_SELF_DENIAL_REPORTS = [
+    ("es", "¿Por qué tengo un cargo de Tienda Demo? No reconocí ese cobro."),
+    ("pt", "Por que tenho uma cobrança da Tienda Demo? Não reconheci essa compra."),
+    ("es", "¿Por qué tengo un cargo de Tienda Demo? No fui yo."),
+    ("pt", "Qual é o status da cobrança da Tienda Demo? Não fui eu."),
+    ("es", "¿Cuál es el estado del cargo de Tienda Demo? Yo nunca lo reconocí."),
+    ("pt", "Qual é o estado da cobrança da Tienda Demo? Nunca a reconheci."),
+    ("pt", "Qual é o status da cobrança da Tienda Demo? No lo reconocí."),
+]
+
 NEGATED_REPORTS = [
     ("es", "¿Por qué tengo un cargo de Tienda Demo? No lo reconozco."),
     ("es", "¿Cuál es el estado del pago de Tienda Demo? Nunca hice esa compra."),
@@ -30,7 +40,7 @@ NEGATED_REPORTS = [
     ("pt", "Qual é o status da Tienda Demo? Não fui eu quem autorizou a compra."),
     ("pt", "Qual é o estado da cobrança da Tienda Demo? Nunca a tinha autorizado."),
     ("es", "¿Cuál es el estado del cargo de Tienda Demo? Nunca lo habíamos realizado."),
-]
+] + PAST_AND_SELF_DENIAL_REPORTS
 
 UNKNOWN_DENIAL_REPORTS = [
     ("es", "¿Cuál es el estado del cargo de Tienda Demo? No di mi consentimiento para esa compra."),
@@ -102,6 +112,11 @@ def test_fact_question_with_negated_recognition_proposes_and_preserves_confirmed
             "No tengo dudas; fui yo quien lo autorizó. Dime el importe del cargo de Tienda Demo.",
         ),
         ("pt", "Não tenho dúvidas; tinha autorizado a cobrança da Tienda Demo. Qual é o valor?"),
+        ("es", "No tengo dudas: reconocí el cargo de Tienda Demo. Dime el importe."),
+        ("pt", "Não tenho dúvidas; reconheci a cobrança da Tienda Demo. Qual é o valor?"),
+        ("pt", "No meu registro consta a compra da Tienda Demo que reconheci. Qual é o valor?"),
+        ("es", "No fui yo al banco; reconozco el cargo de Tienda Demo. Dime el importe."),
+        ("pt", "Não fui eu ao banco; reconheço a cobrança da Tienda Demo. Qual é o valor?"),
     ],
 )
 def test_affirmed_recognition_with_unrelated_negation_remains_factual(language, message):
@@ -115,7 +130,8 @@ def test_affirmed_recognition_with_unrelated_negation_remains_factual(language, 
 @pytest.mark.parametrize("predicted", ["transaction_status", "dispute"])
 @pytest.mark.parametrize(
     "language,message",
-    [NEGATED_REPORTS[0], NEGATED_REPORTS[5], NEGATED_REPORTS[10], NEGATED_REPORTS[13]],
+    [NEGATED_REPORTS[0], NEGATED_REPORTS[5], NEGATED_REPORTS[10], NEGATED_REPORTS[13]]
+    + PAST_AND_SELF_DENIAL_REPORTS[:4],
 )
 def test_service_polarity_guard_does_not_depend_on_classifier_signal_quality(
     predicted, language, message
@@ -206,3 +222,37 @@ def test_scam_signal_retains_priority_when_recognition_is_also_negated():
     result = run(message, "es", None, {}, transactions("demo-es"), classify)
     assert result["intent"] == "scam" and result["state"] == "awaiting_confirmation"
     assert not result.get("receipt")
+
+
+@pytest.mark.parametrize("message,language", [("No fui yo.", "es"), ("Não fui eu.", "pt")])
+def test_bare_self_denial_clarifies_then_preserves_the_report_through_verified_case(
+    tmp_path, message, language
+):
+    app = create_app(str(tmp_path / "self-denial.sqlite"), enable_external=False)
+    with TestClient(app) as client:
+        auth = client.post("/api/session", json={}).json()
+        client.headers["X-CSRF-Token"] = auth["csrf_token"]
+        if language == "es":
+            greeting = client.post(
+                "/api/chat", json={"message": "Olá.", "idempotency_key": str(uuid4())}
+            ).json()
+            assert greeting["language"] == "pt"
+        first = client.post(
+            "/api/chat", json={"message": message, "idempotency_key": str(uuid4())}
+        ).json()
+        assert first["language"] == language
+        assert first["intent"] == "dispute" and first["state"] == "clarification"
+        assert first["proposal"] is None and first["receipt"] is None
+        selected = client.post(
+            "/api/chat", json={"message": "TX-ES-102", "idempotency_key": str(uuid4())}
+        ).json()
+        assert selected["state"] == "awaiting_confirmation"
+        assert selected["proposal"]["customer_report"] == message
+        assert selected["proposal"]["transaction"]["id"] == "TX-ES-102"
+        confirmed = client.post(
+            "/api/actions/confirm",
+            json={"proposal_id": selected["proposal"]["id"], "idempotency_key": str(uuid4())},
+        ).json()
+        assert confirmed["receipt"]["verified"]
+        saved = client.get("/api/cases/" + confirmed["receipt"]["id"]).json()
+        assert saved["customer_report"] == message and saved["intent"] == "dispute"

@@ -488,7 +488,7 @@ def run(message, language, transaction_id, context, records, classifier):
     selection_reply = (
         selection_only or deictic_selection(text, language) or reference.selection_only
     )
-    explicit_new_request = bool(
+    explicit_new_request = not selection_reply and bool(
         unsupported_action
         or status_question
         or re.search(
@@ -497,13 +497,16 @@ def run(message, language, transaction_id, context, records, classifier):
             r"transferencia|compra|debito|movimiento|movimento)\b",
             text,
         )
-        or re.match(
-            r"(?:(?:ahora|agora|en cambio|por otra parte|por outro lado)[, ]+)?"
-            r"(?:quiero|quero|necesito|preciso|me gustaria|gostaria|dime|diga|muestra|mostre|"
-            r"consulta|consulte|explica|explique|abre|abra|registrar|registre|abrir) "
-            r"(?!(?:agregar|anadir|aclarar|completar|acrescentar|adicionar|esclarecer|"
-            r"complementar)\b)",
-            text,
+        or (
+            not reference.choice_reply
+            and re.match(
+                r"(?:(?:ahora|agora|en cambio|por otra parte|por outro lado)[, ]+)?"
+                r"(?:quiero|quero|necesito|preciso|me gustaria|gostaria|dime|diga|muestra|mostre|"
+                r"consulta|consulte|explica|explique|abre|abra|registrar|registre|abrir) "
+                r"(?!(?:agregar|anadir|aclarar|completar|acrescentar|adicionar|esclarecer|"
+                r"complementar)\b)",
+                text,
+            )
         )
     )
     continuation = (
