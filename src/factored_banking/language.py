@@ -11,6 +11,7 @@ import re
 import unicodedata
 from functools import lru_cache
 from importlib.resources import files
+from typing import Literal
 
 import numpy as np
 from scipy.sparse import hstack
@@ -149,11 +150,58 @@ def normalize(message: str) -> str:
     )
 
 
+def has_negation(message: str, language: str | None = None) -> bool:
+    """Grammatical negators, separate from inferred intent and predicate polarity.
+
+    Portuguese ``no`` contracts ``em o`` and does not negate a clause. A supplied
+    conversation locale is the fallback, as in per-turn language routing. Clear
+    message cues take precedence when the speaker switches languages.
+    """
+    language = detect_language(message, language if language in {"es", "pt"} else "es")
+    negators = r"nao|nunca|jamas|jamais|nem|ni" + (r"|no" if language == "es" else "")
+    return bool(re.search(rf"\b(?:{negators})\b", normalize(message)))
+
+
+def authorization_polarity(message: str) -> Literal["affirmed", "negated"] | None:
+    """Recognize bounded first-person transaction reports, never tool authorization.
+
+    Negators may precede an object/subject pronoun, as in ``no lo reconozco``
+    or ``nao a reconheco``. First-person perfect auxiliaries and explicit
+    self-identification clauses use the same prefix, such as ``no he autorizado``
+    and ``nao fui eu quem autorizou``. Negation elsewhere does not deny this
+    predicate. Any denied occurrence keeps a mixed report eligible for review.
+    """
+    text = normalize(message)
+    objects = r"(?:lo|la|los|las|o|a|os|as|me|nos)"
+    predicates = re.finditer(
+        r"\b(?:reconozco|reconocemos|reconheco|reconhecemos|autorice|autorizei|"
+        r"autorizamos|realice|realizei|realizamos|hice|hicimos|fiz|fizemos|"
+        r"(?:he|hemos|habia|habiamos)\s+(?:autorizado|realizado|hecho|reconocido)|"
+        r"(?:tenho|temos|tinha|tinhamos)\s+(?:autorizado|realizado|feito|reconhecido)|"
+        rf"(?:fui|fuimos|soy|somos)\s+(?:yo|nosotros|nosotras)\s+(?:quien|quienes)\s+"
+        rf"(?:{objects}\s+)?(?:autorizo|autorizamos|realizo|realizamos|hizo|hicimos|"
+        r"reconocio|reconocimos)|"
+        rf"(?:fui|fomos|sou|somos)\s+(?:eu|nos)\s+(?:quem|que)\s+(?:{objects}\s+)?"
+        r"(?:autorizou|autorizamos|realizou|realizamos|fez|fizemos|reconheceu|reconhecemos))\b",
+        text,
+    )
+    found = False
+    for predicate in predicates:
+        found = True
+        if re.search(
+            r"\b(?:no|nao|nunca|jamas|jamais)\s+"
+            r"(?:(?:lo|la|los|las|o|a|os|as|me|yo|eu|nosotros|nosotras|nos)\s+){0,2}$",
+            text[: predicate.start()],
+        ):
+            return "negated"
+    return "affirmed" if found else None
+
+
 def safety_signals(message: str) -> list[str]:
     """Advisory lexical flags. These do not override the learned label or authorize tools."""
     text = normalize(message)
     signals: list[str] = []
-    if re.search(r"\b(no|nao|nunca|jamas|nem|ni)\b", text):
+    if has_negation(message):
         signals.append("negation_present")
     if re.search(
         r"(?:ignora|ignore).{0,40}(?:instru|regra)|(?:revela|revele).{0,40}"
@@ -168,9 +216,8 @@ def safety_signals(message: str) -> list[str]:
         text,
     ) and not re.search(r"\b(?:no|nao) (?:quiero|quero|necesito|preciso|prefiero|prefiro)", text):
         signals.append("explicit_human_request")
-    if re.search(
-        r"no (?:reconozco|autorice|hice|realice)|nao (?:reconheco|autorizei|fiz|realizei)"
-        r"|sin (?:mi )?(?:permiso|consentimiento)|sem (?:meu )?(?:consentimento|permissao)",
+    if authorization_polarity(message) == "negated" or re.search(
+        r"sin (?:mi )?(?:permiso|consentimiento)|sem (?:meu )?(?:consentimento|permissao)",
         text,
     ):
         signals.append("customer_reported_dispute")

@@ -101,7 +101,7 @@ def check(base_url):
             {"role": "assistant", "content": replied["message"]},
         ]
         assert restored["context"]["history"][-2:] == exchange
-        assert replied["response_language"] == language and restored["language"] == language
+        assert replied["response_language"] == language and restored["user"]["language"] == language
         assert call(case_url + "/messages", answer) == replied
         assert call("/api/session")["context"]["history"] == restored["context"]["history"]
         csrf = call("/api/session", {"persona": "analyst", "language": language})["csrf_token"]

@@ -8,7 +8,7 @@ import re
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 
-from factored_banking.language import normalize
+from factored_banking.language import detect_language, has_negation, normalize
 
 STATUSES = {
     "completed": ("completada", "completado", "concluida", "concluido", "completed"),
@@ -16,9 +16,9 @@ STATUSES = {
     "declined": ("rechazada", "rechazado", "recusada", "recusado", "declined"),
 }
 ORDINALS = (
-    ("primera", "primero", "primeira", "primeiro"),
+    ("primera", "primero", "primer", "primeira", "primeiro"),
     ("segunda", "segundo"),
-    ("tercera", "tercero", "terceira", "terceiro"),
+    ("tercera", "tercero", "tercer", "terceira", "terceiro"),
     ("cuarta", "cuarto", "quarta", "quarto"),
     ("quinta", "quinto"),
 )
@@ -83,32 +83,45 @@ def ordinal_reference(text):
     """
     ordinal = "(?:" + "|".join(label for labels in ORDINALS for label in labels) + ")"
     article = r"(?:la|el|a|o|esa|ese|essa|esse|esta|este)"
-    clause = (
-        r"(?:"
-        + article
-        + r" )?(?:"
-        + ordinal
-        + r"(?: "
-        + SELECTION_NOUN
-        + r")?|"
-        + SELECTION_NOUN
-        + r" "
-        + ordinal
-        + r")"
-    )
+    selection_verb = r"(?:elijo|escolho|prefiero|prefiro|selecciono|seleciono)"
+
+    def clause(post_noun):
+        return (
+            r"(?:"
+            + article
+            + r" )?(?:"
+            + ordinal
+            + r"(?: "
+            + SELECTION_NOUN
+            + r")?|"
+            + post_noun
+            + r" "
+            + ordinal
+            + r")"
+        )
+
+    choice_clause = clause(r"(?:opcion|opcao)")
+    explicit_clause = clause(SELECTION_NOUN)
+
+    def choices(pattern):
+        return pattern + r"(?: (?:o|ou|y|e) " + pattern + r")*(?: por favor)?[.!? ]*"
+
     selection = re.fullmatch(
-        r"(?:(?:es|e|fue|foi|elijo|escolho|prefiero|prefiro) )?"
-        + clause
-        + r"(?: (?:o|ou|y|e) "
-        + clause
-        + r")*(?: por favor)?[.!? ]*",
+        r"(?:(?:(?:es|e|fue|foi) )?"
+        + choices(choice_clause)
+        + r"|"
+        + selection_verb
+        + r" "
+        + choices(explicit_clause)
+        + r")",
         text.strip("¿¡ "),
     )
     if selection:
         selected_text = selection[0]
     else:
-        # In a longer report, an ordinal must directly qualify a transaction or
-        # option noun. Negated qualifiers do not affirm which record is selected.
+        # Post-noun ordinals can describe timing ("fiz a compra segunda",
+        # "o pagamento primeiro"). They need an explicit choice noun or verb;
+        # otherwise only a pre-noun qualifier selects a transaction.
         phrases = list(
             re.finditer(
                 r"(?<![\w-])(?:"
@@ -116,6 +129,14 @@ def ordinal_reference(text):
                 + r" "
                 + SELECTION_NOUN
                 + r"|"
+                + r"(?:opcion|opcao)"
+                + r" "
+                + ordinal
+                + r"|"
+                + selection_verb
+                + r" (?:"
+                + article
+                + r" )?"
                 + SELECTION_NOUN
                 + r" "
                 + ordinal
@@ -123,14 +144,19 @@ def ordinal_reference(text):
                 text,
             )
         )
-        if not phrases or any(
-            re.search(
-                r"\b(?:no|nao) (?:(?:es|e|fue|foi|era|sera|elijo|escolho) )?"
+
+        def rejected(match):
+            prefix = re.search(
+                r"\b(?:no|nao|nunca|jamas|jamais) (?:(?:es|e|fue|foi|era|sera|quiero|quero|"
+                r"elijo|escolho|prefiero|prefiro|selecciono|seleciono) )?"
                 r"(?:(?:la|el|a|o|esta|este|esa|ese|essa|esse) )?$",
                 text[: match.start()],
             )
-            for match in phrases
-        ):
+            # Reuse the per-turn language contract: Portuguese "no" is a
+            # preposition, while Spanish "no" rejects the selection.
+            return bool(prefix and has_negation(prefix[0], detect_language(text)))
+
+        if not phrases or any(rejected(match) for match in phrases):
             return [], False
         selected_text = " ".join(match[0] for match in phrases)
     indices = [
