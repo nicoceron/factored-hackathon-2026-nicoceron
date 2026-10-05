@@ -121,3 +121,24 @@ condition = "AND"
 regexTarget = "secret"
 regexes = ['''^1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca2$''']
 paths = ['''(^|/)docs/evidence/chat-checks\.json$''']
+
+[[rules.allowlists]]
+description = "Independently verified exact historical source or receipt checksum, not a credential"
+condition = "AND"
+regexTarget = "secret"
+regexes = ['''^(?:006dec0596a67aa28a3118dfe79de61f82ddde67c17bcaa5216ad2827ee16afd)$''']
+paths = ['''(^|/)docs/evidence/chat\-media\-checks\.json$''']
+
+[[rules.allowlists]]
+description = "Independently verified exact historical source or receipt checksum, not a credential"
+condition = "AND"
+regexTarget = "secret"
+regexes = ['''^(?:cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da)$''']
+paths = ['''(^|/)docs/evidence/history/browser\-b495a0f\.json$''']
+
+[[rules.allowlists]]
+description = "Independently verified exact historical source or receipt checksum, not a credential"
+condition = "AND"
+regexTarget = "secret"
+regexes = ['''^(?:006dec0596a67aa28a3118dfe79de61f82ddde67c17bcaa5216ad2827ee16afd|19ac073b1f6d80ad8380067b4b034757d679b6083da244cdc2f0356a23ec4e5a|1c2bc223ba2db06ffb48a38c056dab0e378423ca6ca256678a55c2db3426031b|4886e4612d5561eff9b88b0ea384332d1c1edc01dbc8d2bd9d099ca44787669e|77e3f27a800fd276eb7af2e02d8239ebd1e2c24337c4d70852eebc340211a425|baa7a07f9087686bc53c92c8c8dac2953aee43bcc69dfe6c70779d50b8d444f0|cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da)$''']
+paths = ['''(^|/)docs/evidence/history/media\-b495a0f\.json$''']

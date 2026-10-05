@@ -1,9 +1,9 @@
 {
   "version": "claro-demo-chat-v3",
-  "source_definition_sha256": "0bd999cc9c2cb1055961121d48ee5ecf3deb9d8e39f21e9f1d5ab3ae5c08aec7",
+  "source_definition_sha256": "8692741b128ee6a8a07a6475d39819685b67d18a93bccc50e58969a57fd8dee5",
   "builder_sha256": "521b714abf2efd1955f665a2fd523a54523970c8c430c68bd46345749752aa4a",
   "capture_provenance": [
-    "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json"
+    "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged"
   ],
   "format": "Narrated screenshots and labeled diagrams, not a continuous screen recording",
   "voice": "macOS Samantha synthetic voice; no voice cloning",
@@ -13,7 +13,7 @@
       "source": "demo-assets/chat-welcome.jpg",
       "source_sha256": "8cc00f8c97a533b2151a9287a214b41f56ad2055c9f9fb8b2a24177760c9862c",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": null,
       "start_seconds": 0.0,
       "duration_seconds": 16.495063
@@ -23,7 +23,7 @@
       "source": "demo-assets/chat-evidence-pt.jpg",
       "source_sha256": "78fca65c7a8cf47bbeeb72338d899efd8935dbca5fd0cc5cf8fa29e372731601",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": [
         318,
         105,
@@ -38,7 +38,7 @@
       "source": "demo-assets/chat-confirm-es.jpg",
       "source_sha256": "64e2e71405be3449d0fbcaa170643af0e397551a9a90a24c64fa2d9e612f55fa",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": [
         500,
         75,
@@ -53,7 +53,7 @@
       "source": "demo-assets/chat-receipt-pt.jpg",
       "source_sha256": "bab24b0e43b2d0dcf8b36b7af4adcd72c7b2839263a62149820e67f403a5d516",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": [
         318,
         315,
@@ -68,7 +68,7 @@
       "source": "demo-assets/chat-reply-pt.jpg",
       "source_sha256": "8e7db13f61088bed1b0adef66721cb64a1e0d51da5f8d9f8f0339beb8b84c99b",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": [
         318,
         275,
@@ -83,7 +83,7 @@
       "source": "demo-assets/chat-history-pt.jpg",
       "source_sha256": "c90cc1170266d4f55063de649cda49e2ac1defab521550b9dfb9ea6ccb37bf5b",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": [
         699,
         405,
@@ -106,7 +106,7 @@
     {
       "title": "Measured outcomes\nPublished limits",
       "source": "demo-assets/evaluation-v2.png",
-      "source_sha256": "f68f798541355b2ed8caf968cc47258ed10c5d589949e16dc15d76c5d2f51380",
+      "source_sha256": "bb6f8a1b2c892d8edae480e0acd2c85766a4717f6714aba67d041f9c8ef34397",
       "source_kind": "evaluation_report_chart",
       "capture_provenance": null,
       "crop": null,
@@ -118,7 +118,7 @@
       "source": "demo-assets/chat-complete-pt.jpg",
       "source_sha256": "22d2f5681d5cbc97b2b01fefda96c4a1a5a5b96991590f7e23ac3cbddc10cb97",
       "source_kind": "actual_local_app_capture",
-      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; final backend/static hashes and checks in docs/evidence/chat-browser-checks.json",
+      "capture_provenance": "CUA Chrome, http://127.0.0.1:8096, 2026-10-05 UTC; actual isolated sandbox with team-authored fixtures and external providers disabled; original capture backend/static hashes in docs/evidence/chat-browser-checks.json; predates cache/F7/F8/M1/L1/N1/N2/P1\u2013P4 and Q1/Q2 corrections. Final hosted source has separate API/browser and supplemental conversational HTTPS receipts; P4 additionally has source-matched privacy/history tests. Original capture backend/static hashes remain unchanged",
       "crop": [
         318,
         450,
@@ -130,7 +130,7 @@
     }
   ],
   "duration_seconds": 170.920736,
-  "output_sha256": "0fabd326d7bc0710ac82f2a51347dc1447168a8440e3ad6fd0bc50599c42d7f6",
+  "output_sha256": "802783bc0b74be294538136bf94fe14aa746f987c932e2dd075a779c4ebc2ecc",
   "subtitle_sha256": "11b9487886564f7f1d68554db8d728b722b62e1dc5758162f35ba45f850f7652",
   "transcript_sha256": "3c70ac4c98e955f2f65cd1ddc0710bfcc981b20528e4964caf56a49f4c38b64c"
 }

@@ -1,0 +1,164 @@
+{
+  "recorded_at_utc": "2026-10-05T18:59:37.582466+00:00",
+  "checks": [
+    {
+      "pr": 8,
+      "head_commit": "2ac80d9855fcc3ebb6a2ac672ced6605d315ca12",
+      "merge_commit": "217d5383f137bcdd405026099b6cf577bf6b2a06",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37269263154/job/111632562831"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37269259133/job/111632550666"
+        }
+      ]
+    },
+    {
+      "pr": 9,
+      "head_commit": "79b3a0a7c86e60d31003e98a34ebaa5c655a0282",
+      "merge_commit": "cb17c73122b81ffb9cdcc38d5605d989396d3ff2",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37270230975/job/111635472651"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37270227886/job/111635463290"
+        }
+      ]
+    },
+    {
+      "pr": 10,
+      "head_commit": "041e30161dd94c0b27eeeb5af462ef75230c2296",
+      "merge_commit": "a5d5f9fe38b389f04edeb6b0f300d6295f2a2f0c",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37272165336/job/111641287149"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37272161143/job/111641274591"
+        }
+      ]
+    },
+    {
+      "pr": 11,
+      "head_commit": "ae2222942d3369b9951aabdf139b1ccf3c6fdf2f",
+      "merge_commit": "ed287cea2e278633e954f95bec2e83ad3a2a51f8",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37279564406/job/111664192599"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37279560362/job/111664182134"
+        }
+      ]
+    },
+    {
+      "pr": 12,
+      "head_commit": "98febaa8e0ca3b3294d16dd188358d9be42139ec",
+      "merge_commit": "823aa839ef63269d8dfb9121bdf4bfbbf84fc27e",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37340831605/job/111867164388"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37340734246/job/111866840942"
+        }
+      ]
+    },
+    {
+      "pr": 13,
+      "head_commit": "20b41ef471593c6201a7be6c0b43a9b85f043c8b",
+      "merge_commit": "53d9ce710a4cd72ff61822be4271b241a8cf74bd",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37347658907/job/111890223388"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37347612035/job/111890067765"
+        }
+      ]
+    },
+    {
+      "pr": 14,
+      "head_commit": "9922a3e467027fc5f02d703c043423e0555b3c1d",
+      "merge_commit": "b495a0f47c23548046be7fdca1eca220e83351a1",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37354135550/job/111912124817"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37354116307/job/111912058127"
+        }
+      ]
+    },
+    {
+      "pr": 15,
+      "head_commit": "dd88d09f1b258af8d3aebab63238285358944127",
+      "merge_commit": "6a4cf24fcb105d1587475d71c35c0de6ca4043ea",
+      "checks": [
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37359884471/job/111931535099"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37359920189/job/111931657004"
+        },
+        {
+          "name": "check",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nicoceron/factored-hackathon-2026-nicoceron/actions/runs/37359622197/job/111930646157"
+        }
+      ]
+    }
+  ],
+  "scope": "Exact source-bearing PR heads; merged app source matches their checked bytes. Local make check test count is recorded separately in docs/evidence/chat-checks.json."
+}
