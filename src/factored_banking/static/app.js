@@ -386,6 +386,7 @@ async function sendChatReply(message) {
 }
 function syncCaseCards(c) { state.messages.forEach(message => { if (Array.isArray(message.cases)) message.cases = message.cases.map(value => value.id === c.id ? c : value); }); }
 function finishChatReply(c, key) {
+  if (['es', 'pt'].includes(c.response_language)) state.language = c.response_language;
   syncCaseCards(c);
   state.messages = state.messages.filter(message => message.caseOperationKey !== key);
   state.messages.push({ role: 'assistant', message: t('replySaved'), cases: [c] });

@@ -95,7 +95,15 @@ def check(base_url):
         replied = call(case_url + "/messages", answer)
         assert replied["receipt"]["verified"] and replied["status"] == "open"
         assert replied["pending_question"] is None
+        restored = call("/api/session")
+        exchange = [
+            {"role": "user", "content": answer["message"]},
+            {"role": "assistant", "content": replied["message"]},
+        ]
+        assert restored["context"]["history"][-2:] == exchange
+        assert replied["response_language"] == language and restored["language"] == language
         assert call(case_url + "/messages", answer) == replied
+        assert call("/api/session")["context"]["history"] == restored["context"]["history"]
         csrf = call("/api/session", {"persona": "analyst", "language": language})["csrf_token"]
         closed = call(
             case_url + "/resolve",
@@ -129,6 +137,8 @@ def check(base_url):
                 "analyst_resolution": True,
                 "specific_report_preserved": True,
                 "two_way_followup_verified": True,
+                "reply_history_restored_and_idempotent": True,
+                "reply_response_language_verified": True,
                 "complete_case_history_verified": True,
                 "workspace_erased": True,
             }

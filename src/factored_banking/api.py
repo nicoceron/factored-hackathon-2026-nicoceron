@@ -986,10 +986,24 @@ def create_app(db_path=None, secure_cookies=None, *, enable_external=None):
         result.update(trace_id=secrets.token_hex(12), state=result["status"])
         with app.state.store.connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            active_session(db, s)
+            active = active_session(db, s)
             cached = retry(db, s, body.idempotency_key, fingerprint)
             if cached:
                 return cached
+            if reply:
+                language = detect_language(verified["body"], active["language"])
+                result["message"] = (
+                    "Respuesta guardada y verificada."
+                    if language == "es"
+                    else "Resposta salva e verificada."
+                )
+                result["response_language"] = language
+                context = json.loads(active["state"])
+                context["history"] = bounded_history(context, verified["body"], result["message"])
+                db.execute(
+                    "UPDATE sessions SET state=?,language=?,revision=revision+1 WHERE token_hash=?",
+                    (encode(context), language, s["token_hash"]),
+                )
             remember(db, s, body.idempotency_key, fingerprint, result)
             record_event(db, s, result, started, "case_reply" if reply else "case_review")
         return result

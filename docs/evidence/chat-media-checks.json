@@ -132,10 +132,10 @@
     "scope": "Actual seven local captures from the pre-cache-correction API; these hashes are not overwritten with a later backend revision."
   },
   "source_delta_after_capture": {
-    "scope": "HTTP asset URL fingerprinting/cache revalidation plus F7 pending-review restoration before record-resolution clarification returns; actual capture revision remains unchanged.",
-    "api_sha256": "caa8ab5bb68daee1fb29a6369bb967e542c1273f99368f4553f16e6de98f3e87",
+    "scope": "Cache revalidation/fingerprinted asset URLs, F7 pending-review restoration before clarification, and F8 verified reply/ack session-history recovery plus one validated client locale-owner line; original captures retain their actual backend/static hashes.",
+    "api_sha256": "cb065870477e89f17856f64a5eb8fa204e7ffd59c227be102374b7bd65a153da",
     "web_assets_sha256": "9cff09d38d2fd8fa10a8cc5fd3b6fcc1d753b20e141ace961f150b5e2aa41744",
-    "app_css_js_and_favicon_unchanged": true,
+    "app_css_js_and_favicon_unchanged": false,
     "tests_passed_after_cache_correction": 425,
     "current_regressions_rerun_with_same_outcomes": true,
     "fresh_report_input_hashes_require_deck_manifest_refresh": true,
@@ -143,6 +143,11 @@
     "workflow_sha256": "8035b20914cf6f48014a5db06539c36988d6e8ccf7e972c6dd9ebaf55f0a8aab",
     "tests_passed_after_cache_and_continuation_corrections": 430,
     "f7_report_continuation_verified_locally": true,
-    "f7_hosted_browser_verification_pending": true
+    "f7_hosted_browser_verification_pending": true,
+    "app_js_sha256": "0296ff99689fef0f2928804d5e429181654652ede3b773a7be14271eb2a8c85d",
+    "app_js_change": "finishChatReply accepts only es/pt response_language before its existing acknowledgement; saved-case language and identity preserved.",
+    "tests_passed_after_reply_history_correction": 438,
+    "f8_reply_history_verified_locally": true,
+    "f8_hosted_browser_verification_pending": true
   }
 }
